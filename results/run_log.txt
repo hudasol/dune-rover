@@ -1,0 +1,6 @@
+[  37.4s] A_south_Liwa: blocked 0.0025, cost ratio 1.1163523957218824
+[  88.6s] A_north_Liwa: blocked 0.0020, cost ratio 1.1154905605731549
+[ 162.8s] B_RubAlKhali_megadunes: blocked 0.0097, cost ratio 1.1152142291342952
+[ 248.7s] LHS A_core done
+[ 324.0s] LHS B_core done
+done in 329.3 s

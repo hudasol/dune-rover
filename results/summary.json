@@ -1,0 +1,287 @@
+{
+  "label": "SIMULATION ONLY - model-assumption dependent, not field evidence",
+  "version": "0.1.0",
+  "python": "3.13.16",
+  "seeds": {
+    "od": 20261011,
+    "lhs_A_core": 20261012,
+    "lhs_B_core": 20261013
+  },
+  "inputs": {
+    "A": {
+      "file": "Copernicus_DSM_COG_10_N23_00_E053_00_DEM.tif",
+      "sha256": "1b6bb95ecf03a2e89d0f10cae5cd125ffdfd49994f0dbe6ba6c3242bde699a96"
+    },
+    "B": {
+      "file": "Copernicus_DSM_COG_10_N22_00_E054_00_DEM.tif",
+      "sha256": "a33e0813eb483f685034c491b78af126bb7736d64c29da0249e6eb68d679b882"
+    }
+  },
+  "parameters": {
+    "phi_deg": {
+      "nominal": 33.0,
+      "low": 28.0,
+      "high": 38.0,
+      "status": "published range of laboratory sands (not measured for Arabian sand)",
+      "basis": "Internal friction angles printed in retrieved papers: 28 (Irani dry sand), 34 (Quikrete sand), 35 (Mojave simulant), about 35 (olivine sand), 38 (Toyoura, Tottori); angle of repose 32-35 deg (Kroy et al. 2002). See research/raw/terramechanics_notes.md and morphology_rows.csv (M05)."
+    },
+    "f_r": {
+      "nominal": 0.12,
+      "low": 0.05,
+      "high": 0.25,
+      "status": "ASSUMPTION",
+      "basis": "Motion-resistance coefficient (resistance/weight) lumped for a small wheeled UGV in loose sand. No retrieved source gives a transferable value; range chosen to span light-to-heavy sinkage while keeping the vehicle able to move on flat sand. Replace with a measured value for the real vehicle."
+    },
+    "i0": {
+      "nominal": 0.2,
+      "low": 0.05,
+      "high": 0.4,
+      "status": "ASSUMPTION",
+      "basis": "Slip scale K/L. Published Janosi shear modulus K spans 0.0006-0.045 m between papers (terramechanics_notes.md), contact length L is vehicle specific, so i0 is a tuning parameter."
+    },
+    "i_max": {
+      "nominal": 0.5,
+      "low": 0.4,
+      "high": 0.7,
+      "status": "ASSUMPTION (planning threshold)",
+      "basis": "Slip above which an edge is treated as impassable. A Mars rover autonav slip table needed limits above 50 % on 15-20 deg terrain (evidence FLD-024); that is Mars-specific, used only as a pointer."
+    },
+    "noise_sigma_m": {
+      "nominal": 0.0,
+      "low": 0.0,
+      "high": 2.0,
+      "status": "ASSUMPTION",
+      "basis": "spatially correlated DEM error, correlation 3 posts"
+    }
+  },
+  "nominal_critical_uphill_deg": 25.459164608659968,
+  "areas": {
+    "A_south_Liwa": {
+      "shape": [
+        541,
+        1441
+      ],
+      "dx_m": 28.458542878142957,
+      "dy_m": 30.76259359660816,
+      "blocked_edge_frac": 0.0024839511884795495,
+      "reach_frac": 0.9999961517789685,
+      "median_cost_ratio": 1.1163523957218824,
+      "unreachable_od": 0,
+      "n_od": 10
+    },
+    "A_north_Liwa": {
+      "shape": [
+        721,
+        1441
+      ],
+      "dx_m": 28.40455769081197,
+      "dy_m": 30.763590984719137,
+      "blocked_edge_frac": 0.00197343686737228,
+      "reach_frac": 0.9999990374999639,
+      "median_cost_ratio": 1.1154905605731549,
+      "unreachable_od": 0,
+      "n_od": 10
+    },
+    "B_RubAlKhali_megadunes": {
+      "shape": [
+        1081,
+        1441
+      ],
+      "dx_m": 28.61303981392054,
+      "dy_m": 30.759728826762576,
+      "blocked_edge_frac": 0.009663009454760507,
+      "reach_frac": 0.9999049894043927,
+      "median_cost_ratio": 1.1152142291342952,
+      "unreachable_od": 0,
+      "n_od": 10
+    }
+  },
+  "sensitivity": {
+    "n_lhs": 256,
+    "rank": {
+      "A_core": {
+        "blocked_edge_frac": {
+          "spearman": {
+            "phi_deg": -0.6650412226200723,
+            "f_r": 0.45568438704668845,
+            "i0": 0.5624157996738027,
+            "i_max": -0.2736518202291246,
+            "noise_sigma_m": 0.060703629514634476
+          },
+          "rank_regression_coef": {
+            "phi_deg": -0.606427151229428,
+            "f_r": 0.44119232651699863,
+            "i0": 0.5309828447409966,
+            "i_max": -0.21717693895327225,
+            "noise_sigma_m": 0.009943138047444837
+          },
+          "r2_rank_regression": 0.9630110994249028
+        },
+        "reach_frac": {
+          "spearman": {
+            "phi_deg": 0.6606746564699817,
+            "f_r": 0.2755126984788783,
+            "i0": -0.5762066025901772,
+            "i_max": 0.25826658643025274,
+            "noise_sigma_m": -0.04437548488783662
+          },
+          "rank_regression_coef": {
+            "phi_deg": 0.6158247334449748,
+            "f_r": 0.29048988354108335,
+            "i0": -0.5408838253608278,
+            "i_max": 0.2229524938198146,
+            "noise_sigma_m": 0.013286411808832128
+          },
+          "r2_rank_regression": 0.8555458658653561
+        },
+        "median_cost_ratio": {
+          "spearman": {
+            "phi_deg": -0.28501873998626687,
+            "f_r": 0.5827999828336002,
+            "i0": 0.7513575761043715,
+            "i_max": -0.039242389562829015,
+            "noise_sigma_m": 0.02000886930647745
+          },
+          "rank_regression_coef": {
+            "phi_deg": -0.22818406488844453,
+            "f_r": 0.5817110720698003,
+            "i0": 0.7404368944909656,
+            "i_max": -0.013155084276224475,
+            "noise_sigma_m": 0.012975753551138504
+          },
+          "r2_rank_regression": 0.9611666748776814
+        },
+        "unreachable_od_frac": {
+          "note": "constant or undefined across samples"
+        },
+        "crit_uphill_deg": {
+          "spearman": {
+            "phi_deg": 0.6318615529869533,
+            "f_r": -0.5295169089036391,
+            "i0": -0.5371480888075073,
+            "i_max": 0.2643797207598993,
+            "noise_sigma_m": -0.05442893110551614
+          },
+          "rank_regression_coef": {
+            "phi_deg": 0.5744401123750948,
+            "f_r": -0.5157226352193746,
+            "i0": -0.5077717174556221,
+            "i_max": 0.20799792856388397,
+            "noise_sigma_m": -0.007258804194672577
+          },
+          "r2_rank_regression": 0.9641846079639003
+        }
+      },
+      "B_core": {
+        "blocked_edge_frac": {
+          "spearman": {
+            "phi_deg": -0.6937379645188448,
+            "f_r": 0.36024804736640237,
+            "i0": 0.5854991462396999,
+            "i_max": -0.11693646231554572,
+            "noise_sigma_m": -0.11109988539638206
+          },
+          "rank_regression_coef": {
+            "phi_deg": -0.6681077948773598,
+            "f_r": 0.41381119938434785,
+            "i0": 0.5408119629633257,
+            "i_max": -0.1930319555157194,
+            "noise_sigma_m": -0.022237494312557726
+          },
+          "r2_rank_regression": 0.9542544179066852
+        },
+        "reach_frac": {
+          "spearman": {
+            "phi_deg": 0.6947274592409024,
+            "f_r": 0.3495879634145452,
+            "i0": -0.5388332352179989,
+            "i_max": 0.23220584266264263,
+            "noise_sigma_m": 0.11435027493809873
+          },
+          "rank_regression_coef": {
+            "phi_deg": 0.6574246892374082,
+            "f_r": 0.29808014335462424,
+            "i0": -0.4903486312476204,
+            "i_max": 0.1905408210203817,
+            "noise_sigma_m": 0.0016682006895637025
+          },
+          "r2_rank_regression": 0.8695878047198489
+        },
+        "median_cost_ratio": {
+          "spearman": {
+            "phi_deg": -0.2587956340123598,
+            "f_r": 0.5316934653238726,
+            "i0": 0.7939216639963378,
+            "i_max": 0.08343585488670174,
+            "noise_sigma_m": -0.07901979858091096
+          },
+          "rank_regression_coef": {
+            "phi_deg": -0.21792892830699823,
+            "f_r": 0.5456832837625812,
+            "i0": 0.7855254856055471,
+            "i_max": -0.009172059520629107,
+            "noise_sigma_m": 0.007435807504018537
+          },
+          "r2_rank_regression": 0.9688281372889386
+        },
+        "unreachable_od_frac": {
+          "note": "constant or undefined across samples"
+        },
+        "crit_uphill_deg": {
+          "spearman": {
+            "phi_deg": 0.629839494163424,
+            "f_r": -0.5090195124742503,
+            "i0": -0.5429882410162509,
+            "i_max": 0.07593485351338977,
+            "noise_sigma_m": 0.09556248569466695
+          },
+          "rank_regression_coef": {
+            "phi_deg": 0.6097236690486132,
+            "f_r": -0.5579139566605074,
+            "i0": -0.5039364255313478,
+            "i_max": 0.17542809828139677,
+            "noise_sigma_m": 0.020989687225008113
+          },
+          "r2_rank_regression": 0.9569756244285463
+        }
+      }
+    },
+    "oat_nominal_by_area": {
+      "A_south_Liwa": {
+        "blocked_edge_frac": 0.0024839511884795495,
+        "reach_frac": 0.9999961517789685,
+        "median_cost_ratio": 1.1163523957218824,
+        "unreachable_od_frac": 0.0,
+        "crit_uphill_deg": 25.459164608659968
+      },
+      "A_north_Liwa": {
+        "blocked_edge_frac": 0.00197343686737228,
+        "reach_frac": 0.9999990374999639,
+        "median_cost_ratio": 1.1154905605731549,
+        "unreachable_od_frac": 0.0,
+        "crit_uphill_deg": 25.459164608659968
+      },
+      "B_RubAlKhali_megadunes": {
+        "blocked_edge_frac": 0.009663009454760507,
+        "reach_frac": 0.9999049894043927,
+        "median_cost_ratio": 1.1152142291342952,
+        "unreachable_od_frac": 0.0,
+        "crit_uphill_deg": 25.459164608659968
+      }
+    }
+  },
+  "anchor_check": {
+    "n": 13,
+    "n_nominal_within_published": 1,
+    "median_nominal_abs_gap": 0.3028026523614127,
+    "n_envelope_overlaps": 11
+  },
+  "crit_uphill_deg_across_lhs": {
+    "min": 7.588606413939943,
+    "p05": 14.89210870549061,
+    "median": 23.415597171426803,
+    "p95": 31.60557448397344,
+    "max": 34.72627589296229
+  },
+  "runtime_s": 329.3
+}
