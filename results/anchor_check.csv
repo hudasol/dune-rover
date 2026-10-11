@@ -1,0 +1,14 @@
+evidence_id,slope_deg,published_slip_lo,published_slip_hi,bound,validation_type,nominal_model_slip,nominal_abs_gap,envelope_min,envelope_max,envelope_overlaps_published,frac_param_draws_within_0.1,definition_warning
+FLD-010,11.5,0.0,0.5,upper_bound,field,0.13786006318726324,0.0,0.02203922367725344,0.6700219205931188,True,0.99875,slip = 1 - achieved/commanded distance; Mars; slope range; 'up to 50 %' used as an upper bound
+FLD-011,19.0,0.15,0.2,range,field,0.25105449935128343,0.05105449935128342,0.03926518803058034,1.0,True,0.468,VO-based slip; Mars; appearance-identical terrain to FLD-012
+FLD-012,16.0,0.95,0.95,point,field,0.19687803376311774,0.7531219662368822,0.03152968071408609,1.0,True,0.01025,VO-based slip; Mars
+FLD-025,20.0,0.94,1.0,lower_bound,field,0.2734935849899551,0.6665064150100448,0.042188461101380186,1.0,True,0.1205,rover-level VO slip; slope 'about 20'; '>94 %' used as a lower bound
+FLD-027,20.0,0.9,1.0,lower_bound,lab,0.2734935849899551,0.626506415010045,0.042188461101380186,1.0,True,0.1275,"velocity-based slip; lunar simulant, rigid wheels without grousers; '>90 %' used as a lower bound"
+FLD-028,25.0,1.0,1.0,point,lab,0.46626816242529734,0.5337318375747027,0.060793098692561075,1.0,True,0.44225,"no uphill progress at 25 deg direct ascent, treated as slip = 1"
+FLD-029,14.999999999999998,0.2,0.3,range,lab,0.1819570721345246,0.0180429278654754,0.02923304824190328,1.0,True,0.70325,descriptive capability statement; lunar simulant
+FLD-030,4.0,0.85,0.95,range,lab,0.06919268733196308,0.7808073126680369,0.009695928042609178,0.33350257768873853,False,0.0,text says close to 0.9; band +/-0.05 is mine
+FLD-031,4.0,0.15,0.25,range,lab,0.06919268733196308,0.08080731266803691,0.009695928042609178,0.33350257768873853,True,0.7605,text says around 0.2; band +/-0.05 is mine
+LEG-017,12.000000000000002,0.741,0.741,point,lab,0.14352576418025273,0.5974742358197472,0.022996813072030598,0.7079616067377378,False,0.00125,slope emulated by horizontal pull; slides not a paper
+LEG-018,12.000000000000002,0.056,0.056,point,lab,0.14352576418025273,0.08752576418025274,0.022996813072030598,0.7079616067377378,True,0.43,slope emulated by horizontal pull; diameter and lug height varied together
+LEG-019,14.0,0.471,0.471,point,lab,0.1681973476385873,0.3028026523614127,0.02705284834053409,0.9297488904123314,True,0.124,slope emulated by horizontal pull
+LEG-020,14.0,0.247,0.247,point,lab,0.1681973476385873,0.0788026523614127,0.02705284834053409,0.9297488904123314,True,0.50425,slope emulated by horizontal pull

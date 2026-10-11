@@ -1,0 +1,111 @@
+# Predicting slip, sinkage and traversability of wheeled robots on dry sand and dunes: a literature review, a gap analysis for Arabian dunes, and a minimal reproducible experiment plan
+
+Author: Huda Mueen. Repository: `hudasol/dune-rover`. Date of all retrievals: 2026-10-11.
+Related work, not repeated here: `hudasol/dhill` (heat-and-dust operating envelope). This project is about terrain mobility only.
+
+> **Read this first.** This is a research document. It is not engineering approval, a safety case or a performance claim for any real vehicle.
+> Three kinds of content appear and are always labelled:
+> **PUBLISHED**: a number read in a retrieved source (every one is a row in the evidence table, Appendix A, with URL, passage and retrieval date).
+> **SIMULATED-BY-ME**: output of code in this repository (section 8). It depends on stated model assumptions and is **never field evidence**.
+> **PLANNED**: a protocol that has not been run (section 9).
+
+---
+
+## 0. Executive summary
+
+**Question.** How well can slip, sinkage and traversability of wheeled (secondarily legged) robots on dry sand and dunes be predicted from terrain data and models; how well does that transfer from lab to field; and what would a minimal open-data planner for Arabian dunes need that the literature does not provide?
+
+**Method.** A written protocol (`docs/PROTOCOL.md`) came first. Five row-extraction passes (terramechanics, simulation, learning, field and analog, legged and wheel design) collected 144 evidence rows from retrieved sources, and a sixth pass audited open data, dune morphology and UAE facts. An independent re-check of 30 randomly drawn rows (plus 7 flagged ones) re-opened the sources. A simulation-only slope-and-slip traversability study was run on real Copernicus GLO-30 elevation data from the Liwa and Rub' al Khali areas, with one-at-a-time and global (Latin hypercube) sensitivity analysis.
+
+**Headline findings (published evidence).**
+
+1. **Classical and granular models work only after per-soil fitting, and mostly on level ground.** Bekker-Wong style drawbar-pull errors are about 24 to 27 % (median) on two lunar-simulant wheel datasets and sinkage errors 28 to 52 %, but reach 135 % and 385 % on a firm soil with a small light wheel (SIM-025 to SIM-027). Granular RFT gives drawbar mean absolute errors of roughly 5 to 7 N on medium sand and 15 N on a fine simulant (TM-001 to TM-004). The Janosi shear modulus K, which controls slip, differs about 75-fold between papers (0.0006 to 0.045 m, the top of the range from poppy seeds), so it is tuned rather than transferred.
+2. **Speed and slope break the quasi-static assumptions.** On olivine sand the drawbar coefficient fell 8 % between 0.01 and 0.2 m/s and 63.7 % between 0.2 and 1 m/s (TM-018, TM-019). A rover-scale Bekker-Wong slope model had untuned side-slip errors of 14.8 % at 10 degrees and 25.9 % at 20 degrees on Toyoura sand (TM-022, TM-023, a thesis); the 0.49 % at 20 degrees came after tuning on that same case (TM-024, in-sample).
+3. **Field slip on sand is large, patchy and not predictable from slope or appearance.** Spirit measured 15 to 20 % slip at 19 degrees and 95 % slip at 16 degrees about 30 m later on terrain that looked alike (FLD-011, FLD-012). Opportunity's visual-odometry slip stayed at 98.9 to 99.5 % at Purgatory ripple (FLD-002). Perseverance exceeded 94 % at about 20 degrees (FLD-025). Visual odometry, the field slip sensor, itself degrades on bland sand (FLD-041).
+4. **Learned predictors are validated mostly in-distribution.** The strongest held-out result is a Perseverance model (AUROC 0.874 on held-out sols, LRN-010) on Mars. No retrieved paper holds out terrain type (train without sand, test on sand), and none reports a learned slip or sinkage error on Earth dunes.
+5. **Arabian evidence is almost empty.** The only Arabian wheeled-robot field evidence found is qualitative: a rover in Dhofar, Oman, met looser sand than expected and got stuck (FLD-042). No Bekker or RFT parameters for Arabian dune sand, no grain-size map of the Empty Quarter and no open LiDAR or drone elevation model of its dunes were found. The UAE-authored wheel work found is single-wheel lunar-simulant testing (not sand).
+6. **Open elevation data resolve dunes but not slip faces.** Copernicus GLO-30 (about 28 by 31 m posts at 23.5 N, free licence with attribution) resolves dune crests and interdune corridors for dunes tens to hundreds of metres high. Slip faces of the large Rub' al Khali dunes are only 1 to 4 posts wide, so slope read from the grid is biased low; 90 m products remove 80 to 100 % of the cells steeper than 25 degrees in the three windows used here.
+
+**Headline findings (SIMULATED-BY-ME, model-assumption dependent, not field evidence).** With a stated friction-circle slip model and nominal assumptions, the 30 m grid blocks only 0.2 to 1 % of travel directions in three real dune windows, because few cells exceed the model's nominal climbing limit of 25.5 degrees. That is mostly a statement about grid resolution and assumptions, not evidence that the dunes are easy. Across the plausible assumption ranges the model's climbing limit varies from 7.6 to 34.7 degrees (5 to 95 %: about 15 to 32 degrees). The assumptions that change the map most are the friction angle, the form of the slip law, the DEM posting, the slip scale i0 and the motion-resistance coefficient. DEM noise and the planning slip limit matter least (section 8).
+
+**Verification.** Random sample of 30 rows: **0 material errors** (exact one-sided 95 % upper bound 9.5 %) and 6 minor label or location errors (any-discrepancy rate 20 %, Wilson 95 % interval 9.5 to 37.3 %). Flagged rows: 0 of 7 material, 3 of 7 minor. Two were corrected; the unit question on SIM-013 remains open. The 107 other unflagged rows were not individually re-checked, so the table is not certified error-free (section 11).
+
+**Biggest gap and first experiment.** There is no published slip-versus-slope dataset for a wheeled robot on dune sand with full soil characterisation. The first field experiment to run is the **slope ladder** (section 9): one small rover with fixed wheels, one dune stoss slope, runs at about 0, 5, 10, 15, 20 and 25 degrees with RTK ground truth and full soil description, calibrate on the gentle slopes and predict the steep slopes blind.
+
+---
+
+## 1. Scope, protocol and method
+
+**Protocol.** Written before searching, as the file itself states (`docs/PROTOCOL.md`; no independent timestamp): search strategy by query family, inclusion criteria, comparability rules, extraction fields, a verification plan and a stopping rule. One deviation is documented: the verification pass was run on the draft evidence table, before this report's prose was written (an ordering from my recollection of the workflow, not logged), so the report quotes corrected values. A second, independent pass on this report's own claims is described in section 11.
+
+**Evidence classes** are kept visibly separate (see the banner). Published results also carry a validation type: `lab` (bench, soil bin, tilt bed), `field` (real vehicle on real terrain, including Mars), `simulation-only`, and `sim-vs-lab` or `sim-vs-field` where a physical comparison is reported. Of 144 rows: 63 lab, 41 field, 20 simulation-only, 19 sim-vs-lab, 1 sim-vs-field.
+
+**Inclusion.** A result became a row only if the number was found in retrieved text (table, caption or body), the terrain is dry granular or sand-like (or flagged as a comparison), at least one mobility metric is reported, and vehicle and soil are described or marked "not reported". Paywalled sources not retrieved are listed in the per-topic notes under `research/raw/` with the exact URL to fetch; no number is taken from them.
+
+**Comparability.** Rows are never averaged or ranked across setups. Each row has a `comparability_warning` where slip definition (wheel odometry, visual odometry, velocity-based, distance-based), slope definition (terrain versus pitch, or emulated by horizontal pull), gravity, wheel geometry, soil, speed or validation type differ.
+
+**Parameters.** No soil parameter is invented. Each is either cited with its location or labelled ASSUMPTION with a sensitivity range (section 8, Table 8.1).
+
+**Quotation and licences.** Sources are paraphrased. The licence of every dataset and library used is in `docs/DATA_AND_LICENSES.md` (summarised in section 5).
+
+**Limits of the search.** The search tool was US-only and returned a limited number of hits per query. Arabic-language and regional literature, paywalled journals (for example the Journal of Terramechanics, Science) and several standard references (Bekker 1969, Wong's textbook, Wong and Reece 1967) were not retrieved; absence of a result is therefore a statement about this search, not about the world.
+
+---
+
+## 2. Background in brief (for newcomers; see `docs/GLOSSARY.md`)
+
+A wheel on loose sand sinks, pushes sand aside (motion resistance) and shears the sand beneath it to push the vehicle forward (traction). **Slip** measures how much the wheel turns without advancing. **Sinkage** is the depth the wheel penetrates. **Drawbar pull** is the traction left over after resistance is paid. On a slope, part of the vehicle's weight must be paid for with drawbar pull, so slip rises with slope until the vehicle can no longer climb (entrapment). Dry sand has almost no cohesion and a friction angle of roughly 28 to 38 degrees in the lab papers retrieved; wind-blown dune slip faces sit near the angle of repose, 32 to 35 degrees (M05, Kroy et al.; `research/raw/morphology_rows.csv`).
+
+The older family of models (Bekker; Wong and Reece; Janosi and Hanamoto) describes the soil with a pressure-sinkage law (constants kc, kphi, n) and a shear law (cohesion, friction angle, shear modulus K), then integrates stress under the wheel. A newer family (granular resistive force theory, RFT) sums depth- and orientation-dependent forces on small wheel elements. Discrete-element methods (DEM) simulate individual grains, and Project Chrono offers fast deformable-terrain (SCM) and continuum (CRM) alternatives. Learning methods predict slip or hazard from images, proprioception or both.
+
+---
+
+## 3. Evidence synthesis
+
+Row identifiers refer to Appendix A. Every number below is **PUBLISHED** unless marked.
+
+### 3.1 Classical Bekker-Wong style models
+
+- **Parameters are soil-, geometry- and tuning-dependent.** On dry Tottori sand the fitted kphi roughly doubles (about 430 to 800-880) when plate aspect ratio drops from 6 to 2-1.4, and kc rises about four-fold (from about 2.5 to 3, up to 9 to 10); sinkage goodness of fit ranged 65 to 95 % (TM-029 and its table). Shear moduli K found in the retrieved papers range from 0.0006 m to 0.045 m (75-fold; the top is poppy seeds), so K behaves as a tuning knob. The Wong textbook table of dry-sand constants was not retrieved; one secondary table found carries an apparent transcription error and is not used.
+- **Error on benchmark wheels.** RoverDevKit's own evaluation of a Bekker-Wong wheel kernel against published single-wheel data reports median drawbar errors of 24 % (Rashid-1 style wheel on FJS-1 simulant) and 27 % (Ding wheel data), sinkage errors of 28 and 52 %, and 135 % (drawbar) and 385 % (sinkage) for a small light wheel on dense simulant (SIM-025 to SIM-027). These are the authors' evaluations of other authors' data, sim-vs-lab, not field.
+- **Slope.** The only slope result is a thesis: a Bekker-Wong-Ishigami model for a 7 kg rover on Toyoura sand gave side-slip errors of 14.76 % at 10 degrees and 25.91 % at 20 degrees with parameters borrowed from another lab, and 0.49 % at 20 degrees after tuning on that case (TM-022 to TM-024). The error metric is a side-slip distance ratio, not slip ratio, and the sandbox is 0.08 m deep.
+- **Rate dependence.** Measured drawbar coefficient on olivine sand fell 8 % from 0.01 to 0.2 m/s and 63.7 % from 0.2 to 1 m/s at 20 % slip (TM-018, TM-019), against the quasi-static assumption. Slip-rate effects were also reported for grousered wheels (TM-021; the 85 % "accuracy" there is an in-sample goodness-of-fit, per the verification).
+
+### 3.2 Granular RFT and scaling
+
+- RFT predicts rigid-wheel drawbar pull and sinkage from a small parameter set. On Quikrete medium sand the mean absolute drawbar error was 5.55 to 7.11 N across loads (TM-001, TM-002); on Mars Mojave Simulant (fines) 15.11 N and 18.41 mm sinkage at 190 N (TM-003, TM-004). Error grows with load; RFT under-predicts drawbar at low positive slip and over-predicts at |slip| above 0.4 (per the source's discussion). The response surfaces for both the medium sand and the fines were scaled from poppy-seed data rather than measured directly, so the medium-sand results carry that caveat too.
+- On poppy seeds (not sand), RFT sinkage error was 2.73 mm against 26.07 mm for the Bekker-type model but drawbar error was larger for RFT (5.05 N versus 3.41 N) (TM-005, TM-006; the plate in the Bekker fit was far smaller than the wheel patch).
+- Granular scaling laws held within about 3 % on level Quikrete sand for pairs of wheels (TM-007). Their extension to slopes and lunar gravity has been checked only in DEM (slip RMSE 0.015, TM-020, simulation-only). No physical sloped or low-gravity scaling validation was found.
+- Legged and plate RFT follow-ups agree with controlled-box experiments within roughly 3 to 15 % (up to 30 % for reversed legs; TM-008, TM-009, TM-011, TM-012), two of the four on poppy seeds rather than sand and 10.5 and 11.5 % mean speed and height error against a beach (TM-010, sim-vs-field, legged). A humanoid trained with an RFT-based simulator walked on real dry sand at up to 2.5 m/s commanded (LEG-015).
+
+### 3.3 DEM, multibody and Project Chrono
+
+- **Accuracy where a number exists.** A 2D DEM of a grouser wheel on Toyoura sand gave 12.1 % slip against 14.7 +/- 3.0 % in the lab (SIM-018). A 36-million-particle DEM of a rigid tyre gave pull 15 % of weight against 17 % lab and gross traction 20 % against 31 % at 20 % slip, under-predicting sinkage and resistance (SIM-019). A soft foot in silica sand: mean pressure-sinkage difference 13.5 % (SIM-021).
+- **Many validations are plots only.** Chrono CRM and DEM wheel and rover comparisons against lab data (NASA flat and tilted beds, SIM-001, SIM-002, SIM-009; the Rashid-1 wheel rig, SIM-015) are described as close agreement but give no scalar error. Slope-climbing limit error is not reported anywhere in the retrieved set.
+- **Calibration is not independent evidence.** SCM parameters fitted to a DEM gave a negative Kc and a friction angle of about 21 degrees (a numerical fit, SIM-005); DEM used scaled particles and tuned friction (SIM-015, SIM-018).
+- **Cost.** Wall-clock to simulated time ranges from about 9 million (fine-particle CPU DEM, SIM-020, derived) to hundreds or thousands (GPU DEM, SIM-016, SIM-024) to about 11 to 23 (Chrono CRM) and 18 to 51 (Chrono SCM) on one benchmark (SIM-011), and about 0.5 ms per closed-form Bekker-Wong wheel solve (SIM-028; no simulated-time ratio reported). The SCM-versus-CRM ordering depends on the benchmark.
+- **Gravity.** Simulating a 440 kg rover at lunar gravity predicted far higher slip than a light 1 g comparison (about 85 % versus about 42 % at 30 degrees, SIM-003, where the source of the 42 % is not stated; about 75 % versus 18 % at 10 degrees, SIM-004), with no lunar validation (simulation-only).
+- Project Chrono is BSD-3 licensed (verified from its LICENSE file). **It is not used by this repository's code.** No retrieved source compares Chrono, DEM or any multibody simulator with a full rover on real dune sand.
+
+### 3.4 Learning-based slip and traversability
+
+- **Data needs.** Visual slip prediction needed 1000 to 2000 stereo frames per terrain with slip labels from visual odometry (LRN-003, LRN-004). The Perseverance model used about 43,000 self-labelled images from about 500 sols and 45 km (LRN-010). A proprioceptive slip classifier used about 13,000 samples (9235 train, 3958 test) from one single-wheel testbed (LRN-009).
+- **Best held-out evidence.** AUROC 0.874, F1 0.758 on held-out Perseverance sols, including a sand dune patch at about 0.3 slip (LRN-010, LRN-011). Held out by sol, not by terrain type; Mars, not Earth sand. Removing proprioceptive alignment dropped AUROC to 0.723 (LRN-011): appearance alone does not fix mechanics.
+- **Documented failures.** Test error on gravel rose to 27.5 % against 7.16 % in training because the test roll/pitch combinations were absent from training (LRN-003). Misclassifying soil or gravel as sand inflated whole-pipeline error from 11.2 to 21.8 % (LRN-004). The moderate-slip class was the weakest in proprioceptive classification, about 75 % against about 85 % for low and high slip (LRN-009), and that test was a random hold-out on one testbed.
+- **Transfer.** A policy trained in simulation transferred zero-shot to a rover on simulant at 20 degrees: travel loss fell from 81.9 to 43.0 % on dry sand and from 100 % (entrapment) to 30 % on wet sand (LRN-019, sim-vs-lab, trial count not stated).
+- **Datasets.** No public dataset with Earth dune or desert sand and measured wheel or foot slip labels was found. TAIL (sandy sites, SLAM benchmark, GPLv3, no slip labels) and the Perseverance driving set (Martian, release pending, no licence seen) are the closest.
+
+### 3.5 Field and analog evidence
+
+- **Mars rovers.** Spirit: 15 to 20 % slip on 19 degrees, 95 % on 16 degrees (FLD-011, FLD-012), up to 50 % at 10 to 13 degrees (FLD-010), over 100 % in places (FLD-009, FLD-013). Opportunity: about 50 m of wheel travel for 2 m of track at Purgatory ripple (FLD-001), slip 98.9 to 99.5 % (FLD-002), ripple 30 cm high, trapped several weeks (FLD-040). Curiosity: 3D slip above 70 % on shallow megaripples (FLD-018). Perseverance: above 94 % at about 20 degrees (FLD-025), slip limits above 50 % needed on a 15 to 20 degree hill (FLD-024).
+- **Not a clean function of slope.** Segment-averaged Spirit slippage on sand-sized terrain rose from 4.0 % (0 to 5 degrees) to 9.9 % (5 to 10 degrees) (FLD-015, FLD-016), while fine-grain terrain approached 100 % at 10 to 15 degrees (FLD-014). The authors warn that steep segments were avoided or visual-odometry corrected, so higher slopes sometimes show less slippage (warning on FLD-015). Do not fit a clean slip-versus-slope line to these aggregates.
+- **Lab-to-field.** Engineering slip tables built from a dry-sand tilt bed worked on pure sand but failed on mixed or hidden weak deposits (Maimone et al.); separately, Lamarre and Kelly report that vision-based slip prediction fails on sand (both summarised in the field notes). The tilt-bed figures that are quantitative (90 % slip at 20 degrees, 25 degrees climbing limit, FLD-006, FLD-007) come from a press release, so FLD-006 is excluded from the anchor comparison in section 8.
+- **Tilt beds on Earth.** A smooth-wheel 35 kg rover (El-Dorado-II) showed slip close to 0.9 at 4 degrees without grousers and about 0.2 with grousers (FLD-030, FLD-031); a 23 kg rover with 296 mm wheels made less than 10 mm progress per revolution at 30 degrees, the angle of repose, whatever the grouser length (FLD-035); a 400 kg Scarab exceeded 90 % at 20 degrees and had no uphill progress at 25 degrees (FLD-027, FLD-028).
+- **Arabian and Gulf.** One qualitative report (FLD-042): the AMADEE-18 Husky rover in Dhofar, Oman, met much looser and softer sand than expected. Nothing with slip, sinkage or slope numbers was found for Rub' al Khali, Saudi, Qatari, Kuwaiti or Emirati dunes. The UAE-authored single-wheel rig results (slip 0 to 0.75, sinkage about 1 to 2 cm) use lunar simulant and are not evidence for desert sand. See also `research/raw/field_notes.md` for non-Arabian desert trials, which were qualitative.
+
+### 3.6 Legged and tracked comparisons (secondary)
+
+- **Legs.** Gait dominates: the same SandBot ran about 2 cm/s with a hard-ground gait and 8 cm/s with a soft-ground gait (LEG-001, LEG-002), and about 20 cm/s versus 2 cm/s for a 5 % change in packing (LEG-003, LEG-004). On slopes a 350 g hexapod lost about two thirds of its speed between 0 and 20 to 24 degrees (LEG-007 to LEG-009; the same row set appears as FLD-037, FLD-038). On a 22 kg quadruped (SpaceBok) planar feet slipped near the soil friction angle while point feet sank up to 120 mm (LEG-010, LEG-012, LEG-013; testbed limit 25 degrees). All lab beds, none dune sand.
+- **Wheel geometry.** Larger and wider wheels cut slip strongly on Toyoura sand: slip 0.741 at D = 116 mm versus 0.056 at D = 327 mm at an equivalent 12 degrees (LEG-017, LEG-018), and 0.471 at narrow versus 0.247 at wide at 14 degrees (LEG-019, LEG-020), with slope emulated by horizontal pull and from slides, not a paper. Grouser benefit saturates (LEG-021). A flexible metallic wheel gave more than twice the drawbar pull of a rigid one at 1 m/s on olivine sand (LEG-022).
+- **Tracks.** The one direct wheel-versus-track comparison found could not be attributed unambiguously and is not entered as a row. No extractable numeric tracked-vehicle sand data were retrieved. No same-vehicle wheel-versus-leg-versus-track comparison on dry sand was found.
+
