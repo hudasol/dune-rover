@@ -12,3 +12,4 @@ research/verify_sources/
 research/phase2/*
 !research/phase2/*.csv
 !research/phase2/*.md
+data/derived/tileList.txt
