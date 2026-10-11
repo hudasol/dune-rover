@@ -87,11 +87,13 @@ The assumption envelope overlaps 11 of the 13 published points, which says mostl
 ### 8.6 Limitations specific to this study
 
 - Quasi-static, point-mass, no sinkage, speed or avalanching; no wheel geometry or vehicle mass; i0 and f_r absorb everything.
-- Slope is taken from a 30 m radar surface model whose slip-face slopes are biased low (section 5); the blocked shares are lower bounds in that sense.
+- Slope is taken from a 30 m radar surface model whose slip-face slopes are biased low (section 5); the blocked shares of phases 1 are lower bounds in that sense. Section 8.7 adds a modelled sub-grid face probability and an UNKNOWN class to address this, with its own assumptions.
 - The windows are not random samples of any dune field. Origins and destinations sit on gentle low ground, so route statistics say nothing about crossing slip faces.
 - Descent is treated with the same symmetric friction-circle demand (|tan theta_a + f_r|); descending stability and avalanching are not modelled.
 - Parameters were not fitted to any data. No claim is made that the nominal values represent Arabian sand or any vehicle.
 - Code is tested (`tests/test_core.py`: 14 tests covering exact planar slope, aspect, slip monotonicity and entrapment, cross-slope behaviour, graph blocking, flat-ground cost ratio, determinism of origin-destination pairs and sampling, coarsening, noise reproducibility and metres-per-degree), but passing tests show the code does what it says, not that the model is right.
+
+{{INCLUDE:subgrid}}
 
 ---
 
@@ -103,11 +105,21 @@ Full plan: `docs/FIELD_VALIDATION_PLAN.md`. Summary:
 2. **Measurements.** Per-wheel encoders and motor current at 50 Hz or better, RTK GNSS ground truth (not rover odometry), a 6-axis IMU, rut depth by gauge at three stations per run, and tow tension if a load cell is available. Slip is computed against ground-truth speed with a calibrated effective radius, and distance-based slip is reported alongside because published studies use both.
 3. **Soil, at every station.** Sieve grain size, bulk density, moisture at two depths, crust thickness, angle of repose, hand penetrometer profile and a plate pressure-sinkage set, with local slope from the RTK profile.
 4. **Run design (about 60 runs).** Slope bins at 0, 5, 10, 15, 20 and 25 degrees (plus or minus 2), randomised order within a day, fresh track each run; a 12-run pilot to measure run-to-run scatter, then about 30 main runs; 9 cross-slope, 6 tethered descent and 3 repeated-pass runs. Run counts follow n = (1.96 sigma / E)^2: for sigma = 0.10 to 0.15 and E = 0.10 that is 4 to 9 runs per bin.
-5. **Pre-registered analysis.** Calibrate the section 8 model on 0 to 10 degree runs only, **record dated predictions** for 15, 20 and 25 degrees before running them, then compare mean and root-mean-square error, the calibration slope and the entrapment slope, against a constant-slip baseline and a slope-threshold baseline. The adequacy rule (within 0.15 slip for at least 80 % of held-out runs and entrapment slope within 3 degrees) is my assumption, not a standard, and a design check on synthetic data (SIMULATED-BY-ME, model-generated, `results/field_plan_identifiability.csv`) shows it is demanding: even an exactly right model passed it in only 43 to 65 % of replicates at run-to-run noise sigma = 0.06, and in 10 to 18 % at sigma = 0.10, so the tolerance should be set from the pilot's measured scatter. The same check found that calibration needs bounds on f_r and i0, because the two trade off at gentle slopes.
+5. **Pre-registered analysis.** Calibrate the section 8 model on 0 to 10 degree runs only, **record dated predictions** for 15, 20 and 25 degrees before running them, then compare mean and root-mean-square error, the calibration slope and the entrapment slope, against a constant-slip baseline and a slope-threshold baseline. **Pre-data predictions are committed** (`docs/predictions/{{LADDER_FILE}}`, SIMULATED-BY-ME, from the assumption ranges only) and a script writes the post calibration predictions from the gentle slope runs before the steep runs. **Tolerance rule (assumption, fixed before the main block):** tolerance = the larger of 3 times the pilot sigma and 0.05, with pilot sigma the pooled within bin standard deviation of the 12 pilot runs; the model is called adequate if at least 80 % of held out runs fall within the tolerance and the entrapment slope is within 3 degrees; if 3 times the pilot sigma exceeds 0.30 the experiment is flagged uninformative. **Synthetic test with known truth (SIMULATED-BY-ME, `scripts/field_analysis_power.py`)** shows this rule discriminates weakly:
+
+{{TABLE:power}}
+
+The rule passes an exactly right model in under half of the replicates and fails a model that is wrong by construction (`collapse`: slip jumps to 0.85 from 22 degrees) in less than 70 %; at high noise it is lenient and flagged. **So an adequacy pass or fail from one ladder must not be over-read. Report the per bin predicted against observed slip with intervals and the entrapment slope as the primary result, and treat the pass or fail as secondary.** Table 9.1 shows what the protocol can and cannot predict before any data:
+
+**Table 9.1: pre-data slope ladder predictions** (prior predictive from the assumption ranges, and the error band of the calibrate then predict protocol on synthetic truths).
+
+{{TABLE:ladder}}
+
+Calibrating on 0 to 10 degrees constrains the 15 degree prediction well, the 20 degree prediction weakly, and the 25 degree prediction hardly at all: the slip diverges near entrapment and gentle runs do not fix where that happens. The 25 degree bin is therefore mainly a test of the entrapment slope, not of the slip value. The same check found that calibration needs bounds on f_r and i0, because the two trade off at gentle slopes.
 6. **Safety and scope.** Tether and recovery line, a second person at all times; slip faces near repose can avalanche. Not a safety case. Heat and dust are handled in `hudasol/dhill`.
 7. **What to log for future prediction.** Wheel speeds and currents, RTK and IMU synchronised, effective radius, DEM-and-RTK slope and aspect, the soil state list, wheel state, ambient conditions, pass number and outcome flags.
 
-The helper script `scripts/analyze_field_runs.py` and the log template `docs/field_log_template.csv` implement the analysis and logging; the script is tested on synthetic data only and has never seen a field measurement.
+The helper script `scripts/analyze_field_runs.py` and the log template `docs/field_log_template.csv` implement the analysis and logging; the script is tested on synthetic data only (including a wrong model case) and has never seen a field measurement. A one page checklist for the field day is `docs/FIELD_DAY_CHECKLIST.md`; low cost rover and measurement kit options, with costs only where a source was retrieved, are in `docs/ROVER_OPTIONS.md`; a proposal outline for a funded validation is `docs/PROPOSAL_SEED.md` (a proposal, not an achievement).
 
 ---
 
@@ -129,22 +141,23 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 - The rows' extraction and the first verification were done by language-model agents using the same search tools; shared blind spots (especially on figure-only values) are possible.
 - UAE items are as of 2026-10-11 and some, such as the Rashid 2 launch date, conflict between sources.
 
-**Not done.** Chrono, DEM and RFT were reviewed but not run. No dataset with slip labels from dunes was available, so no learning model was trained. Licence terms of GLO-30 were read from secondary pages, not the controlling document.
+**Not done.** Chrono, DEM and RFT were reviewed but not run. No dataset with slip labels from dunes was available, so no learning model was trained. The GLO-30 licence (COP-DEM-GLO-30-F) was read in full in phase 2 (`docs/DATA_AND_LICENSES.md`). Still not retrieved in full text: Wong and Reece 1967, Ishigami et al. 2007 and 2009, Heverly et al. 2013 and Takehana et al. 2025, and the Wong textbook parameter table; Yu et al. 2024 was abstract only. None is cited for any number. The sub-grid detector (section 8.7) has never been compared with a real lidar or drone profile of a slip face; the share of dune crests with an active face and the face height fraction of tall dunes are not published and are assumptions.
 
-**No licence chosen yet.** The repository has no `LICENSE` file; until one is added all rights are reserved by default.
+**Licence.** MIT for code (`LICENSE`) and CC BY 4.0 for documents and tables (`LICENSE-DOCS.md`) are proposed and awaiting the author's confirmation. Source PDFs and raw downloads are excluded by a CI check.
 
 ---
 
 ## 11. Verification
 
-**Evidence table, first pass.** Three separate agents with no access to the extraction notes re-fetched sources and checked **30 rows drawn at random** (seed 20261011) from the 137 rows the extractors had not flagged, plus all 7 flagged rows. Material error means a wrong value, unit, metric meaning, validation type, vehicle, terrain or slope; minor error means a correct number with a wrong label, section reference or descriptive detail.
+**Evidence table, all 144 rows.** Separate agents with no access to the extraction notes re-fetched sources. Phase 1 checked **30 rows drawn at random** (seed 20261011) from the 137 rows the extractors had not flagged, plus all 7 flagged rows; phase 2 checked the **remaining 107 rows** in four batches. Material error means a wrong value, unit, metric meaning, validation type, vehicle, terrain or slope; minor error means a correct number with a wrong label, section reference or descriptive detail.
 
-| Sample | n | correct | minor | material | material rate | any-discrepancy rate |
-|---|---|---|---|---|---|---|
-| Random | 30 | 24 | 6 | 0 | 0 % (exact 95 % upper bound 9.5 %) | 20 % (Wilson 95 % CI 9.5 to 37.3 %) |
-| Flagged | 7 | 4 | 3 | 0 | 0 % (exact 95 % upper bound 34.8 %) | 43 % (Wilson 95 % CI 15.8 to 75.0 %) |
+{{TABLE:verif}}
 
-Minor errors were corrected (`research/corrections.csv`, with old values in `research/dedup_log.md`). Examples: a wrong section label (SIM-022), a vehicle mislabelled in FLD-023 (a Perseverance tilt limit justified by Scarecrow dune tests, not a Curiosity measurement) and the in-sample nature of an "accuracy" in TM-021. **The other 107 unflagged rows were not individually re-checked**; zero material errors in 30 is compatible with a true material-error rate up to about 10 %, and minor label slips are likely in unchecked rows. Duplicate rows between agents were removed (`research/dedup_log.md`).
+All errors were corrected through `research/corrections.csv` (old values in `research/dedup_log.md`). The six material errors found in phase 2: LRN-017 (a three wheeled prototype labelled four wheel), SIM-012 and LRN-006 (validation type: a prepared sand bed and the engineered JPL Mars Yard are `lab`, not `field`), LRN-019 (physical rover results only, `lab`, not `sim-vs-lab`), TM-020 (0.015 was a best case grid entry, the worst case is 0.070) and FLD-029 (an unreferenced capability statement presented as a lab measurement; now validation type `none`). SIM-013 was set to `lab` for consistency with SIM-012 and carries the unit warning. The phase 1 sample had suggested zero material errors; the 107 rows showed that estimate was optimistic, which is why all rows were checked. Verifiers are language model agents using the same search tools, so shared blind spots (for example on figure only values) remain possible; a human spot check of a few rows is advisable. Duplicate rows between agents were removed (`research/dedup_log.md`); seven Kern et al. candidate rows read in phase 2 duplicate SIM-012 to SIM-014 and were not added.
+
+**Predictions register.** Predictions were written and committed before each run (`docs/PREDICTIONS.md`). Hits and misses so far:
+
+{{TABLE:pred_tally}}
 
 **Report claims, second pass.** {{SECOND_PASS}}
 

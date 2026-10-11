@@ -31,7 +31,7 @@ AREAS = {  # name: (tile, lat_min, lat_max, lon_min, lon_max, od_sep_m, mc_seed,
     "B_RubAlKhali_megadunes": ("B", 22.20, 22.50, 54.20, 54.60, 15000, 20261015, "Rub' al Khali, UAE: megadunes (phase 1 window B)"),
     "C_RubAlKhali_linear": ("C", 20.40, 20.55, 52.30, 52.70, 15000, 20261016, "Rub' al Khali, Saudi Arabia (not UAE): linear dunes; added in phase 2 as a morphology contrast"),
 }
-PALETTE = {0: "#8fb9a8", 1: "#a8325e", 2: "#c9b6d9", 3: "#f3c9d5", 4: "#8a6f93"}
+PALETTE = {0: "#a9cdbd", 1: "#7a1f45", 2: "#a98fd1", 3: "#ee7aa8", 4: "#5b3a78"}
 SCENARIO_GRID = [("base", 1.0), ("base", 0.6), ("base", 0.3), ("gentle", 1.0), ("steep", 1.0)]
 TAUS = [0.02, 0.05, 0.10, 0.20, 0.30, 0.50, 0.80]
 
