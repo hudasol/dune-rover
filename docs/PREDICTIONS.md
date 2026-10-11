@@ -34,3 +34,22 @@ Pre-specified design (fixed now so the outcome cannot tune it):
 | S2-6 | Coverage versus certainty: demanding at most 5 % face probability on TRAVERSABLE cells leaves coverage (share of cells not UNKNOWN) below 30 % in A_south_Liwa at 30 m. | pending |
 | S2-7 | Treating UNKNOWN as impassable, fewer than half of the origin destination pairs of phase 1 stay reachable in A_south_Liwa at 30 m (phase 1: nearly all reachable). | pending |
 | S2-8 | Lowering the assumed share of crests with an active face from 1.0 to 0.3 lowers the A_south_Liwa UNKNOWN share at 30 m by less than 20 percentage points (the DEM features, not the prior, carry the result). | pending |
+
+
+## Stage 3: field kit, analysis rule and synthetic power study (committed 2026-10-12 BEFORE the study was run)
+
+Design fixed now. Script: `scripts/field_analysis_power.py` (to be written after this commit). Everything here concerns SYNTHETIC data and the analysis code, not the world.
+
+- Truth generators: `model` (the exponential slip law, f_r 0.14, i0 0.22, phi 33), `janosi_mean` (same parameters, contact-patch-averaged shear law form, a modest structural difference), `collapse` (exponential law below 20 deg, slip jumps to 0.85 from 22 deg upward, a stand-in for avalanche or bearing failure; the model is WRONG here by construction).
+- Noise sigma 0.03, 0.06, 0.10. Bins 0, 5, 10, 15, 20, 25, 28 deg, 6 runs per bin; the first 3 runs in each of the 5, 10, 15 and 20 deg bins are the pilot block. 300 replicates per cell, seeds 30000 and up.
+- Tolerance rule: tol = max(3 x pilot sigma, 0.05), pilot sigma = pooled within bin standard deviation of the pilot runs. Adequate if at least 80 % of held out runs (above 10 deg) lie within tol and the entrapment slope is within 3 deg (as in the field plan).
+- Slope ladder pre-data prediction file: prior predictive slip at 0, 5, 10, 15, 20, 25 deg from the assumption ranges (phi 28 to 38 or phi measured 33 plus or minus 2, f_r 0.05 to 0.25, i0 0.05 to 0.40), 4000 draws, seed 20261017, and the error band of the calibrate then predict protocol (calibrate on 0, 5, 10 deg, noise sigma 0.06).
+
+| ID | Prediction made before the run | Outcome |
+|---|---|---|
+| S3-1 | truth = model, sigma = 0.03: the adequacy pass rate is at least 75 %. | pending |
+| S3-2 | The rule gets more lenient as noise grows: for truth = model the pass rate at sigma = 0.10 is at least as high as at sigma = 0.03. | pending |
+| S3-3 | truth = collapse: the failure (detection) rate is at least 90 % at sigma = 0.03 and at most 60 % at sigma = 0.10. | pending |
+| S3-4 | truth = janosi_mean: the detection rate is between 20 % and 80 % at sigma = 0.03 and at most 30 % at sigma = 0.10 (a structural error of this size is mostly hidden by noise). | pending |
+| S3-5 | Prior predictive 90 % band of slip at 25 deg is at least 0.5 wide, and the calibrate then predict error band at 25 deg (sigma = 0.06) is at least twice narrower than the prior band. | pending |
+| S3-6 | The prior predictive entrapment slope (slip 0.8) has median between 24 and 34 deg and a 90 % range wider than 10 deg. | pending |
