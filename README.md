@@ -1,68 +1,72 @@
 # dune-rover
 
-Research project on predicting slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes, with a minimal open-data traversability study for Arabian dune areas. Author: Huda Mueen. Related repository, not duplicated here: [`hudasol/dhill`](https://github.com/hudasol/dhill) (heat-and-dust operating envelope).
+Research project on predicting slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes, with a minimal open-data traversability study for Arabian dune areas. Author: Huda Mueen. Related repository, not duplicated here: [`hudasol/dhill`](https://github.com/hudasol/dhill) (heat and dust operating envelope).
 
-**Research, not engineering approval for any real vehicle.**
+**Research, not engineering approval for any real vehicle.** Generated from `docs/src/readme_template.md` by `scripts/build_report.py`; numbers come from the result files.
 
-## Three kinds of content, kept separate
+## What is published, what is simulated, what is planned
 
 | Label | Meaning | Where |
 |---|---|---|
-| **PUBLISHED** | A number read in a retrieved source; 144 rows with URL, passage and retrieval date | `research/evidence.csv`, report Appendix A |
-| **SIMULATED-BY-ME** | Output of the code here (slip-model traversability map on real elevation data). Model-assumption dependent, never field evidence | `src/dunerover/`, `results/` |
-| **PLANNED** | Protocols not yet run | `docs/FIELD_VALIDATION_PLAN.md` |
+| **PUBLISHED** | A number read in a retrieved source: 144 rows with URL, passage, retrieval date and an independent re-check | `research/evidence.csv`, report Appendix A |
+| **SIMULATED-BY-ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, a sub-grid slip face detector trained on synthetic dunes, a three class map (TRAVERSABLE, BLOCKED, UNKNOWN) and synthetic tests of the field analysis. Model-assumption dependent, never field evidence | `src/dunerover/`, `results/` |
+| **PLANNED** | A slope ladder field experiment, its pre-data predictions, checklist, rover options and a proposal outline. Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md` |
+
+## Headline numbers (from files)
+
+- Verification: all 144 evidence rows re-checked against their sources; material errors 6 of 144 (4.2 %), any discrepancy 36 of 144 (25.0 %); all corrected (`research/verification_log.md`).
+- Simulation, 30 m: UNKNOWN share 8.6 % (A south Liwa), 10.9 % (B megadunes), 2.5 % (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; 99.1 % of cells in A have the same slope based verdict under all 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is 34.4 %, 32.2 %, 22.0 %. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
+- Pre-registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
 
 ## Read in this order
 
 1. `docs/EXECUTIVE_BRIEF.md` (also `.pdf`): two pages.
-2. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation study, field plan, limitations, verification, appendices.
-3. `docs/NEXT_STEPS.md`: what to do next, starting with the first field experiment.
-4. `docs/GLOSSARY.md`: terms for newcomers.
-5. `docs/PROTOCOL.md`, `docs/DATA_AND_LICENSES.md`.
+2. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8 and 8.7), field plan, limitations, verification, appendices.
+3. `docs/NEXT_STEPS.md`: what to do next, starting with the first field experiment, and what to fetch.
+4. `docs/PREDICTIONS.md`, `docs/predictions/`: dated predictions written before runs.
+5. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/DATA_AND_LICENSES.md`.
 
 ## Layout
 
 ```
-docs/                 report, brief, glossary, protocol, field plan, licences, next steps
-docs/src/             hand-written report sections (REPORT.md is assembled from these)
+docs/                 report, brief, glossary, protocol, field plan, checklist, rover options, proposal seed, licences
+docs/src/             hand written report sections and templates (REPORT.md, the brief and this README are built from them)
+docs/predictions/     dated pre-data slope ladder predictions (PLANNED field experiment)
 research/evidence.csv the evidence table (one row per reported mobility result)
 research/raw/         per-topic notes and row files, data audit, morphology and UAE facts
-research/verification_log.md, factcheck_report_pass.md   independent checks
-src/dunerover/        simulation code (DEM loading, slope, slip model, graph routing, sensitivity)
-scripts/              fetch_data.sh, consolidate_evidence.py, verify_stats.py, build_report.py,
-                      analyze_field_runs.py, calibration_identifiability.py, ...
-tests/                21 tests
-results/              simulation outputs and figures (all labelled SIMULATION ONLY)
+research/phase2/      phase 2 retrieval reports and CSVs (morphology, rover options); downloaded sources are not committed
+src/dunerover/        simulation code (DEM, slope, slip model, graph routing, sensitivity, sub-grid detector, three class map, field analysis)
+scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verification.py, verify_stats.py, build_report.py,
+                      analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, check_repo_hygiene.py, scan_secrets.py ...
+tests/                43 tests
+results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit
 data/anchor_points.csv  13 published slip points used only for descriptive comparison
 ```
 
-## Reproduce the simulation study
+## Reproduce
 
-Python 3.10 or newer. Dependencies are pinned loosely in `pyproject.toml` (numpy, scipy, matplotlib, tifffile, imagecodecs; pytest for tests).
+Python 3.10 or newer. Dependencies: numpy, scipy, matplotlib, tifffile, imagecodecs; pytest for tests.
 
 ```bash
 pip install -e ".[dev]"          # or: pip install numpy scipy matplotlib tifffile imagecodecs pytest
-bash scripts/fetch_data.sh       # downloads two Copernicus GLO-30 tiles (about 97 MB), checks SHA-256
+bash scripts/fetch_data.sh       # downloads three Copernicus GLO-30 tiles (about 146 MB), checks SHA-256
 PYTHONPATH=src python3 -m pytest -q tests
-PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results   # about 5.5 minutes
-PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results --only-area-figures
-python3 scripts/build_report.py  # rebuild docs/REPORT.md from docs/src and the CSVs
+PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results                    # phase 1, about 5.5 minutes
+PYTHONPATH=src python3 -m dunerover.study_subgrid --data data/raw --out results/subgrid    # phase 2, about 5 minutes
+PYTHONPATH=src python3 scripts/field_analysis_power.py                                      # synthetic power study, about 1 minute
+python3 scripts/consolidate_evidence.py && python3 scripts/verify_stats.py                  # evidence table and verification log from files
+python3 scripts/build_report.py  # rebuilds docs/REPORT.md, the brief and this README from docs/src, the CSVs and results
+python3 scripts/check_repo_hygiene.py --history && python3 scripts/scan_secrets.py --history
 ```
 
-Seeds are fixed (origin-destination 20261011; Latin hypercube 20261012 and 20261013). The full study was run twice during development and the area and sensitivity entries of the two summary files matched.
-
-What the study does: slope from Copernicus GLO-30 (Horn 3 by 3), a friction-circle slip model with three assumption parameters, an 8-neighbour graph and Dijkstra routes, then one-at-a-time and Latin-hypercube sensitivity to find which assumptions change the map most. It does **not** model sinkage, wheel geometry, speed or avalanching, and it was not fitted to any data.
+Seeds are fixed and listed in `results/summary.json` and `results/subgrid/summary.json`. Phase 2 was run twice and the CSVs matched.
 
 ## Data and licences
 
-Full list in `docs/DATA_AND_LICENSES.md`. In short: Copernicus GLO-30 (free with attribution to DLR and Airbus, EU/ESA; the controlling licence text was not read directly, so commercial terms are unverified), numpy and scipy (BSD), matplotlib (PSF-style), tifffile and imagecodecs (BSD-3), pytest (MIT, dev only). Project Chrono (BSD-3) was reviewed but is not used. The DEM tiles are not committed.
+Full list in `docs/DATA_AND_LICENSES.md`. Copernicus GLO-30 (the controlling Free and Open licence was read in full; attribution and no liability notices required; no commercial restriction in the text), numpy, scipy, matplotlib, tifffile, imagecodecs, pytest (permissive). The DEM tiles are not committed. Source PDFs and raw downloads are never committed: a CI job fails if they are.
 
-**This repository has no licence file yet.** Until you add one, all rights are reserved by default. Choose a licence before sharing publicly.
-
-## Verification summary
-
-Independent re-check of 30 randomly drawn evidence rows plus 7 flagged ones: 0 material errors in 37, 9 minor label or location errors (corrected). The 107 other unflagged rows were not individually re-checked. A second independent check of the report's prose (225 claim groups) found 5 wrong and 26 minor items, all corrected. Details: `research/verification_log.md`, `research/factcheck_report_pass.md`, report section 11.
+**Licence (proposed, awaiting the author's confirmation):** code under MIT (`LICENSE`), documents and tables under CC BY 4.0 (`LICENSE-DOCS.md`).
 
 ## Not done
 
-Chrono, DEM and RFT were reviewed, not run. No field data exist yet. No learning model was trained. See report section 10.
+Chrono, DEM and RFT were reviewed, not run. No field data exist. No learning model was trained. The sub-grid detector has not been compared with any real slip face profile. See report section 10.

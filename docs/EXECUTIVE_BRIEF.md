@@ -1,6 +1,6 @@
 # Executive brief: predicting slip and traversability of robots on dunes
 
-Huda Mueen, `hudasol/dune-rover`, 2026-10-11. Research only; not engineering approval for any real vehicle. Row IDs (for example FLD-012) refer to the evidence table in `docs/REPORT.md`, Appendix A.
+Huda Mueen, `hudasol/dune-rover`, updated 2026-10-12 (generated from `docs/src/brief_template.md` by `scripts/build_report.py`; numbers come from the result files). Research only; not engineering approval for any real vehicle. Row IDs (for example FLD-012) refer to the evidence table in `docs/REPORT.md`, Appendix A.
 
 **Question.** How well can slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes be predicted from terrain data and models, how well does that transfer from lab to field, and what is missing for a minimal open-data planner for Arabian dunes?
 
@@ -15,17 +15,20 @@ Huda Mueen, `hudasol/dune-rover`, 2026-10-11. Research only; not engineering app
 
 ## What I simulated (SIMULATION ONLY, model-assumption dependent, not field evidence)
 
-A friction-circle slip model with a friction angle (published range 28 to 38 degrees) and three assumed parameters, routed over real GLO-30 data from Liwa and the Rub' al Khali, with one-at-a-time and 256-draw Latin-hypercube sensitivity analysis.
+A friction-circle slip model with a friction angle (published range 28 to 38 degrees) and three assumed parameters, routed over real GLO-30 data from Liwa and the Rub' al Khali, with one-at-a-time and 256-draw Latin-hypercube sensitivity analysis (phase 1). Phase 2 added a sub-grid slip face detector (trained on synthetic dunes, validated only against synthetic truth) and a three class map with Monte Carlo over the four assumed parameters, on three windows including a linear dune field in the Saudi Rub' al Khali.
 
 | Result | Value |
 |---|---|
 | Nominal climbing limit of the model | 25.5 degrees |
-| Edges blocked at nominal parameters (three windows) | 0.2 to 1 % |
 | Climbing limit across the assumption ranges | 7.6 to 34.7 degrees (5 to 95 %: about 15 to 32) |
-| Assumptions that change the map most | friction angle, slip-law form, DEM posting, slip scale i0, resistance f_r |
-| Assumptions that change it least | planning slip limit, spatially correlated DEM noise |
+| UNKNOWN share of cells at 30 m: A south Liwa, B megadunes, C linear dunes | 8.6 %, 10.9 %, 2.5 % |
+| Same if a face within one post counts (post hoc variant) | 34.4 %, 32.2 %, 22.0 % |
+| UNKNOWN share at 60 and 90 m (A) | 9.1 % and 7.1 % |
+| BLOCKED share at 30 m (A) | 0.00 % |
+| Cells whose slope based verdict is robust to the four assumed parameters (A, B, C at 30 m) | 99.1 %, 97.0 %, 100.0 % |
+| Assumptions that change the phase 1 map most | friction angle, slip law form, DEM posting, slip scale i0, resistance f_r |
 
-The small blocked share reflects the 30 m grid and nominal assumptions, not easy dunes. The map is controlled by parameters that field data have not yet measured.
+The small BLOCKED share reflects the 30 m grid, not easy dunes. The UNKNOWN share depends mostly on the assumed dune shape and on what counts as "inside the cell", not on the four slip parameters.
 
 ## What is planned (PLANNED, not run)
 
@@ -33,9 +36,10 @@ A slope-ladder field experiment with one small rover on one dune stoss slope: ru
 
 ## How far to trust this
 
-- Verification: 30 randomly drawn rows plus 7 flagged ones were re-checked against the sources by separate agents: **0 material errors** (exact 95 % upper bound 9.5 % on the random sample), 9 minor label errors, corrected. 107 rows were not individually re-checked. A second independent check of the report's prose found 5 wrong and 26 minor items among 225 claim groups, all corrected.
-- Limits: search tool US-only; paywalled standards (Bekker, Wong) not read; several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the GLO-30 licence text was not read directly; no repository licence chosen yet.
+- Verification: **all 144 evidence rows were re-checked against their sources** by separate agents. Material errors: 6 of 144 (4.2 %, Wilson 95 % interval 1.9 to 8.8 %); any discrepancy: 36 of 144 (25.0 %). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the report's prose found 5 wrong and 26 minor items among 225 claim groups, all corrected.
+- Limits: search tool US-only; paywalled standards (Bekker, Wong) and five references not read (exact fetch list in `docs/NEXT_STEPS.md`); several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the sub-grid detector has never been compared with a real slip face profile; the synthetic test of the planned field analysis shows its pass or fail rule discriminates weakly, so the ladder results should be read as predicted against observed, not as pass or fail.
+- Pre-registration: predictions were committed before each run; most quantitative predictions about the simulation missed (`docs/PREDICTIONS.md`).
 
 ## First experiment to run
 
-The slope ladder (`docs/FIELD_VALIDATION_PLAN.md`): start with the 12-run pilot to measure run-to-run scatter, then the main block. It fills the largest gap: no published slip-versus-slope data for a wheeled robot on dune sand with measured soil.
+The slope ladder (`docs/FIELD_VALIDATION_PLAN.md`): start with the 12-run pilot to measure run-to-run scatter (it sets the tolerance), then the main block; dated pre-data predictions are in `docs/predictions/`. It fills the largest gap: no published slip-versus-slope data for a wheeled robot on dune sand with measured soil.

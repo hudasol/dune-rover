@@ -117,6 +117,142 @@ def t_anchor():
     return md_table(["Row", "Slope, deg", "Published validation", "Published slip", "Model nominal (SIM)", "Model envelope min to max (SIM)", "Envelope overlaps", "Definition warning"], rows)
 
 
+# ---------------------------------------------------------------- phase 2 tables and values (all read from files)
+def pct(x, nd=1):
+    return f"{100*float(x):.{nd}f} %"
+
+
+def _area_letter(a):
+    return a.split("_")[0]
+
+
+def t_subgrid_params():
+    from dunerover.subgrid import SUBGRID_PARAMS
+    rows = []
+    for k, (lo, hi, status, basis) in SUBGRID_PARAMS.items():
+        rng = f"{lo} to {hi}" if hi is not None else str(lo)
+        rows.append([f"`{k}`", rng, esc(status, 70), esc(basis, 230)])
+    return md_table(["Sub-grid quantity", "Range used", "Status", "Basis (morphology row ids in research/phase2/phase2_morphology.csv)"], rows)
+
+
+def t_class_shares():
+    rows = []
+    for r in rd("results/subgrid/class_shares.csv"):
+        rows.append([r["area"], r["posting_m"], pct(r["TRAVERSABLE"]), pct(r["BLOCKED"], 2), pct(r["UNKNOWN (total)"]),
+                     pct(r["UNKNOWN (assumption sensitive)"]), pct(r["UNKNOWN (sub-grid face risk)"]), pct(r["UNKNOWN (both)"])])
+    return md_table(["Area", "Posting, m", "TRAVERSABLE", "BLOCKED", "UNKNOWN total", "UNKNOWN: assumption sensitive only", "UNKNOWN: sub-grid face risk only", "UNKNOWN: both"], rows)
+
+
+def t_robust():
+    rows = [[r["area"], r["posting_m"], pct(r["unanimous_share"], 2), pct(r["sensitive_share"], 2), pct(r["always_passable_share(q=1)"], 2), pct(r["never_passable_share(q=0)"], 2)]
+            for r in rd("results/subgrid/robustness_to_assumed_parameters.csv")]
+    return md_table(["Area", "Posting, m", "Robust: same verdict in at least 95 % of draws", "Sensitive to the four assumptions", "Passable in all 256 draws", "Passable in no draw"], rows)
+
+
+def t_scen():
+    rows = []
+    for r in rd("results/subgrid/subgrid_prior_sensitivity.csv"):
+        if float(r["posting_m"]) < 40:
+            rows.append([r["area"], esc(r["scenario"], 60), r["pi"], pct(r["UNKNOWN (total)"]), pct(r["mean_face_probability"])])
+    return md_table(["Area (30 m)", "Sub-grid variant", "pi (share of crests with an active face)", "UNKNOWN total", "Mean face probability"], rows)
+
+
+def t_cc_map():
+    rows = []
+    for r in rd("results/subgrid/coverage_vs_certainty_map.csv"):
+        if float(r["posting_m"]) < 40:
+            rows.append([r["area"], r["tau"], pct(r["coverage"]), pct(r["expected_certainty_traversable"])])
+    return md_table(["Area (30 m)", "Face probability threshold tau", "Coverage (not UNKNOWN)", "Model-expected certainty of TRAVERSABLE cells (1 minus mean face probability)"], rows)
+
+
+def t_cc_synth():
+    rows = []
+    for r in rd("results/subgrid/detector_skill.csv"):
+        if r["tested_on"].endswith("(coverage vs certainty)") and r["tau"] in ("0.05", "0.1", "0.2", "0.5") and abs(float(r["posting_m"]) - round(float(r["posting_m"]))) < 0.5 and r["posting_m"] in ("29.6", "59.2", "88.8"):
+            rows.append([r["posting_m"], r["tau"], pct(r["coverage"]), pct(r["certainty"]), pct(r["missed_face_rate_among_declared"])])
+    return md_table(["Posting, m", "tau", "Coverage (declared face free)", "Certainty (truly face free among declared)", "Missed face rate among declared"], rows)
+
+
+def t_detector():
+    rows = []
+    for r in rd("results/subgrid/detector_skill.csv"):
+        if not r["tested_on"].endswith("(coverage vs certainty)") and r["posting_m"] in ("29.6", "59.2", "88.8"):
+            rows.append([r["posting_m"], r["tested_on"], pct(r["face_rate"]), f"{float(r['auc']):.3f}", f"{float(r['brier']):.3f}", f"{float(r['brier_climatology']):.3f}"])
+    return md_table(["Posting, m", "Held-out synthetic ensemble (detector trained on base, pi 1.0)", "Face rate", "AUC", "Brier", "Brier of always predicting the base rate"], rows)
+
+
+def t_reach():
+    rows = [[r["area"], r["posting_m"], f"{float(r['reachable_phase1_rule'])*100:.0f} %", f"{float(r['reachable_unknown_impassable'])*100:.0f} %", f"{float(r['endpoints_not_traversable'])*100:.0f} %"]
+            for r in rd("results/subgrid/reachability_unknown_impassable.csv")]
+    return md_table(["Area", "Posting, m", "Pairs reachable (phase 1 rule, 10 pairs)", "Pairs reachable with UNKNOWN impassable", "Endpoints not TRAVERSABLE"], rows)
+
+
+def t_power():
+    rows = [[r["truth"], r["sigma"], r["replicates"], pct(r["adequate_rate"], 0), pct(r["failure_rate"], 0), pct(r["flagged_uninformative_rate"], 0), f"{float(r['median_tolerance']):.3f}"]
+            for r in rd("results/field_kit/power_study.csv")]
+    return md_table(["Synthetic truth", "Noise sigma", "Replicates", "Called adequate", "Failed", "Flagged uninformative (3 x pilot sigma above 0.30)", "Median tolerance"], rows)
+
+
+def t_ladder():
+    import glob
+    fn = sorted(glob.glob(os.path.join(ROOT, "docs/predictions/slope_ladder_predictions_*.csv")))[0]
+    rows = []
+    for r in csv.DictReader(open(fn, newline="", encoding="utf-8")):
+        band = (f"{float(r['protocol_error_p05_sigma0.06']):+.2f} to {float(r['protocol_error_p95_sigma0.06']):+.2f}" if r.get("protocol_error_p05_sigma0.06") else "n/a (calibration slope)")
+        rows.append([r["slope_deg"], r["role"], f"{float(r['prior_p05_phi_unknown']):.2f} to {float(r['prior_p95_phi_unknown']):.2f} (median {float(r['prior_p50_phi_unknown']):.2f})",
+                     f"{float(r['prior_p05_phi_33pm2']):.2f} to {float(r['prior_p95_phi_33pm2']):.2f}", f"{float(r['prior_P_entrapment_phi_unknown'])*100:.0f} %", band])
+    return md_table(["Slope, deg", "Role", "Prior predictive slip, 5 to 95 % (phi 28 to 38)", "Same with phi 33 plus or minus 2", "P(slip at least 0.8), phi unknown", "Protocol error band (predicted minus true), sigma 0.06"], rows), os.path.basename(fn)
+
+
+def t_pred_tally():
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    from tally_predictions import tally
+    rows = [[k, c["HIT"], c["MIXED"], c["MISSED"], c["PENDING"]] for k, c in tally().items()]
+    return md_table(["Stage", "HIT", "MIXED (part hit)", "MISSED", "pending"], rows)
+
+
+def t_verif():
+    st = json.load(open(os.path.join(ROOT, "research/verification_stats.json")))
+    rows = []
+    for name, d in st.items():
+        mat = (f"{100*d['material_rate']:.1f} % (Wilson 95 % CI {100*d['material_wilson95'][0]:.1f} to {100*d['material_wilson95'][1]:.1f} %)" if d["material_wilson95"]
+               else f"0 % (exact 95 % upper bound {100*d['material_upper95_exact']:.1f} %)")
+        rows.append([name, d["n"], d["correct"], d["minor_error"], d["material_error"], mat, f"{100*d['any_rate']:.1f} % (Wilson 95 % CI {100*d['any_wilson95'][0]:.1f} to {100*d['any_wilson95'][1]:.1f} %)"])
+    return md_table(["Group", "n", "correct", "minor", "material", "material rate", "any-discrepancy rate"], rows)
+
+
+def values(ev):
+    """Named numbers for the narrative, all computed from files."""
+    v = {}
+    st = json.load(open(os.path.join(ROOT, "research/verification_stats.json")))
+    al = st["ALL 144 ROWS"]; ph2 = st["remaining rows, phase 2 full re-check"]
+    v["ver_all_n"] = al["n"]; v["ver_all_material"] = al["material_error"]; v["ver_all_minor"] = al["minor_error"]
+    v["ver_all_material_rate"] = pct(al["material_rate"]); v["ver_all_any"] = al["minor_error"] + al["material_error"]; v["ver_all_any_rate"] = pct(al["any_rate"])
+    v["ver_all_material_ci"] = f"{100*al['material_wilson95'][0]:.1f} to {100*al['material_wilson95'][1]:.1f} %"
+    v["ver_ph2_material"] = ph2["material_error"]; v["ver_ph2_n"] = ph2["n"]; v["ver_ph2_material_rate"] = pct(ph2["material_rate"])
+    c = {}
+    for r in ev:
+        c[r["validation_type"]] = c.get(r["validation_type"], 0) + 1
+    v["ntests"] = sum(open(os.path.join(ROOT, "tests", f), encoding="utf-8").read().count("\ndef test_") + (1 if open(os.path.join(ROOT, "tests", f), encoding="utf-8").read().startswith("def test_") else 0)
+                      for f in sorted(os.listdir(os.path.join(ROOT, "tests"))) if f.startswith("test_") and f.endswith(".py"))
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    from tally_predictions import tally
+    tl = tally(); v["npred"] = sum(sum(c.values()) for c in tl.values())
+    v["vtype_line"] = f"Of {len(ev)} rows: " + ", ".join(f"{c[k]} {k}" for k in ("lab", "field", "simulation-only", "sim-vs-lab", "sim-vs-field") if k in c) + (f", {c['none']} none (an unreferenced capability statement kept for the record)" if "none" in c else "")
+    for r in rd("results/subgrid/class_shares.csv"):
+        a = _area_letter(r["area"]); k = {"29": 30, "30": 30, "59": 60, "60": 60, "88": 90, "89": 90}[r["posting_m"].split(".")[0]]
+        v[f"unk_{a}_{k}"] = pct(r["UNKNOWN (total)"]); v[f"trav_{a}_{k}"] = pct(r["TRAVERSABLE"]); v[f"blk_{a}_{k}"] = pct(r["BLOCKED"], 2)
+    for r in rd("results/subgrid/robustness_to_assumed_parameters.csv"):
+        a = _area_letter(r["area"]); k = {"29": 30, "30": 30, "59": 60, "60": 60, "88": 90, "89": 90}[r["posting_m"].split(".")[0]]
+        v[f"uni_{a}_{k}"] = pct(r["unanimous_share"]); v[f"sens_{a}_{k}"] = pct(r["sensitive_share"], 2)
+    for r in rd("results/subgrid/subgrid_prior_sensitivity.csv"):
+        if float(r["posting_m"]) < 40 and r["scenario"].startswith("POST HOC"):
+            v[f"unk3_{_area_letter(r['area'])}_30"] = pct(r["UNKNOWN (total)"])
+        if float(r["posting_m"]) < 40 and r["scenario"] == "base" and r["pi"] == "0.3":
+            v[f"unkpi03_{_area_letter(r['area'])}_30"] = pct(r["UNKNOWN (total)"])
+    return v
+
+
 def appendix_a(ev):
     head = ["ID", "Vehicle or wheel", "Terrain", "Slope, deg", "Method family", "Metric", "Value", "Validation", "Source", "Location", "Retrieved", "Comparability warning"]
     rows = []
@@ -155,10 +291,31 @@ def main():
             body += open(os.path.join(ROOT, "docs/src", fn), encoding="utf-8").read() + "\n"
     sp = os.path.join(ROOT, "docs/src/second_pass.txt")
     second = open(sp, encoding="utf-8").read().strip() if os.path.exists(sp) else "Pending at the time of building this file."
+    ladder_tab, ladder_file = t_ladder()
+    vals = values(ev)
+    for tmpl, outp in (("docs/src/brief_template.md", "docs/EXECUTIVE_BRIEF.md"), ("docs/src/readme_template.md", "README.md")):
+        t = open(os.path.join(ROOT, tmpl), encoding="utf-8").read()
+        for k, v in vals.items():
+            t = t.replace("{{VAL:%s}}" % k, str(v))
+        left = re.findall(r"\{\{[^}]*\}\}", t)
+        if left:
+            raise SystemExit(f"unresolved placeholders in {tmpl}: {sorted(set(left))}")
+        open(os.path.join(ROOT, outp), "w", encoding="utf-8").write(t)
+        print("wrote", outp)
     tabs = {"params": t_params(), "slopestats": t_slopestats(), "nominal": t_nominal(), "oat": t_oat(), "lhs_rank": t_lhs_rank(),
-            "lhs_pct": t_lhs_pct(), "anchor": t_anchor()}
+            "lhs_pct": t_lhs_pct(), "anchor": t_anchor(), "subgrid_params": t_subgrid_params(), "class_shares": t_class_shares(), "robust": t_robust(),
+            "scen": t_scen(), "cc_map": t_cc_map(), "cc_synth": t_cc_synth(), "detector": t_detector(), "reach": t_reach(), "power": t_power(),
+            "ladder": ladder_tab, "pred_tally": t_pred_tally(), "verif": t_verif()}
+    sg = os.path.join(ROOT, "docs/src/subgrid_section.md")
+    body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
     for k, v in tabs.items():
         body = body.replace("{{TABLE:%s}}" % k, v)
+    body = body.replace("{{LADDER_FILE}}", ladder_file)
+    for k, v in vals.items():
+        body = body.replace("{{VAL:%s}}" % k, str(v))
+    left = re.findall(r"\{\{(?:VAL|TABLE|INCLUDE)[^}]*\}\}", body)
+    if left:
+        raise SystemExit(f"unresolved placeholders: {sorted(set(left))}")
     body = body.replace("{{SECOND_PASS}}", second)
     c_tab, n_src = appendix_c(ev)
     app = ["\n---\n\n## Appendix A. Evidence table (all PUBLISHED; condensed, full fields in `research/evidence.csv`)\n",

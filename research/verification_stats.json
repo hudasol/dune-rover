@@ -1,0 +1,68 @@
+{
+ "random sample, phase 1 (n=30 of 137 unflagged)": {
+  "n": 30,
+  "correct": 24,
+  "minor_error": 6,
+  "material_error": 0,
+  "unverifiable": 0,
+  "material_rate": 0.0,
+  "material_wilson95": null,
+  "material_upper95_exact": 0.09503385285530419,
+  "any_rate": 0.2,
+  "any_wilson95": [
+   0.09504978102401236,
+   0.37306047381027446
+  ]
+ },
+ "flagged sample, phase 1": {
+  "n": 7,
+  "correct": 4,
+  "minor_error": 3,
+  "material_error": 0,
+  "unverifiable": 0,
+  "material_rate": 0.0,
+  "material_wilson95": null,
+  "material_upper95_exact": 0.3481636551311609,
+  "any_rate": 0.42857142857142855,
+  "any_wilson95": [
+   0.1582169222626268,
+   0.7495457695909742
+  ]
+ },
+ "remaining rows, phase 2 full re-check": {
+  "n": 107,
+  "correct": 80,
+  "minor_error": 21,
+  "material_error": 6,
+  "unverifiable": 0,
+  "material_rate": 0.056074766355140186,
+  "material_wilson95": [
+   0.025950008789329394,
+   0.11697106055647576
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.2523364485981308,
+  "any_wilson95": [
+   0.17960316950001598,
+   0.34223700602974894
+  ]
+ },
+ "ALL 144 ROWS": {
+  "n": 144,
+  "correct": 108,
+  "minor_error": 30,
+  "material_error": 6,
+  "unverifiable": 0,
+  "material_rate": 0.041666666666666664,
+  "material_wilson95": [
+   0.019233624394717947,
+   0.08791889559965439
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.25,
+  "any_wilson95": [
+   0.1863940290026437,
+   0.3265982546306503
+  ]
+ }
+}

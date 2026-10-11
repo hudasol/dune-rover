@@ -26,14 +26,14 @@ Pre-specified design (fixed now so the outcome cannot tune it):
 
 | ID | Prediction made before the run | Outcome |
 |---|---|---|
-| S2-1 | Detector skill on held out synthetic profiles at 30 m: AUC between 0.70 and 0.90 (features see tall dunes but not low ones). Skill at 90 m is lower than at 30 m. | pending |
-| S2-2 | The UNKNOWN share in A_south_Liwa at 30 m (pi = 1, baseline) is between 40 % and 80 %, and it rises with coarser posting (90 m above 60 m above 30 m). | pending |
-| S2-3 | The BLOCKED class stays at or below 2 % of cells at 30 m in every area (phase 1 found 0.2 to 1 % of edges blocked). | pending |
-| S2-4 | Robust to the four assumed parameters: at least 90 % of cells have a unanimous passable verdict (passable in at most 5 % or at least 95 % of draws) at 30 m. | pending |
-| S2-5 | The UNKNOWN share in the linear dune window C at 30 m is at least 10 percentage points lower than in A_south_Liwa (smaller relief). | pending |
-| S2-6 | Coverage versus certainty: demanding at most 5 % face probability on TRAVERSABLE cells leaves coverage (share of cells not UNKNOWN) below 30 % in A_south_Liwa at 30 m. | pending |
-| S2-7 | Treating UNKNOWN as impassable, fewer than half of the origin destination pairs of phase 1 stay reachable in A_south_Liwa at 30 m (phase 1: nearly all reachable). | pending |
-| S2-8 | Lowering the assumed share of crests with an active face from 1.0 to 0.3 lowers the A_south_Liwa UNKNOWN share at 30 m by less than 20 percentage points (the DEM features, not the prior, carry the result). | pending |
+| S2-1 | Detector skill on held out synthetic profiles at 30 m: AUC between 0.70 and 0.90 (features see tall dunes but not low ones). Skill at 90 m is lower than at 30 m. | MIXED. AUC at 30 m is 0.92, above the predicted 0.70 to 0.90 band (MISS on the band). Skill at 90 m (0.857) is lower than at 30 m (HIT on direction); 60 m is 0.84. |
+| S2-2 | The UNKNOWN share in A_south_Liwa at 30 m (pi = 1, baseline) is between 40 % and 80 %, and it rises with coarser posting (90 m above 60 m above 30 m). | MISSED. The UNKNOWN share in A_south_Liwa at 30 m is 8.6 %, not 40 to 80 %. It does not rise monotonically with posting: 8.6 % (30 m), 9.1 % (60 m), 7.1 % (90 m). A smoke test on three 0.03 degree windows (8 to 15 %) had been run before the full run, so this miss was foreseeable. |
+| S2-3 | The BLOCKED class stays at or below 2 % of cells at 30 m in every area (phase 1 found 0.2 to 1 % of edges blocked). | HIT. BLOCKED is 0.00 to 0.01 % of cells at 30 m in all three areas. |
+| S2-4 | Robust to the four assumed parameters: at least 90 % of cells have a unanimous passable verdict (passable in at most 5 % or at least 95 % of draws) at 30 m. | HIT. Unanimous passable verdict across the 256 draws for 99.2 % of cells (A), 97.0 % (B) and 100 % (C) at 30 m. |
+| S2-5 | The UNKNOWN share in the linear dune window C at 30 m is at least 10 percentage points lower than in A_south_Liwa (smaller relief). | MISSED, direction right. C has 2.5 % UNKNOWN at 30 m against 8.6 % in A_south_Liwa: 6.1 points lower, less than 10. |
+| S2-6 | Coverage versus certainty: demanding at most 5 % face probability on TRAVERSABLE cells leaves coverage (share of cells not UNKNOWN) below 30 % in A_south_Liwa at 30 m. | MISSED. At face probability below 0.05 the coverage is 67 % (A, 30 m), not below 30 %. Coverage falls to 42 % only at a threshold of 0.02. |
+| S2-7 | Treating UNKNOWN as impassable, fewer than half of the origin destination pairs of phase 1 stay reachable in A_south_Liwa at 30 m (phase 1: nearly all reachable). | MISSED. 10 of 10 origin destination pairs stay reachable at 30 m in every area. At 60 and 90 m the reachable share falls to 70 and 80 % (A), 20 and 40 % (B), 80 and 60 % (C), largely because endpoints themselves become UNKNOWN. |
+| S2-8 | Lowering the assumed share of crests with an active face from 1.0 to 0.3 lowers the A_south_Liwa UNKNOWN share at 30 m by less than 20 percentage points (the DEM features, not the prior, carry the result). | HIT. Lowering pi from 1.0 to 0.3 lowers the A_south_Liwa UNKNOWN share from 8.6 % to 2.9 % (5.7 points, less than 20). |
 
 
 ## Stage 3: field kit, analysis rule and synthetic power study (committed 2026-10-12 BEFORE the study was run)
@@ -47,9 +47,9 @@ Design fixed now. Script: `scripts/field_analysis_power.py` (to be written after
 
 | ID | Prediction made before the run | Outcome |
 |---|---|---|
-| S3-1 | truth = model, sigma = 0.03: the adequacy pass rate is at least 75 %. | pending |
-| S3-2 | The rule gets more lenient as noise grows: for truth = model the pass rate at sigma = 0.10 is at least as high as at sigma = 0.03. | pending |
-| S3-3 | truth = collapse: the failure (detection) rate is at least 90 % at sigma = 0.03 and at most 60 % at sigma = 0.10. | pending |
-| S3-4 | truth = janosi_mean: the detection rate is between 20 % and 80 % at sigma = 0.03 and at most 30 % at sigma = 0.10 (a structural error of this size is mostly hidden by noise). | pending |
-| S3-5 | Prior predictive 90 % band of slip at 25 deg is at least 0.5 wide, and the calibrate then predict error band at 25 deg (sigma = 0.06) is at least twice narrower than the prior band. | pending |
-| S3-6 | The prior predictive entrapment slope (slip 0.8) has median between 24 and 34 deg and a 90 % range wider than 10 deg. | pending |
+| S3-1 | truth = model, sigma = 0.03: the adequacy pass rate is at least 75 %. | MISSED. Adequacy pass rate for the exactly right model at sigma = 0.03 is 46 % (300 replicates), not 75 %. Note: a first version of the entrapment estimator returned the bin centre (28 degrees became 30) and failed correct models; it was fixed before this run, and the 46 % is with the fixed estimator. |
+| S3-2 | The rule gets more lenient as noise grows: for truth = model the pass rate at sigma = 0.10 is at least as high as at sigma = 0.03. | MISSED. For truth = model the pass rate falls with noise: 46 % (0.03), 39 % (0.06), 34 % (0.10). The leniency prediction holds only for truth = janosi_mean (24 %, 56 %, 78 %). |
+| S3-3 | truth = collapse: the failure (detection) rate is at least 90 % at sigma = 0.03 and at most 60 % at sigma = 0.10. | MISSED on both parts. Failure rate for truth = collapse is 69 % at sigma = 0.03 (predicted at least 90 %) and 62 % at 0.10 (predicted at most 60 %). The rule fails a correct model (54 % failure) almost as often as this wrong one (69 %): it discriminates weakly. |
+| S3-4 | truth = janosi_mean: the detection rate is between 20 % and 80 % at sigma = 0.03 and at most 30 % at sigma = 0.10 (a structural error of this size is mostly hidden by noise). | HIT on both parts. truth = janosi_mean is detected in 76 % of replicates at sigma = 0.03 (inside 20 to 80 %) and 22 % at 0.10 (at most 30 %). |
+| S3-5 | Prior predictive 90 % band of slip at 25 deg is at least 0.5 wide, and the calibrate then predict error band at 25 deg (sigma = 0.06) is at least twice narrower than the prior band. | MIXED. The prior 90 % band at 25 deg is 0.84 wide (0.16 to 1.00): HIT. The calibrate then predict error band at 25 deg (sigma 0.06, phi known) is 0.90 wide (-0.41 to +0.49), not narrower than the prior band: MISS. The protocol is informative at 15 deg (band 0.12) and weakly at 20 deg (0.49), and not at 25 deg. |
+| S3-6 | The prior predictive entrapment slope (slip 0.8) has median between 24 and 34 deg and a 90 % range wider than 10 deg. | HIT. Prior predictive entrapment slope median 25.3 deg, 90 % range 17.8 to 32.2 deg (14.4 deg wide). |

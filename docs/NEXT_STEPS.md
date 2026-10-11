@@ -10,25 +10,34 @@ Status labels follow the report: PLANNED means not yet run. Nothing here is a re
 
 **How many.** Start with the 12-run pilot (3 runs at each of 5, 10, 15 and 20 degrees) to measure run-to-run scatter sigma. Then set runs per bin from n = (1.96 sigma / E)^2, about 4 to 9 per bin if sigma is 0.10 to 0.15 and E = 0.10. Total about 60 runs with cross-slope, tethered descent and repeated-pass blocks.
 
-**Analysis (pre-registered).** Calibrate with bounds on runs at or below 10 degrees (friction angle from the soil tests), write dated predictions for 15, 20 and 25 degrees before running them, then compare error, calibration slope and entrapment slope against a constant-slip and a slope-threshold baseline. A synthetic design check (SIMULATED-BY-ME, report section 9) found the fixed tolerance of 0.15 is only fair if the pilot shows sigma of about 0.03; otherwise set the tolerance from the pilot (about 3 sigma, my assumption).
+**Analysis (pre-registered).** Calibrate with bounds on runs at or below 10 degrees (friction angle from the soil tests), write dated predictions for 15, 20 and 25 degrees before running them (`scripts/make_ladder_predictions.py --calibrate runs.csv`; pre-data predictions are already in `docs/predictions/`), then compare error, calibration slope and entrapment slope against a constant-slip and a slope-threshold baseline. The tolerance is set from the pilot (3 times pilot sigma, floor 0.05, my assumption). A synthetic test with known truth (SIMULATED-BY-ME, report section 9) shows the adequacy rule discriminates weakly, so report predicted against observed with intervals first and treat pass or fail as secondary.
 
-**Do first, before any run.** Fetch nothing new; decide the site, permission and recovery plan, and read `docs/FIELD_VALIDATION_PLAN.md` sections 2 to 9. Run `python3 scripts/analyze_field_runs.py --synthetic` to see the output format, and use `docs/field_log_template.csv` for the log columns. The analysis code has only ever seen synthetic data.
+**Do first, before any run.** Decide the site, permission and recovery plan; read `docs/FIELD_VALIDATION_PLAN.md` sections 2 to 9 and print `docs/FIELD_DAY_CHECKLIST.md`. Run `python3 scripts/analyze_field_runs.py --synthetic` to see the output format, and use `docs/field_log_template.csv` for the log columns. The analysis code has only ever seen synthetic data. Rover and kit options with retrieved costs are in `docs/ROVER_OPTIONS.md`.
 
-## 2. Cheap things to do now (no vehicle needed)
+## 2. What you need to do (cheap, no vehicle needed)
 
-1. **Add a licence** to this repository (none chosen yet).
-2. **Fetch the references that could not be retrieved** (exact URLs in `research/raw/*_notes.md`, sections NOT_RETRIEVED): the Wong dry-sand parameter table, Wong and Reece 1967, Ishigami et al. 2007 and 2009, the Yu et al. 3D RFT wheel paper (ISTVS 2024), Heverly et al. 2013 (Scarecrow dune tests), Takehana et al. 2025 (high-speed grouser DEM), the full Mars 2020 slip dataset when released. Add rows through `scripts/consolidate_evidence.py` after reading each.
-3. **Read the controlling Copernicus GLO-30 licence** at spacedata.copernicus.eu (it timed out here) and update `docs/DATA_AND_LICENSES.md`.
-4. **Check the SIM-013 equation** (Kern et al. 2026, arXiv 2601.04547, Eq. 3) for the unit of the slope term.
-5. **Ask for local help.** Regional papers in Arabic, SAE Middle East papers, and groups at Khalifa University, MBRSC, TII, Al Ain University that may hold dune-trial data; the search tool here was US-only.
+1. **Confirm the licence.** Proposed: MIT for code (`LICENSE`) and CC BY 4.0 for documents and tables (`LICENSE-DOCS.md`); reasons in `docs/DATA_AND_LICENSES.md`. Say yes or name another; nothing else needs changing except those two files.
+2. **Upload the references that could not be retrieved** (each is paywalled or blocked here; none is cited for any number). Please send the PDF or the pages named:
+   - Wong, J. Y., *Theory of Ground Vehicles*, 4th ed. 2008 (ISBN 978-0-470-17038-0) or 5th ed. 2022: the chapter 2 table of Bekker and Janosi parameters (n, kc, kphi, c, phi, K) for dry sand. Alternative: Wong, *Terramechanics and Off-Road Vehicle Engineering*, 2nd ed. 2010.
+   - Wong, J. Y. and Reece, A. R. (1967), Prediction of rigid wheel performance based on the analysis of soil-wheel stresses, part I, *Journal of Terramechanics* 4(1), 81 to 98, DOI 10.1016/0022-4898(67)90105-X.
+   - Ishigami, G., Miwa, A., Nagatani, K., Yoshida, K. (2007), *Journal of Field Robotics* 24(3), 233 to 250, DOI 10.1002/rob.20187; and Ishigami, G., Nagatani, K., Yoshida, K. (2009), *Journal of Field Robotics* 26(3), 264 to 286, DOI 10.1002/rob.20277.
+   - Yu, Q., Pavlov, C., Kim, W., Johnson, A. M. (2024), Modeling wheeled locomotion in granular media using 3D-RFT and sand deformation, *Journal of Terramechanics* 115, 100987, DOI 10.1016/j.jterra.2024.100987. (The earlier note in this repository pointed at an ISTVS URL that is a different paper; this is the correct reference. Only the abstract was read.)
+   - Heverly, M. et al. (2013), Traverse performance characterization for the Mars Science Laboratory rover, *Journal of Field Robotics* 30(6), DOI 10.1002/rob.21481.
+   - Takehana, K. et al. (2025), Grouser wheel high-speed traction performance: DEM simulation and experimental result, *Journal of Terramechanics* 120, 101084, DOI 10.1016/j.jterra.2025.101084 (CC BY 4.0, but blocked here; a normal browser can download it).
+3. **Tag a release and set the repository About text and topics** on GitHub (suggested topics: terramechanics, robotics, dunes, traversability, slip, sand, uae, open-data, reproducible-research). Release only after you confirm the licence.
+4. **Ask for local help.** Regional papers in Arabic, SAE Middle East papers and local research groups that may hold dune trial data; the search tool here was US-only. No partnership exists; the proposal seed (`docs/PROPOSAL_SEED.md`) is an outline only.
+5. **Spot check a few evidence rows by hand.** All 144 rows were checked by agents; shared blind spots are possible.
+
+Done in phase 2 (no longer open): the GLO-30 licence was read in full; the SIM-013 unit is not stated in its source (resolution recorded in the evidence table); all 144 rows were re-checked; the sub-grid detector, three class map and second morphology were added; a licence is proposed.
 
 ## 3. Extending the simulation (SIMULATED-BY-ME, still model-dependent)
 
-1. Replace the three assumption parameters with ranges measured in the slope ladder, and re-run the sensitivity analysis to see how much the map tightens.
-2. Add a dune-height and curvature rule that flags probable slip faces at 30 m, then test it against an RTK or drone profile of a real dune (this is the data the report says is missing).
-3. Compare the 30 m map with a drone-photogrammetry DEM of one dune once available.
+1. **Test the sub-grid detector against a real profile.** Compare the face probability and the three class map with an RTK or drone profile of one real dune (the slope ladder site). This is the only way the detector can be validated; today it is validated against synthetic truth only.
+2. Replace the three assumption parameters with ranges measured in the slope ladder, and re-run the Monte Carlo to see how much the map tightens.
+3. Compare the 30 m map with a drone photogrammetry DEM of one dune once available.
 4. Optionally run Project Chrono SCM (BSD-3) for one wheel on a calibrated sand and compare with the lab or field slope ladder. DEM is not recommended for planning (report section 4).
-5. Treat route acceptability as robust only if it holds across the assumption range, not at nominal parameters.
+5. Treat route acceptability as robust only if it holds across the assumption range and the face probability is below the threshold, not at nominal parameters.
+6. A legged versus wheeled comparison on the same slope ladder was **not run**: it would need invented leg and foot parameters, and no source retrieved gives them for sand at a usable level. It stays an open question (report section 12).
 
 ## 4. Possible follow-on studies
 
@@ -37,6 +46,6 @@ Status labels follow the report: PLANNED means not yet run. Nothing here is a re
 - Terrain-type hold-out test for a learned slip predictor: train on non-sand terrain, test on sand.
 - Cross-reference with `hudasol/dhill` to schedule runs outside the hottest hours, without merging the two studies.
 
-## 5. Proposal framing (for TII, ATRC, EDGE, Al Ain University and similar)
+## 5. Proposal framing (for any interested university or research partner)
 
-What is supportable from this repository: a verified evidence base (144 rows), a documented gap (no Arabian dune slip data), an open-data pipeline with its limits stated (30 m resolution does not resolve slip faces), a sensitivity analysis that identifies what to measure, and a field plan with a pre-registered analysis. What is not supportable: any claim about how well a model predicts a rover on Arabian dunes, or that any route is traversable.
+What is supportable from this repository: a verified evidence base (all 144 rows re-checked), a documented gap (no Arabian dune slip data), an open-data pipeline with its limits stated (30 m resolution does not resolve slip faces; a modelled UNKNOWN class makes that visible), a sensitivity analysis that identifies what to measure, and a field plan with pre-data predictions and a pre-registered analysis. An outline is in `docs/PROPOSAL_SEED.md`; no partnership or endorsement exists. What is not supportable: any claim about how well a model predicts a rover on Arabian dunes, or that any route is traversable.

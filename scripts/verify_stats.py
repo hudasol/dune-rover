@@ -46,4 +46,11 @@ for r in rows:
     if r["overall"] != "correct":
         lines.append(f"- {r['id']} (phase {r['phase']}): {r['overall']}: {r['what_is_wrong']}")
 open(os.path.join(ROOT, "research", "verification_log.md"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
+import json
+stats = {}
+for name, n, c in out:
+    k, k2 = c["material_error"], c["minor_error"] + c["material_error"]
+    stats[name] = {"n": n, **c, "material_rate": k / n, "material_wilson95": wilson(k, n) if k else None, "material_upper95_exact": upper_zero(n) if k == 0 else None,
+                   "any_rate": k2 / n, "any_wilson95": wilson(k2, n)}
+json.dump(stats, open(os.path.join(ROOT, "research", "verification_stats.json"), "w"), indent=1)
 print("\n".join(lines[:24]))
