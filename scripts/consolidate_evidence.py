@@ -57,10 +57,13 @@ for r in kept:
 for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"))):
     for v in csv.DictReader(open(f, encoding="utf-8")):
         if v["id"] in by_id:
-            grp = "random sample" if v["id"] in random_ids else "flagged sample"
-            by_id[v["id"]]["verification"] = f"verified 2026-10-11 ({grp}): {v['overall']}" + (" (corrected)" if any(a[0] == v["id"] for a in applied) else "")
-            if v["id"] != "SIM-013":
-                by_id[v["id"]]["recheck_flag"] = ""
+            n = int(re.search(r"batch(\d+)", f).group(1))
+            if n >= 4:
+                grp, date = "full re-check, phase 2", "2026-10-12"
+            else:
+                grp, date = ("random sample" if v["id"] in random_ids else "flagged sample"), "2026-10-11"
+            by_id[v["id"]]["verification"] = f"verified {date} ({grp}): {v['overall']}" + (" (corrected)" if any(a[0] == v["id"] for a in applied) else "")
+            by_id[v["id"]]["recheck_flag"] = ""
 kept.sort(key=lambda r: (prefix_order[r["area"]], r["id"]))
 cols = HEADER + ["area","evidence_label","recheck_flag","verification"]
 with open(os.path.join(ROOT, "research", "evidence.csv"), "w", newline="", encoding="utf-8") as fh:

@@ -26,3 +26,38 @@ LEG-015 repaired: unquoted comma had split the passage field.
 - TM-021.comparability_warning: was: Regression fit in-sample on lab data; accuracy definition unclear; transient slip experiments (slip-rate dependent)
 - LRN-021.metric: was: adjusted R-square of per-slip-rate regression; mean slip-ratio estimation accuracy
 - SIM-013.notes: was: See NOT_RETRIEVED. Treat as unverified numerically.
+- LEG-001.passage_or_location: was: Sec. 2 / Fig. 2c caption (HGK speed ~2 cm/s)
+- LRN-017.vehicle_or_wheel: was: Four-wheel rover prototype (wheel width 150 mm, radius 140 mm) in indoor emulated Mars yard with motion capture
+- TM-014.passage_or_location: was: Table I and text of Sec. V-A (Force model validation)
+- TM-014.terrain_description: was: Fine sand 0.2-0.5 mm, 20 cm deep box 51x38 cm, dry
+- SIM-005.vehicle_or_wheel: was: Virtual bevameter: circular plates (0.2 m radius and a smaller plate), 100 kg annulus-shear tests
+- SIM-008.passage_or_location: was: Sec 4.2, p.17; Conclusions
+- LRN-018.terrain_description: was: Six terrains including sand, small/large stones, pebbles, flat ground, plus a sand-stone mixture as an unknown terrain
+- LRN-022.passage_or_location: was: Sec. IV-B text around Fig. 5/6 (rupture detection)
+- SIM-012.validation_type: was: field
+- LRN-019.validation_type: was: sim-vs-lab
+- TM-008.passage_or_location: was: Sec. IV-D text near Fig. 7B; abstract claims within 7%
+- TM-009.passage_or_location: was: Sec. IV-D text near Fig. 7E
+- TM-010.passage_or_location: was: Sec. IV-E text and Fig. 9D-F
+- SIM-028.terrain_description: was: Python on one core of an Apple M2 Pro
+- LRN-014.comparability_warning: was: Small scaled platform in a prepared arena (not open dunes); sand is one patch; five trials per configuration; physical dataset size not located
+- LEG-015.passage_or_location: was: Experiments, subsection B "Hardware Experiments" (rigid-trained policy fails above 1.5 m/s on dry sand and at all speeds on basalt; RFT policies stable to 2.5 m/s)
+- LEG-015.metric: was: maximum commanded speed with stable locomotion on dry sand (RFT-trained policies)
+- TM-015.passage_or_location: was: Sec. 4 (Results), paragraph before Fig. 9; Table 2
+- SIM-015.method: was: EDEM DEM (GPU), parameters calibrated on angle of repose only
+- SIM-030.terrain_description: was: DLR PEL sandbox (granular lava 1-5 mm for Setup A; EAC-1A very loose submillimetre simulant for Setup B), flat tracks (diagonal, circle, square, S-path)
+- TM-020.metric: was: RMSE of predicted vs direct lunar-g DEM slip ratio, worst case theta=10 deg, omega=2 pi rad/s
+- FLD-029.passage_or_location: was: Sec 2.3 'Experiment setup and procedures'
+- FLD-029.validation_type: was: lab
+- FLD-029.terrain_description: was: Loose lunar regolith simulant GRC-1 (single-wheel tuned, Earth)
+- FLD-029.comparability_warning: was: Descriptive capability statement; raw run data not shown at that location. Lunar simulant, Earth gravity.
+- LEG-016.passage_or_location: was: Sec. 4.4, text around Fig. 4.15; thesis abstract says sand is the least efficient terrain (largest specific resistance)
+- FLD-009.passage_or_location: was: Sec 3 text 'successfully measured slips as high as 125% on Sol 206'
+- LRN-006.validation_type: was: field
+- FLD-032.method: was: sinkage angle from images; 5 runs averaged; wheels at 1 rpm
+- TM-022.terrain_description: was: Toyoura sand, dry, 2.0 x 1.0 x 0.08 m tiltable sandbox
+- TM-023.terrain_description: was: Toyoura sand, dry, tiltable sandbox
+- TM-024.method: was: Same model after force tuning (weight reduced 20%) and dynamic tuning
+- SIM-013.validation_type: was: field
+- SIM-013.comparability_warning: was: Unit of alpha (degrees or radians) is not stated in the passage I read; with degrees the term exceeds 1 at 18 deg, so the unit or the printed coefficients may be mis-stated. Do not use numerically until checked against the PDF equation or authors
+- SIM-013.notes: was: Verifier 2026-10-11: coefficients match the printed Eq. 3; the paper never states the unit of alpha, so the dimensional concern stays open. Treat as unverified numerically.
