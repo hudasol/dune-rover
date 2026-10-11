@@ -7,3 +7,8 @@ data/raw/*.hgt
 data/raw/*.hgt.gz
 research/sources/
 research/verify_sources/
+
+# phase 2: keep only our own CSV and MD reports; everything downloaded stays local
+research/phase2/*
+!research/phase2/*.csv
+!research/phase2/*.md
