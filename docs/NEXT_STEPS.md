@@ -16,7 +16,7 @@ Status labels follow the report: PLANNED means not yet run. Nothing here is a re
 
 ## 2. What you need to do (cheap, no vehicle needed)
 
-1. **Confirm the licence.** Proposed: MIT for code (`LICENSE`) and CC BY 4.0 for documents and tables (`LICENSE-DOCS.md`); reasons in `docs/DATA_AND_LICENSES.md`. Say yes or name another; nothing else needs changing except those two files.
+1. **Licence (decided).** All rights reserved; permission is requested by contacting the author (`LICENSE`, `LICENSE-DOCS.md`). Nothing further to do.
 2. **Upload the references that could not be retrieved** (each is paywalled or blocked here; none is cited for any number). Please send the PDF or the pages named:
    - Wong, J. Y., *Theory of Ground Vehicles*, 4th ed. 2008 (ISBN 978-0-470-17038-0) or 5th ed. 2022: the chapter 2 table of Bekker and Janosi parameters (n, kc, kphi, c, phi, K) for dry sand. Alternative: Wong, *Terramechanics and Off-Road Vehicle Engineering*, 2nd ed. 2010.
    - Wong, J. Y. and Reece, A. R. (1967), Prediction of rigid wheel performance based on the analysis of soil-wheel stresses, part I, *Journal of Terramechanics* 4(1), 81 to 98, DOI 10.1016/0022-4898(67)90105-X.
