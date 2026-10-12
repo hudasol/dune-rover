@@ -65,7 +65,7 @@ Seeds are fixed and listed in `results/summary.json` and `results/subgrid/summar
 
 Full list in `docs/DATA_AND_LICENSES.md`. Copernicus GLO-30 (the controlling Free and Open licence was read in full; attribution and no liability notices required; no commercial restriction in the text), numpy, scipy, matplotlib, tifffile, imagecodecs, pytest (permissive). The DEM tiles are not committed. Source PDFs and raw downloads are never committed: a CI job fails if they are.
 
-**Licence (proposed, awaiting the author's confirmation):** code under MIT (`LICENSE`), documents and tables under CC BY 4.0 (`LICENSE-DOCS.md`).
+**Licence:** all rights reserved. The repository is public for reading and review; please contact the author before any use, modification, distribution or sale (`LICENSE`, `LICENSE-DOCS.md`).
 
 ## Not done
 
