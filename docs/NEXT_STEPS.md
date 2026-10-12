@@ -17,18 +17,22 @@ Status labels follow the report: PLANNED means not yet run. Nothing here is a re
 ## 2. What you need to do (cheap, no vehicle needed)
 
 1. **Licence (decided).** All rights reserved; permission is requested by contacting the author (`LICENSE`, `LICENSE-DOCS.md`). Nothing further to do.
-2. **Upload the references that could not be retrieved** (each is paywalled or blocked here; none is cited for any number). Please send the PDF or the pages named:
-   - Wong, J. Y., *Theory of Ground Vehicles*, 4th ed. 2008 (ISBN 978-0-470-17038-0) or 5th ed. 2022: the chapter 2 table of Bekker and Janosi parameters (n, kc, kphi, c, phi, K) for dry sand. Alternative: Wong, *Terramechanics and Off-Road Vehicle Engineering*, 2nd ed. 2010.
-   - Wong, J. Y. and Reece, A. R. (1967), Prediction of rigid wheel performance based on the analysis of soil-wheel stresses, part I, *Journal of Terramechanics* 4(1), 81 to 98, DOI 10.1016/0022-4898(67)90105-X.
-   - Ishigami, G., Miwa, A., Nagatani, K., Yoshida, K. (2007), *Journal of Field Robotics* 24(3), 233 to 250, DOI 10.1002/rob.20187; and Ishigami, G., Nagatani, K., Yoshida, K. (2009), *Journal of Field Robotics* 26(3), 264 to 286, DOI 10.1002/rob.20277.
-   - Yu, Q., Pavlov, C., Kim, W., Johnson, A. M. (2024), Modeling wheeled locomotion in granular media using 3D-RFT and sand deformation, *Journal of Terramechanics* 115, 100987, DOI 10.1016/j.jterra.2024.100987. (The earlier note in this repository pointed at an ISTVS URL that is a different paper; this is the correct reference. Only the abstract was read.)
-   - Heverly, M. et al. (2013), Traverse performance characterization for the Mars Science Laboratory rover, *Journal of Field Robotics* 30(6), DOI 10.1002/rob.21481.
-   - Takehana, K. et al. (2025), Grouser wheel high-speed traction performance: DEM simulation and experimental result, *Journal of Terramechanics* 120, 101084, DOI 10.1016/j.jterra.2025.101084 (CC BY 4.0, but blocked here; a normal browser can download it).
-3. **Tag a release and set the repository About text and topics** on GitHub (suggested topics: terramechanics, robotics, dunes, traversability, slip, sand, uae, open-data, reproducible-research). Release only after you confirm the licence.
+2. **Upload the references that could not be retrieved.** Each is paywalled or blocked from the workspace, and none is cited for any number. Please send the PDF, or the pages named in the State column, in a message. Do not commit the PDFs to the repository (the CI check rejects them).
+
+| Title | DOI or URL | State |
+|---|---|---|
+| Wong, J. Y., *Theory of Ground Vehicles*, 4th ed. 2008 (ISBN 978 0 470 17038 0) or 5th ed. 2022 | https://www.wiley.com/en-us/Theory+of+Ground+Vehicles%2C+4th+Edition-p-9780470170380 | not retrieved; please upload the chapter 2 table of Bekker and Janosi parameters (n, kc, kphi, c, phi, K) for dry sand. Alternative: Wong, *Terramechanics and Off-Road Vehicle Engineering*, 2nd ed. 2010 |
+| Wong, J. Y. and Reece, A. R. (1967), Prediction of rigid wheel performance based on the analysis of soil-wheel stresses, part I, *Journal of Terramechanics* 4(1), 81 to 98 | https://doi.org/10.1016/0022-4898(67)90105-X | blocked; please upload the PDF |
+| Ishigami, G., Miwa, A., Nagatani, K., Yoshida, K. (2007), *Journal of Field Robotics* 24(3), 233 to 250 | https://doi.org/10.1002/rob.20187 | blocked; please upload the PDF |
+| Ishigami, G., Nagatani, K., Yoshida, K. (2009), *Journal of Field Robotics* 26(3), 264 to 286 | https://doi.org/10.1002/rob.20277 | blocked; please upload the PDF |
+| Yu, Q., Pavlov, C., Kim, W., Johnson, A. M. (2024), Modeling wheeled locomotion in granular media using 3D RFT and sand deformation, *Journal of Terramechanics* 115, 100987 | https://doi.org/10.1016/j.jterra.2024.100987 | abstract only; please upload the PDF. An earlier note in this repository pointed at an ISTVS URL that is a different paper; this is the correct reference |
+| Heverly, M. et al. (2013), Traverse performance characterization for the Mars Science Laboratory rover, *Journal of Field Robotics* 30(6) | https://doi.org/10.1002/rob.21481 | blocked; please upload the PDF |
+| Takehana, K. et al. (2025), Grouser wheel high speed traction performance: DEM simulation and experimental result, *Journal of Terramechanics* 120, 101084 | https://doi.org/10.1016/j.jterra.2025.101084 | blocked here (published open access under CC BY 4.0, so a normal browser can download it); please upload the PDF |
+3. **Tag a release** (the About text and topics are already set). Tag only after the pull requests are merged and Claude says so.
 4. **Ask for local help.** Regional papers in Arabic, SAE Middle East papers and local research groups that may hold dune trial data; the search tool here was US-only. No partnership exists; the proposal seed (`docs/PROPOSAL_SEED.md`) is an outline only.
 5. **Spot check a few evidence rows by hand.** All 144 rows were checked by agents; shared blind spots are possible.
 
-Done in phase 2 (no longer open): the GLO-30 licence was read in full; the SIM-013 unit is not stated in its source (resolution recorded in the evidence table); all 144 rows were re-checked; the sub-grid detector, three class map and second morphology were added; a licence is proposed.
+Done in phase 2 (no longer open): the GLO-30 licence was read in full; the SIM-013 unit is not stated in its source (resolution recorded in the evidence table); all 144 rows were re-checked; the sub-grid detector, three class map and second morphology were added; the licence was decided (all rights reserved).
 
 ## 3. Extending the simulation (SIMULATED-BY-ME, still model-dependent)
 
