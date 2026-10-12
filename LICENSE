@@ -1,21 +1,15 @@
-MIT License
+Copyright (c) 2026 Huda Mueen. All rights reserved.
 
-Copyright (c) 2026 Huda Mueen
+This repository is public so that it can be read and reviewed. No licence is granted.
+You may not use, copy, modify, merge, publish, distribute, sublicense or sell the code in
+this repository, in whole or in part, without the prior written permission of the author.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is welcome. If you would like to use, adapt, distribute or build on this work,
+including commercially, please contact the author first through the GitHub profile
+https://github.com/hudasol (open an issue on this repository or send a message) and describe
+your intended use. The author would like to know where the work proves useful.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Third party material keeps its own terms and is not covered by this notice; see
+docs/DATA_AND_LICENSES.md.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The code is provided "as is", without warranty of any kind.
