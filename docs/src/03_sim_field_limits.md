@@ -143,7 +143,7 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 
 **Not done.** Chrono, DEM and RFT were reviewed but not run. No dataset with slip labels from dunes was available, so no learning model was trained. The GLO-30 licence (COP-DEM-GLO-30-F) was read in full in phase 2 (`docs/DATA_AND_LICENSES.md`). Still not retrieved in full text: Wong and Reece 1967, Ishigami et al. 2007 and 2009, Heverly et al. 2013 and Takehana et al. 2025, and the Wong textbook parameter table; Yu et al. 2024 was abstract only. None is cited for any number. The sub-grid detector (section 8.7) has never been compared with a real lidar or drone profile of a slip face; the share of dune crests with an active face and the face height fraction of tall dunes are not published and are assumptions.
 
-**Licence.** MIT for code (`LICENSE`) and CC BY 4.0 for documents and tables (`LICENSE-DOCS.md`) are proposed and awaiting the author's confirmation. Source PDFs and raw downloads are excluded by a CI check.
+**Licence.** All rights reserved: the work is public for reading and review, and any use, modification, distribution or sale needs the author's prior permission (`LICENSE`, `LICENSE-DOCS.md`). Source PDFs and raw downloads are excluded by a CI check.
 
 ---
 
