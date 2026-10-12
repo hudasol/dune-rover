@@ -61,3 +61,4 @@ LEG-015 repaired: unquoted comma had split the passage field.
 - SIM-013.validation_type: was: field
 - SIM-013.comparability_warning: was: Unit of alpha (degrees or radians) is not stated in the passage I read; with degrees the term exceeds 1 at 18 deg, so the unit or the printed coefficients may be mis-stated. Do not use numerically until checked against the PDF equation or authors
 - SIM-013.notes: was: Verifier 2026-10-11: coefficients match the printed Eq. 3; the paper never states the unit of alpha, so the dimensional concern stays open. Treat as unverified numerically.
+- TM-022.metric: was: Simulation error in side slip over travelled distance, base model
