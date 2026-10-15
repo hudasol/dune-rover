@@ -145,6 +145,11 @@ def anchor_values(v):
     v["an_fit_rmse"] = f"{fit['rmse']:.3f}"; v["an_fit_max"] = f"{fit['max_abs_error']:.2f}"; v["an_fit_cross"] = f"{fit['fitted_cross50_deg']:.1f}"
     v["an_fit_phi"] = f"{fit['phi_deg']:.1f}"; v["an_fit_fr"] = f"{fit['f_r']:.3f}"; v["an_fit_i0"] = f"{fit['i0']:.2f}"
     v["an_i0low"] = f"{ish['i0_lower_bound_from_table_I']:.2f}"
+    for r in rd("results/dumont_prior/class_shares_30m.csv"):
+        a = _area_letter(r["area"]); var = "base" if r["variant"].startswith("baseline") else ("unc" if "unclipped" in r["variant"] else "clip")
+        v[f"dp_{a}_{var}_unk"] = f"{100*float(r['UNKNOWN (total)']):.2f} %"; v[f"dp_{a}_{var}_blk"] = f"{100*float(r['BLOCKED']):.2f} %"
+    fi = rd("results/dumont_prior/dumont_fitted_i0.csv")[0]
+    v["dp_i0_med"] = f"{float(fi['i0_median']):.2f}"; v["dp_i0_above"] = pct(fi["share_i0_above_0.40"], 0); v["dp_rmse"] = f"{float(fi['fit_rmse_median']):.2f}"
     e = ish["envelopes"]
     for k in ("b1_5deg", "b1_10deg", "b2_5deg", "b2_10deg"):
         v[f"an_{k}"] = f"{e[k]['model_min']:.2f} to {e[k]['model_max']:.2f}"
