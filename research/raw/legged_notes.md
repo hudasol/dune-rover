@@ -1,5 +1,5 @@
 # Legged / tracked / wheel-design evidence for dune-rover (secondary scope)
-Rows: 24 in legged_rows.csv (LEG-001..LEG-024), 12 distinct sources. Retrieval date 2026-10-11. Working copies in /home/claude/dune-rover/research/sources/.
+Rows: 24 in legged_rows.csv (LEG-001..LEG-024), 12 distinct sources. Retrieval date 2026-10-11. Working copies in <repository root>/research/sources/.
 
 ## SEARCH_LOG
 - WebSearch: RHex/SandBot on sand; quadruped/granular/dune; Qian/Goldman appendage design; ANYmal/Spot/Unitree sand slope; wheel-leg hybrids on sand; wheel-vs-leg RFT; legged field tests White Sands; tracked vs wheeled sand; sandfish swimming robots; tracked robot slope climbing; learned quadruped on deformable terrain; tracked-vs-wheeled drawbar (extended).

@@ -1,7 +1,7 @@
 # Learning-based slip prediction and traversability: notes (retrieval date 2026-10-11)
 
-Row file: /home/claude/dune-rover/research/raw/learning_rows.csv (24 rows, LRN-001 to LRN-024, 18 distinct sources).
-Working copies of every PDF/text read are in /home/claude/dune-rover/research/sources/ (short ids noted per source below).
+Row file: <repository root>/research/raw/learning_rows.csv (24 rows, LRN-001 to LRN-024, 18 distinct sources).
+Working copies of every PDF/text read are in <repository root>/research/sources/ (short ids noted per source below).
 
 ## SEARCH_LOG
 
