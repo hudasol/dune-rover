@@ -82,3 +82,4 @@ LEG-015 repaired: unquoted comma had split the passage field.
 - FLD-HV13-6.vehicle_or_wheel: was: Curiosity (MSL, 899 kg, flight rover on Mars) using onboard slip model
 - FLD-HV13-6.method: was: Third order polynomial slip vs slope model, coefficients set by terrain type from terrestrial tests, used to estimate downslope slip from roll and pitch; slip measured on Mars by visual odometry
 - FLD-HV13-6.metric: was: Agreement of Earth based slip prediction with Mars slip data
+- FLD-HV13-1.notes: was: Text states slip nearly constant at about 10% below 4 deg and above 90% with embedding above 21 deg. Values read from text, not from plot.
