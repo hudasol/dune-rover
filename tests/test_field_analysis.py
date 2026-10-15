@@ -113,3 +113,36 @@ def test_prior_predictive_and_protocol_band_are_deterministic():
     a, ea = FA.prior_predictive(n=200, seed=1); b, eb = FA.prior_predictive(n=200, seed=1)
     assert a == b and np.array_equal(np.nan_to_num(ea), np.nan_to_num(eb))
     assert a[0][1] < a[25][1]
+
+
+# ---- revised ladder (2026-10-15, docs/PREDICTIONS.md stage 6) ----------------------------------------------------
+def test_new_design_records_target_bins_and_tight_jitter():
+    d = FA.synthetic_runs(seed=3, design="2026-10-15")
+    assert set(np.unique(d["bin_deg"])) == set(FA.LADDER_2026_10_15)
+    mid = (d["bin_deg"] >= 10) & (d["bin_deg"] <= 20)
+    assert np.all(np.abs(d["slope_deg"][mid] - d["bin_deg"][mid]) <= 1.0)
+
+
+def test_old_design_is_unchanged_by_the_new_option():
+    a, b = FA.synthetic_runs(seed=11), FA.synthetic_runs(seed=11, design="2026-10-12")
+    assert "bin_deg" not in a and np.array_equal(a["slope_deg"], b["slope_deg"])
+
+
+def test_pilot_sigma_uses_target_bins_when_given():
+    d = FA.synthetic_runs(seed=5, sigma=0.05, design="2026-10-15")
+    sig, src = FA.pilot_sigma(d, 2.5)
+    assert src == "pilot block" and 0.02 < sig < 0.10
+
+
+def test_blatantly_wrong_model_is_always_failed_new_design():
+    def wrong(seed):
+        d = FA.synthetic_runs(seed=seed, sigma=0.02, design="2026-10-15")
+        hi = d["slope_deg"] > 10.5
+        d["v_true_mps"] = np.where(hi, 0.1 * d["wheel_omega_rad_s"] * d["r_eff_m"], d["v_true_mps"]); d["entrapped"] = np.where(hi, False, d["entrapped"])
+        return d
+    assert not any(FA.analyse(wrong(700 + k), n_boot=10, bin_width=2.5).adequate for k in range(10))
+
+
+def test_dumont_truth_follows_the_published_text():
+    t = FA.truth_slip("dumont", np.array([2.0, 12.4, 16.0, 20.0, 23.0]))
+    assert t[0] == pytest.approx(0.10) and t[1] < 0.5 and abs(t[2] - 0.75) < 0.03 and abs(t[3] - 0.90) < 0.02 and t[4] == 1.0
