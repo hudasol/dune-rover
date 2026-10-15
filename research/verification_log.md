@@ -7,44 +7,44 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 
 ## random sample, phase 1 (n=30 of 137 unflagged) (n = 30)
 - correct 24, minor 6, material 0, unverifiable 0
-- material-error rate 0/30 = 0.0 % (exact 95 % upper bound 9.5 %)
-- any-discrepancy rate 6/30 = 20.0 % (Wilson 95 % CI 9.5 to 37.3 %)
+- material error rate 0/30 = 0.0 % (exact 95 % upper bound 9.5 %)
+- any discrepancy rate 6/30 = 20.0 % (Wilson 95 % CI 9.5 to 37.3 %)
 
 ## flagged sample, phase 1 (n = 7)
 - correct 4, minor 3, material 0, unverifiable 0
-- material-error rate 0/7 = 0.0 % (exact 95 % upper bound 34.8 %)
-- any-discrepancy rate 3/7 = 42.9 % (Wilson 95 % CI 15.8 to 75.0 %)
+- material error rate 0/7 = 0.0 % (exact 95 % upper bound 34.8 %)
+- any discrepancy rate 3/7 = 42.9 % (Wilson 95 % CI 15.8 to 75.0 %)
 
 ## remaining rows, phase 2 full re-check (n = 107)
 - correct 80, minor 21, material 6, unverifiable 0
-- material-error rate 6/107 = 5.6 % (Wilson 95 % CI 2.6 to 11.7 %)
-- any-discrepancy rate 27/107 = 25.2 % (Wilson 95 % CI 18.0 to 34.2 %)
+- material error rate 6/107 = 5.6 % (Wilson 95 % CI 2.6 to 11.7 %)
+- any discrepancy rate 27/107 = 25.2 % (Wilson 95 % CI 18.0 to 34.2 %)
 
 ## ALL 144 ROWS (n = 144)
 - correct 108, minor 30, material 6, unverifiable 0
-- material-error rate 6/144 = 4.2 % (Wilson 95 % CI 1.9 to 8.8 %)
-- any-discrepancy rate 36/144 = 25.0 % (Wilson 95 % CI 18.6 to 32.7 %)
+- material error rate 6/144 = 4.2 % (Wilson 95 % CI 1.9 to 8.8 %)
+- any discrepancy rate 36/144 = 25.0 % (Wilson 95 % CI 18.6 to 32.7 %)
 
 ## supplementary rows from supplied PDFs, phase 3 (n = 26)
 - correct 11, minor 12, material 3, unverifiable 0
-- material-error rate 3/26 = 11.5 % (Wilson 95 % CI 4.0 to 29.0 %)
-- any-discrepancy rate 15/26 = 57.7 % (Wilson 95 % CI 38.9 to 74.5 %)
+- material error rate 3/26 = 11.5 % (Wilson 95 % CI 4.0 to 29.0 %)
+- any discrepancy rate 15/26 = 57.7 % (Wilson 95 % CI 38.9 to 74.5 %)
 
 ## ALL 170 ROWS (n = 170)
 - correct 119, minor 42, material 9, unverifiable 0
-- material-error rate 9/170 = 5.3 % (Wilson 95 % CI 2.8 to 9.8 %)
-- any-discrepancy rate 51/170 = 30.0 % (Wilson 95 % CI 23.6 to 37.3 %)
+- material error rate 9/170 = 5.3 % (Wilson 95 % CI 2.8 to 9.8 %)
+- any discrepancy rate 51/170 = 30.0 % (Wilson 95 % CI 23.6 to 37.3 %)
 
 ## What this does and does not show
-- The phase 1 random sample (0 material in 30, upper bound 9.5 %) understated the table-wide rate: the 107 rows checked in phase 2 had 6 material errors (5.6 %). The bound held, but the point estimate was optimistic.
-- Six of the original 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' and 'ALL 170' rates are pre-correction error rates of the extraction, not of the corrected table.
+- The phase 1 random sample (0 material in 30, upper bound 9.5 %) understated the table wide rate: the 107 rows checked in phase 2 had 6 material errors (5.6 %). The bound held, but the point estimate was optimistic.
+- Six of the original 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' and 'ALL 170' rates are pre correction error rates of the extraction, not of the corrected table.
 - Phase 3: 3 of the 26 supplementary rows had a material error, all on validation type (TM-TK5 and TM-IS07-5 labelled as comparisons although no simulation was compared; FLD-HV13-5 labelled field although two of its three numbers come from the JPL Marsyard). The values themselves were right in all 26 rows. Minor errors were mostly page and section labels and one terrain wording (sand called dry where the source does not say so, TM-YU1 to TM-YU4).
 - Phase 3 used supplied PDFs read through a text layer; no page images could be rendered, so values read only from figures were checked against the text, not the plot.
 - Minor errors (labels, sections, descriptive details) were common; the corrected table still carries the risk that a verifier shared a blind spot with the extractor.
-- Verifiers are language-model agents using the same search tools; they re-fetched sources but may share blind spots with the extractors, for example on figure-only values. A human spot check of a few rows remains advisable.
+- Verifiers are language model agents using the same search tools; they re read sources but may share blind spots with the extractors, for example on figure-only values. A human spot check of a few rows remains advisable.
 - Material errors found in phase 2: wrong wheel count (LRN-017), validation type lab versus field (SIM-012, LRN-006), lab versus sim-vs-lab (LRN-019), a best case labelled as worst case (TM-020), an unreferenced capability statement presented as a measurement (FLD-029). SIM-013 was set to lab for consistency with SIM-012.
 
-## Row-level non-correct verdicts
+## Row level verdicts other than correct
 - FLD-019 (phase 1): minor_error: Location label slightly off: the sol 1703 drive is discussed in the flight data-set comparison (Fig 25) after the checkout tests, not in the checkout section itself; the drive was in the Traction-Control-enabled set.
 - SIM-022 (phase 1): minor_error: Section label wrong: Table 2 and the 12.98 mm value appear in Sec 2.3 (testing environment), just before Sec 3 Results, not in Sec 3.1.
 - FLD-004 (phase 1): minor_error: Terrain detail 'about 20 m diameter' is not in the cited Li 2008 paragraph (it comes from the Maimone paper); otherwise supported.
