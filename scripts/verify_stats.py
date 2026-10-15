@@ -33,20 +33,20 @@ for name, n, c in out:
     lines.append(f"## {name} (n = {n})")
     lines.append(f"- correct {c['correct']}, minor {c['minor_error']}, material {c['material_error']}, unverifiable {c['unverifiable']}")
     k = c["material_error"]
-    lines.append(f"- material-error rate {k}/{n} = {100*k/n:.1f} %" + (f" (exact 95 % upper bound {100*upper_zero(n):.1f} %)" if k == 0 else f" (Wilson 95 % CI {100*wilson(k,n)[0]:.1f} to {100*wilson(k,n)[1]:.1f} %)"))
+    lines.append(f"- material error rate {k}/{n} = {100*k/n:.1f} %" + (f" (exact 95 % upper bound {100*upper_zero(n):.1f} %)" if k == 0 else f" (Wilson 95 % CI {100*wilson(k,n)[0]:.1f} to {100*wilson(k,n)[1]:.1f} %)"))
     k2 = c["minor_error"] + c["material_error"]
     lo, hi = wilson(k2, n)
-    lines.append(f"- any-discrepancy rate {k2}/{n} = {100*k2/n:.1f} % (Wilson 95 % CI {100*lo:.1f} to {100*hi:.1f} %)")
+    lines.append(f"- any discrepancy rate {k2}/{n} = {100*k2/n:.1f} % (Wilson 95 % CI {100*lo:.1f} to {100*hi:.1f} %)")
     lines.append("")
 lines += ["## What this does and does not show",
-          "- The phase 1 random sample (0 material in 30, upper bound 9.5 %) understated the table-wide rate: the 107 rows checked in phase 2 had 6 material errors (5.6 %). The bound held, but the point estimate was optimistic.",
-          "- Six of the original 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' and 'ALL 170' rates are pre-correction error rates of the extraction, not of the corrected table.",
+          "- The phase 1 random sample (0 material in 30, upper bound 9.5 %) understated the table wide rate: the 107 rows checked in phase 2 had 6 material errors (5.6 %). The bound held, but the point estimate was optimistic.",
+          "- Six of the original 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' and 'ALL 170' rates are pre correction error rates of the extraction, not of the corrected table.",
           "- Phase 3: 3 of the 26 supplementary rows had a material error, all on validation type (TM-TK5 and TM-IS07-5 labelled as comparisons although no simulation was compared; FLD-HV13-5 labelled field although two of its three numbers come from the JPL Marsyard). The values themselves were right in all 26 rows. Minor errors were mostly page and section labels and one terrain wording (sand called dry where the source does not say so, TM-YU1 to TM-YU4).",
           "- Phase 3 used supplied PDFs read through a text layer; no page images could be rendered, so values read only from figures were checked against the text, not the plot.",
           "- Minor errors (labels, sections, descriptive details) were common; the corrected table still carries the risk that a verifier shared a blind spot with the extractor.",
-          "- Verifiers are language-model agents using the same search tools; they re-fetched sources but may share blind spots with the extractors, for example on figure-only values. A human spot check of a few rows remains advisable.",
+          "- Verifiers are language model agents using the same search tools; they re read sources but may share blind spots with the extractors, for example on figure-only values. A human spot check of a few rows remains advisable.",
           "- Material errors found in phase 2: wrong wheel count (LRN-017), validation type lab versus field (SIM-012, LRN-006), lab versus sim-vs-lab (LRN-019), a best case labelled as worst case (TM-020), an unreferenced capability statement presented as a measurement (FLD-029). SIM-013 was set to lab for consistency with SIM-012.", "",
-          "## Row-level non-correct verdicts"]
+          "## Row level verdicts other than correct"]
 for r in rows:
     if r["overall"] != "correct":
         lines.append(f"- {r['id']} (phase {r['phase']}): {r['overall']}: {r['what_is_wrong']}")

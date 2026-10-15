@@ -255,7 +255,7 @@ Coarsening to 60 and 90 m (block mean) removes most steep cells: the share of A-
 
 Under nominal parameters the model's critical direct ascent slope (slip equal to i_max) is **25.5 degrees**; the slip curve reaches entrapment at about 28 degrees. Model slip at 0, 5, 10, 15, 20 and 25 degrees of direct ascent is about 0.04, 0.08, 0.12, 0.18, 0.27 and 0.47.
 
-| Window | Grid (rows x cols) | Blocked edges | Reachable share | Median cost ratio | Median length ratio | Steepest uphill on any route, deg | Origin-destination pairs |
+| Window | Grid (rows x cols) | Blocked edges | Reachable share | Median cost ratio | Median length ratio | Steepest uphill on any route, deg | Origin destination pairs |
 |---|---|---|---|---|---|---|---|
 | A_south_Liwa | 541 x 1441 | 0.25 % | 1.0000 | 1.116 | 1.063 | 20.4 | 10 (0 unreachable) |
 | A_north_Liwa | 721 x 1441 | 0.20 % | 1.0000 | 1.115 | 1.064 | 18.1 | 10 (0 unreachable) |
@@ -379,7 +379,7 @@ The assumption envelope overlaps 11 of the 13 published points, which says mostl
 
 **Table 8.7a: ranges of the sub grid ensemble.**
 
-| Sub-grid quantity | Range used | Status | Basis (morphology row ids in research/phase2/phase2_morphology.csv) |
+| Sub grid quantity | Range used | Status | Basis (morphology row ids in research/phase2/phase2_morphology.csv) |
 |---|---|---|---|
 | `stoss_slope_deg` | 6.0 to 20.0 | published (barchan and transverse dunes, small and medium) | PM01 (barchan 8 to 20), PM02/PM06 (transverse about 6). No distribution for dunes of tens of metres was found, so extrapolated. |
 | `face_slope_deg` | 29.5 to 32.5 | published (lidar, two US fields) | PM18: sharp peak at 32.5 deg (White Sands) and 29.5 deg (Great Sand Dunes). Not shown to hold in Arabia. |
@@ -428,7 +428,7 @@ At 30 m the UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 
 
 **Table 8.7d: UNKNOWN share under the sub grid variants.**
 
-| Area (30 m) | Sub-grid variant | pi (share of crests with an active face) | UNKNOWN total | Mean face probability |
+| Area (30 m) | Sub grid variant | pi (share of crests with an active face) | UNKNOWN total | Mean face probability |
 |---|---|---|---|---|
 | A_south_Liwa | base | 1.0 | 8.6 % | 7.3 % |
 | A_south_Liwa | base | 0.6 | 5.0 % | 4.9 % |
@@ -469,7 +469,7 @@ At 30 m the UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 
 | 88.8 | 0.2 | 26.1 % | 97.1 % | 2.9 % |
 | 88.8 | 0.5 | 50.9 % | 84.6 % | 15.4 % |
 
-| Area (30 m) | Face probability threshold tau | Coverage (not UNKNOWN) | Model-expected certainty of TRAVERSABLE cells (1 minus mean face probability) |
+| Area (30 m) | Face probability threshold tau | Coverage (not UNKNOWN) | Model expected certainty of TRAVERSABLE cells (1 minus mean face probability) |
 |---|---|---|---|
 | A_south_Liwa | 0.02 | 42.3 % | 99.1 % |
 | A_south_Liwa | 0.05 | 67.3 % | 98.2 % |
@@ -495,7 +495,7 @@ At 30 m the UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 
 
 **Detector skill on held out synthetic profiles.** The detector separates cells with and without a face better than chance (AUC well above 0.5) and better than always predicting the base rate (Brier). It was also tested on ensembles with a different prior than the one it was trained on (gentle and steep dunes, and a lower share of active faces), where the skill changes only moderately. **This is skill against the synthetic world it was trained on; it is not evidence about real dunes.**
 
-| Posting, m | Held-out synthetic ensemble (detector trained on base, pi 1.0) | Face rate | AUC | Brier | Brier of always predicting the base rate |
+| Posting, m | Held out synthetic ensemble (detector trained on base, pi 1.0) | Face rate | AUC | Brier | Brier of always predicting the base rate |
 |---|---|---|---|---|---|
 | 29.6 | base pi=1.0 | 22.2 % | 0.924 | 0.086 | 0.173 |
 | 29.6 | gentle pi=1.0 | 13.7 % | 0.954 | 0.057 | 0.118 |
@@ -676,7 +676,7 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 
 **Evidence table, all 170 rows.** Separate agents with no access to the extraction notes re read sources. Phase 1 checked **30 rows drawn at random** (seed 20261011) from the 137 rows the extractors had not flagged, plus all 7 flagged rows; phase 2 checked the **remaining 107 rows** in four batches; phase 3 (2026-10-15) checked the **26 rows read from the PDFs the author supplied**, one verifier per source, each seeing the claim fields only. Material error means a wrong value, unit, metric meaning, validation type, vehicle, terrain or slope; minor error means a correct number with a wrong label, section reference or descriptive detail.
 
-| Group | n | correct | minor | material | material rate | any-discrepancy rate |
+| Group | n | correct | minor | material | material rate | any discrepancy rate |
 |---|---|---|---|---|---|---|
 | random sample, phase 1 (n=30 of 137 unflagged) | 30 | 24 | 6 | 0 | 0 % (exact 95 % upper bound 9.5 %) | 20.0 % (Wilson 95 % CI 9.5 to 37.3 %) |
 | flagged sample, phase 1 | 7 | 4 | 3 | 0 | 0 % (exact 95 % upper bound 34.8 %) | 42.9 % (Wilson 95 % CI 15.8 to 75.0 %) |

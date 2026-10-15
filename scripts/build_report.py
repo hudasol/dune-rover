@@ -64,7 +64,7 @@ def t_nominal():
         rows.append([a, f"{d['shape'][0]} x {d['shape'][1]}", f"{d['blocked_edge_frac']*100:.2f} %", f"{d['reach_frac']:.4f}",
                      f"{cr:.3f}", f"{lr:.3f}", f"{mu:.1f}", f"{d['n_od']} ({d['unreachable_od']} unreachable)"])
     return md_table(["Window", "Grid (rows x cols)", "Blocked edges", "Reachable share", "Median cost ratio", "Median length ratio",
-                     "Steepest uphill on any route, deg", "Origin-destination pairs"], rows)
+                     "Steepest uphill on any route, deg", "Origin destination pairs"], rows)
 
 
 def t_oat():
@@ -166,7 +166,7 @@ def t_subgrid_params():
     for k, (lo, hi, status, basis) in SUBGRID_PARAMS.items():
         rng = f"{lo} to {hi}" if hi is not None else str(lo)
         rows.append([f"`{k}`", rng, esc(status, 70), esc(basis, 230)])
-    return md_table(["Sub-grid quantity", "Range used", "Status", "Basis (morphology row ids in research/phase2/phase2_morphology.csv)"], rows)
+    return md_table(["Sub grid quantity", "Range used", "Status", "Basis (morphology row ids in research/phase2/phase2_morphology.csv)"], rows)
 
 
 def t_class_shares():
@@ -188,7 +188,7 @@ def t_scen():
     for r in rd("results/subgrid/subgrid_prior_sensitivity.csv"):
         if float(r["posting_m"]) < 40:
             rows.append([r["area"], esc(r["scenario"], 60), r["pi"], pct(r["UNKNOWN (total)"]), pct(r["mean_face_probability"])])
-    return md_table(["Area (30 m)", "Sub-grid variant", "pi (share of crests with an active face)", "UNKNOWN total", "Mean face probability"], rows)
+    return md_table(["Area (30 m)", "Sub grid variant", "pi (share of crests with an active face)", "UNKNOWN total", "Mean face probability"], rows)
 
 
 def t_cc_map():
@@ -196,7 +196,7 @@ def t_cc_map():
     for r in rd("results/subgrid/coverage_vs_certainty_map.csv"):
         if float(r["posting_m"]) < 40:
             rows.append([r["area"], r["tau"], pct(r["coverage"]), pct(r["expected_certainty_traversable"])])
-    return md_table(["Area (30 m)", "Face probability threshold tau", "Coverage (not UNKNOWN)", "Model-expected certainty of TRAVERSABLE cells (1 minus mean face probability)"], rows)
+    return md_table(["Area (30 m)", "Face probability threshold tau", "Coverage (not UNKNOWN)", "Model expected certainty of TRAVERSABLE cells (1 minus mean face probability)"], rows)
 
 
 def t_cc_synth():
@@ -212,7 +212,7 @@ def t_detector():
     for r in rd("results/subgrid/detector_skill.csv"):
         if not r["tested_on"].endswith("(coverage vs certainty)") and r["posting_m"] in ("29.6", "59.2", "88.8"):
             rows.append([r["posting_m"], r["tested_on"], pct(r["face_rate"]), f"{float(r['auc']):.3f}", f"{float(r['brier']):.3f}", f"{float(r['brier_climatology']):.3f}"])
-    return md_table(["Posting, m", "Held-out synthetic ensemble (detector trained on base, pi 1.0)", "Face rate", "AUC", "Brier", "Brier of always predicting the base rate"], rows)
+    return md_table(["Posting, m", "Held out synthetic ensemble (detector trained on base, pi 1.0)", "Face rate", "AUC", "Brier", "Brier of always predicting the base rate"], rows)
 
 
 def t_reach():
@@ -264,7 +264,7 @@ def t_verif():
         mat = (f"{100*d['material_rate']:.1f} % (Wilson 95 % CI {100*d['material_wilson95'][0]:.1f} to {100*d['material_wilson95'][1]:.1f} %)" if d["material_wilson95"]
                else f"0 % (exact 95 % upper bound {100*d['material_upper95_exact']:.1f} %)")
         rows.append([name, d["n"], d["correct"], d["minor_error"], d["material_error"], mat, f"{100*d['any_rate']:.1f} % (Wilson 95 % CI {100*d['any_wilson95'][0]:.1f} to {100*d['any_wilson95'][1]:.1f} %)"])
-    return md_table(["Group", "n", "correct", "minor", "material", "material rate", "any-discrepancy rate"], rows)
+    return md_table(["Group", "n", "correct", "minor", "material", "material rate", "any discrepancy rate"], rows)
 
 
 def values(ev):
