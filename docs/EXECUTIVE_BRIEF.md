@@ -36,7 +36,7 @@ A slope ladder field experiment with one small rover on one dune stoss slope: ru
 
 ## How far to trust this
 
-- Verification: **all 170 evidence rows were re checked against their sources** by separate agents. Material errors: 9 of 170 (5.3 %, Wilson 95 % interval 2.8 to 9.8 %); any discrepancy: 51 of 170 (30.0 %). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the report's prose found 5 wrong and 26 minor items among 225 claim groups, all corrected.
+- Verification: **all 170 evidence rows were re checked against their sources** by separate agents. Material errors: 9 of 170 (5.3 %, Wilson 95 % interval 2.8 to 9.8 %); any discrepancy: 51 of 170 (30.0 %). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the 2026-10-11 draft of the report found 5 wrong and 26 minor items among 225 claim groups, all corrected; later sections were not part of it.
 - Limits: search tool US only; paywalled standards (Bekker, Wong) and two references not read (list in `docs/NEXT_STEPS.md`); several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the sub grid detector has never been compared with a real slip face profile; the synthetic test of the planned field analysis shows its pass or fail rule discriminates weakly, so the ladder results should be read as predicted against observed, not as pass or fail.
 - Pre registration: predictions were committed before each run; most quantitative predictions about the simulation missed (`docs/PREDICTIONS.md`).
 
