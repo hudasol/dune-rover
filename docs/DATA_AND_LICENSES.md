@@ -37,6 +37,21 @@ Not open or not found: Pleiades Neo (commercial), airborne LiDAR or drone DEMs o
 | imagecodecs | 2026.10.10 | BSD-3-Clause | package metadata |
 | pytest (development only) | 9.1.1 | MIT | package metadata |
 
+**Environment used for the 2026-10-15 work** (verification of the 26 supplementary rows, `scripts/anchor_comparisons.py`, the revised ladder and power study, the report rebuild). Versions and licences read from the installed package metadata on 2026-10-15; earlier results were produced with the versions in the table above and were not re run except where stated in `docs/PREDICTIONS.md`.
+
+| Library or tool | Version | Licence as read | Use |
+|---|---|---|---|
+| numpy | 2.4.2 | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 (License-Expression field) | all new scripts |
+| scipy | 1.17.0 | BSD (classifier "OSI Approved :: BSD License") | Latin hypercube draws, bounded least squares |
+| matplotlib | 3.10.8 | Matplotlib licence (classifier "Python Software Foundation License") | figures in `results/anchors/figures/` |
+| tifffile | 2026.9.20 | BSD-3-Clause | imported by the package; installed so the tests run |
+| imagecodecs | 2026.10.10 | BSD-3-Clause | installed with tifffile |
+| pytest (development only) | 9.1.0 | MIT | tests |
+| pypdf | 6.14.2 | BSD-3-Clause | reading the supplied PDFs during verification only; not used by repository code |
+| pdftotext (Xpdf tools, Glyph and Cog) | 4.00 | not read (no licence file found on this machine) | reading the supplied PDFs during verification only; not used by repository code |
+
+**Published papers supplied by the author (2026-10-13)** and read for numbers: Heverly et al. 2013, Ishigami et al. 2007 and 2009 (Journal of Field Robotics, Wiley), Yu et al. 2024 and Takehana et al. 2025 (Journal of Terramechanics, Elsevier). They remain under their publishers' terms; the PDFs are not committed and no figure or passage is reproduced beyond short attributed numbers in `research/evidence.csv`. The Dumont Dunes cubic coefficients (FLD-HV13-1) are used as published numbers in `scripts/anchor_comparisons.py` and `src/dunerover/fieldanalysis.py` (synthetic truth `dumont`).
+
 Project Chrono (BSD 3-clause, verified from its LICENSE file) was reviewed in the literature step but is **not** used by this repository's code.
 
 ## Datasets mentioned in the literature review
