@@ -141,9 +141,9 @@ Design fixed now. Script to be written after this commit: `scripts/study_dumont_
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| D7-1 | The baseline reproduces the committed 30 m class shares of all three areas to within 0.1 percentage point. | |
-| D7-2 | The median Dumont fitted i0 over the 256 draws of area A lies between 0.4 and 2.0, outside the assumed range of 0.05 to 0.40. | |
-| D7-3 | Unclipped Dumont prior: BLOCKED in area A at 30 m rises above 1 % (baseline under 0.1 %). | |
-| D7-4 | Unclipped Dumont prior: UNKNOWN in area A at 30 m lies between 15 % and 60 % (baseline 8.6 %). | |
-| D7-5 | Clipped Dumont prior: UNKNOWN in area A lies between the baseline and the unclipped value. | |
-| D7-6 | Under the unclipped prior, area C has the lowest UNKNOWN share of the three areas, as in the baseline. | |
+| D7-1 | The baseline reproduces the committed 30 m class shares of all three areas to within 0.1 percentage point. |  HIT. The baseline equals the committed 30 m shares exactly in all three areas (difference 0.0). |
+| D7-2 | The median Dumont fitted i0 over the 256 draws of area A lies between 0.4 and 2.0, outside the assumed range of 0.05 to 0.40. |  HIT. Median fitted i0 0.581 in area A (5 to 95 %: 0.286 to 0.944); 81 % of draws lie above 0.40. |
+| D7-3 | Unclipped Dumont prior: BLOCKED in area A at 30 m rises above 1 % (baseline under 0.1 %). |  MISSED. BLOCKED in area A rises only to 0.32 % (B: 1.68 %, C: 0.00 %). |
+| D7-4 | Unclipped Dumont prior: UNKNOWN in area A at 30 m lies between 15 % and 60 % (baseline 8.6 %). |  MISSED. UNKNOWN in area A is 8.95 %, barely above the baseline 8.60 % (B 10.89 to 12.24 %, C 2.54 to 2.56 %). The 30 m slopes are mostly gentler than the slopes where the Dumont prior changes the verdict, so the map hardly moves; the UNKNOWN share stays driven by the sub grid face risk. |
+| D7-5 | Clipped Dumont prior: UNKNOWN in area A lies between the baseline and the unclipped value. |  HIT, trivially. Clipped: 8.61 %, between 8.60 % and 8.95 %. |
+| D7-6 | Under the unclipped prior, area C has the lowest UNKNOWN share of the three areas, as in the baseline. |  HIT. C has the lowest UNKNOWN share (2.56 %) under the unclipped prior. |
