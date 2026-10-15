@@ -225,7 +225,11 @@ def values(ev):
     """Named numbers for the narrative, all computed from files."""
     v = {}
     st = json.load(open(os.path.join(ROOT, "research/verification_stats.json")))
-    al = st["ALL 144 ROWS"]; ph2 = st["remaining rows, phase 2 full re-check"]
+    al = max((d for k, d in st.items() if k.startswith("ALL ")), key=lambda d: d["n"]); ph2 = st["remaining rows, phase 2 full re-check"]
+    o144 = st["ALL 144 ROWS"]; sup = st["supplementary rows from supplied PDFs, phase 3"]
+    v["ver_144_material"] = o144["material_error"]; v["ver_144_material_rate"] = pct(o144["material_rate"])
+    v["ver_sup_n"] = sup["n"]; v["ver_sup_material"] = sup["material_error"]; v["ver_sup_material_rate"] = pct(sup["material_rate"])
+    v["ver_sup_any"] = sup["minor_error"] + sup["material_error"]; v["ver_sup_any_rate"] = pct(sup["any_rate"])
     v["ver_all_n"] = al["n"]; v["ver_all_material"] = al["material_error"]; v["ver_all_minor"] = al["minor_error"]
     v["ver_all_material_rate"] = pct(al["material_rate"]); v["ver_all_any"] = al["minor_error"] + al["material_error"]; v["ver_all_any_rate"] = pct(al["any_rate"])
     v["ver_all_material_ci"] = f"{100*al['material_wilson95'][0]:.1f} to {100*al['material_wilson95'][1]:.1f} %"
@@ -238,7 +242,7 @@ def values(ev):
     sys.path.insert(0, os.path.join(ROOT, "scripts"))
     from tally_predictions import tally
     tl = tally(); v["npred"] = sum(sum(c.values()) for c in tl.values())
-    v["vtype_line"] = f"Of {len(ev)} rows: " + ", ".join(f"{c[k]} {k}" for k in ("lab", "field", "simulation-only", "sim-vs-lab", "sim-vs-field") if k in c) + (f", {c['none']} none (an unreferenced capability statement kept for the record)" if "none" in c else "")
+    v["vtype_line"] = f"Of {len(ev)} rows: " + ", ".join(f"{c[k]} {k}" for k in ("lab", "field", "simulation-only", "sim-vs-lab", "sim-vs-field") if k in c) + (f", {c['lab and field']} lab and field (one row mixing a prepared yard and a natural site)" if "lab and field" in c else "") + (f", {c['none']} none (an unreferenced capability statement kept for the record)" if "none" in c else "")
     for r in rd("results/subgrid/class_shares.csv"):
         a = _area_letter(r["area"]); k = {"29": 30, "30": 30, "59": 60, "60": 60, "88": 90, "89": 90}[r["posting_m"].split(".")[0]]
         v[f"unk_{a}_{k}"] = pct(r["UNKNOWN (total)"]); v[f"trav_{a}_{k}"] = pct(r["TRAVERSABLE"]); v[f"blk_{a}_{k}"] = pct(r["BLOCKED"], 2)
@@ -279,7 +283,7 @@ def appendix_c(ev):
         ids = d["ids"]
         idtxt = ", ".join(ids) if len(ids) <= 6 else ", ".join(ids[:6]) + f" (+{len(ids)-6})"
         rows.append([i, esc(d["title"], 150), f"[{urlparse(u).netloc}]({u})" if u.startswith("http") else esc(u, 60), idtxt])
-    return md_table(["#", "Title", "URL (retrieved 2026-10-11)", "Evidence rows"], rows), len(by)
+    return md_table(["#", "Title", "URL", "Evidence rows"], rows), len(by)
 
 
 def main():
@@ -324,7 +328,7 @@ def main():
            ". Values are as printed in the source; read the comparability warning before comparing any two rows. Verification status of each row is in the CSV (column `verification`).\n",
            appendix_a(ev),
            "\n\n## Appendix B. UAE facts (from `research/raw/uae_facts.csv`)\n", appendix_b(uae),
-           f"\n\n## Appendix C. Sources ({n_src} distinct URLs; each was retrieved on 2026-10-11)\n", c_tab, "\n"]
+           f"\n\n## Appendix C. Sources ({n_src} distinct URLs; retrieval dates " + ", ".join(sorted({r['retrieval_date'] for r in ev})) + ", per row in `research/evidence.csv`)\n", c_tab, "\n"]
     out = body + "\n".join(app)
     path = os.path.join(ROOT, "docs/REPORT.md")
     with open(path, "w", encoding="utf-8") as fh:

@@ -4,7 +4,7 @@ Huda Mueen, `hudasol/dune-rover`, updated 2026-10-12 (generated from `docs/src/b
 
 **Question.** How well can slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes be predicted from terrain data and models, how well does that transfer from lab to field, and what is missing for a minimal open-data planner for Arabian dunes?
 
-## What the published evidence says (144 rows, each traced to a URL and passage)
+## What the published evidence says (170 rows, each traced to a URL and passage)
 
 - **Models need per-soil fitting and are mostly validated on level ground.** Bekker-Wong style drawbar errors are 24 to 27 % (median) on two lunar-simulant wheel datasets and sinkage errors 28 to 52 %, up to 135 % and 385 % on firm soil with a small light wheel (SIM-025 to SIM-027). Granular RFT gives wheel drawbar errors of 5.6 to 15 N in a lab bed (TM-001 to TM-004). The Janosi shear modulus differs about 75-fold between papers, so it is tuned, not transferred.
 - **Speed and slope break the quasi-static assumption.** Drawbar coefficient fell 63.7 % between 0.2 and 1 m/s on olivine sand (TM-019). A rover slope model had side-slip errors of 14.8 % at 10 degrees and 25.9 % at 20 degrees before tuning (a thesis, TM-022, TM-023).
@@ -36,7 +36,7 @@ A slope-ladder field experiment with one small rover on one dune stoss slope: ru
 
 ## How far to trust this
 
-- Verification: **all 144 evidence rows were re-checked against their sources** by separate agents. Material errors: 6 of 144 (4.2 %, Wilson 95 % interval 1.9 to 8.8 %); any discrepancy: 36 of 144 (25.0 %). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the report's prose found 5 wrong and 26 minor items among 225 claim groups, all corrected.
+- Verification: **all 170 evidence rows were re-checked against their sources** by separate agents. Material errors: 9 of 170 (5.3 %, Wilson 95 % interval 2.8 to 9.8 %); any discrepancy: 51 of 170 (30.0 %). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the report's prose found 5 wrong and 26 minor items among 225 claim groups, all corrected.
 - Limits: search tool US-only; paywalled standards (Bekker, Wong) and five references not read (exact fetch list in `docs/NEXT_STEPS.md`); several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the sub-grid detector has never been compared with a real slip face profile; the synthetic test of the planned field analysis shows its pass or fail rule discriminates weakly, so the ladder results should be read as predicted against observed, not as pass or fail.
 - Pre-registration: predictions were committed before each run; most quantitative predictions about the simulation missed (`docs/PREDICTIONS.md`).
 

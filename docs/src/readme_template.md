@@ -14,7 +14,7 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 ## Headline numbers (from files)
 
-- Verification: all {{VAL:ver_all_n}} evidence rows re-checked against their sources; material errors {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}), any discrepancy {{VAL:ver_all_any}} of {{VAL:ver_all_n}} ({{VAL:ver_all_any_rate}}); all corrected (`research/verification_log.md`).
+- Verification: all {{VAL:ver_all_n}} evidence rows re-checked against their sources; material errors {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}), any discrepancy {{VAL:ver_all_any}} of {{VAL:ver_all_n}} ({{VAL:ver_all_any_rate}}); for the {{VAL:ver_sup_n}} rows read from supplied PDFs alone, material {{VAL:ver_sup_material}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_material_rate}}, all on validation type), any discrepancy {{VAL:ver_sup_any}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_any_rate}}); all corrected (`research/verification_log.md`).
 - Simulation, 30 m: UNKNOWN share {{VAL:unk_A_30}} (A south Liwa), {{VAL:unk_B_30}} (B megadunes), {{VAL:unk_C_30}} (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; {{VAL:uni_A_30}} of cells in A have the same slope based verdict under all 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is {{VAL:unk3_A_30}}, {{VAL:unk3_B_30}}, {{VAL:unk3_C_30}}. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
 - Pre-registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
 
