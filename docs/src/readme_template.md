@@ -1,6 +1,6 @@
 # dune-rover
 
-Research project on predicting slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes, with a minimal open-data traversability study for Arabian dune areas. Author: Huda Mueen. Related repository, not duplicated here: [`hudasol/dhill`](https://github.com/hudasol/dhill) (heat and dust operating envelope).
+Research project on predicting slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes, with a minimal open data traversability study for Arabian dune areas. Author: Huda Mueen. Related repository, not duplicated here: [`hudasol/dhill`](https://github.com/hudasol/dhill) (heat and dust operating envelope).
 
 **Research, not engineering approval for any real vehicle.** Generated from `docs/src/readme_template.md` by `scripts/build_report.py`; numbers come from the result files.
 
@@ -8,15 +8,15 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 | Label | Meaning | Where |
 |---|---|---|
-| **PUBLISHED** | A number read in a retrieved source: {{VAL:ver_all_n}} rows with URL, passage, retrieval date and an independent re-check | `research/evidence.csv`, report Appendix A |
-| **SIMULATED-BY-ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, a sub-grid slip face detector trained on synthetic dunes, a three class map (TRAVERSABLE, BLOCKED, UNKNOWN) and synthetic tests of the field analysis. Model-assumption dependent, never field evidence | `src/dunerover/`, `results/` |
-| **PLANNED** | A slope ladder field experiment, its pre-data predictions, checklist, rover options and two proposal outlines (no agreement exists with anyone). Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md`, `docs/PROPOSAL_EDGE.md` |
+| **PUBLISHED** | A number read in a retrieved source: {{VAL:ver_all_n}} rows with URL, passage, retrieval date and an independent re check | `research/evidence.csv`, report Appendix A |
+| **SIMULATED BY ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, a sub grid slip face detector trained on synthetic dunes, a three class map (TRAVERSABLE, BLOCKED, UNKNOWN) and synthetic tests of the field analysis. Model assumption dependent, never field evidence | `src/dunerover/`, `results/` |
+| **PLANNED** | A slope ladder field experiment, its pre data predictions, checklist, rover options and two proposal outlines (no agreement exists with anyone). Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md`, `docs/PROPOSAL_EDGE.md` |
 
 ## Headline numbers (from files)
 
-- Verification: all {{VAL:ver_all_n}} evidence rows re-checked against their sources; material errors {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}), any discrepancy {{VAL:ver_all_any}} of {{VAL:ver_all_n}} ({{VAL:ver_all_any_rate}}); for the {{VAL:ver_sup_n}} rows read from supplied PDFs alone, material {{VAL:ver_sup_material}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_material_rate}}, all on validation type), any discrepancy {{VAL:ver_sup_any}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_any_rate}}); all corrected (`research/verification_log.md`).
+- Verification: all {{VAL:ver_all_n}} evidence rows re checked against their sources; material errors {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}), any discrepancy {{VAL:ver_all_any}} of {{VAL:ver_all_n}} ({{VAL:ver_all_any_rate}}); for the {{VAL:ver_sup_n}} rows read from supplied PDFs alone, material {{VAL:ver_sup_material}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_material_rate}}, all on validation type), any discrepancy {{VAL:ver_sup_any}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_any_rate}}); all corrected (`research/verification_log.md`).
 - Simulation, 30 m: UNKNOWN share {{VAL:unk_A_30}} (A south Liwa), {{VAL:unk_B_30}} (B megadunes), {{VAL:unk_C_30}} (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; {{VAL:uni_A_30}} of cells in A have the same slope based verdict under all 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is {{VAL:unk3_A_30}}, {{VAL:unk3_B_30}}, {{VAL:unk3_C_30}}. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
-- Pre-registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
+- Pre registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
 
 ## Read in this order
 
@@ -69,4 +69,4 @@ Full list in `docs/DATA_AND_LICENSES.md`. Copernicus GLO-30 (the controlling Fre
 
 ## Not done
 
-Chrono, DEM and RFT were reviewed, not run. No field data exist. No learning model was trained. The sub-grid detector has not been compared with any real slip face profile. See report section 10.
+Chrono, DEM and RFT were reviewed, not run. No field data exist. No learning model was trained. The sub grid detector has not been compared with any real slip face profile. See report section 10.

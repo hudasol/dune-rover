@@ -12,16 +12,16 @@ Why it matters: the review of 170 published results found no slip against slope 
 
 1. **Slope ladder.** One fixed small rover (5 to 25 kg, four wheels), one dune stoss slope, runs at about 0, 5, 10, 15, 20 and 25 degrees (or the 2026-10-15 revision with denser bins between 10 and 20 degrees, `docs/FIELD_VALIDATION_PLAN.md` section 4), randomised order, fresh track each run, about 60 runs including a 12 run pilot, cross slope, tethered descent and repeated passes. RTK ground truth, wheel encoders, motor currents, IMU, sinkage gauge.
 2. **Soil.** Sieve grain size, bulk density, moisture, crust, angle of repose, penetrometer and plate pressure sinkage at every station. No soil parameter is assumed; unmeasured items stay unknown.
-3. **Pre-registered analysis.** Dated predictions are committed before any data (`docs/predictions/`). Calibrate on 0 to 10 degrees, write the post calibration predictions, then run the steeper bins. Tolerance from the pilot scatter. Report predicted against observed with intervals; the pass or fail rule is secondary because a synthetic test shows it discriminates weakly (report section 9).
-4. **Elevation map check.** Compare the 30 m Copernicus GLO-30 slope and the modelled slip face probability (report section 8.7) with an RTK or drone profile of the same dune. This is the only test the sub-grid detector can have; it has been validated against synthetic truth only.
+3. **Pre registered analysis.** Dated predictions are committed before any data (`docs/predictions/`). Calibrate on 0 to 10 degrees, write the post calibration predictions, then run the steeper bins. Tolerance from the pilot scatter. Report predicted against observed with intervals; the pass or fail rule is secondary because a synthetic test shows it discriminates weakly (report section 9).
+4. **Elevation map check.** Compare the 30 m Copernicus GLO-30 slope and the modelled slip face probability (report section 8.7) with an RTK or drone profile of the same dune. This is the only test the sub grid detector can have; it has been validated against synthetic truth only.
 5. **Optional extension.** A second rover design or a legged platform on the same ladder, only after the first result and with its own plan (no legged comparison has been run).
 
 ## 3. Deliverables
 
 - An open dataset of the runs with the soil description (log template `docs/field_log_template.csv`), published under the repository licence once confirmed.
-- A report stating, with intervals, how well the calibrate then predict protocol worked on the steeper bins and where the entrapment slope fell against the pre-data prediction.
+- A report stating, with intervals, how well the calibrate then predict protocol worked on the steeper bins and where the entrapment slope fell against the pre data prediction.
 - A measured slip face profile set and a statement of how far the 30 m map is from it.
-- Updated assumption ranges and a re-run of the three class map with them.
+- Updated assumption ranges and a re run of the three class map with them.
 - Honest negative results: if the model fails, the failure is reported with the data.
 
 ## 4. Risks

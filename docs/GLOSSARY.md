@@ -1,6 +1,6 @@
 # Glossary for newcomers
 
-Plain-language definitions of the terms used in `REPORT.md`. Where a term has several competing definitions in the literature, the difference is said, because many numbers in the evidence table are not comparable for exactly that reason.
+Plain language definitions of the terms used in `REPORT.md`. Where a term has several competing definitions in the literature, the difference is said, because many numbers in the evidence table are not comparable for exactly that reason.
 
 ## The basic quantities
 
@@ -8,7 +8,7 @@ Plain-language definitions of the terms used in `REPORT.md`. Where a term has se
 
 **Skid.** The opposite effect: the wheel turns less than the vehicle moves, for example when braking or sliding downhill. Negative slip in most definitions.
 
-**Side-slip.** Sideways sliding on a cross-slope. Measured as an angle or as a distance lost sideways.
+**Side slip.** Sideways sliding on a cross slope. Measured as an angle or as a distance lost sideways.
 
 **Sinkage.** How deep the wheel or foot sinks into the ground, usually in millimetres or as a share of wheel diameter. Sinkage makes the wheel climb out of its own rut, which is a major part of **motion resistance**.
 
@@ -18,11 +18,11 @@ Plain-language definitions of the terms used in `REPORT.md`. Where a term has se
 
 **Traction (gross traction).** The total push the wheel gets from shearing the soil. Drawbar pull is traction minus motion resistance.
 
-**Traversability.** Whether, and at what cost, a robot can cross a patch of terrain. In this project it means a slope-and-slip-based yes/no/cost, not a general-purpose obstacle map.
+**Traversability.** Whether, and at what cost, a robot can cross a patch of terrain. In this project it means a slope and slip based yes/no/cost, not a general purpose obstacle map.
 
 **Entrapment.** Getting stuck: the wheels dig in and the vehicle cannot recover. On sand it is the worst case, and in several Mars rover events it happened on modest slopes.
 
-**Angle of repose.** The steepest slope a pile of dry loose sand holds. For aeolian (wind-blown) sand it is about 32 to 35 degrees. Dune lee faces (slip faces) sit near this angle.
+**Angle of repose.** The steepest slope a pile of dry loose sand holds. For aeolian (wind blown) sand it is about 32 to 35 degrees. Dune lee faces (slip faces) sit near this angle.
 
 **Slip face (lee face).** The steep downwind side of a dune, close to the angle of repose, where sand avalanches. It ends at a sharp **brink** (the crest edge).
 
@@ -36,7 +36,7 @@ Plain-language definitions of the terms used in `REPORT.md`. Where a term has se
 
 **Terramechanics.** The science of how vehicles interact with soft ground. Founded by Bekker in the 1950s and 60s.
 
-**Bekker pressure-sinkage model.** An equation relating the pressure under a plate or wheel to how deep it sinks, using soil constants `kc`, `kphi` and `n`. Fitted by pushing plates into the soil.
+**Bekker pressure sinkage model.** An equation relating the pressure under a plate or wheel to how deep it sinks, using soil constants `kc`, `kphi` and `n`. Fitted by pushing plates into the soil.
 
 **Wong-Reece model.** An extension of Bekker's approach for rolling wheels, which integrates stresses under the wheel contact patch.
 
@@ -46,23 +46,23 @@ Plain-language definitions of the terms used in `REPORT.md`. Where a term has se
 
 **Bevameter.** A device that presses a plate into soil and shears it, to measure the Bekker and shear constants.
 
-**Resistive force theory (RFT).** A method from granular physics: the force on a small element of a wheel or leg moving through dry grains depends on its depth, orientation and direction of motion, using a fitted force-response surface. Sums the forces over the whole wheel. Works well for slow movement in dry grains and is much faster than particle simulation.
+**Resistive force theory (RFT).** A method from granular physics: the force on a small element of a wheel or leg moving through dry grains depends on its depth, orientation and direction of motion, using a fitted force response surface. Sums the forces over the whole wheel. Works well for slow movement in dry grains and is much faster than particle simulation.
 
-**Quasi-static.** Ignores speed and inertia. Most classical wheel-soil models are quasi-static; measurements show real wheels lose traction as speed increases, so they are not.
+**Quasi static.** Ignores speed and inertia. Most classical wheel soil models are quasi static; measurements show real wheels lose traction as speed increases, so they are not.
 
 ## Simulation terms
 
-**DEM (discrete element method).** Simulates every sand grain (or a scaled-up stand-in for groups of grains) as a particle with contact forces. Accurate but very slow.
+**DEM (discrete element method).** Simulates every sand grain (or a scaled up stand in for groups of grains) as a particle with contact forces. Accurate but very slow.
 
-**SCM (soil contact model).** A fast deformable-terrain model in Project Chrono that uses a Bekker-Wong-style formula for each point of a terrain grid.
+**SCM (soil contact model).** A fast deformable terrain model in Project Chrono that uses a Bekker-Wong-style formula for each point of a terrain grid.
 
 **CRM (continuum representation model).** A Chrono model that treats the sand as a continuous material (SPH particles) with a granular flow law, with fewer tuning knobs than DEM.
 
-**Project Chrono.** An open-source (BSD-licensed) physics simulation library with vehicle and terrain modules.
+**Project Chrono.** An open source (BSD licensed) physics simulation library with vehicle and terrain modules.
 
-**Real-time factor.** Wall-clock time divided by simulated time. A value of 1 means real time; 1000 means a thousand seconds of computing per simulated second.
+**Real time factor.** Wall clock time divided by simulated time. A value of 1 means real time; 1000 means a thousand seconds of computing per simulated second.
 
-**Sim-to-real gap.** The difference between what a simulation predicts and what happens in the real world. The central worry of this review.
+**Sim to real gap.** The difference between what a simulation predicts and what happens in the real world. The central worry of this review.
 
 ## Data and measurement terms
 
@@ -78,13 +78,13 @@ Plain-language definitions of the terms used in `REPORT.md`. Where a term has se
 
 **RTK GNSS.** Satellite positioning with a correction signal that gives centimetre accuracy. Useful as ground truth for slip.
 
-**Held-out test.** Data not used in training or fitting, used to check how well a model predicts new cases. A split by terrain type (train without sand, test on sand) is a much harder and more honest test than a random split.
+**Held out test.** Data not used in training or fitting, used to check how well a model predicts new cases. A split by terrain type (train without sand, test on sand) is a much harder and more honest test than a random split.
 
 ## Words used for evidence in this project
 
 **PUBLISHED.** A number found in a source that was retrieved and read.
 
-**SIMULATED-BY-ME.** Output of code in this repository. Depends on the stated model assumptions. Never field evidence.
+**SIMULATED BY ME.** Output of code in this repository. Depends on the stated model assumptions. Never field evidence.
 
 **PLANNED.** A protocol that has not been run.
 
