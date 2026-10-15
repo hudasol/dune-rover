@@ -61,7 +61,7 @@ Timing, stated plainly: six verifier agents were launched at about 19:35 (AST) o
 
 | ID | Prediction made before the outcome was seen | Outcome |
 |---|---|---|
-| P4-1 | Among the 26 supplementary rows (`research/phase2/supplied_pdf_rows_2026-10-13.csv`), at most 2 rows (7.7 %) will be judged a material error. | |
-| P4-2 | Among the 26 rows, the any discrepancy rate (minor plus material) will be between 20 % and 50 % (rows read from supplied PDFs carry many page and section labels, which were the commonest minor errors before). | |
-| P4-3 | Across all 170 rows the material error rate will stay at or below 5.0 %. | |
-| P4-4 | At least one of the six Heverly 2013 rows (FLD-HV13-1 to 6) will receive a non correct verdict, most likely on validation type or location, because several rows mix the Marsyard (a prepared yard, counted as lab) with natural sites. | |
+| P4-1 | Among the 26 supplementary rows (`research/phase2/supplied_pdf_rows_2026-10-13.csv`), at most 2 rows (7.7 %) will be judged a material error. | MISSED. 3 of 26 (11.5 %, Wilson 95 % CI 4.0 to 29.0 %) were material errors (TM-TK5, TM-IS07-5, FLD-HV13-5), all on validation type; no value was wrong. |
+| P4-2 | Among the 26 rows, the any discrepancy rate (minor plus material) will be between 20 % and 50 % (rows read from supplied PDFs carry many page and section labels, which were the commonest minor errors before). | MISSED. 15 of 26 (57.7 %), above the band. Direction of the reasoning held: most minor errors were page labels, plus the word dry used where the source does not say so (TM-YU1 to TM-YU4). |
+| P4-3 | Across all 170 rows the material error rate will stay at or below 5.0 %. | MISSED (marginally). 9 of 170 (5.3 %, Wilson 95 % CI 2.8 to 9.8 %). |
+| P4-4 | At least one of the six Heverly 2013 rows (FLD-HV13-1 to 6) will receive a non correct verdict, most likely on validation type or location, because several rows mix the Marsyard (a prepared yard, counted as lab) with natural sites. | HIT. Three of six were non correct: FLD-HV13-5 material (Marsyard and Tecopa mixed under `field`, now `lab and field`), FLD-HV13-1 minor (the paper does give slip in percent and slope in degrees, on the Figure 12 axes), FLD-HV13-6 minor (the agreement is between Mars data and Earth test data, not a test of the onboard polynomial). |
