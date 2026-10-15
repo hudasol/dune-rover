@@ -1,0 +1,9 @@
+published_row,side_slope_deg,published_value,bound,published_kind,scored,variant,model_min,model_max,model_envelope_compatible,gap_published_minus_model_max
+TM-IS09-3,10.0,0.5,point,"measured slip ratio, about 0.5, feed forward control, case B",True,b1,0.0139,0.1971,False,0.3029
+TM-IS09-3,10.0,0.5,point,"measured slip ratio, about 0.5, feed forward control, case B",True,b2,0.2166,0.4026,False,0.0974
+TM-IS09-2,5.0,0.6,lower_bound,Ishigami model: slip ratio must exceed 0.6 for positive thrust (model to model),True,b1,0.0074,0.164,False,0.436
+TM-IS09-2,5.0,0.6,lower_bound,Ishigami model: slip ratio must exceed 0.6 for positive thrust (model to model),True,b2,0.1119,0.3355,False,0.2645
+TM-IS09-5,5.0,0.4,upper_bound,"feedback control kept slip ratio below 0.4 (controlled, not scored)",False,b1,0.0074,0.164,True,0.236
+TM-IS09-5,5.0,0.4,upper_bound,"feedback control kept slip ratio below 0.4 (controlled, not scored)",False,b2,0.1119,0.3355,True,0.0645
+TM-IS09-5,10.0,0.4,upper_bound,"feedback control kept slip ratio below 0.4 (controlled, not scored)",False,b1,0.0139,0.1971,True,0.2029
+TM-IS09-5,10.0,0.4,upper_bound,"feedback control kept slip ratio below 0.4 (controlled, not scored)",False,b2,0.2166,0.4026,True,-0.0026

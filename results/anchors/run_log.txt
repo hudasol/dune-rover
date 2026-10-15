@@ -1,0 +1,14 @@
+SIMULATION ONLY - model-assumption dependent, not field evidence
+Comparison of unlike vehicles and soils in both parts. Pre registered in docs/PREDICTIONS.md, stage 5.
+numpy 2.4.2, matplotlib 3.10.8, seeds 20261020 and 20261021, 4000 draws
+(a) Dumont: inside min to max 100.0 %, inside 5 to 95 % band 57.3 %, 50 % crossing Dumont 12.59 deg, nominal 25.46 deg, median 22.90 deg
+(a, POST HOC) fit phi 28.00, f_r 0.139, i0 0.400, RMSE 0.0847, at bound: ['phi_deg', 'i0']
+(b) b1 10 deg: published 0.5 (TM-IS09-3), model 0.014 to 0.197, compatible False (point)
+(b) b2 10 deg: published 0.5 (TM-IS09-3), model 0.217 to 0.403, compatible False (point)
+(b) b1 5 deg: published 0.6 (TM-IS09-2), model 0.007 to 0.164, compatible False (lower_bound)
+(b) b2 5 deg: published 0.6 (TM-IS09-2), model 0.112 to 0.336, compatible False (lower_bound)
+(b) b1 5 deg: published 0.4 (TM-IS09-5), model 0.007 to 0.164, compatible True (upper_bound)
+(b) b2 5 deg: published 0.4 (TM-IS09-5), model 0.112 to 0.336, compatible True (upper_bound)
+(b) b1 10 deg: published 0.4 (TM-IS09-5), model 0.014 to 0.197, compatible True (upper_bound)
+(b) b2 10 deg: published 0.4 (TM-IS09-5), model 0.217 to 0.403, compatible True (upper_bound)
+run time 10.2 s
