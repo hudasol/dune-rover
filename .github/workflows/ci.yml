@@ -41,16 +41,16 @@ jobs:
           python scripts/verify_stats.py
           PYTHONPATH=src python scripts/build_report.py
           git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md research/
-      - name: Writing rules (no em or en dashes, no Stirling, no tool attribution)
+      - name: Writing rules (no dash characters, no banned names)
         run: |
           python - <<'PY'
           import subprocess, sys
           bad = []
           for f in subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split():
-              if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml")) or f in ("scripts/scan_secrets.py", ".github/workflows/ci.yml"):
+              if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml")) or f == "scripts/scan_secrets.py":
                   continue
               t = open(f, encoding="utf-8", errors="ignore").read()
-              for w in ("—", "–", "Stirling", "Claude"):
+              for w in (chr(0x2014), chr(0x2013), "Stir" + "ling", "Clau" + "de"):
                   if w in t:
                       bad.append((f, repr(w)))
           print("\n".join(f"{f}: {w}" for f, w in bad) or "writing check: ok")
