@@ -28,7 +28,7 @@ Related work, not repeated here: `hudasol/dhill` (heat-and-dust operating envelo
 
 **Headline findings (SIMULATED-BY-ME, model-assumption dependent, not field evidence).** With a stated friction-circle slip model and nominal assumptions, the 30 m grid blocks only 0.2 to 1 % of travel directions in three real dune windows, because few cells exceed the model's nominal climbing limit of 25.5 degrees. That is mostly a statement about grid resolution and assumptions, not evidence that the dunes are easy. Across the plausible assumption ranges the model's climbing limit varies from 7.6 to 34.7 degrees (5 to 95 %: about 15 to 32 degrees). The assumptions that change the map most are the friction angle, the form of the slip law, the DEM posting, the slip scale i0 and the motion-resistance coefficient. DEM noise and the planning slip limit matter least (section 8).
 
-**Headline findings, phase 2 (SIMULATED-BY-ME, model-assumption dependent; detector validated on synthetic truth only).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict under all 256 draws of the four assumed slip parameters, so the three class map is far more sensitive to the sub-grid morphology assumptions and the resolution than to those four parameters (section 8.7). Of 32 pre-registered predictions, the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the simulation missed.
+**Headline findings, phase 2 (SIMULATED-BY-ME, model-assumption dependent; detector validated on synthetic truth only).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict under all 256 draws of the four assumed slip parameters, so the three class map is far more sensitive to the sub-grid morphology assumptions and the resolution than to those four parameters (section 8.7). Of 38 pre-registered predictions, the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the simulation missed.
 
 **Verification.** All 170 rows now have an independent re-check against the source (section 11). Material errors: **9 of 170 (5.3 %, Wilson 95 % interval 2.8 to 9.8 %)**, all in the 107 rows checked in phase 2 (6 of 107, 5.6 %); any discrepancy including minor label errors: 51 of 170 (30.0 %). All are corrected in the table. The phase 1 random sample (0 of 30 material) had understated the rate. The unit of the slope term in SIM-013 is not stated in its source, so that row is flagged and must not be used numerically outside the tested envelope.
 
@@ -580,7 +580,7 @@ Full plan: `docs/FIELD_VALIDATION_PLAN.md`. Summary:
 1. **Vehicle.** One small four-wheel rover (5 to 25 kg, wheels at least 150 mm, mass and wheel load known and kept fixed). Wheel diameter and width alter slip by large factors in the published lab data (LEG-017 to LEG-020), so the wheel must be fully described.
 2. **Measurements.** Per-wheel encoders and motor current at 50 Hz or better, RTK GNSS ground truth (not rover odometry), a 6-axis IMU, rut depth by gauge at three stations per run, and tow tension if a load cell is available. Slip is computed against ground-truth speed with a calibrated effective radius, and distance-based slip is reported alongside because published studies use both.
 3. **Soil, at every station.** Sieve grain size, bulk density, moisture at two depths, crust thickness, angle of repose, hand penetrometer profile and a plate pressure-sinkage set, with local slope from the RTK profile.
-4. **Run design (about 60 runs).** Slope bins at 0, 5, 10, 15, 20 and 25 degrees (plus or minus 2), randomised order within a day, fresh track each run; a 12-run pilot to measure run-to-run scatter, then about 30 main runs; 9 cross-slope, 6 tethered descent and 3 repeated-pass runs. Run counts follow n = (1.96 sigma / E)^2: for sigma = 0.10 to 0.15 and E = 0.10 that is 4 to 9 runs per bin.
+4. **Run design (about 60 runs).** Slope bins at 0, 5, 10, 15, 20 and 25 degrees (plus or minus 2) in the original plan, revised on 2026-10-15 (below), randomised order within a day, fresh track each run; a 12-run pilot to measure run-to-run scatter, then about 30 main runs; 9 cross-slope, 6 tethered descent and 3 repeated-pass runs. Run counts follow n = (1.96 sigma / E)^2: for sigma = 0.10 to 0.15 and E = 0.10 that is 4 to 9 runs per bin.
 5. **Pre-registered analysis.** Calibrate the section 8 model on 0 to 10 degree runs only, **record dated predictions** for 15, 20 and 25 degrees before running them, then compare mean and root-mean-square error, the calibration slope and the entrapment slope, against a constant-slip baseline and a slope-threshold baseline. **Pre-data predictions are committed** (`docs/predictions/slope_ladder_predictions_2026-10-12.csv`, SIMULATED-BY-ME, from the assumption ranges only) and a script writes the post calibration predictions from the gentle slope runs before the steep runs. **Tolerance rule (assumption, fixed before the main block):** tolerance = the larger of 3 times the pilot sigma and 0.05, with pilot sigma the pooled within bin standard deviation of the 12 pilot runs; the model is called adequate if at least 80 % of held out runs fall within the tolerance and the entrapment slope is within 3 degrees; if 3 times the pilot sigma exceeds 0.30 the experiment is flagged uninformative. **Synthetic test with known truth (SIMULATED-BY-ME, `scripts/field_analysis_power.py`)** shows this rule discriminates weakly:
 
 | Synthetic truth | Noise sigma | Replicates | Called adequate | Failed | Flagged uninformative (3 x pilot sigma above 0.30) | Median tolerance |
@@ -609,6 +609,38 @@ The rule passes an exactly right model in under half of the replicates and fails
 | 25 | held out prediction | 0.16 to 1.00 (median 0.76) | 0.18 to 1.00 | 48 % | -0.40 to +0.49 |
 
 Calibrating on 0 to 10 degrees constrains the 15 degree prediction well, the 20 degree prediction weakly, and the 25 degree prediction hardly at all: the slip diverges near entrapment and gentle runs do not fix where that happens. The 25 degree bin is therefore mainly a test of the entrapment slope, not of the slip value. The same check found that calibration needs bounds on f_r and i0, because the two trade off at gentle slopes.
+
+   **Revision of 2026-10-15 (PLANNED; pre registered as stage 6 in `docs/PREDICTIONS.md`).** The Dumont Dunes and Marsyard results (section 8.8) put the change from moderate to high slip between about 10 and 17 degrees, so the bins became 0, 5, 10, 12.5, 15, 17.5 and 20 degrees (plus or minus 1 degree from 10 to 20), with 25 degrees only if fewer than half of the 20 degree runs entrap. The original file is kept; the revised expected ranges add the Dumont value and widen the upper end of the planning range where it lies above the model band (`docs/predictions/slope_ladder_predictions_2026-10-15.csv`):
+
+| Slope, deg | Role | Tolerance, deg | Model prior 5 to 95 % (SIMULATED, unchanged) | Dumont cubic (PUBLISHED, heavier vehicle) | Planning range (PLANNED) |
+|---|---|---|---|---|---|
+| 0 | calibration | plus or minus 2 | 0.01 to 0.14 | outside 4 to 21 deg | 0.01 to 0.14 |
+| 5 | calibration | plus or minus 2 | 0.03 to 0.23 | 0.10 | 0.03 to 0.23 |
+| 10 | calibration | plus or minus 1 | 0.05 to 0.34 | 0.32 | 0.05 to 0.34 |
+| 12.5 | held out prediction | plus or minus 1 | 0.06 to 0.42 | 0.49 | 0.06 to 0.49 |
+| 15 | held out prediction | plus or minus 1 | 0.07 to 0.53 | 0.67 | 0.07 to 0.67 |
+| 17.5 | held out prediction | plus or minus 1 | 0.08 to 0.76 | 0.81 | 0.08 to 0.81 |
+| 20 | held out prediction | plus or minus 1 | 0.10 to 1.00 | 0.90 | 0.10 to 1.00 |
+| 25 | held out prediction (conditional: only if fewer than half t… | plus or minus 2 | 0.16 to 1.00 | outside 4 to 21 deg | 0.16 to 1.00 |
+
+   **The revision has a cost that the synthetic re run exposed** (`results/field_kit/power_study_2026-10-15.csv`, SIMULATED BY ME, synthetic data only):
+
+| Synthetic truth | Noise sigma | Replicates | Called adequate | Failed | Flagged uninformative (3 x pilot sigma above 0.30) | Median tolerance |
+|---|---|---|---|---|---|---|
+| model | 0.03 | 300 | 1 % | 99 % | 0 % | 0.090 |
+| model | 0.06 | 300 | 0 % | 100 % | 0 % | 0.169 |
+| model | 0.1 | 300 | 1 % | 99 % | 39 % | 0.272 |
+| janosi_mean | 0.03 | 300 | 2 % | 98 % | 0 % | 0.092 |
+| janosi_mean | 0.06 | 300 | 34 % | 66 % | 2 % | 0.162 |
+| janosi_mean | 0.1 | 300 | 65 % | 35 % | 40 % | 0.277 |
+| collapse | 0.03 | 300 | 53 % | 47 % | 1 % | 0.158 |
+| collapse | 0.06 | 300 | 48 % | 52 % | 13 % | 0.217 |
+| collapse | 0.1 | 300 | 45 % | 55 % | 56 % | 0.312 |
+| dumont | 0.03 | 300 | 0 % | 100 % | 0 % | 0.107 |
+| dumont | 0.06 | 300 | 0 % | 100 % | 12 % | 0.179 |
+| dumont | 0.1 | 300 | 5 % | 95 % | 60 % | 0.321 |
+
+   Without a bin beyond the synthetic truth's entrapment slope (26.3 degrees), the observed entrapment slope is usually undefined and the adequacy rule fails even a correct model. The rule and the revised bins are incompatible as written; the choice between amending the rule, keeping a tethered 25 degree bin, or returning to the original bins is left to the author (`docs/QUESTIONS_FOR_HUDA.md`). The Dumont shaped truth is failed in nearly every replicate, but so is a correct model, so that detection is uninformative.
 6. **Safety and scope.** Tether and recovery line, a second person at all times; slip faces near repose can avalanche. Not a safety case. Heat and dust are handled in `hudasol/dhill`.
 7. **What to log for future prediction.** Wheel speeds and currents, RTK and IMU synchronised, effective radius, DEM-and-RTK slope and aspect, the soil state list, wheel state, ambient conditions, pass number and outcome flags.
 
@@ -664,6 +696,7 @@ All errors were corrected through `research/corrections.csv` (old values in `res
 | Stage 3 | 2 | 1 | 3 | 0 |
 | Stage 4 | 1 | 0 | 3 | 0 |
 | Stage 5 | 9 | 1 | 0 | 0 |
+| Stage 6 | 5 | 0 | 1 | 0 |
 
 **Report claims, second pass.** A separate subagent that had not written the report checked the prose of this report (everything before Appendix A) against `research/evidence.csv`, `research/raw/*` and `results/*`, after the draft was complete. It examined 225 claim groups (every number in the simulation tables was compared individually and the statistics were recomputed): 188 correct, 26 minor (right number but a wrong label, row identifier or imprecise wording), 5 wrong and 6 unverifiable (WRONG rate 2.2 %; wrong plus minor 13.8 %). The five wrong items were a kc statement that belonged to another source (TM-029), percentage units applied to drawbar errors given in newtons (TM-001 to TM-004), a data-coverage cell that belonged to another product, a UAE vehicle date, and a tilt-bed row called a Mars measurement (FLD-006). **All 31 wrong and minor items were corrected in this text**; the six unverifiable statements were softened or removed. The full finding table is `research/factcheck_report_pass.md`. This checker is also a language-model agent working from the repository files, so it shares any error that is present in those files; it cannot catch a mistake that traces back to a source misread twice.
 

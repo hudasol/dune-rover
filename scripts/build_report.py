@@ -221,9 +221,9 @@ def t_reach():
     return md_table(["Area", "Posting, m", "Pairs reachable (phase 1 rule, 10 pairs)", "Pairs reachable with UNKNOWN impassable", "Endpoints not TRAVERSABLE"], rows)
 
 
-def t_power():
+def t_power(fn="results/field_kit/power_study.csv"):
     rows = [[r["truth"], r["sigma"], r["replicates"], pct(r["adequate_rate"], 0), pct(r["failure_rate"], 0), pct(r["flagged_uninformative_rate"], 0), f"{float(r['median_tolerance']):.3f}"]
-            for r in rd("results/field_kit/power_study.csv")]
+            for r in rd(fn)]
     return md_table(["Synthetic truth", "Noise sigma", "Replicates", "Called adequate", "Failed", "Flagged uninformative (3 x pilot sigma above 0.30)", "Median tolerance"], rows)
 
 
@@ -236,6 +236,18 @@ def t_ladder():
         rows.append([r["slope_deg"], r["role"], f"{float(r['prior_p05_phi_unknown']):.2f} to {float(r['prior_p95_phi_unknown']):.2f} (median {float(r['prior_p50_phi_unknown']):.2f})",
                      f"{float(r['prior_p05_phi_33pm2']):.2f} to {float(r['prior_p95_phi_33pm2']):.2f}", f"{float(r['prior_P_entrapment_phi_unknown'])*100:.0f} %", band])
     return md_table(["Slope, deg", "Role", "Prior predictive slip, 5 to 95 % (phi 28 to 38)", "Same with phi 33 plus or minus 2", "P(slip at least 0.8), phi unknown", "Protocol error band (predicted minus true), sigma 0.06"], rows), os.path.basename(fn)
+
+
+def t_ladder_rev():
+    rows = []
+    for r in rd("docs/predictions/slope_ladder_predictions_2026-10-15.csv"):
+        if "cross slope" in r["role"]:
+            continue
+        dv = f"{float(r['published_dumont_slip_FLD_HV13_1']):.2f}" if r["published_dumont_slip_FLD_HV13_1"] else "outside 4 to 21 deg"
+        rows.append([r["slope_deg"], esc(r["role"], 60), f"plus or minus {float(r['tolerance_deg']):.0f}",
+                     f"{float(r['prior_p05_phi_unknown']):.2f} to {float(r['prior_p95_phi_unknown']):.2f}", dv,
+                     f"{float(r['planning_range_lo']):.2f} to {float(r['planning_range_hi']):.2f}"])
+    return md_table(["Slope, deg", "Role", "Tolerance, deg", "Model prior 5 to 95 % (SIMULATED, unchanged)", "Dumont cubic (PUBLISHED, heavier vehicle)", "Planning range (PLANNED)"], rows)
 
 
 def t_pred_tally():
@@ -344,7 +356,8 @@ def main():
             "lhs_pct": t_lhs_pct(), "anchor": t_anchor(), "subgrid_params": t_subgrid_params(), "class_shares": t_class_shares(), "robust": t_robust(),
             "scen": t_scen(), "cc_map": t_cc_map(), "cc_synth": t_cc_synth(), "detector": t_detector(), "reach": t_reach(), "power": t_power(),
             "ladder": ladder_tab, "pred_tally": t_pred_tally(), "verif": t_verif(),
-            "anchor_dumont": t_anchor_dumont(), "anchor_ishigami": t_anchor_ishigami()}
+            "anchor_dumont": t_anchor_dumont(), "anchor_ishigami": t_anchor_ishigami(),
+            "ladder_rev": t_ladder_rev(), "power_rev": t_power("results/field_kit/power_study_2026-10-15.csv")}
     sg = os.path.join(ROOT, "docs/src/subgrid_section.md")
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
     an = os.path.join(ROOT, "docs/src/anchors_section.md")
