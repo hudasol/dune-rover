@@ -1,6 +1,6 @@
 # Morning report, 2026-10-15 (work from 19:33 to about 21:15 AST)
 
-All tasks T1 to T6 and the stretch task T7 are done. About 70 commits (68 before this report), each pushed to main; every push passed the tests, the hygiene check and the secrets scan, and the GitHub CI run passed. Nothing claims a partnership. Labels: PUBLISHED, SIMULATED BY ME, PLANNED.
+All tasks T1 to T6 and the stretch task T7 are done. About 70 commits (68 before this report), each pushed to main; every push passed the tests, the hygiene check and the secrets scan locally. **One lapse:** from c747820 to the morning report commit, the GitHub CI writing check (added during T4) failed because `docs/REVIEW_2026-10-15.md` named the excluded institution while describing the scans; I had run the local scans but not that new check before pushing. Fixed in b5c9d74; the name remains in the history of those commits, which was not rewritten. Nothing claims a partnership. Labels: PUBLISHED, SIMULATED BY ME, PLANNED.
 
 ## What changed (commits grouped by task)
 
