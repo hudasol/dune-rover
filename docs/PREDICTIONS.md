@@ -124,3 +124,4 @@ Note on stage 6: the stage 3 design reproduces exactly from the changed code (al
 - S3-5 outcome gives the lower end of the 25 deg protocol band as -0.41; the file value is -0.4047, which the report rounds to -0.40.
 - S2-4 and the report call a cell "unanimous" when it is passable in at most 5 % or at least 95 % of the 256 draws, as defined in the stage 2 design; it does not mean all 256 draws agree.
 - Stage 4 was in effect concurrent with the verifier runs: the predictions were committed about one minute after the verifiers were launched and before any output existed, as stated above the stage 4 table.
+- The post hoc diagnostic quoted in the L6-3 outcome (60 replicates, 97 %, medians 0.91 and 0.81, truth entrapment at 26.3 deg) is now reproducible: `scripts/diagnose_ladder_entrapment.py`, output `results/field_kit/diagnostic_entrapment_2026-10-15.csv` (26.25 deg; 0.967; 0.906 and 0.815).
