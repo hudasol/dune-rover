@@ -1,0 +1,26 @@
+"""Pin the generated evidence table and the stage 5 anchor results to their committed values."""
+import csv, json, os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def test_evidence_table_has_170_verified_rows():
+    rows = list(csv.DictReader(open(os.path.join(ROOT, "research", "evidence.csv"), encoding="utf-8")))
+    assert len(rows) == 170 and len({r["id"] for r in rows}) == 170
+    assert all(r["verification"].startswith("verified ") for r in rows)
+    assert sum(r["verification"].startswith("verified 2026-10-15") for r in rows) == 26
+    assert all(r["evidence_label"] == "PUBLISHED" for r in rows)
+
+
+def test_verification_stats_match_the_log():
+    st = json.load(open(os.path.join(ROOT, "research", "verification_stats.json"), encoding="utf-8"))
+    assert st["ALL 170 ROWS"]["n"] == 170 and st["ALL 170 ROWS"]["material_error"] == 9
+    assert st["supplementary rows from supplied PDFs, phase 3"]["n"] == 26
+
+
+def test_anchor_summary_is_labelled_and_pinned():
+    s = json.load(open(os.path.join(ROOT, "results", "anchors", "summary.json"), encoding="utf-8"))
+    assert s["label"].startswith("SIMULATION ONLY")
+    assert s["dumont"]["first_line"].startswith("Comparison of unlike vehicles and soils")
+    assert abs(s["dumont"]["dumont_cross50_deg"] - 12.59) < 0.01 and abs(s["dumont"]["nominal_cross50_deg"] - 25.46) < 0.01
+    assert s["dumont_posthoc_fit"]["label"].startswith("POST HOC")
