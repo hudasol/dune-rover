@@ -244,7 +244,7 @@ def t_ladder_rev():
         if "cross slope" in r["role"]:
             continue
         dv = f"{float(r['published_dumont_slip_FLD_HV13_1']):.2f}" if r["published_dumont_slip_FLD_HV13_1"] else "outside 4 to 21 deg"
-        rows.append([r["slope_deg"], esc(r["role"], 60), f"plus or minus {float(r['tolerance_deg']):.0f}",
+        rows.append([r["slope_deg"], esc(r["role"], 120), f"plus or minus {float(r['tolerance_deg']):.0f}",
                      f"{float(r['prior_p05_phi_unknown']):.2f} to {float(r['prior_p95_phi_unknown']):.2f}", dv,
                      f"{float(r['planning_range_lo']):.2f} to {float(r['planning_range_hi']):.2f}"])
     return md_table(["Slope, deg", "Role", "Tolerance, deg", "Model prior 5 to 95 % (SIMULATED, unchanged)", "Dumont cubic (PUBLISHED, heavier vehicle)", "Planning range (PLANNED)"], rows)
@@ -279,6 +279,7 @@ def values(ev):
     v["ver_all_n"] = al["n"]; v["ver_all_material"] = al["material_error"]; v["ver_all_minor"] = al["minor_error"]
     v["ver_all_material_rate"] = pct(al["material_rate"]); v["ver_all_any"] = al["minor_error"] + al["material_error"]; v["ver_all_any_rate"] = pct(al["any_rate"])
     v["ver_all_material_ci"] = f"{100*al['material_wilson95'][0]:.1f} to {100*al['material_wilson95'][1]:.1f} %"
+    v["ver_ph1_n"] = st["random sample, phase 1 (n=30 of 137 unflagged)"]["n"] + st["flagged sample, phase 1"]["n"]
     v["ver_ph2_material"] = ph2["material_error"]; v["ver_ph2_n"] = ph2["n"]; v["ver_ph2_material_rate"] = pct(ph2["material_rate"])
     c = {}
     for r in ev:
@@ -288,6 +289,7 @@ def values(ev):
     sys.path.insert(0, os.path.join(ROOT, "scripts"))
     from tally_predictions import tally
     tl = tally(); v["npred"] = sum(sum(c.values()) for c in tl.values())
+    v["pred_stage_line"] = "; ".join(f"{k.lower()}: {c['HIT']} hit, {c['MIXED']} mixed, {c['MISSED']} missed" + (f", {c['PENDING']} pending" if c["PENDING"] else "") for k, c in tl.items())
     v["vtype_line"] = f"Of {len(ev)} rows: " + ", ".join(f"{c[k]} {k}" for k in ("lab", "field", "simulation-only", "sim-vs-lab", "sim-vs-field") if k in c) + (f", {c['lab and field']} lab and field (one row mixing a prepared yard and a natural site)" if "lab and field" in c else "") + (f", {c['none']} none (an unreferenced capability statement kept for the record)" if "none" in c else "")
     for r in rd("results/subgrid/class_shares.csv"):
         a = _area_letter(r["area"]); k = {"29": 30, "30": 30, "59": 60, "60": 60, "88": 90, "89": 90}[r["posting_m"].split(".")[0]]
