@@ -53,3 +53,15 @@ Design fixed now. Script: `scripts/field_analysis_power.py` (to be written after
 | S3-4 | truth = janosi_mean: the detection rate is between 20 % and 80 % at sigma = 0.03 and at most 30 % at sigma = 0.10 (a structural error of this size is mostly hidden by noise). | HIT on both parts. truth = janosi_mean is detected in 76 % of replicates at sigma = 0.03 (inside 20 to 80 %) and 22 % at 0.10 (at most 30 %). |
 | S3-5 | Prior predictive 90 % band of slip at 25 deg is at least 0.5 wide, and the calibrate then predict error band at 25 deg (sigma = 0.06) is at least twice narrower than the prior band. | MIXED. The prior 90 % band at 25 deg is 0.84 wide (0.16 to 1.00): HIT. The calibrate then predict error band at 25 deg (sigma 0.06, phi known) is 0.90 wide (-0.41 to +0.49), not narrower than the prior band: MISS. The protocol is informative at 15 deg (band 0.12) and weakly at 20 deg (0.49), and not at 25 deg. |
 | S3-6 | The prior predictive entrapment slope (slip 0.8) has median between 24 and 34 deg and a 90 % range wider than 10 deg. | HIT. Prior predictive entrapment slope median 25.3 deg, 90 % range 17.8 to 32.2 deg (14.4 deg wide). |
+
+
+## Stage 4: verification of the 26 supplementary rows (written 2026-10-15)
+
+Timing, stated plainly: six verifier agents were launched at about 19:35 (AST) on 2026-10-15 on batches 8 to 13 (`research/verify_batch8.csv` to `research/verify_batch13.csv`); these predictions were written and committed a few minutes later, before any verifier output file existed or was read. Each verifier re read the supplied source PDF with no access to the extraction notes or comparability warnings.
+
+| ID | Prediction made before the outcome was seen | Outcome |
+|---|---|---|
+| P4-1 | Among the 26 supplementary rows (`research/phase2/supplied_pdf_rows_2026-10-13.csv`), at most 2 rows (7.7 %) will be judged a material error. | |
+| P4-2 | Among the 26 rows, the any discrepancy rate (minor plus material) will be between 20 % and 50 % (rows read from supplied PDFs carry many page and section labels, which were the commonest minor errors before). | |
+| P4-3 | Across all 170 rows the material error rate will stay at or below 5.0 %. | |
+| P4-4 | At least one of the six Heverly 2013 rows (FLD-HV13-1 to 6) will receive a non correct verdict, most likely on validation type or location, because several rows mix the Marsyard (a prepared yard, counted as lab) with natural sites. | |
