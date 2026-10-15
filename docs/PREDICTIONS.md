@@ -125,3 +125,25 @@ Note on stage 6: the stage 3 design reproduces exactly from the changed code (al
 - S2-4 and the report call a cell "unanimous" when it is passable in at most 5 % or at least 95 % of the 256 draws, as defined in the stage 2 design; it does not mean all 256 draws agree.
 - Stage 4 was in effect concurrent with the verifier runs: the predictions were committed about one minute after the verifiers were launched and before any output existed, as stated above the stage 4 table.
 - The post hoc diagnostic quoted in the L6-3 outcome (60 replicates, 97 %, medians 0.91 and 0.81, truth entrapment at 26.3 deg) is now reproducible: `scripts/diagnose_ladder_entrapment.py`, output `results/field_kit/diagnostic_entrapment_2026-10-15.csv` (26.25 deg; 0.967; 0.906 and 0.815).
+
+
+## Stage 7: Dumont Dunes as a prior for the slip scale i0 (stretch study, written 2026-10-15 BEFORE the script was written or the elevation tiles were downloaded)
+
+**SIMULATED BY ME, simulation only, model assumption dependent. A sensitivity study, not a change to the model or to any earlier result.** It uses a published curve for a different, heavier vehicle on a different dune (FLD-HV13-1) as if it described the slip scale of the rover the map is for; that assumption is not supported and is the point being tested.
+
+Design fixed now. Script to be written after this commit: `scripts/study_dumont_prior.py`; outputs `results/dumont_prior/`.
+
+- Areas A_south_Liwa, B_RubAlKhali_megadunes, C_RubAlKhali_linear at 30 m only, same crops, the same 256 Latin hypercube draws and seeds as phase 2 (20261014, 20261015, 20261016), the same detector, face threshold 0.20 and class rules.
+- Baseline: the phase 2 draws unchanged (a reproduction check against `results/subgrid/class_shares.csv`).
+- Dumont prior, unclipped: in each draw keep phi, f_r and i_max and replace i0 by the value in 0.05 to 3.0 that minimises the squared difference between the model (direct ascent, slip capped at 1) and the Dumont cubic on 4 to 21 deg (0.1 deg grid).
+- Dumont prior, clipped: the same i0 clipped to the existing range 0.05 to 0.40.
+- Reported per area: TRAVERSABLE, BLOCKED and UNKNOWN shares (and the two UNKNOWN causes), and the distribution of the fitted i0.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| D7-1 | The baseline reproduces the committed 30 m class shares of all three areas to within 0.1 percentage point. | |
+| D7-2 | The median Dumont fitted i0 over the 256 draws of area A lies between 0.4 and 2.0, outside the assumed range of 0.05 to 0.40. | |
+| D7-3 | Unclipped Dumont prior: BLOCKED in area A at 30 m rises above 1 % (baseline under 0.1 %). | |
+| D7-4 | Unclipped Dumont prior: UNKNOWN in area A at 30 m lies between 15 % and 60 % (baseline 8.6 %). | |
+| D7-5 | Clipped Dumont prior: UNKNOWN in area A lies between the baseline and the unclipped value. | |
+| D7-6 | Under the unclipped prior, area C has the lowest UNKNOWN share of the three areas, as in the baseline. | |
