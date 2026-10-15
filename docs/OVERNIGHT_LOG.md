@@ -10,3 +10,4 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 20:21 T4 in progress (reviewer running; fixed build paths in six scripts and tool mentions in two notes); T5 done early: docs/PROPOSAL_EDGE.md generated from a template and linked; tests 52 passed, scans clean.
 - 20:43 T4 done: 38 reviewer findings plus own scans in docs/REVIEW_2026-10-15.md, all fixed except 5 with reasons; CI now checks generated files and writing rules. T6: PDFs rebuilt, 55 tests pass, hygiene and secrets scans clean over full history, only allow listed PDFs tracked, no raw data.
 - 21:08 T7 done (stretch): stage 7 pre registered, tiles fetched by the checksummed script (not committed), study run; map barely moves (4 hit, 2 missed); report section 8.9.
+- 21:13 Morning report written; PDFs rebuilt; 55 tests pass; hygiene and secrets scans clean over full history.
