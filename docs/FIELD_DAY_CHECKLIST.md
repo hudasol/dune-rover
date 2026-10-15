@@ -3,8 +3,8 @@
 **Status: PLANNED. Nothing here has been run.** One page, to be printed. The full protocol is `docs/FIELD_VALIDATION_PLAN.md`; the analysis rule is fixed in `docs/predictions/` before any run. Heat and dust limits of the electronics are in the sibling repository `hudasol/dhill` and are not repeated here.
 
 ## Before leaving
-- [ ] Site access, permission and a named contact obtained (operator's responsibility; for a supervised run with Al Ain University see `docs/AAU_FIELD_DAY_PROPOSAL.md`, a proposal only). Slope bins chosen by RTK walk or drone map: 0, 5, 10, 15, 20, 25 degrees, each within plus or minus 2.
-- [ ] Predictions file `docs/predictions/slope_ladder_predictions_2026-10-12.csv` is committed. The post calibration file is written and committed **after the 0, 5 and 10 degree runs and before the 15, 20 and 25 degree runs.**
+- [ ] Site access, permission and a named contact obtained (operator's responsibility; for a supervised run with Al Ain University see `docs/AAU_FIELD_DAY_PROPOSAL.md`, a proposal only). Slope bins chosen by RTK walk or drone map (revised 2026-10-15): 0, 5, 10, 12.5, 15, 17.5, 20 degrees, within plus or minus 1 degree from 10 to 20 and plus or minus 2 otherwise; 25 degrees only if fewer than half the 20 degree runs entrap. Record the target bin of each run in `bin_deg`.
+- [ ] Prediction files `docs/predictions/slope_ladder_predictions_2026-10-12.csv` (original bins) and `docs/predictions/slope_ladder_predictions_2026-10-15.csv` (revised bins) are committed. The post calibration file is written and committed **after the 0, 5 and 10 degree runs and before any steeper run.**
 - [ ] Run order randomised, written on the log sheet. Rover mass, wheel diameter, width, tyre type and loaded effective radius recorded on a hard surface and on level sand.
 - [ ] Batteries full, spare set charged. Both RTK units tested on the car roof. Encoders and current logging tested on a bench.
 
