@@ -81,13 +81,15 @@ Design fixed now:
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| A5-1 | The Dumont curve crosses 50 % slip at 12.6 deg (plus or minus 0.3). The nominal model crosses 50 % between 23 and 28 deg, so the nominal model is at least 10 deg too permissive against Dumont. | |
-| A5-2 | At least 90 % of the Dumont grid (4 to 21 deg) lies inside the min to max envelope of the 4000 draws (the envelope is very wide). | |
-| A5-3 | Between 30 % and 70 % of the Dumont grid lies inside the 5 to 95 % band; the Dumont curve leaves the band upwards (more slip than the model) at a slope between 11 and 16 deg and stays above it to 21 deg. | |
-| A5-4 | The model median (over draws) crosses 50 % slip between 20 and 28 deg. | |
-| A5-5 | Fewer than 2 % of the 4000 draws stay within plus or minus 0.10 of the Dumont curve at every grid point. | |
-| A5-6 | POST HOC fit: the best bounded fit has RMSE between 0.03 and 0.10 against the Dumont grid, and at least one of the three parameters sits at a bound of its range. | |
-| A5-7 | A change of 0.0005 in c3 (its rounding) moves the Dumont slip at 21 deg by between 4 and 5 percentage points. | |
-| I5-1 | (b1) At 10 deg cross slope the model envelope (min to max) with phi 38 and assumed f_r, i0 does not reach the measured slip ratio of about 0.5: its maximum is below 0.35. | |
-| I5-2 | (b1) At 5 deg cross slope the envelope maximum is below 0.25, so Ishigami's model value (slip above 0.6 needed for positive thrust) is outside it. | |
-| I5-3 | (b2) With i0 = 0.81, the model slip at 10 deg cross slope spans from about 0.2 to about 0.4 over the f_r range (each end plus or minus 0.07); the measured 0.5 is above it or at its upper edge. | |
+| A5-1 | The Dumont curve crosses 50 % slip at 12.6 deg (plus or minus 0.3). The nominal model crosses 50 % between 23 and 28 deg, so the nominal model is at least 10 deg too permissive against Dumont. || HIT. Dumont crosses 50 % at 12.59 deg; the nominal model at 25.46 deg, 12.9 deg later (`results/anchors/summary.json`). |
+| A5-2 | At least 90 % of the Dumont grid (4 to 21 deg) lies inside the min to max envelope of the 4000 draws (the envelope is very wide). || HIT. 100 % of the Dumont grid lies inside the min to max envelope; the envelope is so wide that this says little. |
+| A5-3 | Between 30 % and 70 % of the Dumont grid lies inside the 5 to 95 % band; the Dumont curve leaves the band upwards (more slip than the model) at a slope between 11 and 16 deg and stays above it to 21 deg. || MIXED. 57.3 % of the grid lies inside the 5 to 95 % band (HIT on the 30 to 70 % part). The Dumont curve leaves the band upwards at 10.7 deg, earlier than the predicted 11 to 16 deg (MISS), and it re enters the band at 18.0 deg because the upper band reaches 1.0 near 19 deg, so it does not stay above to 21 deg (MISS). |
+| A5-4 | The model median (over draws) crosses 50 % slip between 20 and 28 deg. || HIT. The model median crosses 50 % at 22.90 deg. |
+| A5-5 | Fewer than 2 % of the 4000 draws stay within plus or minus 0.10 of the Dumont curve at every grid point. || HIT. No draw (0 of 4000) stays within 0.10 of the Dumont curve at every grid point. |
+| A5-6 | POST HOC fit: the best bounded fit has RMSE between 0.03 and 0.10 against the Dumont grid, and at least one of the three parameters sits at a bound of its range. || HIT. POST HOC fit RMSE 0.085 with phi at its lower bound (28 deg) and i0 at its upper bound (0.40), f_r 0.139; the fitted curve crosses 50 % at 13.5 deg. Even pushed to the edge of its ranges the model form misses the S shape by up to 0.13. |
+| A5-7 | A change of 0.0005 in c3 (its rounding) moves the Dumont slip at 21 deg by between 4 and 5 percentage points. || HIT. 4.63 percentage points at 21 deg (simple arithmetic, so a weak test). |
+| I5-1 | (b1) At 10 deg cross slope the model envelope (min to max) with phi 38 and assumed f_r, i0 does not reach the measured slip ratio of about 0.5: its maximum is below 0.35. || HIT. With phi 38 and assumed f_r, i0 the model reaches at most 0.197 at 10 deg; the measured slip ratio of about 0.5 is far outside. |
+| I5-2 | (b1) At 5 deg cross slope the envelope maximum is below 0.25, so Ishigami's model value (slip above 0.6 needed for positive thrust) is outside it. || HIT. Maximum 0.164 at 5 deg; Ishigami's model value of more than 0.6 is outside. |
+| I5-3 | (b2) With i0 = 0.81, the model slip at 10 deg cross slope spans from about 0.2 to about 0.4 over the f_r range (each end plus or minus 0.07); the measured 0.5 is above it or at its upper edge. || HIT. With i0 = 0.81 the model spans 0.217 to 0.403 at 10 deg; the measured 0.5 is above the whole range. |
+
+Note on stage 5: nine of ten predictions hit and one was mixed, but several were informed by hand arithmetic on the model equation before the commit (stated above the table), so the hits show that the script does what the equation says rather than foresight about the world. The informative results are the comparisons themselves, reported in `results/anchors/` and report section 8.8.
