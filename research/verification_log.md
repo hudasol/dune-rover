@@ -1,7 +1,8 @@
 # Verification log
 
-Every one of the 144 evidence rows has now been re-checked against its source by a separate subagent that re-fetched the source and had no access to the extraction notes.
+Every one of the 170 evidence rows has now been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
+Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
 Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.
 
 ## random sample, phase 1 (n=30 of 137 unflagged) (n = 30)
@@ -24,9 +25,21 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material-error rate 6/144 = 4.2 % (Wilson 95 % CI 1.9 to 8.8 %)
 - any-discrepancy rate 36/144 = 25.0 % (Wilson 95 % CI 18.6 to 32.7 %)
 
+## supplementary rows from supplied PDFs, phase 3 (n = 26)
+- correct 11, minor 12, material 3, unverifiable 0
+- material-error rate 3/26 = 11.5 % (Wilson 95 % CI 4.0 to 29.0 %)
+- any-discrepancy rate 15/26 = 57.7 % (Wilson 95 % CI 38.9 to 74.5 %)
+
+## ALL 170 ROWS (n = 170)
+- correct 119, minor 42, material 9, unverifiable 0
+- material-error rate 9/170 = 5.3 % (Wilson 95 % CI 2.8 to 9.8 %)
+- any-discrepancy rate 51/170 = 30.0 % (Wilson 95 % CI 23.6 to 37.3 %)
+
 ## What this does and does not show
 - The phase 1 random sample (0 material in 30, upper bound 9.5 %) understated the table-wide rate: the 107 rows checked in phase 2 had 6 material errors (5.6 %). The bound held, but the point estimate was optimistic.
-- Six of 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' rate is the pre-correction error rate of the extraction, not of the corrected table.
+- Six of the original 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' and 'ALL 170' rates are pre-correction error rates of the extraction, not of the corrected table.
+- Phase 3: 3 of the 26 supplementary rows had a material error, all on validation type (TM-TK5 and TM-IS07-5 labelled as comparisons although no simulation was compared; FLD-HV13-5 labelled field although two of its three numbers come from the JPL Marsyard). The values themselves were right in all 26 rows. Minor errors were mostly page and section labels and one terrain wording (sand called dry where the source does not say so, TM-YU1 to TM-YU4).
+- Phase 3 used supplied PDFs read through a text layer; no page images could be rendered, so values read only from figures were checked against the text, not the plot.
 - Minor errors (labels, sections, descriptive details) were common; the corrected table still carries the risk that a verifier shared a blind spot with the extractor.
 - Verifiers are language-model agents using the same search tools; they re-fetched sources but may share blind spots with the extractors, for example on figure-only values. A human spot check of a few rows remains advisable.
 - Material errors found in phase 2: wrong wheel count (LRN-017), validation type lab versus field (SIM-012, LRN-006), lab versus sim-vs-lab (LRN-019), a best case labelled as worst case (TM-020), an unreferenced capability statement presented as a measurement (FLD-029). SIM-013 was set to lab for consistency with SIM-012.
@@ -36,6 +49,13 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - SIM-022 (phase 1): minor_error: Section label wrong: Table 2 and the 12.98 mm value appear in Sec 2.3 (testing environment), just before Sec 3 Results, not in Sec 3.1.
 - FLD-004 (phase 1): minor_error: Terrain detail 'about 20 m diameter' is not in the cited Li 2008 paragraph (it comes from the Maimone paper); otherwise supported.
 - FLD-023 (phase 1): minor_error: Vehicle label imprecise: the 16 deg figure is a Perseverance ENav tilt limit based on worst-case drive performance of the Curiosity-class Scarecrow rover in Earth sand dunes (cited to Heverly), not a Curiosity measurement; value is a design limit, not a measured result.
+- TM-IS07-1 (phase 3): minor_error: The wheel diameter sentence is on journal page 240, not page 239; Section 3.1 only begins on page 239.
+- TM-IS07-2 (phase 3): minor_error: Section 4.1 with the rover dimensions is on journal page 241, not page 243.
+- TM-IS07-4 (phase 3): minor_error: Table IV is printed on journal page 246, not page 245.
+- TM-IS07-5 (phase 3): material_error: The source attributes the slip ratio and slip angle ranges to observation throughout the experiments, not to the simulation, and the range itself is not a simulation versus experiment comparison, so the validation type should be lab.
+- FLD-HV13-1 (phase 3): minor_error: The unit field says the slip and slope units are not stated and only presumed, whereas Figure 12 and Eq. (4) establish slip in percent and slope in degrees for the fitted curve.
+- FLD-HV13-5 (phase 3): material_error: The row labels all results as field although the 22 deg bedrock limit and the 75% slip at 20 deg cohesive soil result come only from the engineered Marsyard, and the bedrock slope range starts at flat rather than 5 deg.
+- FLD-HV13-6 (phase 3): minor_error: The good agreement is between Curiosity visual odometry slip data and the Earth test data in Figure 17, not between Mars data and a prediction from the onboard polynomial slip model, so the vehicle, method and metric descriptions misattribute the comparison.
 - TM-018 (phase 1): minor_error: Facility labelled ESA/DLR TROLL; paper describes TROLL as a DLR facility (authors affiliated with ESA/ESTEC).
 - SIM-013 (phase 1): minor_error: Equation 3 coefficients match the printed text, but the unit label 'slip ratio' describes the equation output not the coefficient; unit of alpha is not stated in the paper.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
@@ -68,3 +88,11 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - TM-022 (phase 2): minor_error: The thesis does not state that the sand is dry.
 - TM-023 (phase 2): minor_error: The thesis does not state that the sand is dry.
 - TM-024 (phase 2): minor_error: Weight reduction of 20 percent belongs to the dynamic tuning step, not force tuning (cohesion change), and dry is not stated.
+- TM-YU1 (phase 3): minor_error: The terrain description calls the sand dry and places the force tests in the CMU Field Robotics Center testbed, but the paper never states the moisture state and names the Field Robotics Center testbed only for the trench experiments of Sec. 4.1, not for the gantry force tests of Sec. 3.2.
+- TM-YU2 (phase 3): minor_error: The terrain description calls the sand dry and places the force tests in the CMU Field Robotics Center testbed, but the paper never states the moisture state and names the Field Robotics Center testbed only for the trench experiments of Sec. 4.1, not for the gantry force tests of Sec. 3.2.
+- TM-YU3 (phase 3): minor_error: The terrain description calls the sand dry and places the force tests in the CMU Field Robotics Center testbed, but the paper never states the moisture state and names the Field Robotics Center testbed only for the trench experiments of Sec. 4.1, not for the gantry force tests of Sec. 3.2.
+- TM-YU4 (phase 3): minor_error: The terrain description calls the sand dry and places the force tests in the CMU Field Robotics Center testbed, but the paper never states the moisture state and names the Field Robotics Center testbed only for the trench experiments of Sec. 4.1, not for the gantry force tests of Sec. 3.2.
+- TM-YU5 (phase 3): minor_error: The sinkage range of 5 cm to 25 cm is copied from Sec. 3.1, but Table 3 and Fig. 6, which supply and illustrate the cited value, give the sinkages as 5, 15 and 25 mm, a conflict the row does not flag.
+- TM-TK3 (phase 3): minor_error: Table 1 (testbed specifications) is on p. 2 of the article; not p. 3 as stated.
+- TM-TK4 (phase 3): minor_error: The value is correct, but Fig. 5a is printed on p. 6, not p. 5 as the location implies.
+- TM-TK5 (phase 3): material_error: The 34 degree angle of repose is a lab measurement for Toyoura and Tohoku silica sand, and this source reports no simulated angle of repose value or graph to compare with it, so sim-vs-lab is not supported; the location also mislabels where the sentence sits.
