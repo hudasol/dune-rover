@@ -27,10 +27,11 @@ if a.calibrate:       # post calibration predictions from real data (written bef
     s = FA.observed_slip(d); cal = (d["slope_deg"] <= FA.CALIB_MAX_DEG) & ~d["entrapped"]
     phi = float(np.median(d["phi_deg"]))
     f_r, i0 = FA.calibrate(d["slope_deg"][cal], s[cal], phi)
-    sig, src = FA.pilot_sigma(d); tol = FA.tolerance_from_pilot(sig)
+    sig, src = FA.pilot_sigma(d, 5.0 if a.design == "2026-10-12" else 2.5); tol = FA.tolerance_from_pilot(sig)
     rows = [{"slope_deg": th, "predicted_slip": float(FA.model_slip(th, f_r, i0, phi)), "interval_lo": max(float(FA.model_slip(th, f_r, i0, phi)) - tol, -0.05),
              "interval_hi": min(float(FA.model_slip(th, f_r, i0, phi)) + tol, 1.0), "interval_meaning": "predicted slip plus or minus the pre-registered tolerance (3 x pilot sigma)",
-             "f_r_fit": f_r, "i0_fit": i0, "phi_deg_used": phi, "tolerance": tol, "sigma_pilot": sig, "date": date} for th in (15, 20, 25)]
+             "f_r_fit": f_r, "i0_fit": i0, "phi_deg_used": phi, "tolerance": tol, "sigma_pilot": sig, "date": date}
+            for th in ((15, 20, 25) if a.design == "2026-10-12" else tuple(t for t in FA.LADDER_2026_10_15 if t > 10))]
     fn = os.path.join(outdir, f"slope_ladder_post_calibration_{date}.csv")
     with open(fn, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
