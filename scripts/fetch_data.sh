@@ -18,4 +18,4 @@ fetch() {
 fetch Copernicus_DSM_COG_10_N23_00_E053_00_DEM.tif 1b6bb95ecf03a2e89d0f10cae5cd125ffdfd49994f0dbe6ba6c3242bde699a96
 fetch Copernicus_DSM_COG_10_N22_00_E054_00_DEM.tif a33e0813eb483f685034c491b78af126bb7736d64c29da0249e6eb68d679b882
 fetch Copernicus_DSM_COG_10_N20_00_E052_00_DEM.tif b6c0fc66abac1032a53b6702a0b355a14ff65813f435ac6a0106e2620c90807b
-echo "done. Run: PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results ; then python3 -m dunerover.study_subgrid --data data/raw --out results/subgrid"
+echo "done. Run: PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results ; then PYTHONPATH=src python3 -m dunerover.study_subgrid --data data/raw --out results/subgrid"

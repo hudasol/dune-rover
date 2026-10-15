@@ -21,7 +21,7 @@ Run the pre registered slope ladder (`docs/FIELD_VALIDATION_PLAN.md`) on one dun
 | Two student volunteers | Spotter, logger | One volunteer plus the author |
 
 ## Plan
-1. Pilot (12 runs, slopes up to 10 degrees) to set the tolerance from the scatter.
+1. Pilot (12 runs: 3 at each of 5, 10, 15 and 20 degrees, as in the field plan) to set the tolerance from the scatter. Without a supervisor and recovery support, only runs up to 10 degrees, reported as incomplete.
 2. Full ladder with the bins in `docs/FIELD_VALIDATION_PLAN.md` section 4 (original 0 to 25 degrees, or the 2026-10-15 revision with denser bins between 10 and 20 degrees, depending on the author's open decision), randomised order, with the post calibration prediction file committed before any run above 10 degrees.
 3. Analyse with the committed script; report every hit and miss, including a negative result.
 4. Share the data and the write up with AAU.

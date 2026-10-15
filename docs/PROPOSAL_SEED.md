@@ -18,11 +18,11 @@ Why it matters: the review of 170 published results found no slip against slope 
 
 ## 3. Deliverables
 
-- An open dataset of the runs with the soil description (log template `docs/field_log_template.csv`), published under the repository licence once confirmed.
+- An open dataset of the runs with the soil description (log template `docs/field_log_template.csv`), shared on terms the author sets (the repository itself is all rights reserved, so an open data licence would be a separate decision).
 - A report stating, with intervals, how well the calibrate then predict protocol worked on the steeper bins and where the entrapment slope fell against the pre data prediction.
 - A measured slip face profile set and a statement of how far the 30 m map is from it.
 - Updated assumption ranges and a re run of the three class map with them.
-- Honest negative results: if the model fails, the failure is reported with the data.
+- Negative results: if the model fails, the failure is reported with the data.
 
 ## 4. Risks
 
