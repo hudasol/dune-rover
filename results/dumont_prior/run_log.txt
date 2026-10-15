@@ -1,0 +1,15 @@
+SIMULATION ONLY - model-assumption dependent, not field evidence
+Stage 7 (docs/PREDICTIONS.md). Comparison input: Dumont Dunes cubic, a different and heavier vehicle.
+A_south_Liwa baseline (phase 2 draws): UNKNOWN 8.60 %, BLOCKED 0.00 %, TRAVERSABLE 91.39 %
+A_south_Liwa Dumont prior, unclipped: UNKNOWN 8.95 %, BLOCKED 0.32 %, TRAVERSABLE 90.72 %
+A_south_Liwa Dumont prior, clipped to 0.05 to 0.40: UNKNOWN 8.61 %, BLOCKED 0.01 %, TRAVERSABLE 91.38 %
+A_south_Liwa fitted i0: median 0.581, 5 to 95 % 0.286 to 0.944
+B_RubAlKhali_megadunes baseline (phase 2 draws): UNKNOWN 10.89 %, BLOCKED 0.01 %, TRAVERSABLE 89.10 %
+B_RubAlKhali_megadunes Dumont prior, unclipped: UNKNOWN 12.24 %, BLOCKED 1.68 %, TRAVERSABLE 86.08 %
+B_RubAlKhali_megadunes Dumont prior, clipped to 0.05 to 0.40: UNKNOWN 10.88 %, BLOCKED 0.18 %, TRAVERSABLE 88.94 %
+B_RubAlKhali_megadunes fitted i0: median 0.567, 5 to 95 % 0.316 to 0.930
+C_RubAlKhali_linear baseline (phase 2 draws): UNKNOWN 2.54 %, BLOCKED 0.00 %, TRAVERSABLE 97.46 %
+C_RubAlKhali_linear Dumont prior, unclipped: UNKNOWN 2.56 %, BLOCKED 0.00 %, TRAVERSABLE 97.43 %
+C_RubAlKhali_linear Dumont prior, clipped to 0.05 to 0.40: UNKNOWN 2.54 %, BLOCKED 0.00 %, TRAVERSABLE 97.46 %
+C_RubAlKhali_linear fitted i0: median 0.574, 5 to 95 % 0.295 to 0.933
+run time 681 s

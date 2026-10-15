@@ -1,0 +1,163 @@
+{
+ "label": "SIMULATION ONLY - model-assumption dependent, not field evidence",
+ "stage": 7,
+ "i0_search": [
+  0.05,
+  3.0
+ ],
+ "i0_assumed_range": [
+  0.05,
+  0.4
+ ],
+ "n_draws": 256,
+ "seeds": {
+  "A_south_Liwa": 20261014,
+  "B_RubAlKhali_megadunes": 20261015,
+  "C_RubAlKhali_linear": 20261016
+ },
+ "shares": [
+  {
+   "label": "SIMULATED BY ME",
+   "area": "A_south_Liwa",
+   "posting_m": 29.6,
+   "variant": "baseline (phase 2 draws)",
+   "TRAVERSABLE": 0.9139460812923865,
+   "BLOCKED": 5.130961375405507e-06,
+   "UNKNOWN (assumption sensitive)": 0.00013340499576054317,
+   "UNKNOWN (sub-grid face risk)": 0.07752754364203335,
+   "UNKNOWN (both)": 0.00838783910844415,
+   "UNKNOWN (total)": 0.08604878774623805
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "A_south_Liwa",
+   "posting_m": 29.6,
+   "variant": "Dumont prior, unclipped",
+   "TRAVERSABLE": 0.9072476112167946,
+   "BLOCKED": 0.0032350711471931717,
+   "UNKNOWN (assumption sensitive)": 0.006817764927570066,
+   "UNKNOWN (sub-grid face risk)": 0.05872257020117217,
+   "UNKNOWN (both)": 0.023976982507269932,
+   "UNKNOWN (total)": 0.08951731763601216
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "A_south_Liwa",
+   "posting_m": 29.6,
+   "variant": "Dumont prior, clipped to 0.05 to 0.40",
+   "TRAVERSABLE": 0.913838331103503,
+   "BLOCKED": 5.900605581716332e-05,
+   "UNKNOWN (assumption sensitive)": 0.0002411551846440588,
+   "UNKNOWN (sub-grid face risk)": 0.07452977945845268,
+   "UNKNOWN (both)": 0.01133172819758306,
+   "UNKNOWN (total)": 0.0861026628406798
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "B_RubAlKhali_megadunes",
+   "posting_m": 29.7,
+   "variant": "baseline (phase 2 draws)",
+   "TRAVERSABLE": 0.891031192363716,
+   "BLOCKED": 5.264100567431523e-05,
+   "UNKNOWN (assumption sensitive)": 0.00023110685417992053,
+   "UNKNOWN (sub-grid face risk)": 0.07933898303996673,
+   "UNKNOWN (both)": 0.029346076736463077,
+   "UNKNOWN (total)": 0.10891616663060971
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "B_RubAlKhali_megadunes",
+   "posting_m": 29.7,
+   "variant": "Dumont prior, unclipped",
+   "TRAVERSABLE": 0.8607966381656279,
+   "BLOCKED": 0.016836134327007212,
+   "UNKNOWN (assumption sensitive)": 0.030430353060657205,
+   "UNKNOWN (sub-grid face risk)": 0.03910777347162939,
+   "UNKNOWN (both)": 0.052829100975078334,
+   "UNKNOWN (total)": 0.12236722750736492
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "B_RubAlKhali_megadunes",
+   "posting_m": 29.7,
+   "variant": "Dumont prior, clipped to 0.05 to 0.40",
+   "TRAVERSABLE": 0.8894237158001979,
+   "BLOCKED": 0.0017609058361542278,
+   "UNKNOWN (assumption sensitive)": 0.0018385834176980346,
+   "UNKNOWN (sub-grid face risk)": 0.06745302913679664,
+   "UNKNOWN (both)": 0.03952376580915325,
+   "UNKNOWN (total)": 0.10881537836364792
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "C_RubAlKhali_linear",
+   "posting_m": 29.9,
+   "variant": "baseline (phase 2 draws)",
+   "TRAVERSABLE": 0.974626113258276,
+   "BLOCKED": 5.130961375405507e-06,
+   "UNKNOWN (assumption sensitive)": 0.0,
+   "UNKNOWN (sub-grid face risk)": 0.025346949194503202,
+   "UNKNOWN (both)": 2.18065858454734e-05,
+   "UNKNOWN (total)": 0.025368755780348674
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "C_RubAlKhali_linear",
+   "posting_m": 29.9,
+   "variant": "Dumont prior, unclipped",
+   "TRAVERSABLE": 0.9743451931229725,
+   "BLOCKED": 7.696442063108259e-06,
+   "UNKNOWN (assumption sensitive)": 0.0002809201353034515,
+   "UNKNOWN (sub-grid face risk)": 0.024050098706869458,
+   "UNKNOWN (both)": 0.0013160915927915124,
+   "UNKNOWN (total)": 0.025647110434964423
+  },
+  {
+   "label": "SIMULATED BY ME",
+   "area": "C_RubAlKhali_linear",
+   "posting_m": 29.9,
+   "variant": "Dumont prior, clipped to 0.05 to 0.40",
+   "TRAVERSABLE": 0.9746184168162129,
+   "BLOCKED": 5.130961375405507e-06,
+   "UNKNOWN (assumption sensitive)": 7.696442063108259e-06,
+   "UNKNOWN (sub-grid face risk)": 0.02528794313868604,
+   "UNKNOWN (both)": 8.081264166263672e-05,
+   "UNKNOWN (total)": 0.025376452222411784
+  }
+ ],
+ "fitted_i0": [
+  {
+   "area": "A_south_Liwa",
+   "draws": 256,
+   "i0_p05": 0.2860572387737187,
+   "i0_median": 0.5807476951135511,
+   "i0_p95": 0.9444908612985204,
+   "share_i0_above_0.40": 0.80859375,
+   "share_at_search_bound_3.0": 0.0,
+   "fit_rmse_median": 0.09602968449449148,
+   "fit_rmse_max": 0.12528511090117878
+  },
+  {
+   "area": "B_RubAlKhali_megadunes",
+   "draws": 256,
+   "i0_p05": 0.31640879120828247,
+   "i0_median": 0.5674128059684028,
+   "i0_p95": 0.9300816738637722,
+   "share_i0_above_0.40": 0.83984375,
+   "share_at_search_bound_3.0": 0.0,
+   "fit_rmse_median": 0.09585999120693847,
+   "fit_rmse_max": 0.1252016707141083
+  },
+  {
+   "area": "C_RubAlKhali_linear",
+   "draws": 256,
+   "i0_p05": 0.29531269342054767,
+   "i0_median": 0.5740417900407022,
+   "i0_p95": 0.9333943268708484,
+   "share_i0_above_0.40": 0.8125,
+   "share_at_search_bound_3.0": 0.0,
+   "fit_rmse_median": 0.09532281960891503,
+   "fit_rmse_max": 0.1261239521560219
+  }
+ ]
+}
