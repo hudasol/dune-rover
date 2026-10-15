@@ -8,13 +8,13 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 | Label | Meaning | Where |
 |---|---|---|
-| **PUBLISHED** | A number read in a retrieved source: 144 rows with URL, passage, retrieval date and an independent re-check | `research/evidence.csv`, report Appendix A |
+| **PUBLISHED** | A number read in a retrieved source: 170 rows with URL, passage, retrieval date and an independent re-check | `research/evidence.csv`, report Appendix A |
 | **SIMULATED-BY-ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, a sub-grid slip face detector trained on synthetic dunes, a three class map (TRAVERSABLE, BLOCKED, UNKNOWN) and synthetic tests of the field analysis. Model-assumption dependent, never field evidence | `src/dunerover/`, `results/` |
 | **PLANNED** | A slope ladder field experiment, its pre-data predictions, checklist, rover options and a proposal outline. Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md` |
 
 ## Headline numbers (from files)
 
-- Verification: all 144 evidence rows re-checked against their sources; material errors 6 of 144 (4.2 %), any discrepancy 36 of 144 (25.0 %); all corrected (`research/verification_log.md`).
+- Verification: all 170 evidence rows re-checked against their sources; material errors 9 of 170 (5.3 %), any discrepancy 51 of 170 (30.0 %); for the 26 rows read from supplied PDFs alone, material 3 of 26 (11.5 %, all on validation type), any discrepancy 15 of 26 (57.7 %); all corrected (`research/verification_log.md`).
 - Simulation, 30 m: UNKNOWN share 8.6 % (A south Liwa), 10.9 % (B megadunes), 2.5 % (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; 99.1 % of cells in A have the same slope based verdict under all 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is 34.4 %, 32.2 %, 22.0 %. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
 - Pre-registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
 
