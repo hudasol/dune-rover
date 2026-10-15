@@ -11,3 +11,4 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 20:43 T4 done: 38 reviewer findings plus own scans in docs/REVIEW_2026-10-15.md, all fixed except 5 with reasons; CI now checks generated files and writing rules. T6: PDFs rebuilt, 55 tests pass, hygiene and secrets scans clean over full history, only allow listed PDFs tracked, no raw data.
 - 21:08 T7 done (stretch): stage 7 pre registered, tiles fetched by the checksummed script (not committed), study run; map barely moves (4 hit, 2 missed); report section 8.9.
 - 21:13 Morning report written; PDFs rebuilt; 55 tests pass; hygiene and secrets scans clean over full history.
+- 21:15 CI writing check failure (institution name in the review document) fixed in b5c9d74; CI green; work stopped, all tasks done.
