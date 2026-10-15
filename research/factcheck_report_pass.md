@@ -1,6 +1,6 @@
 # Independent fact-check of docs/REPORT.md prose (before Appendix A)
 
-Checker did not write the report. No file in /home/claude/dune-rover other than this one was edited. All checks are against the repository files named in the task; no web or memory was used. Simulation numbers were recomputed from results/*.csv and results/summary.json with python3; the verification statistics (exact bounds, Wilson intervals, row counts) were recomputed from research/evidence.csv.
+Checker did not write the report. No file in the build workspace other than this one was edited. All checks are against the repository files named in the task; no web or memory was used. Simulation numbers were recomputed from results/*.csv and results/summary.json with python3; the verification statistics (exact bounds, Wilson intervals, row counts) were recomputed from research/evidence.csv.
 
 ## Summary
 

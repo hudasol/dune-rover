@@ -14,5 +14,5 @@ Licences were read from the provider pages listed in research/raw/data_audit.csv
 Notes
 - Tile naming: the COP30 tile "N23_00_E053" has its top-left post at 24.0N, 53.0E (GeoTIFF GTRasterTypeGeoKey = IsPoint, tiepoint 53.0, 24.0), i.e. it spans 23.0-24.0N, 53.0-54.0E (bottom row removed by the AWS repackaging: 3600x3600 posts). Name = lower-left corner.
 - "skadi" N23E053.hgt: 3601x3601 big-endian int16, row 0 = 24.0N; gunzipped size 25,934,402 bytes (= 3601*3601*2).
-- Derived products (slope statistics, hillshade PNGs) are in /home/claude/dune-rover/data/derived/ and are COMPUTED-BY-ME.
+- Derived products (slope statistics, hillshade PNGs) are in <repository root>/data/derived/ and are COMPUTED-BY-ME.
 - (not committed) data/derived/tileList.txt was a copy of https://copernicus-dem-30m.s3.amazonaws.com/tileList.txt (26,450 lines) retrieved 2026-10-11 to check coverage.

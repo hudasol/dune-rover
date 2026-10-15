@@ -1,6 +1,6 @@
 # Field and analog evidence: slip, sinkage, traversability on dry sand and dunes
-Retrieval date for everything below: 2026-10-11. Working copies are in /home/claude/dune-rover/research/sources/.
-Rows: /home/claude/dune-rover/research/raw/field_rows.csv (42 rows, 17 distinct sources). Lab rows use method_family "other" because the allowed list has no "empirical-lab" value.
+Retrieval date for everything below: 2026-10-11. Working copies are in <repository root>/research/sources/.
+Rows: <repository root>/research/raw/field_rows.csv (42 rows, 17 distinct sources). Lab rows use method_family "other" because the allowed list has no "empirical-lab" value.
 
 ## SEARCH_LOG
 WebSearch queries (standard mode) and what they led to:

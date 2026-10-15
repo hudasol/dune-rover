@@ -5,7 +5,7 @@ Prepared 2026-10-11. Labels used throughout:
 - COMPUTED-BY-ME / SIMULATED = my own computation on the downloaded tiles or a synthetic profile; not published.
 - MY ARITHMETIC / MY INFERENCE = reasoning from published numbers; not a retrieved statement.
 
-Companion files: research/raw/data_audit.csv (21 rows), research/raw/morphology_rows.csv (32 rows), data/raw/MANIFEST.md (tiles + sha256), scripts in /home/claude/dune-rover/scripts/, derived outputs in /home/claude/dune-rover/data/derived/ (slope_stats.json, resolvability.json, A_north_stats.json, hillshade/slope PNGs).
+Companion files: research/raw/data_audit.csv (21 rows), research/raw/morphology_rows.csv (32 rows), data/raw/MANIFEST.md (tiles + sha256), scripts in <repository root>/scripts/, derived outputs in <repository root>/data/derived/ (slope_stats.json, resolvability.json, A_north_stats.json, hillshade/slope PNGs).
 
 ## SEARCH_LOG
 

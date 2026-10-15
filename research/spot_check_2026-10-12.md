@@ -1,6 +1,6 @@
 # Spot check of five evidence rows (2026-10-12)
 
-Rows chosen by the author. Each was compared with the source PDF supplied by the author (a local folder named "sourced evidence"), read in full text. The checker was Claude working from the author's files, so this is a fresh read of the sources but not an independent human check.
+Rows chosen by the author. Each was compared with the source PDF supplied by the author (a local folder named "sourced evidence"), read in full text. The checker was a language model agent working from the author's files, so this is a fresh read of the sources but not an independent human check.
 
 | Row | Source file | Checked | Result |
 |---|---|---|---|

@@ -1,6 +1,6 @@
 # Simulation (DEM / multibody / Chrono) notes - dune-rover review
 
-Retrieval date for everything below: 2026-10-11. Working copies of fetched PDFs/text are in /home/claude/dune-rover/research/sources/ (not for redistribution). Rows are in simulation_rows.csv (30 rows, 11 papers).
+Retrieval date for everything below: 2026-10-11. Working copies of fetched PDFs/text are in <repository root>/research/sources/ (not for redistribution). Rows are in simulation_rows.csv (30 rows, 11 papers).
 
 ## SEARCH_LOG
 
@@ -81,4 +81,4 @@ Items below are not recorded in the CSV because the number was not read in full 
 
 ## PROCESS_NOTE
 
-During this task another subagent wrote a script to the same scratchpad filename (mk.py) and I accidentally re-ran it once, regenerating /home/claude/dune-rover/research/raw/learning_rows.csv from that agent's own script (same inputs, so content should be unchanged). simulation_rows.csv was not affected.
+During this task another subagent wrote a script to the same scratchpad filename (mk.py) and I accidentally re-ran it once, regenerating <repository root>/research/raw/learning_rows.csv from that agent's own script (same inputs, so content should be unchanged). simulation_rows.csv was not affected.
