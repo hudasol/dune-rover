@@ -49,6 +49,9 @@ Not open or not found: Pleiades Neo (commercial), airborne LiDAR or drone DEMs o
 | pytest (development only) | 9.1.0 | MIT | tests |
 | pypdf | 6.14.2 | BSD-3-Clause | reading the supplied PDFs during verification only; not used by repository code |
 | pdftotext (Xpdf tools, Glyph and Cog) | 4.00 | not read (no licence file found on this machine) | reading the supplied PDFs during verification only; not used by repository code |
+| pandoc (from pypandoc_binary) | 3.9 | GPL version 2 or later, with noted exceptions (its bundled COPYRIGHT.txt); the pypandoc_binary wrapper 1.17 is MIT | building `docs/REPORT.pdf` and `docs/EXECUTIVE_BRIEF.pdf` with `scripts/build_pdf.py`; a tool run locally, not distributed |
+| playwright (with its Chromium build) | 1.64.0 | Apache-2.0 (package metadata); Chromium's own licence not read | PDF rendering in `scripts/build_pdf.py`; not distributed |
+| pyee, greenlet (playwright dependencies) | 14.0.0, 3.5.6 | MIT; MIT AND PSF-2.0 | as above |
 
 **Published papers supplied by the author (2026-10-13)** and read for numbers: Heverly et al. 2013, Ishigami et al. 2007 and 2009 (Journal of Field Robotics, Wiley), Yu et al. 2024 and Takehana et al. 2025 (Journal of Terramechanics, Elsevier). They remain under their publishers' terms; the PDFs are not committed and no figure or passage is reproduced beyond short attributed numbers in `research/evidence.csv`. The Dumont Dunes cubic coefficients (FLD-HV13-1) are used as published numbers in `scripts/anchor_comparisons.py` and `src/dunerover/fieldanalysis.py` (synthetic truth `dumont`).
 
