@@ -204,7 +204,7 @@ def fig_dumont(s, d, nominal, lo, hi, p05, p50, p95, fitted, summ, fit):
     ax.fill_between(s, p05, p95, color=PINK["sakura"], alpha=0.75, lw=0, label="model, 5 to 95 % of draws (SIMULATED)")
     ax.plot(s, nominal, color=PINK["deep"], lw=2, label="model, nominal parameters (SIMULATED)")
     ax.plot(s, p50, color=PINK["wine"], lw=1.2, ls="--", label="model, median of draws (SIMULATED)")
-    ax.plot(s, fitted, color=PINK["sage"], lw=1.2, ls=":", label=f"POST HOC fit to Dumont (RMSE {fit['rmse']:.3f})")
+    ax.plot(s, fitted, color=PINK["sage"], lw=1.2, ls=":", label=f"POST HOC fit to Dumont, SIMULATED (RMSE {fit['rmse']:.3f})")
     ax.plot(s, d, color=PINK["plum"], lw=2.4, label="Dumont Dunes cubic fit, Heverly et al. 2013 (PUBLISHED, FLD-HV13-1)")
     for x, txt in DUMONT_TEXT:
         ax.plot(x, dumont(x), "o", color=PINK["plum"], ms=5, mec="white", mew=0.8)
