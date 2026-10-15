@@ -1,6 +1,6 @@
 # Proposal seed: field validation of slip and traversability prediction on UAE dunes
 
-**This is a proposal outline, not an achievement.** No partnership, funding, permission or endorsement exists or is claimed. Nothing in it has been run. It builds only on what this repository contains: a verified review of the published evidence (`docs/REPORT.md`), simulation studies that depend on stated assumptions (report section 8, labelled simulation only), and a planned experiment (`docs/FIELD_VALIDATION_PLAN.md`). Heat and dust operating limits for the electronics are the subject of the sibling repository `hudasol/dhill` and are cross referenced, not repeated, here.
+**This is a proposal outline, not an achievement.** No partnership, funding, permission or endorsement exists or is claimed. Nothing in it has been run. It builds only on what this repository contains: a verified review of the published evidence (`docs/REPORT.md`), simulation studies that depend on stated assumptions (report section 8, labelled simulation only), and a planned experiment (`docs/FIELD_VALIDATION_PLAN.md`). Heat and dust operating limits for the electronics are the subject of the sibling repository `hudasol/dhill` and are cross referenced, not repeated, here. A two page version addressed to EDGE Group, with specific asks and fallbacks, is `docs/PROPOSAL_EDGE.md` (also a proposal only; no agreement exists).
 
 ## 1. Question
 
