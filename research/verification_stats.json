@@ -64,5 +64,41 @@
    0.1863940290026437,
    0.3265982546306503
   ]
+ },
+ "supplementary rows from supplied PDFs, phase 3": {
+  "n": 26,
+  "correct": 11,
+  "minor_error": 12,
+  "material_error": 3,
+  "unverifiable": 0,
+  "material_rate": 0.11538461538461539,
+  "material_wilson95": [
+   0.04003171821149494,
+   0.28976293086898336
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.5769230769230769,
+  "any_wilson95": [
+   0.3894829692111983,
+   0.7445581009727059
+  ]
+ },
+ "ALL 170 ROWS": {
+  "n": 170,
+  "correct": 119,
+  "minor_error": 42,
+  "material_error": 9,
+  "unverifiable": 0,
+  "material_rate": 0.052941176470588235,
+  "material_wilson95": [
+   0.028099063443071427,
+   0.09754174980301003
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.3,
+  "any_wilson95": [
+   0.236154205110263,
+   0.37268510607877336
+  ]
  }
 }
