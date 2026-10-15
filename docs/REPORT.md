@@ -28,7 +28,7 @@ Related work, not repeated here: `hudasol/dhill` (heat-and-dust operating envelo
 
 **Headline findings (SIMULATED-BY-ME, model-assumption dependent, not field evidence).** With a stated friction-circle slip model and nominal assumptions, the 30 m grid blocks only 0.2 to 1 % of travel directions in three real dune windows, because few cells exceed the model's nominal climbing limit of 25.5 degrees. That is mostly a statement about grid resolution and assumptions, not evidence that the dunes are easy. Across the plausible assumption ranges the model's climbing limit varies from 7.6 to 34.7 degrees (5 to 95 %: about 15 to 32 degrees). The assumptions that change the map most are the friction angle, the form of the slip law, the DEM posting, the slip scale i0 and the motion-resistance coefficient. DEM noise and the planning slip limit matter least (section 8).
 
-**Headline findings, phase 2 (SIMULATED-BY-ME, model-assumption dependent; detector validated on synthetic truth only).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict under all 256 draws of the four assumed slip parameters, so the three class map is far more sensitive to the sub-grid morphology assumptions and the resolution than to those four parameters (section 8.7). Of 18 pre-registered predictions, the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the simulation missed.
+**Headline findings, phase 2 (SIMULATED-BY-ME, model-assumption dependent; detector validated on synthetic truth only).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict under all 256 draws of the four assumed slip parameters, so the three class map is far more sensitive to the sub-grid morphology assumptions and the resolution than to those four parameters (section 8.7). Of 32 pre-registered predictions, the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the simulation missed.
 
 **Verification.** All 170 rows now have an independent re-check against the source (section 11). Material errors: **9 of 170 (5.3 %, Wilson 95 % interval 2.8 to 9.8 %)**, all in the 107 rows checked in phase 2 (6 of 107, 5.6 %); any discrepancy including minor label errors: 51 of 170 (30.0 %). All are corrected in the table. The phase 1 random sample (0 of 30 material) had understated the rate. The unit of the slope term in SIM-013 is not stated in its source, so that row is flagged and must not be used numerically outside the tested envelope.
 
@@ -527,6 +527,50 @@ At 30 m the UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 
 **What this section establishes and does not.** It establishes that, under stated assumptions about dune shape, a 30 m DEM leaves a modest share of cells (about a tenth in the Liwa and megadune windows, a few percent in the linear dune window) with a face probability above 0.20, that this share rises to roughly a quarter to a third if a face within one post counts, and that it is driven by the assumed morphology and the cell definition far more than by the four slip parameters. It does **not** establish that any cell is safe: a TRAVERSABLE cell has a face probability below 0.20, not zero. No claim is made that the detector would find real faces; the way to test it is to compare it with an RTK or drone profile of a real dune (the first step of `docs/NEXT_STEPS.md`).
 
 
+### 8.8 Two published anchors: Dumont Dunes and Ishigami 2009 (SIMULATED BY ME against PUBLISHED values; simulation only, model assumption dependent)
+
+**Both comparisons are of unlike vehicles and soils.** They test whether the unchanged slip model (section 8.1, `src/dunerover/slipmodel.py`) and its assumed parameter ranges are consistent with two published slope results, not whether the model is right for any rover on Arabian sand. Design, seeds and tolerances were committed before the script existed (`docs/PREDICTIONS.md`, stage 5). Script `scripts/anchor_comparisons.py`; outputs `results/anchors/` (CSVs, `summary.json`, `run_log.txt`, `figures/fig_dumont_vs_model.png`, `figures/fig_ishigami2009_vs_model.png`).
+
+**(a) Dumont Dunes (PUBLISHED: Heverly et al. 2013, Sec 6.3, rows FLD-HV13-1 and FLD-HV13-2).** The published curve is a cubic fit of slip (%) against slope (deg) from eight direct upslope runs of the Scarecrow rover (340 kg, six 50 cm grousered wheels) in natural dune sand, valid only from about 4 to 21 degrees. No soil parameters are reported, slope is the rover tilt, and slip is one minus traverse over commanded distance. The model was evaluated on the same slope grid at nominal parameters and over 4000 Latin hypercube draws of its assumed ranges (phi 28 to 38 deg, f_r 0.05 to 0.25, i0 0.05 to 0.40).
+
+![Dumont Dunes slip curve against the model envelope](../results/anchors/figures/fig_dumont_vs_model.png)
+
+| Slope, deg | Dumont cubic (PUBLISHED fit, FLD-HV13-1) | Model, nominal (SIMULATED) | Model, 95th percentile of draws (SIMULATED) |
+|---|---|---|---|
+| 4.0 | 0.09 | 0.07 | 0.21 |
+| 10.0 | 0.32 | 0.12 | 0.34 |
+| 12.5 | 0.49 | 0.15 | 0.42 |
+| 16.0 | 0.73 | 0.20 | 0.60 |
+| 20.0 | 0.90 | 0.27 | 1.00 |
+| 21.0 | 0.90 | 0.30 | 1.00 |
+
+- The Dumont curve crosses 50 % slip at 12.6 degrees; the nominal model crosses it at 25.5 degrees and the median of the draws at 22.9 degrees. Against this vehicle and dune, the nominal model is far too permissive above about 10 degrees.
+- 100.0 % of the Dumont curve lies inside the min to max envelope, which only shows how wide the assumed ranges are. 57.3 % lies inside the 5 to 95 % band. **The envelope fails** between 10.7 to 17.9 degrees, where Dumont slip is above the 95th percentile of the draws; the band rejoins the curve near 18 degrees only because many draws reach entrapment (slip 1) there.
+- 0 of 4000 draws stay within 0.10 of the Dumont curve at every slope.
+- **POST HOC recalibration test (not a validation).** A bounded least squares fit of the three parameters to the Dumont curve ends at the edges of the ranges (phi 28.0 deg, f_r 0.139, i0 0.40) with RMSE 0.085 and a largest error of 0.13; it crosses 50 % at 13.5 degrees. The model form rises smoothly to entrapment and cannot reproduce the S shaped Dumont curve (slow rise, rapid transition between about 10 and 17 degrees, then saturation near 90 %), which Heverly et al. attribute to sinkage and bulldozing growing with slip. No parameter of the model was changed on the basis of this fit.
+
+**(b) Ishigami et al. 2009 (PUBLISHED: Table I and Sec 3.2.2, 4.3, 6.3; rows TM-IS09-1 to TM-IS09-5).** A 13.5 kg four wheel rover (wheel radius 5.5 cm) traversed 5 and 10 degree side slopes in a tilting bed of Toyoura sand, steering to hold a straight line. Table I gives a friction angle of 38 degrees and zero cohesion, which map directly onto the model; it gives no motion resistance and no contact length, so f_r stays assumed. Variant b1 keeps i0 over its assumed range. Variant b2 sets i0 = kx / (largest contact arc) = 0.07 m / (r pi / 2) = 0.81, a lower bound on i0 under the model's own definition (i0 = K/L), which lies outside the assumed range of 0.05 to 0.40. The model was run across the slope (no along slope component). Ishigami's slip is a wheel slip ratio under steering; the model's is a lumped demand slip.
+
+![Model with Ishigami 2009 Table I against his side slope runs](../results/anchors/figures/fig_ishigami2009_vs_model.png)
+
+| Row | Side slope, deg | Published | What it is | Model variant | Model min to max (SIMULATED) | Compatible | Scored |
+|---|---|---|---|---|---|---|---|
+| TM-IS09-3 | 10 | 0.5 (point) | measured slip ratio, about 0.5, feed forward control, case B | b1 | 0.01 to 0.20 | NO | yes |
+| TM-IS09-3 | 10 | 0.5 (point) | measured slip ratio, about 0.5, feed forward control, case B | b2 | 0.22 to 0.40 | NO | yes |
+| TM-IS09-2 | 5 | 0.6 (lower bound) | Ishigami model: slip ratio must exceed 0.6 for positive thrust (model to model) | b1 | 0.01 to 0.16 | NO | yes |
+| TM-IS09-2 | 5 | 0.6 (lower bound) | Ishigami model: slip ratio must exceed 0.6 for positive thrust (model to model) | b2 | 0.11 to 0.34 | NO | yes |
+| TM-IS09-5 | 5 | 0.4 (upper bound) | feedback control kept slip ratio below 0.4 (controlled, not scored) | b1 | 0.01 to 0.16 | yes | no |
+| TM-IS09-5 | 5 | 0.4 (upper bound) | feedback control kept slip ratio below 0.4 (controlled, not scored) | b2 | 0.11 to 0.34 | yes | no |
+| TM-IS09-5 | 10 | 0.4 (upper bound) | feedback control kept slip ratio below 0.4 (controlled, not scored) | b1 | 0.01 to 0.20 | yes | no |
+| TM-IS09-5 | 10 | 0.4 (upper bound) | feedback control kept slip ratio below 0.4 (controlled, not scored) | b2 | 0.22 to 0.40 | yes | no |
+
+- At 10 degrees the model spans 0.01 to 0.20 (b1) and 0.22 to 0.40 (b2). **Neither reaches the measured slip ratio of about 0.5** (case B, TM-IS09-3). At 5 degrees the model spans 0.01 to 0.16 (b1) and 0.11 to 0.34 (b2), far below Ishigami's own model statement that slip must exceed 0.6 for positive thrust (a model to model comparison).
+- The feedback runs (slip kept below 0.4) are compatible with every variant but are a controlled slip, so they test nothing and are not scored.
+- Using the Table I shear modulus pushes i0 above the assumed range: the published value kx = 0.07 m is also larger than the spread of Janosi moduli recorded in `research/raw/terramechanics_notes.md` (0.0006 to 0.045 m), so the assumed i0 range may be too narrow for small wheels in loose sand.
+
+**Verdict.** On both anchors the model, at nominal parameters and over most of its assumed ranges, predicts too little slip on sand slopes, by a wide margin above about 10 degrees. Its envelope contains the Dumont curve only because the ranges are wide, it does not reach the slip Ishigami measured at 10 degrees even with the Table I shear modulus, and a post hoc fit at the edge of the ranges still misses the shape of the Dumont curve. This is a negative result for the model as a predictor on sand slopes and is consistent with the stage 3 finding that the calibrate then predict protocol is weak above 15 degrees. It does not change the published inputs to section 8.7 or the earlier results, which stay as they were; it strengthens the case for measuring slip against slope directly (section 9). The Dumont cubic also gives the slope ladder a published comparison curve for a different and heavier vehicle (`docs/NEXT_STEPS.md`).
+
+
 ---
 
 ## 9. Field-validation plan (PLANNED; nothing here has been run)
@@ -618,7 +662,8 @@ All errors were corrected through `research/corrections.csv` (old values in `res
 | Stage 1 | 1 | 2 | 1 | 0 |
 | Stage 2 | 3 | 1 | 4 | 0 |
 | Stage 3 | 2 | 1 | 3 | 0 |
-| Stage 4 | 0 | 0 | 0 | 0 |
+| Stage 4 | 1 | 0 | 3 | 0 |
+| Stage 5 | 9 | 1 | 0 | 0 |
 
 **Report claims, second pass.** A separate subagent that had not written the report checked the prose of this report (everything before Appendix A) against `research/evidence.csv`, `research/raw/*` and `results/*`, after the draft was complete. It examined 225 claim groups (every number in the simulation tables was compared individually and the statistics were recomputed): 188 correct, 26 minor (right number but a wrong label, row identifier or imprecise wording), 5 wrong and 6 unverifiable (WRONG rate 2.2 %; wrong plus minor 13.8 %). The five wrong items were a kc statement that belonged to another source (TM-029), percentage units applied to drawbar errors given in newtons (TM-001 to TM-004), a data-coverage cell that belonged to another product, a UAE vehicle date, and a tilt-bed row called a Mars measurement (FLD-006). **All 31 wrong and minor items were corrected in this text**; the six unverifiable statements were softened or removed. The full finding table is `research/factcheck_report_pass.md`. This checker is also a language-model agent working from the repository files, so it shares any error that is present in those files; it cannot catch a mistake that traces back to a source misread twice.
 

@@ -95,6 +95,8 @@ The assumption envelope overlaps 11 of the 13 published points, which says mostl
 
 {{INCLUDE:subgrid}}
 
+{{INCLUDE:anchors}}
+
 ---
 
 ## 9. Field-validation plan (PLANNED; nothing here has been run)

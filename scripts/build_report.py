@@ -117,6 +117,40 @@ def t_anchor():
     return md_table(["Row", "Slope, deg", "Published validation", "Published slip", "Model nominal (SIM)", "Model envelope min to max (SIM)", "Envelope overlaps", "Definition warning"], rows)
 
 
+# ---------------------------------------------------------------- stage 5 anchors (results/anchors, simulation only)
+def t_anchor_dumont():
+    S = json.load(open(os.path.join(ROOT, "results/anchors/summary.json"), encoding="utf-8"))["dumont"]
+    rows = []
+    for k in ("4.0", "10.0", "12.5", "16.0", "20.0", "21.0"):
+        rows.append([k, f"{S['dumont_slip_at'][k]:.2f}", f"{S['nominal_slip_at'][k]:.2f}", f"{S['p95_slip_at'][k]:.2f}"])
+    return md_table(["Slope, deg", "Dumont cubic (PUBLISHED fit, FLD-HV13-1)", "Model, nominal (SIMULATED)", "Model, 95th percentile of draws (SIMULATED)"], rows)
+
+
+def t_anchor_ishigami():
+    rows = []
+    for r in rd("results/anchors/ishigami2009_comparison.csv"):
+        rows.append([r["published_row"], f"{float(r['side_slope_deg']):.0f}", f"{r['published_value']} ({r['bound'].replace('_', ' ')})", esc(r["published_kind"], 90),
+                     r["variant"], f"{float(r['model_min']):.2f} to {float(r['model_max']):.2f}", "yes" if r["model_envelope_compatible"] == "True" else "NO",
+                     "yes" if r["scored"] == "True" else "no"])
+    return md_table(["Row", "Side slope, deg", "Published", "What it is", "Model variant", "Model min to max (SIMULATED)", "Compatible", "Scored"], rows)
+
+
+def anchor_values(v):
+    S = json.load(open(os.path.join(ROOT, "results/anchors/summary.json"), encoding="utf-8"))
+    d, fit, ish = S["dumont"], S["dumont_posthoc_fit"], S["ishigami2009"]
+    v["an_d_cross"] = f"{d['dumont_cross50_deg']:.1f}"; v["an_nom_cross"] = f"{d['nominal_cross50_deg']:.1f}"
+    v["an_med_cross"] = f"{d['median_cross50_deg']:.1f}"; v["an_p95_cross"] = f"{d['p95_cross50_deg']:.1f}"
+    v["an_frac_mm"] = pct(d["frac_dumont_inside_min_max"]); v["an_frac_band"] = pct(d["frac_dumont_inside_p05_p95"])
+    v["an_above_band"] = d["dumont_above_p95_deg"]; v["an_n_within"] = d["n_draws_within_0.10_everywhere"]; v["an_ndraw"] = d["n_draws"]
+    v["an_fit_rmse"] = f"{fit['rmse']:.3f}"; v["an_fit_max"] = f"{fit['max_abs_error']:.2f}"; v["an_fit_cross"] = f"{fit['fitted_cross50_deg']:.1f}"
+    v["an_fit_phi"] = f"{fit['phi_deg']:.1f}"; v["an_fit_fr"] = f"{fit['f_r']:.3f}"; v["an_fit_i0"] = f"{fit['i0']:.2f}"
+    v["an_i0low"] = f"{ish['i0_lower_bound_from_table_I']:.2f}"
+    e = ish["envelopes"]
+    for k in ("b1_5deg", "b1_10deg", "b2_5deg", "b2_10deg"):
+        v[f"an_{k}"] = f"{e[k]['model_min']:.2f} to {e[k]['model_max']:.2f}"
+    return v
+
+
 # ---------------------------------------------------------------- phase 2 tables and values (all read from files)
 def pct(x, nd=1):
     return f"{100*float(x):.{nd}f} %"
@@ -254,7 +288,7 @@ def values(ev):
             v[f"unk3_{_area_letter(r['area'])}_30"] = pct(r["UNKNOWN (total)"])
         if float(r["posting_m"]) < 40 and r["scenario"] == "base" and r["pi"] == "0.3":
             v[f"unkpi03_{_area_letter(r['area'])}_30"] = pct(r["UNKNOWN (total)"])
-    return v
+    return anchor_values(v)
 
 
 def appendix_a(ev):
@@ -309,9 +343,12 @@ def main():
     tabs = {"params": t_params(), "slopestats": t_slopestats(), "nominal": t_nominal(), "oat": t_oat(), "lhs_rank": t_lhs_rank(),
             "lhs_pct": t_lhs_pct(), "anchor": t_anchor(), "subgrid_params": t_subgrid_params(), "class_shares": t_class_shares(), "robust": t_robust(),
             "scen": t_scen(), "cc_map": t_cc_map(), "cc_synth": t_cc_synth(), "detector": t_detector(), "reach": t_reach(), "power": t_power(),
-            "ladder": ladder_tab, "pred_tally": t_pred_tally(), "verif": t_verif()}
+            "ladder": ladder_tab, "pred_tally": t_pred_tally(), "verif": t_verif(),
+            "anchor_dumont": t_anchor_dumont(), "anchor_ishigami": t_anchor_ishigami()}
     sg = os.path.join(ROOT, "docs/src/subgrid_section.md")
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
+    an = os.path.join(ROOT, "docs/src/anchors_section.md")
+    body = body.replace("{{INCLUDE:anchors}}", open(an, encoding="utf-8").read() if os.path.exists(an) else "")
     for k, v in tabs.items():
         body = body.replace("{{TABLE:%s}}" % k, v)
     body = body.replace("{{LADDER_FILE}}", ladder_file)
