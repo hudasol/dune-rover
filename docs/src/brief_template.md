@@ -32,12 +32,12 @@ The small BLOCKED share reflects the 30 m grid, not easy dunes. The UNKNOWN shar
 
 ## What is planned (PLANNED, not run)
 
-A slope-ladder field experiment with one small rover on one dune stoss slope: runs at about 0, 5, 10, 15, 20 and 25 degrees, RTK ground truth, full soil description, about 60 runs, calibration on gentle slopes and dated blind predictions for steep slopes. A synthetic design check shows the adequacy tolerance must be set from the pilot's scatter.
+A slope-ladder field experiment with one small rover on one dune stoss slope: runs at about 0, 5, 10, 15, 20 and 25 degrees (bins revised on 2026-10-15, see `docs/FIELD_VALIDATION_PLAN.md`), RTK ground truth, full soil description, about 60 runs, calibration on gentle slopes and dated blind predictions for steep slopes. A synthetic design check shows the adequacy tolerance must be set from the pilot's scatter.
 
 ## How far to trust this
 
 - Verification: **all {{VAL:ver_all_n}} evidence rows were re-checked against their sources** by separate agents. Material errors: {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}, Wilson 95 % interval {{VAL:ver_all_material_ci}}); any discrepancy: {{VAL:ver_all_any}} of {{VAL:ver_all_n}} ({{VAL:ver_all_any_rate}}). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the report's prose found 5 wrong and 26 minor items among 225 claim groups, all corrected.
-- Limits: search tool US-only; paywalled standards (Bekker, Wong) and five references not read (exact fetch list in `docs/NEXT_STEPS.md`); several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the sub-grid detector has never been compared with a real slip face profile; the synthetic test of the planned field analysis shows its pass or fail rule discriminates weakly, so the ladder results should be read as predicted against observed, not as pass or fail.
+- Limits: search tool US-only; paywalled standards (Bekker, Wong) and two references not read (list in `docs/NEXT_STEPS.md`); several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the sub-grid detector has never been compared with a real slip face profile; the synthetic test of the planned field analysis shows its pass or fail rule discriminates weakly, so the ladder results should be read as predicted against observed, not as pass or fail.
 - Pre-registration: predictions were committed before each run; most quantitative predictions about the simulation missed (`docs/PREDICTIONS.md`).
 
 ## First experiment to run
