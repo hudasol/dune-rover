@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-15",
+ "design": "2026-10-15",
+ "label": "SIMULATED-BY-ME prior predictions of the slip model; PLANNED field ladder; no field data exist; Dumont column PUBLISHED (different, heavier vehicle); planning range PLANNED",
+ "entrapment_slope_deg_phi_unknown": {
+  "p05": 17.75,
+  "p50": 25.25,
+  "p95": 32.15,
+  "share_no_entrapment_below_45deg": 0.0
+ },
+ "entrapment_slope_deg_phi_33pm2": {
+  "p05": 19.6,
+  "p50": 25.150000000000002,
+  "p95": 30.400000000000002
+ },
+ "seeds": {
+  "prior_unknown_phi": 20261017,
+  "prior_known_phi": 20261019,
+  "protocol_band": 20261018
+ }
+}
