@@ -15,14 +15,14 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 ## Headline numbers (from files)
 
 - Verification: all {{VAL:ver_all_n}} evidence rows re checked against their sources; material errors {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}), any discrepancy {{VAL:ver_all_any}} of {{VAL:ver_all_n}} ({{VAL:ver_all_any_rate}}); for the {{VAL:ver_sup_n}} rows read from supplied PDFs alone, material {{VAL:ver_sup_material}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_material_rate}}, all on validation type), any discrepancy {{VAL:ver_sup_any}} of {{VAL:ver_sup_n}} ({{VAL:ver_sup_any_rate}}); all corrected (`research/verification_log.md`).
-- Simulation, 30 m: UNKNOWN share {{VAL:unk_A_30}} (A south Liwa), {{VAL:unk_B_30}} (B megadunes), {{VAL:unk_C_30}} (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; {{VAL:uni_A_30}} of cells in A have the same slope based verdict under all 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is {{VAL:unk3_A_30}}, {{VAL:unk3_B_30}}, {{VAL:unk3_C_30}}. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
+- Simulation, 30 m: UNKNOWN share {{VAL:unk_A_30}} (A south Liwa), {{VAL:unk_B_30}} (B megadunes), {{VAL:unk_C_30}} (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; {{VAL:uni_A_30}} of cells in A have the same slope based verdict in at least 95 % of the 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is {{VAL:unk3_A_30}}, {{VAL:unk3_B_30}}, {{VAL:unk3_C_30}}. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
 - Published anchors (comparison of unlike vehicles and soils, report section 8.8): the Dumont Dunes slip curve (PUBLISHED, FLD-HV13-1) crosses 50 % slip at {{VAL:an_d_cross}} degrees, the nominal model at {{VAL:an_nom_cross}} degrees; with Ishigami 2009 Table I values the model gives {{VAL:an_b2_10deg}} slip on a 10 degree side slope where a slip ratio of about 0.5 was measured (TM-IS09-3). **The model predicts too little slip on sand slopes. Simulation only, model assumption dependent.**
 - Pre registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
 
 ## Read in this order
 
 1. `docs/EXECUTIVE_BRIEF.md` (also `.pdf`): two pages.
-2. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8 and 8.7), field plan, limitations, verification, appendices.
+2. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8, 8.7 and the published anchors in 8.8), field plan (section 9, with the 2026-10-15 revision), limitations, verification, appendices.
 3. `docs/NEXT_STEPS.md`: what the author does next: decisions, checks, then the first field experiment, and what to fetch.
 4. `docs/PREDICTIONS.md`, `docs/predictions/`: dated predictions written before runs.
 5. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/DATA_AND_LICENSES.md`.
@@ -30,17 +30,19 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 ## Layout
 
 ```
-docs/                 report, brief, glossary, protocol, field plan, checklist, rover options, proposal seed, licences
+docs/                 report, brief, glossary, protocol, field plan, checklist, rover options, proposal seed, EDGE proposal,
+                      licences, predictions register, open questions for the author, review and overnight log
 docs/src/             hand written report sections and templates (REPORT.md, the brief and this README are built from them)
 docs/predictions/     dated pre-data slope ladder predictions (PLANNED field experiment)
 research/evidence.csv the evidence table (one row per reported mobility result)
 research/raw/         per-topic notes and row files, data audit, morphology and UAE facts
-research/phase2/      phase 2 retrieval reports and CSVs (morphology, rover options); downloaded sources are not committed
+research/phase2/      phase 2 retrieval reports and CSVs (morphology, rover options, rows read from supplied PDFs); no PDFs committed
 src/dunerover/        simulation code (DEM, slope, slip model, graph routing, sensitivity, sub-grid detector, three class map, field analysis)
 scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verification.py, verify_stats.py, build_report.py,
-                      analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, check_repo_hygiene.py, scan_secrets.py ...
+                      analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, anchor_comparisons.py, check_repo_hygiene.py, scan_secrets.py ...
 tests/                {{VAL:ntests}} tests
-results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit
+results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit (synthetic data),
+                      results/anchors (model against the Dumont Dunes and Ishigami 2009 values)
 data/anchor_points.csv  13 published slip points used only for descriptive comparison
 ```
 
@@ -54,7 +56,10 @@ bash scripts/fetch_data.sh       # downloads three Copernicus GLO-30 tiles (abou
 PYTHONPATH=src python3 -m pytest -q tests
 PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results                    # phase 1, about 5.5 minutes
 PYTHONPATH=src python3 -m dunerover.study_subgrid --data data/raw --out results/subgrid    # phase 2, about 5 minutes
-PYTHONPATH=src python3 scripts/field_analysis_power.py                                      # synthetic power study, about 1 minute
+PYTHONPATH=src python3 scripts/field_analysis_power.py                                      # synthetic power study, original bins, about 1 minute
+PYTHONPATH=src python3 scripts/field_analysis_power.py --design 2026-10-15                   # same for the revised bins, a few minutes
+PYTHONPATH=src python3 scripts/make_ladder_predictions.py --design 2026-10-15 --date 2026-10-15   # revised expected ranges
+PYTHONPATH=src python3 scripts/anchor_comparisons.py                                       # Dumont Dunes and Ishigami 2009 anchors, about 10 s
 python3 scripts/consolidate_evidence.py && python3 scripts/verify_stats.py                  # evidence table and verification log from files
 python3 scripts/build_report.py  # rebuilds docs/REPORT.md, the brief and this README from docs/src, the CSVs and results
 python3 scripts/check_repo_hygiene.py --history && python3 scripts/scan_secrets.py --history

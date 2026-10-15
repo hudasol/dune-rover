@@ -1,6 +1,6 @@
 # Executive brief: predicting slip and traversability of robots on dunes
 
-Huda Mueen, `hudasol/dune-rover`, updated 2026-10-12 (generated from `docs/src/brief_template.md` by `scripts/build_report.py`; numbers come from the result files). Research only; not engineering approval for any real vehicle. Row IDs (for example FLD-012) refer to the evidence table in `docs/REPORT.md`, Appendix A.
+Huda Mueen, `hudasol/dune-rover`, text of 2026-10-12, numbers regenerated from files on each build; the brief has not been rewritten since (generated from `docs/src/brief_template.md` by `scripts/build_report.py`; numbers come from the result files). Research only; not engineering approval for any real vehicle. Row IDs (for example FLD-012) refer to the evidence table in `docs/REPORT.md`, Appendix A.
 
 **Question.** How well can slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes be predicted from terrain data and models, how well does that transfer from lab to field, and what is missing for a minimal open data planner for Arabian dunes?
 
