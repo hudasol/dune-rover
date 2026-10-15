@@ -343,7 +343,8 @@ def main():
     second = open(sp, encoding="utf-8").read().strip() if os.path.exists(sp) else "Pending at the time of building this file."
     ladder_tab, ladder_file = t_ladder()
     vals = values(ev)
-    for tmpl, outp in (("docs/src/brief_template.md", "docs/EXECUTIVE_BRIEF.md"), ("docs/src/readme_template.md", "README.md")):
+    for tmpl, outp in (("docs/src/brief_template.md", "docs/EXECUTIVE_BRIEF.md"), ("docs/src/readme_template.md", "README.md"),
+                       ("docs/src/proposal_edge_template.md", "docs/PROPOSAL_EDGE.md")):
         t = open(os.path.join(ROOT, tmpl), encoding="utf-8").read()
         for k, v in vals.items():
             t = t.replace("{{VAL:%s}}" % k, str(v))
