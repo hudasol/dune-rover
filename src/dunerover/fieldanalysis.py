@@ -23,6 +23,13 @@ ADEQ_ENTRAP_DEG = 3.0
 REQUIRED = ["run_id", "slope_deg", "v_true_mps", "wheel_omega_rad_s", "r_eff_m", "entrapped", "phi_deg"]
 
 
+def _centres(slope, bin_width: float = 5.0, bins=None) -> np.ndarray:
+    """Bin label of each run: the target bin (`bin_deg`) when given, else the measured slope rounded to bin_width."""
+    if bins is not None:
+        return np.asarray(bins, dtype=float)
+    return np.round(np.asarray(slope) / bin_width) * bin_width
+
+
 def load_runs(path: str) -> dict:
     with open(path, newline="") as fh:
         rows = list(csv.DictReader(fh))
@@ -34,6 +41,8 @@ def load_runs(path: str) -> dict:
         out[c] = np.array([float(r[c]) for r in rows])
     out["entrapped"] = np.array([int(float(r["entrapped"])) for r in rows], dtype=bool)
     out["block"] = np.array([r.get("block", "") for r in rows])
+    if rows and "bin_deg" in rows[0] and all(r["bin_deg"].strip() for r in rows):   # optional target bin (2026-10-15 ladder)
+        out["bin_deg"] = np.array([float(r["bin_deg"]) for r in rows])
     return out
 
 
@@ -79,7 +88,7 @@ def pilot_sigma(d: dict, bin_width: float = 5.0) -> tuple[float, str]:
     overstates pure run-to-run noise (conservative: a wider tolerance).
     """
     s = observed_slip(d)
-    centres = np.round(d["slope_deg"] / bin_width) * bin_width
+    centres = _centres(d["slope_deg"], bin_width, d.get("bin_deg"))
     blk = d.get("block")
     mask = (np.asarray(blk) == "pilot") if blk is not None else np.zeros(len(s), dtype=bool)
     src = "pilot block"
@@ -106,14 +115,14 @@ def entrapment_slope_model(f_r, i0, phi_deg) -> float:
     return float(th[idx[0]]) if idx.size else float("nan")
 
 
-def entrapment_slope_observed(slope, entrapped, bin_width=5.0):
+def entrapment_slope_observed(slope, entrapped, bin_width=5.0, bins=None):
     """Mean measured slope of the runs in the lowest slope bin in which at least half the runs were entrapped; NaN if none.
 
     (An earlier version returned the bin centre, which rounded a 28 deg bin to 30 deg and made a correct model fail
     the 3 deg entrapment criterion; fixed before the synthetic power study was run.)
     """
     slope = np.asarray(slope); entrapped = np.asarray(entrapped)
-    centres = np.round(slope / bin_width) * bin_width
+    centres = _centres(slope, bin_width, bins)
     for c in np.unique(centres):
         m = centres == c
         if entrapped[m].mean() >= 0.5:
@@ -143,8 +152,9 @@ class Result:
     informative: bool = True
 
 
-def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None = None, use_pilot: bool = True) -> Result:
-    """Pre-registered analysis.  Tolerance: explicit `tol`, else 3 x pilot sigma (floor 0.05) if a pilot block exists, else 0.15."""
+def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None = None, use_pilot: bool = True, bin_width: float = 5.0) -> Result:
+    """Pre-registered analysis.  Tolerance: explicit `tol`, else 3 x pilot sigma (floor 0.05) if a pilot block exists, else 0.15.
+    Runs are grouped by their target bin (`bin_deg`) when present, else by the measured slope rounded to bin_width."""
     slope = d["slope_deg"]
     s = observed_slip(d)
     phi = float(np.median(d["phi_deg"]))
@@ -162,7 +172,7 @@ def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None
     sig, src = float("nan"), "fixed tolerance, no pilot"
     if tol is None:
         if use_pilot and "block" in d and (np.asarray(d["block"]) == "pilot").sum() >= 8:
-            sig, src = pilot_sigma(d); tol = tolerance_from_pilot(sig)
+            sig, src = pilot_sigma(d, bin_width); tol = tolerance_from_pilot(sig)
         else:
             tol = ADEQ_TOL
     else:
@@ -175,7 +185,7 @@ def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None
     th = float(np.degrees(np.arctan(max(np.tan(np.radians(phi)) - f_r, 0.0))))
     mae_thr = float(np.mean(np.abs(np.where(slope[test] > th, 1.0, 0.0) - s[test])))
     ep = entrapment_slope_model(f_r, i0, phi)
-    eo = entrapment_slope_observed(slope, d["entrapped"])
+    eo = entrapment_slope_observed(slope, d["entrapped"], bin_width, d.get("bin_deg"))
     adequate = bool(within >= ADEQ_FRAC and np.isfinite(ep) and np.isfinite(eo) and abs(ep - eo) <= ADEQ_ENTRAP_DEG)
     # pass/fail is reported either way; an uninformative experiment is flagged so a pass is not over-read
     rng = np.random.default_rng(seed)
@@ -193,7 +203,7 @@ def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None
 def per_bin_means(d: dict, n_boot: int = 2000, seed: int = 20261015, bin_width: float = 5.0):
     """Per-slope-bin mean slip with seeded bootstrap 95 % interval."""
     s = observed_slip(d)
-    centres = np.round(d["slope_deg"] / bin_width) * bin_width
+    centres = _centres(d["slope_deg"], bin_width, d.get("bin_deg"))
     rng = np.random.default_rng(seed)
     out = []
     for c in np.unique(centres):
@@ -212,6 +222,12 @@ def truth_slip(kind: str, th, f_r=0.14, i0=0.22, phi=33.0):
         return np.minimum(slip(np.tan(np.radians(th)), 0.0, SlipParams(phi_deg=phi, f_r=f_r, i0=i0)), 1.0)
     if kind == "janosi_mean":
         return np.minimum(slip(np.tan(np.radians(th)), 0.0, SlipParams(phi_deg=phi, f_r=f_r, i0=i0, form="janosi_mean")), 1.0)
+    if kind == "dumont":
+        # PUBLISHED shape (Heverly et al. 2013, Sec 6.3, FLD-HV13-1) used as a SYNTHETIC truth: cubic between 4 and 21 deg,
+        # about 10 % below 4 deg and embedding (slip 1) above 21 deg, as the source text describes.  Not a prediction for any rover.
+        c = np.clip(th, 4.0, 21.0)
+        cub = (26.197 - 8.849 * c + 1.281 * c ** 2 - 0.034 * c ** 3) / 100.0
+        return np.where(th < 4.0, 0.10, np.where(th > 21.0, 1.0, cub))
     if kind == "collapse":
         base = np.minimum(slip(np.tan(np.radians(th)), 0.0, SlipParams(phi_deg=phi, f_r=f_r, i0=i0)), 1.0)
         w = np.clip((th - 20.0) / 2.0, 0.0, 1.0)
@@ -219,31 +235,45 @@ def truth_slip(kind: str, th, f_r=0.14, i0=0.22, phi=33.0):
     raise ValueError(f"unknown truth kind {kind!r}")
 
 
-def synthetic_runs(seed: int = 7, f_r=0.14, i0=0.22, phi=33.0, sigma=0.06, runs_per_bin=6, kind: str = "model"):
+def synthetic_runs(seed: int = 7, f_r=0.14, i0=0.22, phi=33.0, sigma=0.06, runs_per_bin=6, kind: str = "model", design: str = "2026-10-12"):
     """SYNTHETIC data generated from a known truth plus noise, used only to test this code.  The first 3 runs in
-    each of the 5, 10, 15 and 20 deg bins carry block == 'pilot' (as in the field plan)."""
+    each of the 5, 10, 15 and 20 deg bins carry block == 'pilot' (as in the field plan).
+    design '2026-10-12': bins 0 to 28 deg, jitter plus or minus 1.5 deg (stage 3).  design '2026-10-15': LADDER_2026_10_15 with
+    the 25 deg bin included, jitter plus or minus 1.0 deg in the 10 to 20 deg bins, and the target bin recorded as bin_deg."""
     rng = np.random.default_rng(seed)
-    slopes, v, om, r, ent, blk = [], [], [], [], [], []
-    for b in (0, 5, 10, 15, 20, 25, 28):
+    slopes, v, om, r, ent, blk, tb = [], [], [], [], [], [], []
+    if design == "2026-10-12":
+        bins = (0, 5, 10, 15, 20, 25, 28)
+    elif design == "2026-10-15":
+        bins = LADDER_2026_10_15
+    else:
+        raise ValueError(f"unknown design {design!r}")
+    for b in bins:
+        jit = 1.0 if (design == "2026-10-15" and 10 <= b <= 20) else 1.5
         for j in range(runs_per_bin):
-            th = b + rng.uniform(-1.5, 1.5)
+            th = b + rng.uniform(-jit, jit)
             s_true = float(truth_slip(kind, max(th, 0.0), f_r, i0, phi))
             s_obs = min(max(s_true + rng.normal(0, sigma), -0.05), 1.0) if np.isfinite(s_true) else 1.0
             trapped = s_obs >= ENTRAP_SLIP
             omega, reff = 3.0, 0.1
             slopes.append(th); om.append(omega); r.append(reff); ent.append(trapped)
             v.append(0.0 if trapped else (1.0 - s_obs) * omega * reff)
-            blk.append("pilot" if (b in (5, 10, 15, 20) and j < 3) else "main")
+            blk.append("pilot" if (b in (5, 10, 15, 20) and j < 3) else "main"); tb.append(float(b))
     n = len(slopes)
-    return {"run_id": [f"S{i:03d}" for i in range(n)], "slope_deg": np.array(slopes), "v_true_mps": np.array(v),
-            "wheel_omega_rad_s": np.array(om), "r_eff_m": np.array(r), "entrapped": np.array(ent), "phi_deg": np.full(n, phi),
-            "block": np.array(blk)}
+    out = {"run_id": [f"S{i:03d}" for i in range(n)], "slope_deg": np.array(slopes), "v_true_mps": np.array(v),
+           "wheel_omega_rad_s": np.array(om), "r_eff_m": np.array(r), "entrapped": np.array(ent), "phi_deg": np.full(n, phi),
+           "block": np.array(blk)}
+    if design != "2026-10-12":
+        out["bin_deg"] = np.array(tb)
+    return out
 
 
 # ---------------------------------------------------------------------------------------------------------------
 # Pre-data predictions (PLANNED): prior predictive slip on the ladder, and the error band of the protocol
 # ---------------------------------------------------------------------------------------------------------------
 LADDER = (0, 5, 10, 15, 20, 25)
+# Revised 2026-10-15 (docs/PREDICTIONS.md stage 6): denser bins where the Dumont Dunes and Marsyard curves bend; 25 deg conditional
+LADDER_2026_10_15 = (0, 5, 10, 12.5, 15, 17.5, 20, 25)
 
 
 def prior_predictive(slopes=LADDER, n=4000, seed=20261017, phi_range=(28.0, 38.0), f_range=None, i0_range=None):
