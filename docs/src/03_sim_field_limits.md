@@ -78,7 +78,7 @@ Thirteen published slip versus slope points were transcribed by hand (`data/anch
 
 {{TABLE:anchor}}
 
-![Figure 8.4: model envelope against published slip. Model SIMULATED-BY-ME, points PUBLISHED.](../results/figures/fig_slip_vs_slope_envelope.png)
+![Figure 8.4: model envelope against published slip. Model SIMULATED BY ME, points PUBLISHED.](../results/figures/fig_slip_vs_slope_envelope.png)
 
 *Figure 8.4. Blue line and band: model at nominal parameters and its 5 to 95 % range over the assumption space (SIMULATED BY ME). Orange circles: published field results (Mars rovers). Green squares: published lab beds. Bars show reported ranges or bounds. Published points at similar slopes span nearly 0 to 1 and no single curve fits them.*
 
