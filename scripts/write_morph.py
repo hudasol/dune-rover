@@ -1,3 +1,5 @@
+import os as _os
+ROOT_ = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))) + "/"  # repository root (was a hard coded build path)
 import csv
 H="id,quantity,value,unit,region,source_title,source_url,passage_or_location,retrieval_date,notes".split(",")
 D="2026-10-11"
@@ -41,7 +43,7 @@ rows=[
 ("M31","qualitative: 3 arcsec SRTM resolves km-scale star dunes of Liwa; 1 arcsec ASTER GDEM gives a more realistic dune silhouette and shows features not seen in SRTM","qualitative","n/a","Al Liwa basin, Rub' al Khali","SRTM DEM and ASTER GDEM use for the spatial geomorphometric analysis of global sand sea patterns (Bishop, Geomorphometry 2011)","https://geomorphometry.org/uploads/pdf/pdf2011/Bishop2011geomorphometry.pdf","Section 'Spatial geomorphometry' (SRTM 3-s vs ASTER 1-s paragraph)",D,"PUBLISHED, qualitative; star dunes have kilometre-scale basal dimensions per the paper."),
 ("M32","footprint of ICESat-2 ATLAS beam / along-track spacing","~11 (diameter) / 0.7 (spacing)","m","Global","Magruder et al., ICESat-2 footprint diameter (NTRS 20210025598)","https://ntrs.nasa.gov/api/citations/20210025598/downloads/Magruder_et_al_submitted%20resubmit.pdf","Introduction (lines on 'Each beam is ~11 m in diameter ... 0.7 m')",D,"PUBLISHED (not a dune quantity; ground-truth sampling scale). A different retrieved paper (Purdue ATL08 evaluation) cites 17 m: sources disagree."),
 ]
-with open("/home/claude/dune-rover/research/raw/morphology_rows.csv","w",newline="") as f:
+with open(ROOT_+"research/raw/morphology_rows.csv","w",newline="") as f:
     w=csv.writer(f); w.writerow(H)
     for r in rows:
         assert len(r)==len(H),(r[0],len(r)); w.writerow(r)
