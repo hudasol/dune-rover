@@ -23,13 +23,13 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 - **Validated:** only the extraction of published numbers (9 material errors before correction across 170 rows, all corrected). No model in this repository has been validated against field data.
 - **Simulated (simulation only, model assumption dependent):** the traversability maps and the UNKNOWN share; the comparison with the published anchors, which shows the slip model predicting too little slip on sand slopes above about 10 degrees (report section 8.8). That is a negative result for the model, stated as such.
-- **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; one design conflict in the planned analysis is open (`docs/QUESTIONS_FOR_HUDA.md`, item 4).
+- **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; one design conflict in the planned analysis is open and must be settled by the author before any field day (`docs/FIELD_VALIDATION_PLAN.md`, section 4).
 
 ## 4. The specific ask, with a fallback for each
 
 | Ask | Purpose | Fallback if not available |
 |---|---|---|
-| One supervised field day on a dune site that EDGE Group can access, with a named supervisor and a safety briefing | Run the pilot (12 runs up to 10 degrees) and as much of the ladder as is safe | Pilot alone on a gentle dune with a second person and a recovery vehicle (route A in `docs/NEXT_STEPS.md`), slopes up to 10 degrees only |
+| One supervised field day on a dune site that EDGE Group can access, with a named supervisor and a safety briefing | Run the pilot of the field plan (3 runs at each of 5, 10, 15 and 20 degrees) and as much of the ladder as is safe | The author runs a reduced set alone on a gentle dune with a second person and a recovery vehicle, slopes up to 10 degrees only, and reports it as incomplete |
 | Loan of one small wheeled ground vehicle (5 to 25 kg, four wheels, wheel diameter at least 150 mm, known mass) for the day | The vehicle for the ladder | A low cost platform from `docs/ROVER_OPTIONS.md` (costs as retrieved there) |
 | Loan of an RTK GNSS unit, or a drone flight with photogrammetry over the test slope | Measured slope per run and a dune profile for the detector test | Smartphone inclinometer with a levelled straight edge for slope bins; detector test deferred |
 | Site access and permission, and a recovery vehicle with an experienced sand driver | Legal access and safe recovery | No run without written permission; no slope above 15 degrees without recovery support |
@@ -38,13 +38,13 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 | Milestone | Success criterion (what would count as done) |
 |---|---|
-| M1. Pilot day | 12 pilot runs logged with RTK slope; run to run slip scatter (pilot sigma) computed by `scripts/analyze_field_runs.py`; tolerance fixed and committed before the main block |
+| M1. Pilot day | The 12 pilot runs of the plan (3 at each of 5, 10, 15 and 20 degrees) logged with RTK slope; run to run slip scatter (pilot sigma) computed by `scripts/analyze_field_runs.py`; tolerance fixed and committed before the main block |
 | M2. Post calibration predictions | Predictions for the bins above 10 degrees written by `scripts/make_ladder_predictions.py --calibrate` and committed, with a date, before any steeper run |
 | M3. Main ladder | Every run logged in `docs/field_log_template.csv` format, including entrapments and aborted runs; soil tests at every station |
 | M4. Analysis | Predicted against observed slip per bin with intervals, entrapment slope against prediction, comparison with the Dumont curve; every hit and miss recorded in `docs/PREDICTIONS.md`, including a failed model |
 | M5. Detector test | Face probability and three class map compared with the surveyed profile of the same dune; result reported whether or not the detector holds |
 
-Success means a dataset and an honest comparison, not a model that passes.
+Success means a complete dataset and a reported comparison, not a model that passes.
 
 ## 6. Risks
 
@@ -53,7 +53,7 @@ Success means a dataset and an honest comparison, not a model that passes.
 | Entrapment or damage on steep sand | Tether and recovery line, second person, abort rules in `docs/FIELD_DAY_CHECKLIST.md`; no person downslope |
 | Heat and dust | Early morning runs; limits for people and electronics from `hudasol/dhill` (separate study, cross referenced only) |
 | Run to run scatter too large to discriminate | Pilot first; the analysis flags an uninformative experiment |
-| The planned adequacy rule fails even a correct model on the revised bins | Open decision for the author before the field day (`docs/QUESTIONS_FOR_HUDA.md`, item 4); report predicted against observed as the primary result |
+| The planned adequacy rule fails even a correct model on the revised bins | Open decision for the author before the field day (`docs/FIELD_VALIDATION_PLAN.md`, section 4); report predicted against observed as the primary result |
 | One vehicle, one site, one sand | Results limited to the tested vehicle, wheels, soil and speed |
 | Implied endorsement | This document and any result state that no agreement or endorsement exists unless one is signed |
 

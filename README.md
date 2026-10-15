@@ -23,7 +23,7 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 1. `docs/EXECUTIVE_BRIEF.md` (also `.pdf`): two pages.
 2. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8 and 8.7), field plan, limitations, verification, appendices.
-3. `docs/NEXT_STEPS.md`: what to do next, starting with the first field experiment, and what to fetch.
+3. `docs/NEXT_STEPS.md`: what the author does next: decisions, checks, then the first field experiment, and what to fetch.
 4. `docs/PREDICTIONS.md`, `docs/predictions/`: dated predictions written before runs.
 5. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/DATA_AND_LICENSES.md`.
 
@@ -50,7 +50,7 @@ Python 3.10 or newer. Dependencies: numpy, scipy, matplotlib, tifffile, imagecod
 
 ```bash
 pip install -e ".[dev]"          # or: pip install numpy scipy matplotlib tifffile imagecodecs pytest
-bash scripts/fetch_data.sh       # downloads three Copernicus GLO-30 tiles (about 146 MB), checks SHA-256
+bash scripts/fetch_data.sh       # downloads three Copernicus GLO-30 tiles (about 143 MB), checks SHA-256
 PYTHONPATH=src python3 -m pytest -q tests
 PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results                    # phase 1, about 5.5 minutes
 PYTHONPATH=src python3 -m dunerover.study_subgrid --data data/raw --out results/subgrid    # phase 2, about 5 minutes
