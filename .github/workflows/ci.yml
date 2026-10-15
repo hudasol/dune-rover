@@ -27,3 +27,32 @@ jobs:
           python-version: "3.12"
       - run: pip install numpy scipy matplotlib tifffile imagecodecs pytest
       - run: PYTHONPATH=src python -m pytest -q tests
+  generated-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install numpy scipy matplotlib
+      - name: Generated files match their sources (README, report, brief, EDGE proposal, evidence table, verification log)
+        run: |
+          python scripts/consolidate_evidence.py
+          python scripts/verify_stats.py
+          PYTHONPATH=src python scripts/build_report.py
+          git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md research/
+      - name: Writing rules (no em or en dashes, no Stirling, no tool attribution)
+        run: |
+          python - <<'PY'
+          import subprocess, sys
+          bad = []
+          for f in subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split():
+              if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml")) or f in ("scripts/scan_secrets.py", ".github/workflows/ci.yml"):
+                  continue
+              t = open(f, encoding="utf-8", errors="ignore").read()
+              for w in ("—", "–", "Stirling", "Claude"):
+                  if w in t:
+                      bad.append((f, repr(w)))
+          print("\n".join(f"{f}: {w}" for f, w in bad) or "writing check: ok")
+          sys.exit(1 if bad else 0)
+          PY
