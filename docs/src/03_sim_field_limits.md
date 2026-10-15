@@ -87,7 +87,7 @@ The assumption envelope overlaps 11 of the 13 published points, which says mostl
 ### 8.6 Limitations specific to this study
 
 - Quasi static, point mass, no sinkage, speed or avalanching; no wheel geometry or vehicle mass; i0 and f_r absorb everything.
-- Slope is taken from a 30 m radar surface model whose slip face slopes are biased low (section 5); the blocked shares of phases 1 are lower bounds in that sense. Section 8.7 adds a modelled sub grid face probability and an UNKNOWN class to address this, with its own assumptions.
+- Slope is taken from a 30 m radar surface model whose slip face slopes are biased low (section 5); the blocked shares of phase 1 are lower bounds in that sense. Section 8.7 adds a modelled sub grid face probability and an UNKNOWN class to address this, with its own assumptions.
 - The windows are not random samples of any dune field. Origins and destinations sit on gentle low ground, so route statistics say nothing about crossing slip faces.
 - Descent is treated with the same symmetric friction circle demand (|tan theta_a + f_r|); descending stability and avalanching are not modelled.
 - Parameters were not fitted to any data. No claim is made that the nominal values represent Arabian sand or any vehicle.
@@ -119,7 +119,7 @@ The rule passes an exactly right model in under half of the replicates and fails
 
 Calibrating on 0 to 10 degrees constrains the 15 degree prediction well, the 20 degree prediction weakly, and the 25 degree prediction hardly at all: the slip diverges near entrapment and gentle runs do not fix where that happens. The 25 degree bin is therefore mainly a test of the entrapment slope, not of the slip value. The same check found that calibration needs bounds on f_r and i0, because the two trade off at gentle slopes.
 
-   **Revision of 2026-10-15 (PLANNED; pre registered as stage 6 in `docs/PREDICTIONS.md`).** The Dumont Dunes and Marsyard results (section 8.8) put the change from moderate to high slip between about 10 and 17 degrees, so the bins became 0, 5, 10, 12.5, 15, 17.5 and 20 degrees (plus or minus 1 degree from 10 to 20), with 25 degrees only if fewer than half of the 20 degree runs entrap. The original file is kept; the revised expected ranges add the Dumont value and widen the upper end of the planning range where it lies above the model band (`docs/predictions/slope_ladder_predictions_2026-10-15.csv`):
+   **Revision of 2026-10-15 (PLANNED; pre registered as stage 6 in `docs/PREDICTIONS.md`).** The Dumont Dunes curve (section 8.8) and the Marsyard sand result (FLD-HV13-3) put the change from moderate to high slip between about 10 and 17 degrees, so the bins became 0, 5, 10, 12.5, 15, 17.5 and 20 degrees (plus or minus 1 degree from 10 to 20), with 25 degrees only if fewer than half of the 20 degree runs entrap. The original file is kept; the revised expected ranges add the Dumont value and widen the upper end of the planning range where it lies above the model band (`docs/predictions/slope_ladder_predictions_2026-10-15.csv`):
 
 {{TABLE:ladder_rev}}
 
@@ -135,7 +135,7 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 
 ---
 
-## 10. Limitations and honesty section
+## 10. Limitations
 
 **What this work cannot say without field data.**
 
