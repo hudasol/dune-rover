@@ -16,6 +16,7 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 - Verification: all 170 evidence rows re checked against their sources; material errors 9 of 170 (5.3 %), any discrepancy 51 of 170 (30.0 %); for the 26 rows read from supplied PDFs alone, material 3 of 26 (11.5 %, all on validation type), any discrepancy 15 of 26 (57.7 %); all corrected (`research/verification_log.md`).
 - Simulation, 30 m: UNKNOWN share 8.6 % (A south Liwa), 10.9 % (B megadunes), 2.5 % (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; 99.1 % of cells in A have the same slope based verdict under all 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is 34.4 %, 32.2 %, 22.0 %. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
+- Published anchors (comparison of unlike vehicles and soils, report section 8.8): the Dumont Dunes slip curve (PUBLISHED, FLD-HV13-1) crosses 50 % slip at 12.6 degrees, the nominal model at 25.5 degrees; with Ishigami 2009 Table I values the model gives 0.22 to 0.40 slip on a 10 degree side slope where a slip ratio of about 0.5 was measured (TM-IS09-3). **The model predicts too little slip on sand slopes. Simulation only, model assumption dependent.**
 - Pre registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
 
 ## Read in this order
