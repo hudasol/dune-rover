@@ -62,3 +62,23 @@ LEG-015 repaired: unquoted comma had split the passage field.
 - SIM-013.comparability_warning: was: Unit of alpha (degrees or radians) is not stated in the passage I read; with degrees the term exceeds 1 at 18 deg, so the unit or the printed coefficients may be mis-stated. Do not use numerically until checked against the PDF equation or authors
 - SIM-013.notes: was: Verifier 2026-10-11: coefficients match the printed Eq. 3; the paper never states the unit of alpha, so the dimensional concern stays open. Treat as unverified numerically.
 - TM-022.metric: was: Simulation error in side slip over travelled distance, base model
+- TM-YU1.terrain_description: was: Soil Direct #90 dry sand, prepared with an automated rake and smoothing mechanism between trials; CMU Field Robotics Center soft soil testbed (Sec. 3.1, p. 4; Sec. 3.2, p. 4; Sec. 4.1, p. 4)
+- TM-YU2.terrain_description: was: Soil Direct #90 dry sand, prepared with an automated rake and smoothing mechanism between trials; CMU Field Robotics Center soft soil testbed (Sec. 3.1, p. 4; Sec. 3.2, p. 4; Sec. 4.1, p. 4)
+- TM-YU3.terrain_description: was: Soil Direct #90 dry sand, prepared with an automated rake and smoothing mechanism between trials; CMU Field Robotics Center soft soil testbed (Sec. 3.1, p. 4; Sec. 3.2, p. 4; Sec. 4.1, p. 4)
+- TM-YU4.terrain_description: was: Soil Direct #90 dry sand, prepared with an automated rake and smoothing mechanism between trials; CMU Field Robotics Center soft soil testbed (Sec. 3.1, p. 4; Sec. 3.2, p. 4; Sec. 4.1, p. 4)
+- TM-YU5.terrain_description: was: Soil Direct #90 sand prepared with automated rake and smoothing; trenches scanned by LIDAR at 12 locations per track, travel speed 3 cm/s, sinkages 5 cm to 25 cm, wheel angles 0 to 90 deg, rim speeds 0 to 30 cm/s (Sec. 3.1, p. 4)
+- TM-TK3.passage_or_location: was: Section 3.3 and 3.4, p. 4; Table 1, p. 3 (testbed); Table 5, p. 6 (50 N, 0.2, 0.5, 1.0 m/s)
+- TM-TK4.passage_or_location: was: Section 6.1, p. 5 (Fig. 5a); Tables 3 and 4, p. 5; Section 7.8, p. 10
+- TM-TK5.validation_type: was: sim-vs-lab
+- TM-TK5.passage_or_location: was: Section 5.2, p. 5 (text before Table 3); Table 3, p. 5
+- TM-IS07-1.passage_or_location: was: Sec 3.1 p239 (wheel 0.18 m diameter, 0.11 m width, paddles 0.01 m high, load approx 6.6 kg); Table I p240 (soil parameters); Sec 3.2 p240 (parameter identification methods)
+- TM-IS07-2.passage_or_location: was: Sec 4.1 p243 (dimensions and approx 35 kg total); Sec 5.1 p245 (test field); Tables II and III p245 (kinematics and link masses)
+- TM-IS07-4.passage_or_location: was: Table V p249; Sec 5.2 p246; conditions in Table IV p245
+- TM-IS07-5.method: was: Slip ratio and slip angle observed throughout steering experiments (simulation of the wheel and vehicle model)
+- TM-IS07-5.validation_type: was: sim-vs-lab
+- FLD-HV13-1.unit: was: coefficients (slip units and slope units not stated explicitly; slip presumably percent, slope degrees)
+- FLD-HV13-5.terrain_description: was: Smooth flagstone simulated bedrock (Marsyard, 5 to 30 deg) and cohesive soil (Marsyard and desiccated lake bed at Tecopa CA, flat to 28 deg)
+- FLD-HV13-5.validation_type: was: field
+- FLD-HV13-6.vehicle_or_wheel: was: Curiosity (MSL, 899 kg, flight rover on Mars) using onboard slip model
+- FLD-HV13-6.method: was: Third order polynomial slip vs slope model, coefficients set by terrain type from terrestrial tests, used to estimate downslope slip from roll and pitch; slip measured on Mars by visual odometry
+- FLD-HV13-6.metric: was: Agreement of Earth based slip prediction with Mars slip data

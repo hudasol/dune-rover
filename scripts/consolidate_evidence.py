@@ -36,6 +36,11 @@ for f in sorted(glob.glob(os.path.join(RAW, "*_rows.csv"))):
     area = os.path.basename(f).replace("_rows.csv", "")
     for r in read_rows(f):
         r["area"] = area; rows.append(r)
+# rows read from PDFs the author supplied (2026-10-13), verified 2026-10-15 (batches 8 to 13)
+for f in sorted(glob.glob(os.path.join(ROOT, "research", "phase2", "supplied_pdf_rows_*.csv"))):
+    for r in read_rows(f):
+        r["area"] = {"TM": "terramechanics", "FLD": "field", "SIM": "simulation", "LRN": "learning", "LEG": "legged"}[r["id"].split("-")[0]]
+        rows.append(r)
 kept = [r for r in rows if r["id"] not in DROP]
 for r in kept:
     r["evidence_label"] = "PUBLISHED"
@@ -58,7 +63,9 @@ for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"
     for v in csv.DictReader(open(f, encoding="utf-8")):
         if v["id"] in by_id:
             n = int(re.search(r"batch(\d+)", f).group(1))
-            if n >= 4:
+            if n >= 8:
+                grp, date = "supplied PDF re-check", "2026-10-15"
+            elif n >= 4:
                 grp, date = "full re-check, phase 2", "2026-10-12"
             else:
                 grp, date = ("random sample" if v["id"] in random_ids else "flagged sample"), "2026-10-11"
