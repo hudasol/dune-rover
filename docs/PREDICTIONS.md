@@ -93,3 +93,24 @@ Design fixed now:
 | I5-3 | (b2) With i0 = 0.81, the model slip at 10 deg cross slope spans from about 0.2 to about 0.4 over the f_r range (each end plus or minus 0.07); the measured 0.5 is above it or at its upper edge. || HIT. With i0 = 0.81 the model spans 0.217 to 0.403 at 10 deg; the measured 0.5 is above the whole range. |
 
 Note on stage 5: nine of ten predictions hit and one was mixed, but several were informed by hand arithmetic on the model equation before the commit (stated above the table), so the hits show that the script does what the equation says rather than foresight about the world. The informative results are the comparisons themselves, reported in `results/anchors/` and report section 8.8.
+
+
+## Stage 6: revised slope ladder bins and expected slip ranges (written 2026-10-15, BEFORE any code for it was written or run)
+
+Why the ladder is revised (PUBLISHED inputs, verified rows): at Dumont Dunes slip rises from below 50 % at 12.5 deg to about 75 % at 16 deg and about 90 % at 20 deg (FLD-HV13-1, FLD-HV13-2); on Marsyard sand both test rovers embedded at about 17 deg (FLD-HV13-3); Ishigami 2009 measured a slip ratio of about 0.5 on a 10 deg side slope with a 13.5 kg rover (TM-IS09-3). Stage 5 showed the model's expected slip is too low on sand slopes, and stage 3 showed the protocol is uninformative at 25 deg (S3-5). The 2026-10-12 ladder has only the 10, 15 and 20 deg bins in the range where the published curves bend.
+
+Design fixed now (the 2026-10-12 prediction files are not edited; a new dated file is written):
+
+- **Bins (PLANNED):** direct uphill at 0, 5, 10, 12.5, 15, 17.5 and 20 deg; 25 deg only if fewer than half of the 20 deg runs end in entrapment. Slope tolerance plus or minus 1 deg for the 10 to 20 deg bins (needed so that bins 2.5 deg apart do not overlap), plus or minus 2 deg for 0, 5 and 25 deg. Pilot unchanged (3 runs at each of 5, 10, 15, 20 deg). Cross slope block unchanged (10, 15, 20 deg).
+- **Analysis code:** a run may carry its target bin (`bin_deg`); when present the analysis groups runs by it instead of rounding the measured slope to 5 deg. Defaults are unchanged, so the stage 3 study reproduces exactly.
+- **Expected slip ranges (new file `docs/predictions/slope_ladder_predictions_2026-10-15.csv`):** for each bin, (1) the unchanged model prior predictive, same code, ranges and seeds as 2026-10-12 (SIMULATED BY ME); (2) the Dumont cubic value where the slope lies inside 4 to 21 deg (PUBLISHED, a different and heavier vehicle); (3) a planning range from the model 5th percentile to the larger of the model 95th percentile and the Dumont value (PLANNED; it widens the upper end only where a published sand curve says more slip is possible). Cross slope 10 deg: the measured Ishigami value is listed as a reference.
+- **Synthetic power study re run** with the new bins (`scripts/field_analysis_power.py --design 2026-10-15`, output `results/field_kit/power_study_2026-10-15.csv`; the 2026-10-12 output is kept): truths model, janosi_mean and collapse as before, plus a new truth `dumont` (the Dumont cubic between 4 and 21 deg, 0.10 below 4 deg and slip 1 above 21 deg, as the source text describes; a PUBLISHED shape used as a synthetic truth, not a prediction for any rover). Noise 0.03, 0.06, 0.10; 300 replicates; seeds 30000 and up; 6 runs per bin; jitter plus or minus 1.0 deg in the 10 to 20 deg bins and 1.5 deg elsewhere; the 25 deg bin always included in the synthetic runs.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| L6-1 | The model prior predictive at 0, 5, 10, 15, 20 and 25 deg in the new file equals the 2026-10-12 values to within 1e-12 (same seeds and draws). | |
+| L6-2 | The Dumont value lies above the model prior 95th percentile (friction angle unknown) at 12.5, 15 and 17.5 deg, and inside the 5 to 95 % band at 5 and 10 deg. | |
+| L6-3 | New design, truth = model, sigma 0.03: adequacy pass rate within 15 points of the stage 3 value (46 %). | |
+| L6-4 | New design, truth = collapse, sigma 0.03: failure (detection) rate between 30 % and 69 % (lower than stage 3 because the 28 deg bin is gone). | |
+| L6-5 | New design, truth = dumont: failure (detection) rate at least 90 % at sigma 0.03 and at least 80 % at sigma 0.10 (the model form cannot follow the S shaped curve, stage 5). | |
+| L6-6 | The existing synthetic wrong model test (`test_blatantly_wrong_model_is_always_failed`) still passes, and the same test on the new design also fails the blatantly wrong model in 10 of 10 replicates. | |
