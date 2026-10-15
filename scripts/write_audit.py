@@ -1,3 +1,5 @@
+import os as _os
+ROOT_ = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))) + "/"  # repository root (was a hard coded build path)
 import csv
 H="product,version,resolution,vertical_accuracy_published,coverage,epoch,licence,licence_url,access_url,access_tested,format,notes,source_url,retrieval_date".split(",")
 D="2026-10-11"
@@ -24,7 +26,7 @@ rows=[
 ["SoilGrids 2.0 sand content","SoilGrids250m 2.0 (published 2020-05-04)","250 m; mass fraction of sand (0.05/0.063-2 mm) in per mille at 6 depths","not retrieved (Q0.05/Q0.5/Q0.95 and mean layers exist; no desert accuracy read)","Global","Soil profile data 1905-2016 (metadata)","CC BY 4.0","https://data.isric.org/geonetwork/srv/api/records/713396fa-1687-11ea-a7c0-a0481ca9e724","https://files.isric.org/soilgrids/latest/data/sand/ (WebDAV; e.g. sand_0-5cm_mean.vrt) ; WMS https://maps.isric.org/mapserv?map=/map/sand.map","YES: sand_0-5cm_mean.vrt HEAD 200 (5,928,942 B); not downloaded","VRT/GeoTIFF (Interrupted Goode Homolosine, +proj=igh)","Sand FRACTION class, not grain-size distribution or sand colour; adds almost no information inside a dune sea (my reasoning). Not downloaded.","https://data.isric.org/geonetwork/srv/api/records/713396fa-1687-11ea-a7c0-a0481ca9e724",D],
 ["Sand colour / grain-size map of the Empty Quarter","not found","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","No retrievable gridded sand-colour or grain-size product for the Rub al Khali was found. Only point values from papers (see morphology_rows.csv). Provenance paper (Geol. Soc. London figshare) could not be fetched (HTTP 202 empty).","n/a",D],
 ]
-with open("/home/claude/dune-rover/research/raw/data_audit.csv","w",newline="") as f:
+with open(ROOT_+"research/raw/data_audit.csv","w",newline="") as f:
     w=csv.writer(f,quoting=csv.QUOTE_MINIMAL); w.writerow(H)
     for r in rows:
         assert len(r)==len(H),r[0]; w.writerow(r)

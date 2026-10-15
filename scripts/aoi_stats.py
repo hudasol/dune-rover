@@ -1,8 +1,10 @@
+import os as _os
+ROOT_ = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))) + "/"  # repository root (was a hard coded build path)
 import tifffile, numpy as np, json, gzip, sys
-sys.path.insert(0,'/home/claude/dune-rover/scripts')
+sys.path.insert(0,ROOT_+'scripts')
 from tile_stats import slope_deg, summarize
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-RAW="/home/claude/dune-rover/data/raw/"
+RAW=ROOT_+"data/raw/"
 tiles={"N23E053":(23,53),"N22E053":(22,53),"N22E054":(22,54)}
 D={}
 for k,(la,lo) in tiles.items():
@@ -44,7 +46,7 @@ for name,k,lat0,lat1,lon0,lon1 in AOIS:
     fig,ax=plt.subplots(1,2,figsize=(14,6.6))
     ax[0].imshow(hs,cmap="gray",extent=[lon0,lon1,lat0,lat1]); ax[0].set_title(f"{name} hillshade (COP30, 30 m)")
     im=ax[1].imshow(s,cmap="magma",vmin=0,vmax=35,extent=[lon0,lon1,lat0,lat1]); ax[1].set_title("slope deg (central diff, 30 m)")
-    plt.colorbar(im,ax=ax[1],shrink=.8); plt.tight_layout(); plt.savefig(f"/home/claude/dune-rover/data/derived/{name}_hillshade_slope.png",dpi=80); plt.close()
+    plt.colorbar(im,ax=ax[1],shrink=.8); plt.tight_layout(); plt.savefig(f"{ROOT_}data/derived/{name}_hillshade_slope.png",dpi=80); plt.close()
     # slope histogram bins
     hist,edges=np.histogram(s,bins=np.arange(0,46,5))
     r["hist_5deg_bins"]=[int(x) for x in hist]
@@ -52,5 +54,5 @@ for name,k,lat0,lat1,lon0,lon1 in AOIS:
     # profile along row at median rows
     rr=sub.shape[0]//2
     prof[name]=sub[rr,:].tolist()
-json.dump(res,open("/home/claude/dune-rover/data/derived/slope_stats.json","w"),indent=1)
+json.dump(res,open(ROOT_+"data/derived/slope_stats.json","w"),indent=1)
 for r in res: print(json.dumps(r))

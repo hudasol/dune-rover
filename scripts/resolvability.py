@@ -1,8 +1,10 @@
+import os as _os
+ROOT_ = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))) + "/"  # repository root (was a hard coded build path)
 import tifffile, numpy as np, gzip, json, sys
-sys.path.insert(0,'/home/claude/dune-rover/scripts')
+sys.path.insert(0,ROOT_+'scripts')
 from tile_stats import slope_deg, summarize
 from scipy.signal import find_peaks
-RAW="/home/claude/dune-rover/data/raw/"
+RAW=ROOT_+"data/raw/"
 out={}
 # ---------- tiles
 A=tifffile.imread(RAW+"Copernicus_DSM_COG_10_N23_00_E053_00_DEM.tif").astype(np.float64)   # N23E053 (rows from 24.0N)
@@ -80,5 +82,5 @@ def sim(H,theta=32.0,dxp=30.0,lam=None,n=4000):
             "central_diff_max_median":float(np.median(res_cd)),"central_diff_p10":float(np.percentile(res_cd,10))}
 out["synthetic_32deg_slipface_30m"]=[sim(H) for H in (3,5,10,20,30,50,100)]
 out["synthetic_32deg_slipface_90m"]=[sim(H,dxp=90.0) for H in (10,20,50,100)]
-json.dump(out,open("/home/claude/dune-rover/data/derived/resolvability.json","w"),indent=1)
+json.dump(out,open(ROOT_+"data/derived/resolvability.json","w"),indent=1)
 print(json.dumps(out,indent=1))

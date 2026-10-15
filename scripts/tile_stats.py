@@ -1,3 +1,5 @@
+import os as _os
+ROOT_ = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))) + "/"  # repository root (was a hard coded build path)
 import tifffile, numpy as np, gzip, json, sys
 R=6378137.0
 def load_cop(path):
@@ -20,7 +22,7 @@ def summarize(s,label):
         out[f"frac>{t}"]=float((s>t).mean())
     return out
 if __name__=="__main__":
-    a=load_cop("/home/claude/dune-rover/data/raw/Copernicus_DSM_COG_10_N23_00_E053_00_DEM.tif")
+    a=load_cop(ROOT_+"data/raw/Copernicus_DSM_COG_10_N23_00_E053_00_DEM.tif")
     s,dx,dy=slope_deg(a,24.0,1/3600,1/3600)
     print("cell dx range (m)",dx.min(),dx.max(),"dy",dy)
     print(json.dumps(summarize(s,"COP30 N23E053 whole tile"),indent=1))
