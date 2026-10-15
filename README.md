@@ -42,7 +42,7 @@ scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verificatio
                       analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, anchor_comparisons.py, check_repo_hygiene.py, scan_secrets.py ...
 tests/                55 tests
 results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit (synthetic data),
-                      results/anchors (model against the Dumont Dunes and Ishigami 2009 values)
+                      results/anchors (model against the Dumont Dunes and Ishigami 2009 values), results/dumont_prior (stage 7)
 data/anchor_points.csv  13 published slip points used only for descriptive comparison
 ```
 
@@ -60,6 +60,7 @@ PYTHONPATH=src python3 scripts/field_analysis_power.py                          
 PYTHONPATH=src python3 scripts/field_analysis_power.py --design 2026-10-15                   # same for the revised bins, a few minutes
 PYTHONPATH=src python3 scripts/make_ladder_predictions.py --design 2026-10-15 --date 2026-10-15   # revised expected ranges
 PYTHONPATH=src python3 scripts/anchor_comparisons.py                                       # Dumont Dunes and Ishigami 2009 anchors, about 10 s
+PYTHONPATH=src python3 scripts/study_dumont_prior.py                                       # stage 7: Dumont fitted i0 in the 30 m map, about 12 minutes
 python3 scripts/consolidate_evidence.py && python3 scripts/verify_stats.py                  # evidence table and verification log from files
 python3 scripts/build_report.py  # rebuilds docs/REPORT.md, the brief and this README from docs/src, the CSVs and results
 python3 scripts/check_repo_hygiene.py --history && python3 scripts/scan_secrets.py --history
