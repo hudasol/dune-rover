@@ -17,3 +17,7 @@ Each item states the exact decision, file or access needed. Nothing below blocks
 4. Adequacy rule: option (a). Keep the revised bins; an entrapment slope that is not reached is reported as "not reached", not as a failure, and never counts as a pass for the entrapment test. New dated pre registration stating the amendment was made after seeing the 1.3 % result.
 5. Slope tolerance of 1 degree: UNANSWERED. Both bin designs stay documented; achievability is unconfirmed and is not claimed anywhere.
 6. Licence in the history: LEAVE AS IS; one plain sentence in `docs/DATA_AND_LICENSES.md`.
+
+## New questions, 2026-10-18
+
+7. **Amended rule still passes a wrong model (your decision before any field day).** With the amended entrapment rule and the 2026-10-15 bins, a correct model is "slip within tolerance, entrapment not reached" in 74 % of synthetic replicates and the Dumont shaped truth is never passed, but the wrong collapse model is called adequate in 53 % at sigma 0.03, and the mildly wrong janosi_mean model in 65 % at sigma 0.10 (`results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv`, `docs/PREDICTIONS.md` stage 10). The rule was not tuned after the run. Choose one: (a) accept it and treat pass or fail as secondary to predicted against observed slip, as the plan already says; (b) ask for a further pre registered change (for example a stricter slip tolerance or a test on the 20 to 25 deg runs alone), with its own power run; (c) something else.
