@@ -8,7 +8,7 @@ def tally(path=None):
     for line in open(path, encoding="utf-8"):
         m = re.match(r"## (Stage \d+)", line)
         if m: cur = m.group(1); stages[cur] = collections.Counter(); continue
-        m = re.match(r"\| ([A-Z]+\d-\d+) \|", line)
+        m = re.match(r"\| ([A-Z]+\d+-\d+) \|", line)
         if cur and m:
             cells = [c.strip() for c in line.rstrip().strip("|").split("|")]
             mw = re.match(r"([A-Z]+)", cells[-1])
