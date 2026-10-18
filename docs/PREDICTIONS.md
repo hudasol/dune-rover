@@ -158,3 +158,25 @@ Design: following Huda's answer of 2026-10-18, FLD-HV13-5 is replaced by FLD-HV1
 | P8-1 | Neither split row is judged a material error. |  HIT. FLD-HV13-5a correct, FLD-HV13-5b minor; no material error (`research/verify_out_batch14.csv`). |
 | P8-2 | At least one split row receives a minor verdict (page or wording), because the two Tecopa slip figures (Sec 6.2 and Sec 10) are not tied to the same site in the text. |  HIT, for a different reason than predicted. The minor error on FLD-HV13-5b is the slope range (flat to 28 deg covers all cohesive soil tests, not Tecopa alone), not the two Tecopa slip figures. |
 | P8-3 | Current table: material errors 8 of 171 (4.7 %) and, for the current supplementary rows, 2 of 27 (7.4 %), if P8-1 holds. |  HIT. Current table 8 of 171 (4.7 %); current supplementary rows 2 of 27 (7.4 %). This follows arithmetically from P8-1, so it is not independent evidence. |
+
+
+## Stage 9: widened slip scale range (written 2026-10-18, BEFORE any code for it was written or run)
+
+Following Huda's answer to question 1 (2026-10-18). **SIMULATED BY ME, simulation only, model assumption dependent.** The original ranges stay the default and every earlier result stays as it is; the new runs are written beside them.
+
+Design fixed now:
+
+- **Range sets.** `original`: as before (i0 0.05 to 0.40, nominal 0.20; f_r 0.05 to 0.25, nominal 0.12). `widened_i0`: i0 0.05 to 1.20 with nominal 0.81, the lower bound implied by Ishigami et al. 2009 Table I under the model definition i0 = K / contact length (TM-IS09-2; the upper end 1.20 is an ASSUMPTION chosen to contain that value and the Dumont fitted i0 of stage 7, 5 to 95 % 0.29 to 0.94); everything else unchanged. `widened_i0_fr`: as `widened_i0` and f_r 0.05 to 0.35 (ASSUMPTION, a test of the f_r range; nominal 0.12 unchanged).
+- **Runs.** Phase 1 (`python -m dunerover.study --range-set ...`, outputs `results/widened_i0/`, `results/widened_i0_fr/`), phase 2 (`python -m dunerover.study_subgrid --range-set ...`, outputs `results/subgrid_widened_i0/`, `results/subgrid_widened_i0_fr/`), and the anchors (`scripts/anchor_comparisons.py --range-set ...`, outputs `results/anchors_widened_i0/`, `results/anchors_widened_i0_fr/`), all with the same seeds as the original runs.
+- These predictions were informed by hand arithmetic on the model equation (nominal crossing, Ishigami envelope ends) and by the stage 7 result; such hits are not independent evidence.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| W9-1 | `widened_i0`: the nominal model crosses 50 % slip between 8 and 13 deg, so it now crosses before or near the Dumont curve (12.6 deg) instead of 12.9 deg after it. | |
+| W9-2 | `widened_i0`: the median of the draws crosses 50 % slip between 12 and 18 deg. | |
+| W9-3 | `widened_i0`: at least 80 % of the Dumont grid lies inside the 5 to 95 % band (original: 57.3 %). | |
+| W9-4 | `widened_i0`, Ishigami b1 (phi 38): the envelope maximum at 10 deg side slope lies between 0.50 and 0.70, so the measured slip ratio of about 0.5 is inside it (original: maximum 0.20); at 5 deg the maximum stays below 0.6, so Ishigami's model value is still outside. | |
+| W9-5 | Phase 2, 30 m, `widened_i0`: UNKNOWN is between 8.6 and 12 % in A, between 10.9 and 15 % in B and between 2.5 and 4 % in C; BLOCKED stays below 1 % in A. | |
+| W9-6 | Phase 1, `widened_i0`: the median climbing limit across the Latin hypercube draws falls by at least 3 deg from 23.4 deg. | |
+| W9-7 | `widened_i0_fr` adds at most 3 percentage points of UNKNOWN to `widened_i0` in each area at 30 m. | |
+| W9-8 | Even with the widened range the post hoc fit to the Dumont curve keeps an RMSE above 0.05: the model form, not only the range, misses the S shape. | |
