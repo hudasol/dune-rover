@@ -21,9 +21,9 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 ## 3. Validated, simulated, planned
 
-- **Validated:** only the extraction of published numbers ({{VAL:ver_ext_material}} material errors before correction in the first check of {{VAL:ver_ext_n}} rows, all corrected; the current table has {{VAL:ver_all_n}} rows). No model in this repository has been validated against field data.
+- **Validated:** only the extraction of published numbers ({{VAL:ver_ext_material}} material errors before correction in the first check of the {{VAL:ver_ext_n}} rows as extracted; after one row was split in two, the current table has {{VAL:ver_all_n}} rows with {{VAL:ver_all_material}} material errors by each row's latest verdict; all corrected). No model in this repository has been validated against field data.
 - **Simulated (simulation only, model assumption dependent):** the traversability maps and the UNKNOWN share; the comparison with the published anchors, which shows the slip model predicting too little slip on sand slopes above about 10 degrees (report section 8.8). That is a negative result for the model, stated as such.
-- **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; one design conflict in the planned analysis is open and must be settled by the author before any field day (`docs/FIELD_VALIDATION_PLAN.md`, section 4).
+- **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; the planned pass or fail rule was amended on 2026-10-18 and still calls a wrong model adequate about half the time on synthetic data; the author must decide whether to accept that before any field day (`docs/FIELD_VALIDATION_PLAN.md`, section 7).
 
 ## 4. The specific ask, with a fallback for each
 
@@ -53,7 +53,7 @@ Success means a complete dataset and a reported comparison, not a model that pas
 | Entrapment or damage on steep sand | Tether and recovery line, second person, abort rules in `docs/FIELD_DAY_CHECKLIST.md`; no person downslope |
 | Heat and dust | Early morning runs; limits for people and electronics from `hudasol/dhill` (separate study, cross referenced only) |
 | Run to run scatter too large to discriminate | Pilot first; the analysis flags an uninformative experiment |
-| The planned adequacy rule fails even a correct model on the revised bins | Open decision for the author before the field day (`docs/FIELD_VALIDATION_PLAN.md`, section 4); report predicted against observed as the primary result |
+| The planned pass or fail rule discriminates weakly (amended 2026-10-18; a wrong collapse model still passes about half the time on synthetic data) | Open decision for the author before the field day (`docs/FIELD_VALIDATION_PLAN.md`, section 7); report predicted against observed as the primary result |
 | One vehicle, one site, one sand | Results limited to the tested vehicle, wheels, soil and speed |
 | Implied endorsement | This document and any result state that no agreement or endorsement exists unless one is signed |
 
