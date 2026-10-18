@@ -14,7 +14,10 @@ latest = {}
 for r in rows:          # files are read in batch order, so the last verdict per id wins
     latest[r["id"]] = r
 cur_rows = [latest[i] for i in sorted(current) if i in latest]
-cur_sup = [r for r in cur_rows if r["id"] in supplied or r["id"].startswith("FLD-HV13-5")]
+for c in csv.DictReader(open(os.path.join(ROOT, "research", "corrections.csv"), encoding="utf-8")):
+    if c["field"] == "split_into" and c["id"] in supplied:      # rows split from a supplementary row stay supplementary
+        supplied |= set(c["new_value"].split(";"))
+cur_sup = [r for r in cur_rows if r["id"] in supplied]
 def wilson(k, n, z=1.96):
     p = k / n; d = 1 + z * z / n; c = p + z * z / (2 * n); h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
     return (c - h) / d, (c + h) / d
