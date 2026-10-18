@@ -12,3 +12,4 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 21:08 T7 done (stretch): stage 7 pre registered, tiles fetched by the checksummed script (not committed), study run; map barely moves (4 hit, 2 missed); report section 8.9.
 - 21:13 Morning report written; PDFs rebuilt; 55 tests pass; hygiene and secrets scans clean over full history.
 - 21:15 CI writing check failure (institution name in the review document) fixed in b5c9d74; CI green; work stopped, all tasks done.
+- 2026-10-18 11:49 F1 done: FLD-HV13-5 split into 5a (lab, correct) and 5b (field, minor, corrected); 171 rows; first check 9 of 170 material, current 8 of 171, supplementary 2 of 27. CI was red about 3 minutes (11:38 to 11:40) after a predictions commit without the report regenerated.
