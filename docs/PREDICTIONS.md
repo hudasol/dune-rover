@@ -180,3 +180,22 @@ Design fixed now:
 | W9-6 | Phase 1, `widened_i0`: the median climbing limit across the Latin hypercube draws falls by at least 3 deg from 23.4 deg. | |
 | W9-7 | `widened_i0_fr` adds at most 3 percentage points of UNKNOWN to `widened_i0` in each area at 30 m. | |
 | W9-8 | Even with the widened range the post hoc fit to the Dumont curve keeps an RMSE above 0.05: the model form, not only the range, misses the S shape. | |
+
+
+## Stage 10: amended entrapment rule for the 2026-10-15 ladder (written 2026-10-18, BEFORE the amended rule was coded or run)
+
+**This amendment was made after seeing the stage 6 result** (a correct model called adequate in 1.3 % of synthetic replicates under the 2026-10-15 bins, `docs/PREDICTIONS.md` L6-3), at Huda's decision (question 4, option a). It is therefore not a blind rule; it is fixed here before its own power run, and it will not be tuned after that run. The 2026-10-12 and 2026-10-15 prediction files and the stage 3 and stage 6 results are not changed.
+
+Amended rule (applies to the 2026-10-15 design):
+- Slip test, unchanged: at least 80 % of held out runs within the tolerance (the larger of 3 times the pilot sigma and 0.05); uninformative flag unchanged.
+- Entrapment test, three outcomes: **pass** (observed entrapment slope defined and within 3 deg of the predicted one), **fail** (defined and more than 3 deg away), **not reached** (no slope bin with at least half of its runs entrapped). Not reached is reported as such, never as a failure, and never as a pass.
+- Verdict: **adequate** only if the slip test and the entrapment test both pass; **not adequate** if either test fails; **slip within tolerance, entrapment not reached** if the slip test passes and entrapment is not reached. The boolean `adequate` keeps its old meaning, so the stage 6 numbers do not change.
+- Power study: `scripts/field_analysis_power.py --design 2026-10-15 --rule 2026-10-18`, same truths (model, janosi_mean, collapse, dumont), noise 0.03, 0.06, 0.10, 300 replicates, seeds 30000 and up; output `results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv`. Reported per cell: the adequate rate, the not adequate rate, the not reached verdict rate, and the share of replicates where entrapment is not reached.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| R10-1 | truth = model, sigma 0.03: entrapment is not reached in at least 90 % of replicates; the adequate rate stays below 5 % (as in stage 6, by construction); the "slip within tolerance, entrapment not reached" verdict lies between 60 % and 95 %. | |
+| R10-2 | truth = model, sigma 0.10: the "slip within tolerance, entrapment not reached" verdict lies between 40 % and 90 %. | |
+| R10-3 | truth = dumont: the not adequate rate is at least 90 % at sigma 0.03 (the slip test fails, so not reached cannot rescue it). | |
+| R10-4 | truth = collapse, sigma 0.03: entrapment is reached in at least 80 % of replicates (slip 0.85 from 22 deg), and the adequate (false pass) rate lies between 10 % and 60 %. | |
+| R10-5 | The amended rule separates a correct model from the dumont truth: the share of "adequate" plus "slip within tolerance, entrapment not reached" is at least 50 points higher for truth = model than for truth = dumont at sigma 0.03. | |
