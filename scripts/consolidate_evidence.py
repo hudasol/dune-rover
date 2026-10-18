@@ -60,7 +60,7 @@ if os.path.exists(corr_path):
             splits.append((c["id"], c["new_value"], c["reason"]))
             continue
         r = by_id[c["id"]]
-        if c["id"] not in split_new:      # fields of a split row define it; they are not verifier corrections
+        if not c["reason"].startswith("Definition of the split row"):   # definitions of a split row are not verifier corrections
             applied.append((c["id"], c["field"], r[c["field"]]))
         r[c["field"]] = c["new_value"]
 random_ids = set(r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "verify_sample_random30.csv"), encoding="utf-8"))) if os.path.exists(os.path.join(ROOT, "research", "verify_sample_random30.csv")) else set()

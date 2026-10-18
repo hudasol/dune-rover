@@ -100,5 +100,56 @@
    0.236154205110263,
    0.37268510607877336
   ]
+ },
+ "split rows, phase 4": {
+  "n": 2,
+  "correct": 1,
+  "minor_error": 1,
+  "material_error": 0,
+  "unverifiable": 0,
+  "material_rate": 0.0,
+  "material_wilson95": null,
+  "material_upper95_exact": 0.7763932022500211,
+  "any_rate": 0.5,
+  "any_wilson95": [
+   0.09452865480086611,
+   0.905471345199134
+  ]
+ },
+ "CURRENT TABLE, latest verdict per row": {
+  "n": 171,
+  "correct": 120,
+  "minor_error": 43,
+  "material_error": 8,
+  "unverifiable": 0,
+  "material_rate": 0.04678362573099415,
+  "material_wilson95": [
+   0.023893560130576114,
+   0.08958972988736011
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.2982456140350877,
+  "any_wilson95": [
+   0.23472075226984004,
+   0.37063632522201545
+  ]
+ },
+ "CURRENT SUPPLEMENTARY ROWS, latest verdict per row": {
+  "n": 27,
+  "correct": 12,
+  "minor_error": 13,
+  "material_error": 2,
+  "unverifiable": 0,
+  "material_rate": 0.07407407407407407,
+  "material_wilson95": [
+   0.020554221697383537,
+   0.2336997729073062
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.5555555555555556,
+  "any_wilson95": [
+   0.3731271947957688,
+   0.7241440232992717
+  ]
  }
 }
