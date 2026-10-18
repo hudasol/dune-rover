@@ -15,7 +15,7 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 ## Headline numbers (from files)
 
 - Verification: all {{VAL:ver_all_n}} evidence rows re checked against their sources. First check of the {{VAL:ver_ext_n}} rows as extracted: material errors {{VAL:ver_ext_material}} of {{VAL:ver_ext_n}} ({{VAL:ver_ext_material_rate}}), any discrepancy {{VAL:ver_ext_any}} of {{VAL:ver_ext_n}} ({{VAL:ver_ext_any_rate}}); of these, the {{VAL:ver_sup_n}} rows read from supplied PDFs had {{VAL:ver_sup_material}} material ({{VAL:ver_sup_material_rate}}, all on validation type). Current table, latest verdict per row (FLD-HV13-5 split into a lab and a field row): material {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}); current supplementary rows {{VAL:ver_cs_material}} of {{VAL:ver_cs_n}} ({{VAL:ver_cs_material_rate}}). All corrected (`research/verification_log.md`).
-- Simulation, 30 m: UNKNOWN share {{VAL:unk_A_30}} (A south Liwa), {{VAL:unk_B_30}} (B megadunes), {{VAL:unk_C_30}} (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; {{VAL:uni_A_30}} of cells in A have the same slope based verdict in at least 95 % of the 256 draws of the four assumed parameters. If a face within one post of the cell counts (post hoc variant), UNKNOWN is {{VAL:unk3_A_30}}, {{VAL:unk3_B_30}}, {{VAL:unk3_C_30}}. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
+- Simulation, 30 m: UNKNOWN share {{VAL:unk_A_30}} (A south Liwa), {{VAL:unk_B_30}} (B megadunes), {{VAL:unk_C_30}} (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; {{VAL:uni_A_30}} of cells in A have the same slope based verdict in at least 95 % of the 256 draws of the four assumed parameters (under the original ranges; not under the widened ranges below). If a face within one post of the cell counts (post hoc variant), UNKNOWN is {{VAL:unk3_A_30}}, {{VAL:unk3_B_30}}, {{VAL:unk3_C_30}}. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
 - Published anchors (comparison of unlike vehicles and soils, report section 8.8): the Dumont Dunes slip curve (PUBLISHED, FLD-HV13-1) crosses 50 % slip at {{VAL:an_d_cross}} degrees, the nominal model at {{VAL:an_nom_cross}} degrees; with Ishigami 2009 Table I values the model gives {{VAL:an_b2_10deg}} slip on a 10 degree side slope where a slip ratio of about 0.5 was measured (TM-IS09-3). **The model predicts too little slip on sand slopes. Simulation only, model assumption dependent.**
 - Widened slip scale range (2026-10-18, simulation only, model assumption dependent): with i0 0.05 to 1.20 (nominal 0.81) the nominal model crosses 50 % slip at {{VAL:rs_w_nomcross}} degrees and UNKNOWN at 30 m is {{VAL:rs_w_unk_A}} (A), {{VAL:rs_w_unk_B}} (B), {{VAL:rs_w_unk_C}} (C); with f_r also widened, {{VAL:rs_wf_unk_A}}, {{VAL:rs_wf_unk_B}}, {{VAL:rs_wf_unk_C}}. The original ranges remain the reference.
 - Pre registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
@@ -43,7 +43,8 @@ scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verificatio
                       analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, anchor_comparisons.py, check_repo_hygiene.py, scan_secrets.py ...
 tests/                {{VAL:ntests}} tests
 results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit (synthetic data),
-                      results/anchors (model against the Dumont Dunes and Ishigami 2009 values), results/dumont_prior (stage 7)
+                      results/anchors (model against the Dumont Dunes and Ishigami 2009 values), results/dumont_prior (stage 7),
+                      results/*widened_i0* (stage 9, widened ranges), results/range_set_diagnostics (stage 11)
 data/anchor_points.csv  13 published slip points used only for descriptive comparison
 ```
 
@@ -62,6 +63,11 @@ PYTHONPATH=src python3 scripts/field_analysis_power.py --design 2026-10-15      
 PYTHONPATH=src python3 scripts/make_ladder_predictions.py --design 2026-10-15 --date 2026-10-15   # revised expected ranges
 PYTHONPATH=src python3 scripts/anchor_comparisons.py                                       # Dumont Dunes and Ishigami 2009 anchors, about 10 s
 PYTHONPATH=src python3 scripts/study_dumont_prior.py                                       # stage 7: Dumont fitted i0 in the 30 m map, about 12 minutes
+PYTHONPATH=src python3 -m dunerover.study --data data/raw --out results/widened_i0 --range-set widened_i0                 # stage 9, also widened_i0_fr
+PYTHONPATH=src python3 -m dunerover.study_subgrid --data data/raw --out results/subgrid_widened_i0 --range-set widened_i0  # stage 9, also widened_i0_fr
+PYTHONPATH=src python3 scripts/anchor_comparisons.py --range-set widened_i0                # stage 9, writes results/anchors_widened_i0, also widened_i0_fr
+PYTHONPATH=src python3 scripts/field_analysis_power.py --design 2026-10-15 --rule 2026-10-18   # stage 10, amended entrapment rule
+PYTHONPATH=src python3 scripts/diagnose_level_ground.py                                  # stage 11, draws that cannot move on level ground
 python3 scripts/consolidate_evidence.py && python3 scripts/verify_stats.py                  # evidence table and verification log from files
 python3 scripts/build_report.py  # rebuilds docs/REPORT.md, the brief and this README from docs/src, the CSVs and results
 python3 scripts/check_repo_hygiene.py --history && python3 scripts/scan_secrets.py --history
