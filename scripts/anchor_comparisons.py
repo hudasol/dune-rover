@@ -26,9 +26,10 @@ import matplotlib.pyplot as plt
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "src"))
 from dunerover import SIM_LABEL  # noqa: E402
-from dunerover.slipmodel import PARAM_TABLE, SlipParams, slip  # noqa: E402
+from dunerover.slipmodel import PARAM_TABLE, SlipParams, slip, apply_range_set, nominal_params  # noqa: E402
 
 OUT = os.path.join(ROOT, "results", "anchors")
+RANGE_SET = "original"
 SEED_DUMONT, SEED_ISHIGAMI, N_DRAW = 20261020, 20261021, 4000
 UNLIKE = "Comparison of unlike vehicles and soils"
 
@@ -128,7 +129,7 @@ def compare_dumont(log):
     d = dumont(s)
     P = lhs(("phi_deg", "f_r", "i0"), SEED_DUMONT)
     S = model_grid(s, P)
-    nom = SlipParams()
+    nom = nominal_params()
     nominal = np.array([model_slip(v, nom.phi_deg, nom.f_r, nom.i0) for v in s])
     lo, hi = S.min(0), S.max(0)
     p05, p50, p95 = np.percentile(S, [5, 50, 95], axis=0)
@@ -219,7 +220,8 @@ def fig_dumont(s, d, nominal, lo, hi, p05, p50, p95, fitted, summ, fit):
                  fontsize=8.5, fontweight="normal", loc="left")
     ax.legend(loc="upper left", fontsize=7)
     foot(fig, "Scarecrow, 340 kg, 50 cm grousered wheels, 8 runs; Dumont soil parameters not reported; fit valid about 4 to 21 deg only.\n"
-              "Model ranges (assumptions): phi 28 to 38 deg, f_r 0.05 to 0.25, i0 0.05 to 0.40.")
+              f"Range set {RANGE_SET}: phi {PARAM_TABLE['phi_deg'][1]:g} to {PARAM_TABLE['phi_deg'][2]:g} deg, f_r {PARAM_TABLE['f_r'][1]:g} to {PARAM_TABLE['f_r'][2]:g}, "
+              f"i0 {PARAM_TABLE['i0'][1]:g} to {PARAM_TABLE['i0'][2]:g} (assumptions); nominal i0 {PARAM_TABLE['i0'][0]:g}.")
     fig.savefig(os.path.join(OUT, "figures", "fig_dumont_vs_model.png"), dpi=140); plt.close(fig)
 
 
@@ -230,12 +232,12 @@ def compare_ishigami(log):
     P2 = {"phi_deg": np.full(N_DRAW, ISH_PHI), "f_r": frs, "i0": np.full(N_DRAW, ISH_I0_LOW)}
     slopes = np.array([5.0, 10.0])
     rows, res = [], {}
-    for name, P, desc in (("b1", P1, "phi 38 (Table I); f_r 0.05 to 0.25 and i0 0.05 to 0.40 assumed; 4000 Latin hypercube draws"),
+    for name, P, desc in (("b1", P1, f"phi 38 (Table I); f_r {PARAM_TABLE['f_r'][1]:g} to {PARAM_TABLE['f_r'][2]:g} and i0 {PARAM_TABLE['i0'][1]:g} to {PARAM_TABLE['i0'][2]:g} assumed ({RANGE_SET}); 4000 Latin hypercube draws"),
                           ("b2", P2, f"phi 38 (Table I); i0 = kx / (r pi / 2) = {ISH_I0_LOW:.3f} (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps")):
         S = model_grid(slopes, P, cross=True)
         for j, sl in enumerate(slopes):
             col = S[:, j]
-            nomv = model_slip(sl, ISH_PHI, SlipParams().f_r, SlipParams().i0 if name == "b1" else ISH_I0_LOW, cross=True)
+            nomv = model_slip(sl, ISH_PHI, nominal_params().f_r, nominal_params().i0 if name == "b1" else ISH_I0_LOW, cross=True)
             r = {"variant": name, "variant_description": desc, "side_slope_deg": sl, "model_min": round(float(col.min()), 4),
                  "model_p05": round(float(np.percentile(col, 5)), 4), "model_p50": round(float(np.median(col)), 4),
                  "model_p95": round(float(np.percentile(col, 95)), 4), "model_max": round(float(col.max()), 4),
@@ -292,16 +294,23 @@ def fig_ishigami(res, summ):
 
 
 def main():
+    global OUT, RANGE_SET
+    import argparse
+    ap = argparse.ArgumentParser(); ap.add_argument("--range-set", default="original", help="slipmodel.RANGE_SETS name (default original)")
+    RANGE_SET = ap.parse_args().range_set
+    apply_range_set(RANGE_SET)
+    if RANGE_SET != "original":
+        OUT = os.path.join(ROOT, "results", f"anchors_{RANGE_SET}")
     t0 = time.time()
     os.makedirs(os.path.join(OUT, "figures"), exist_ok=True)
-    log = [SIM_LABEL, UNLIKE + " in both parts. Pre registered in docs/PREDICTIONS.md, stage 5.",
+    log = [SIM_LABEL, UNLIKE + f" in both parts. Range set {RANGE_SET}. Pre registered in docs/PREDICTIONS.md (stage 5; widened sets stage 9).",
            f"numpy {np.__version__}, matplotlib {matplotlib.__version__}, seeds {SEED_DUMONT} and {SEED_ISHIGAMI}, {N_DRAW} draws"]
     s, d, nominal, lo, hi, p05, p50, p95, sd = compare_dumont(log)
     fitted, fit = posthoc_fit(s, d, log)
     fig_dumont(s, d, nominal, lo, hi, p05, p50, p95, fitted, sd, fit)
     res, si = compare_ishigami(log)
     fig_ishigami(res, si)
-    summary = {"label": SIM_LABEL, "dumont": sd, "dumont_posthoc_fit": fit, "ishigami2009": si}
+    summary = {"label": SIM_LABEL, "range_set": RANGE_SET, "ranges": {k: PARAM_TABLE[k][:3] for k in ("phi_deg", "f_r", "i0")}, "dumont": sd, "dumont_posthoc_fit": fit, "ishigami2009": si}
     json.dump(summary, open(os.path.join(OUT, "summary.json"), "w", encoding="utf-8"), indent=1, default=str)
     log.append(f"run time {time.time()-t0:.1f} s")
     open(os.path.join(OUT, "run_log.txt"), "w", encoding="utf-8").write("\n".join(log) + "\n")
