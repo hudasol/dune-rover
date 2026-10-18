@@ -44,4 +44,10 @@ At 30 m the UNKNOWN share is {{VAL:unk_A_30}} in A south Liwa, {{VAL:unk_B_30}} 
 
 {{TABLE:reach}}
 
+**Widened slip scale range (2026-10-18; SIMULATED BY ME, simulation only, model assumption dependent).** The three class map was recomputed with the widened i0 range (0.05 to 1.20) and with f_r also widened (0.05 to 0.35), same seeds, detector and rules (`results/subgrid_widened_i0/`, `results/subgrid_widened_i0_fr/`; stage 9). The original shares above are unchanged.
+
+{{TABLE:rs_phase2}}
+
+At 30 m the UNKNOWN share in A rises from {{VAL:rs_o_unk_A}} to {{VAL:rs_w_unk_A}} with the widened i0 range, and to {{VAL:rs_wf_unk_A}} when f_r is widened as well; BLOCKED stays near zero. The pre registered prediction of a small rise missed badly (W9-5, W9-7). The added UNKNOWN is assumption sensitive, not sub grid face risk: once the assumed ranges are this wide, most cells change verdict between draws. The map's certainty is therefore set by how well the slip parameters of the actual vehicle are known.
+
 **What this section establishes and does not.** It establishes that, under stated assumptions about dune shape, a 30 m DEM leaves a modest share of cells (about a tenth in the Liwa and megadune windows, a few percent in the linear dune window) with a face probability above 0.20, that this share rises to roughly a quarter to a third if a face within one post counts, and that it is driven by the assumed morphology and the cell definition far more than by the four slip parameters. It does **not** establish that any cell is safe: a TRAVERSABLE cell has a face probability below 0.20, not zero. No claim is made that the detector would find real faces; the way to test it is to compare it with an RTK or drone profile of a real dune (planned in `docs/FIELD_VALIDATION_PLAN.md` and as milestone M5 of `docs/PROPOSAL_EDGE.md`).

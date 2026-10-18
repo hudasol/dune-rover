@@ -30,7 +30,7 @@ Related work, not repeated here: `hudasol/dhill` (heat and dust operating envelo
 
 **Headline findings, phase 2 (SIMULATED BY ME, model assumption dependent; detector validated on synthetic truth only).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict in at least 95 % of the 256 draws of the four assumed slip parameters, so the three class map is far more sensitive to the sub grid morphology assumptions and the resolution than to those four parameters (section 8.7). Of 55 pre registered predictions (stage 1: 1 hit, 2 mixed, 1 missed; stage 2: 3 hit, 1 mixed, 4 missed; stage 3: 2 hit, 1 mixed, 3 missed; stage 4: 1 hit, 0 mixed, 3 missed; stage 5: 9 hit, 1 mixed, 0 missed; stage 6: 5 hit, 0 mixed, 1 missed; stage 7: 4 hit, 0 mixed, 2 missed; stage 8: 3 hit, 0 mixed, 0 missed; stage 9: 6 hit, 0 mixed, 2 missed; stage 10: 0 hit, 0 mixed, 0 missed), the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the phase 2 and 3 simulation missed, and the stage 5 hits were partly informed by hand arithmetic on the model equation.
 
-**Headline finding, published anchors (SIMULATED BY ME against PUBLISHED values; comparison of unlike vehicles and soils; section 8.8).** Run on the same slopes as the Dumont Dunes curve, the nominal model crosses 50 % slip at 25.5 degrees against 12.6 degrees for the published curve, and the curve lies above the 95th percentile of the model's assumption range between 10.7 to 17.9 degrees. With the Ishigami et al. 2009 Table I friction angle the model gives 0.01 to 0.20 slip on a 10 degree side slope (0.22 to 0.40 with the Table I shear modulus), where a slip ratio of about 0.5 was measured. **The model predicts too little slip on sand slopes; a post hoc refit at the edge of its ranges still misses the shape of the Dumont curve.**
+**Headline finding, published anchors (SIMULATED BY ME against PUBLISHED values; comparison of unlike vehicles and soils; section 8.8).** Run on the same slopes as the Dumont Dunes curve, the nominal model crosses 50 % slip at 25.5 degrees against 12.6 degrees for the published curve, and the curve lies above the 95th percentile of the model's assumption range between 10.7 to 17.9 degrees. With the Ishigami et al. 2009 Table I friction angle the model gives 0.01 to 0.20 slip on a 10 degree side slope (0.22 to 0.40 with the Table I shear modulus), where a slip ratio of about 0.5 was measured. **The model predicts too little slip on sand slopes; a post hoc refit at the edge of its ranges still misses the shape of the Dumont curve.** **Widened slip scale range (2026-10-18, sections 8.4, 8.7, 8.8):** with i0 widened to 0.05 to 1.20 (nominal 0.81, from Ishigami 2009 Table I) the nominal model crosses 50 % slip at 10.2 degrees, now before the Dumont curve, and UNKNOWN at 30 m rises to 33.9 % (A), 39.2 % (B) and 11.2 % (C); with f_r also widened to 0.35 it reaches 92.6 %, 90.1 % and 97.4 %. Widening the ranges brackets the anchors but leaves the map mostly uncertain.
 
 **Verification.** All 171 rows of the current table have an independent re check against the source (section 11). In the first check of the 170 rows as extracted, material errors were **9 of 170 (5.3 %)**: 6 in the 107 rows checked in phase 2 (5.6 %), 3 in the 26 rows from supplied PDFs checked in phase 3 (11.5 %, all on validation type) and none in the 37 rows of phase 1; any discrepancy including minor label errors: 51 of 170 (30.0 %). All are corrected in the table. For the current table, taking each row's latest verdict (the two rows split from FLD-HV13-5 were checked again on 2026-10-18), material errors are **8 of 171 (4.7 %, Wilson 95 % interval 2.4 to 9.0 %)** and any discrepancy 51 of 171 (29.8 %). The phase 1 random sample (0 of 30 material) had understated the rate. The unit of the slope term in SIM-013 is not stated in its source, so that row is flagged and must not be used numerically outside the tested envelope.
 
@@ -339,6 +339,16 @@ Two analyses were run. **One at a time (OAT):** each parameter to its low and hi
 4. **The slip limit i_max and spatially correlated DEM noise matter least** in this setup (rank correlation magnitudes at most 0.27 and 0.11). The noise result is conditional on the assumed noise model; real DEM error over dunes (X-band penetration, slip face bias) is not modelled.
 5. **Blocked share varies by about two orders of magnitude** between the 5th and 95th percentiles of the assumption space (A core 0.02 to 2.4 %; B core 0.03 to 5.5 %), with extremes of 0 to 5 % (A) and 0.01 to 19.5 % (B), while the OAT ranking is similar in the two areas. The conclusion that matters for a planner is that **the map is controlled by assumptions that field data have not yet measured**.
 
+**Widened slip scale range (2026-10-18; SIMULATED BY ME, simulation only, model assumption dependent).** At the author's decision the phase 1 study was run again with the i0 range widened to 0.05 to 1.20 and a nominal value of 0.81, the lower bound implied by Ishigami et al. 2009 Table I under the model definition (TM-IS09-2), and once more with f_r also widened to 0.35 as a test. Same seeds; the original results above are unchanged and stay the reference (`results/widened_i0/`, `results/widened_i0_fr/`; pre registered as stage 9 in `docs/PREDICTIONS.md`).
+
+| Range set | Ranges | Nominal climbing limit, deg | Climbing limit across draws, 5th / median / 95th, deg | Blocked edges, A south (nominal) | Blocked edges, B (nominal) |
+|---|---|---|---|---|---|
+| original | i0 0.05 to 0.4 (nominal 0.2); f_r 0.05 to 0.25 | 25.5 | 14.9 / 23.4 / 31.6 | 0.25 % | 0.97 % |
+| widened_i0 | i0 0.05 to 1.2 (nominal 0.81); f_r 0.05 to 0.25 | 10.2 | 2.3 / 13.5 / 28.6 | 7.80 % | 16.56 % |
+| widened_i0_fr | i0 0.05 to 1.2 (nominal 0.81); f_r 0.05 to 0.35 | 10.2 | 0.0 / 11.4 / 27.0 | 7.80 % | 16.56 % |
+
+With the widened range the nominal climbing limit falls from 25.5 to about 10 degrees and the median across draws from 23.4 to 13.5 degrees, and the nominal map blocks many more travel directions. The width of the assumed i0 range, not only its centre, now dominates the map; only a measured slip against slope curve for the vehicle can narrow it.
+
 ### 8.5 Comparison with published slip (descriptive only, nothing fitted)
 
 Thirteen published slip versus slope points were transcribed by hand (`data/anchor_points.csv`: nine from FLD-010, FLD-011, FLD-012, FLD-025 and FLD-027 to FLD-031, and four from LEG-017 to LEG-020). They differ in slip definition, gravity, wheel and soil (see the warning column) and **should not be used as a test of the model**. The comparison shows only whether the assumption envelope overlaps them.
@@ -529,6 +539,22 @@ At 30 m the UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 
 | C_RubAlKhali_linear | 59.7 | 100 % | 80 % | 10 % |
 | C_RubAlKhali_linear | 89.6 | 100 % | 60 % | 20 % |
 
+**Widened slip scale range (2026-10-18; SIMULATED BY ME, simulation only, model assumption dependent).** The three class map was recomputed with the widened i0 range (0.05 to 1.20) and with f_r also widened (0.05 to 0.35), same seeds, detector and rules (`results/subgrid_widened_i0/`, `results/subgrid_widened_i0_fr/`; stage 9). The original shares above are unchanged.
+
+| Area | Posting, m | UNKNOWN / BLOCKED, original | UNKNOWN / BLOCKED, widened_i0 | UNKNOWN / BLOCKED, widened_i0_fr |
+|---|---|---|---|---|
+| A | 30 | 8.6 % / 0.00 % | 33.9 % / 0.00 % | 92.6 % / 0.00 % |
+| A | 59 | 9.1 % / 0.00 % | 29.3 % / 0.00 % | 94.2 % / 0.00 % |
+| A | 89 | 7.1 % / 0.00 % | 23.7 % / 0.00 % | 96.5 % / 0.00 % |
+| B | 30 | 10.9 % / 0.01 % | 39.2 % / 0.02 % | 90.1 % / 0.02 % |
+| B | 59 | 19.9 % / 0.00 % | 44.6 % / 0.00 % | 88.8 % / 0.00 % |
+| B | 89 | 14.4 % / 0.00 % | 35.9 % / 0.00 % | 88.4 % / 0.00 % |
+| C | 30 | 2.5 % / 0.00 % | 11.2 % / 0.00 % | 97.4 % / 0.00 % |
+| C | 60 | 10.2 % / 0.00 % | 13.8 % / 0.00 % | 98.8 % / 0.00 % |
+| C | 90 | 27.5 % / 0.00 % | 30.2 % / 0.00 % | 99.1 % / 0.00 % |
+
+At 30 m the UNKNOWN share in A rises from 8.6 % to 33.9 % with the widened i0 range, and to 92.6 % when f_r is widened as well; BLOCKED stays near zero. The pre registered prediction of a small rise missed badly (W9-5, W9-7). The added UNKNOWN is assumption sensitive, not sub grid face risk: once the assumed ranges are this wide, most cells change verdict between draws. The map's certainty is therefore set by how well the slip parameters of the actual vehicle are known.
+
 **What this section establishes and does not.** It establishes that, under stated assumptions about dune shape, a 30 m DEM leaves a modest share of cells (about a tenth in the Liwa and megadune windows, a few percent in the linear dune window) with a face probability above 0.20, that this share rises to roughly a quarter to a third if a face within one post counts, and that it is driven by the assumed morphology and the cell definition far more than by the four slip parameters. It does **not** establish that any cell is safe: a TRAVERSABLE cell has a face probability below 0.20, not zero. No claim is made that the detector would find real faces; the way to test it is to compare it with an RTK or drone profile of a real dune (planned in `docs/FIELD_VALIDATION_PLAN.md` and as milestone M5 of `docs/PROPOSAL_EDGE.md`).
 
 
@@ -573,11 +599,23 @@ At 30 m the UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 
 - The feedback runs (slip kept below 0.4) are compatible with every variant but are a controlled slip, so they test nothing and are not scored.
 - Using the Table I shear modulus pushes i0 above the assumed range: the published value kx = 0.07 m is also larger than the spread of Janosi moduli recorded in `research/raw/terramechanics_notes.md` (0.0006 to 0.045 m), so the assumed i0 range may be too narrow for small wheels in loose sand.
 
-**Verdict.** On both anchors the model, at nominal parameters and over most of its assumed ranges, predicts too little slip on sand slopes, by a wide margin above about 10 degrees. Its envelope contains the Dumont curve only because the ranges are wide, it does not reach the slip Ishigami measured at 10 degrees even with the Table I shear modulus, and a post hoc fit at the edge of the ranges still misses the shape of the Dumont curve. This is a negative result for the model as a predictor on sand slopes and is consistent with the stage 3 finding that the calibrate then predict protocol is weak above 15 degrees. It does not change the published inputs to section 8.7 or the earlier results, which stay as they were; it strengthens the case for measuring slip against slope directly (section 9). The Dumont cubic also gives the slope ladder a published comparison curve for a different and heavier vehicle (`docs/NEXT_STEPS.md`).
+**With the widened slip scale range (2026-10-18; stage 9).** Both comparisons were repeated with the widened ranges (`results/anchors_widened_i0/`, `results/anchors_widened_i0_fr/`); still comparisons of unlike vehicles and soils.
+
+| Range set | Nominal crosses 50 % at, deg | Median of draws crosses 50 % at, deg | Dumont crosses 50 % at, deg (PUBLISHED fit) | Dumont inside 5 to 95 % band | Dumont above the band, deg | POST HOC fit RMSE | Ishigami b1 at 10 deg (measured about 0.5) | Ishigami b1 at 5 deg (his model: above 0.6) |
+|---|---|---|---|---|---|---|---|---|
+| original | 25.5 | 22.9 | 12.6 | 57.3 % | 10.7 to 17.9 | 0.085 | 0.01 to 0.20 | 0.01 to 0.16 |
+| widened_i0 | 10.2 | 12.3 | 12.6 | 100.0 % | none | 0.071 | 0.01 to 0.59 | 0.01 to 0.49 |
+| widened_i0_fr | 10.2 | 10.0 | 12.6 | 100.0 % | none | 0.071 | 0.01 to 0.83 | 0.01 to 0.73 |
+
+With nominal i0 = 0.81 the model crosses 50 % slip at 10.2 degrees, earlier than the Dumont curve: the nominal error has changed sign rather than disappeared. The envelope now contains the Dumont curve and the measured Ishigami value (b1 at 10 degrees: 0.01 to 0.59), but only because it is very wide. The post hoc fit improves only from 0.085 to 0.071: the model form still misses the S shape.
+
+**Verdict.** On both anchors the model, at nominal parameters and over most of its assumed ranges, predicts too little slip on sand slopes, by a wide margin above about 10 degrees. Its envelope contains the Dumont curve only because the ranges are wide, it does not reach the slip Ishigami measured at 10 degrees even with the Table I shear modulus, and a post hoc fit at the edge of the ranges still misses the shape of the Dumont curve. With the original ranges this is a negative result for the model as a predictor on sand slopes; with the widened ranges the model brackets both anchors but no longer predicts anything narrowly, which is a negative result of another kind and is consistent with the stage 3 finding that the calibrate then predict protocol is weak above 15 degrees. It does not change the published inputs to section 8.7 or the earlier results, which stay as they were; it strengthens the case for measuring slip against slope directly (section 9). The Dumont cubic also gives the slope ladder a published comparison curve for a different and heavier vehicle (`docs/NEXT_STEPS.md`).
 
 ### 8.9 Stretch study: the Dumont curve as a prior for i0 (SIMULATED BY ME; simulation only, model assumption dependent)
 
 Pre registered as stage 7 in `docs/PREDICTIONS.md`; script `scripts/study_dumont_prior.py`; outputs `results/dumont_prior/`. In each of the 256 phase 2 draws, i0 was replaced by the value that best fits the Dumont curve given that draw's friction angle and resistance, treating a heavier vehicle on a different dune as if it described the rover the map is for (an unsupported assumption, which is what is being tested). In area A the fitted i0 has a median of 0.58, above the assumed range of 0.05 to 0.40 in 81 % of draws, and even the best i0 leaves a median RMSE of 0.10 against the curve. The 30 m map hardly changes: in area A, UNKNOWN goes from 8.60 % to 8.95 % and BLOCKED from 0.00 % to 0.32 %; in area B from 10.89 % to 12.24 % and from 0.01 % to 1.68 %; in area C from 2.54 % to 2.56 % (`results/dumont_prior/class_shares_30m.csv`). The baseline reproduced phase 2 exactly. Two pre registered predictions, a large rise in UNKNOWN and in BLOCKED, missed. The reading: at 30 m the elevation model shows few slopes in the range where a higher slip scale changes the verdict, so the map's uncertainty is dominated by what the grid cannot see (section 8.7), not by the slip law. A larger slip scale matters for a rover on a real slope; it matters little for this map.
+
+**Stage 7 against stage 9.** Stage 7 replaced i0 by a value fitted to the Dumont curve for each draw's friction angle and resistance, so within a draw the parameters agreed with one curve and the map barely moved. Stage 9 draws i0 independently over the widened range, and UNKNOWN in area A rises to 33.9 %. The difference shows that it is the spread of plausible parameter combinations, not a shift of the slip scale on its own, that makes the map uncertain.
 
 
 ---
@@ -650,6 +688,24 @@ Calibrating on 0 to 10 degrees constrains the 15 degree prediction well, the 20 
 | dumont | 0.1 | 300 | 5 % | 95 % | 60 % | 0.321 |
 
    Without a bin beyond the synthetic truth's entrapment slope (26.3 degrees), the observed entrapment slope is usually undefined and the adequacy rule fails even a correct model. The rule and the revised bins are incompatible as written; the choice between amending the rule, keeping a tethered 25 degree bin, or returning to the original bins is left to the author (`docs/QUESTIONS_FOR_HUDA.md`). The Dumont shaped truth is failed in nearly every replicate, but so is a correct model, so that detection is uninformative.
+   **Amended entrapment rule (2026-10-18; PLANNED rule, tested on SIMULATED BY ME synthetic data only).** At the author's decision, and after seeing the 1.3 % result above, the rule was amended and pre registered again (stage 10 in `docs/PREDICTIONS.md`): an entrapment slope that is not reached is reported as "not reached", never as a failure and never as a pass. A run set is adequate only if the slip test and the entrapment test both pass; "slip within tolerance, entrapment not reached" is its own verdict. Re run on the revised bins (`results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv`):
+
+| Synthetic truth | Noise sigma | Replicates | Adequate | Slip within tolerance, entrapment not reached | Not adequate | Entrapment not reached | Flagged uninformative |
+|---|---|---|---|---|---|---|---|
+| model | 0.03 | 300 | 1 % | 74 % | 24 % | 98 % | 0 % |
+| model | 0.06 | 300 | 0 % | 79 % | 21 % | 98 % | 0 % |
+| model | 0.1 | 300 | 1 % | 80 % | 20 % | 97 % | 39 % |
+| janosi_mean | 0.03 | 300 | 2 % | 0 % | 98 % | 0 % | 0 % |
+| janosi_mean | 0.06 | 300 | 34 % | 0 % | 66 % | 0 % | 2 % |
+| janosi_mean | 0.1 | 300 | 65 % | 0 % | 35 % | 0 % | 40 % |
+| collapse | 0.03 | 300 | 53 % | 0 % | 47 % | 0 % | 1 % |
+| collapse | 0.06 | 300 | 48 % | 1 % | 51 % | 1 % | 13 % |
+| collapse | 0.1 | 300 | 45 % | 7 % | 48 % | 7 % | 56 % |
+| dumont | 0.03 | 300 | 0 % | 0 % | 100 % | 0 % | 0 % |
+| dumont | 0.06 | 300 | 0 % | 0 % | 100 % | 0 % | 12 % |
+| dumont | 0.1 | 300 | 5 % | 0 % | 95 % | 0 % | 60 % |
+
+   For a correct model at sigma 0.03, entrapment is not reached in 97.7 % of replicates; 74.3 % end as "slip within tolerance, entrapment not reached", 1.3 % as adequate and 24.3 % as not adequate. The Dumont shaped truth is called adequate in 0.0 %. **The wrong collapse model is still called adequate in 52.7 % of replicates at sigma 0.03, and the mildly wrong janosi_mean model in 65.3 % at sigma 0.10.** The rule was not tuned after this run; the next decision is the author's (`docs/QUESTIONS_FOR_HUDA.md`, question 7). Both bin designs stay documented; whether the 1 degree tolerance of the revised bins can be achieved on a real dune is unconfirmed.
 6. **Safety and scope.** Tether and recovery line, a second person at all times; slip faces near repose can avalanche. Not a safety case. Heat and dust are handled in `hudasol/dhill`.
 7. **What to log for future prediction.** Wheel speeds and currents, RTK and IMU synchronised, effective radius, DEM and RTK slope and aspect, the soil state list, wheel state, ambient conditions, pass number and outcome flags.
 

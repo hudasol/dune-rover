@@ -72,6 +72,12 @@ Two analyses were run. **One at a time (OAT):** each parameter to its low and hi
 4. **The slip limit i_max and spatially correlated DEM noise matter least** in this setup (rank correlation magnitudes at most 0.27 and 0.11). The noise result is conditional on the assumed noise model; real DEM error over dunes (X-band penetration, slip face bias) is not modelled.
 5. **Blocked share varies by about two orders of magnitude** between the 5th and 95th percentiles of the assumption space (A core 0.02 to 2.4 %; B core 0.03 to 5.5 %), with extremes of 0 to 5 % (A) and 0.01 to 19.5 % (B), while the OAT ranking is similar in the two areas. The conclusion that matters for a planner is that **the map is controlled by assumptions that field data have not yet measured**.
 
+**Widened slip scale range (2026-10-18; SIMULATED BY ME, simulation only, model assumption dependent).** At the author's decision the phase 1 study was run again with the i0 range widened to 0.05 to 1.20 and a nominal value of 0.81, the lower bound implied by Ishigami et al. 2009 Table I under the model definition (TM-IS09-2), and once more with f_r also widened to 0.35 as a test. Same seeds; the original results above are unchanged and stay the reference (`results/widened_i0/`, `results/widened_i0_fr/`; pre registered as stage 9 in `docs/PREDICTIONS.md`).
+
+{{TABLE:rs_phase1}}
+
+With the widened range the nominal climbing limit falls from 25.5 to about 10 degrees and the median across draws from {{VAL:rs_o_crit_med}} to {{VAL:rs_w_crit_med}} degrees, and the nominal map blocks many more travel directions. The width of the assumed i0 range, not only its centre, now dominates the map; only a measured slip against slope curve for the vehicle can narrow it.
+
 ### 8.5 Comparison with published slip (descriptive only, nothing fitted)
 
 Thirteen published slip versus slope points were transcribed by hand (`data/anchor_points.csv`: nine from FLD-010, FLD-011, FLD-012, FLD-025 and FLD-027 to FLD-031, and four from LEG-017 to LEG-020). They differ in slip definition, gravity, wheel and soil (see the warning column) and **should not be used as a test of the model**. The comparison shows only whether the assumption envelope overlaps them.
@@ -128,6 +134,11 @@ Calibrating on 0 to 10 degrees constrains the 15 degree prediction well, the 20 
 {{TABLE:power_rev}}
 
    Without a bin beyond the synthetic truth's entrapment slope (26.3 degrees), the observed entrapment slope is usually undefined and the adequacy rule fails even a correct model. The rule and the revised bins are incompatible as written; the choice between amending the rule, keeping a tethered 25 degree bin, or returning to the original bins is left to the author (`docs/QUESTIONS_FOR_HUDA.md`). The Dumont shaped truth is failed in nearly every replicate, but so is a correct model, so that detection is uninformative.
+   **Amended entrapment rule (2026-10-18; PLANNED rule, tested on SIMULATED BY ME synthetic data only).** At the author's decision, and after seeing the 1.3 % result above, the rule was amended and pre registered again (stage 10 in `docs/PREDICTIONS.md`): an entrapment slope that is not reached is reported as "not reached", never as a failure and never as a pass. A run set is adequate only if the slip test and the entrapment test both pass; "slip within tolerance, entrapment not reached" is its own verdict. Re run on the revised bins (`results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv`):
+
+{{TABLE:power_rule}}
+
+   For a correct model at sigma 0.03, entrapment is not reached in {{VAL:pr_model_nrshare}} of replicates; {{VAL:pr_model_nr}} end as "slip within tolerance, entrapment not reached", {{VAL:pr_model_adeq}} as adequate and {{VAL:pr_model_not}} as not adequate. The Dumont shaped truth is called adequate in {{VAL:pr_dumont_adeq}}. **The wrong collapse model is still called adequate in {{VAL:pr_collapse_adeq}} of replicates at sigma 0.03, and the mildly wrong janosi_mean model in {{VAL:pr_janosi10_adeq}} at sigma 0.10.** The rule was not tuned after this run; the next decision is the author's (`docs/QUESTIONS_FOR_HUDA.md`, question 7). Both bin designs stay documented; whether the 1 degree tolerance of the revised bins can be achieved on a real dune is unconfirmed.
 6. **Safety and scope.** Tether and recovery line, a second person at all times; slip faces near repose can avalanche. Not a safety case. Heat and dust are handled in `hudasol/dhill`.
 7. **What to log for future prediction.** Wheel speeds and currents, RTK and IMU synchronised, effective radius, DEM and RTK slope and aspect, the soil state list, wheel state, ambient conditions, pass number and outcome flags.
 
