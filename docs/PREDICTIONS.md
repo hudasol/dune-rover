@@ -155,6 +155,6 @@ Design: following Huda's answer of 2026-10-18, FLD-HV13-5 is replaced by FLD-HV1
 
 | ID | Prediction made before the run | Outcome |
 |---|---|---|
-| P8-1 | Neither split row is judged a material error. | |
-| P8-2 | At least one split row receives a minor verdict (page or wording), because the two Tecopa slip figures (Sec 6.2 and Sec 10) are not tied to the same site in the text. | |
-| P8-3 | Current table: material errors 8 of 171 (4.7 %) and, for the current supplementary rows, 2 of 27 (7.4 %), if P8-1 holds. | |
+| P8-1 | Neither split row is judged a material error. |  HIT. FLD-HV13-5a correct, FLD-HV13-5b minor; no material error (`research/verify_out_batch14.csv`). |
+| P8-2 | At least one split row receives a minor verdict (page or wording), because the two Tecopa slip figures (Sec 6.2 and Sec 10) are not tied to the same site in the text. |  HIT, for a different reason than predicted. The minor error on FLD-HV13-5b is the slope range (flat to 28 deg covers all cohesive soil tests, not Tecopa alone), not the two Tecopa slip figures. |
+| P8-3 | Current table: material errors 8 of 171 (4.7 %) and, for the current supplementary rows, 2 of 27 (7.4 %), if P8-1 holds. |  HIT. Current table 8 of 171 (4.7 %); current supplementary rows 2 of 27 (7.4 %). This follows arithmetically from P8-1, so it is not independent evidence. |
