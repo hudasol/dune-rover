@@ -147,3 +147,14 @@ Design fixed now. Script to be written after this commit: `scripts/study_dumont_
 | D7-4 | Unclipped Dumont prior: UNKNOWN in area A at 30 m lies between 15 % and 60 % (baseline 8.6 %). |  MISSED. UNKNOWN in area A is 8.95 %, barely above the baseline 8.60 % (B 10.89 to 12.24 %, C 2.54 to 2.56 %). The 30 m slopes are mostly gentler than the slopes where the Dumont prior changes the verdict, so the map hardly moves; the UNKNOWN share stays driven by the sub grid face risk. |
 | D7-5 | Clipped Dumont prior: UNKNOWN in area A lies between the baseline and the unclipped value. |  HIT, trivially. Clipped: 8.61 %, between 8.60 % and 8.95 %. |
 | D7-6 | Under the unclipped prior, area C has the lowest UNKNOWN share of the three areas, as in the baseline. |  HIT. C has the lowest UNKNOWN share (2.56 %) under the unclipped prior. |
+
+
+## Stage 8: split of FLD-HV13-5 (written 2026-10-18, BEFORE the split rows exist or are verified)
+
+Design: following Huda's answer of 2026-10-18, FLD-HV13-5 is replaced by FLD-HV13-5a (lab: JPL Marsyard bedrock and constructed cohesive soil slopes) and FLD-HV13-5b (field: Tecopa desiccated lake bed), through a `split_into` entry in `research/corrections.csv` handled by `scripts/consolidate_evidence.py`. One fresh verifier agent re reads the Heverly PDF and judges both rows (batch 14). Error rates are then reported two ways: the first check of the extraction (170 rows as first extracted, unchanged by construction) and the current table (171 rows, each row with its latest verdict; the two split rows count with their batch 14 verdicts and FLD-HV13-5 drops out).
+
+| ID | Prediction made before the run | Outcome |
+|---|---|---|
+| P8-1 | Neither split row is judged a material error. | |
+| P8-2 | At least one split row receives a minor verdict (page or wording), because the two Tecopa slip figures (Sec 6.2 and Sec 10) are not tied to the same site in the text. | |
+| P8-3 | Current table: material errors 8 of 171 (4.7 %) and, for the current supplementary rows, 2 of 27 (7.4 %), if P8-1 holds. | |
