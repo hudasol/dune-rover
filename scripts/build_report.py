@@ -135,6 +135,81 @@ def t_anchor_ishigami():
     return md_table(["Row", "Side slope, deg", "Published", "What it is", "Model variant", "Model min to max (SIMULATED)", "Compatible", "Scored"], rows)
 
 
+RANGE_SETS_RUN = (("original", "results", "results/subgrid", "results/anchors"),
+                  ("widened_i0", "results/widened_i0", "results/subgrid_widened_i0", "results/anchors_widened_i0"),
+                  ("widened_i0_fr", "results/widened_i0_fr", "results/subgrid_widened_i0_fr", "results/anchors_widened_i0_fr"))
+
+
+def _j(path):
+    return json.load(open(os.path.join(ROOT, path, "summary.json"), encoding="utf-8"))
+
+
+def _ranges_txt(sm):
+    pr = sm["parameters"]
+    return f"i0 {pr['i0']['low']:g} to {pr['i0']['high']:g} (nominal {pr['i0']['nominal']:g}); f_r {pr['f_r']['low']:g} to {pr['f_r']['high']:g}"
+
+
+def t_rs_phase1():
+    rows = []
+    for name, p1, _, _ in RANGE_SETS_RUN:
+        sm = _j(p1); c = sm["crit_uphill_deg_across_lhs"]; ar = sm["areas"]
+        rows.append([name, _ranges_txt(sm), f"{sm['nominal_critical_uphill_deg']:.1f}", f"{c['p05']:.1f} / {c['median']:.1f} / {c['p95']:.1f}",
+                     f"{100*ar['A_south_Liwa']['blocked_edge_frac']:.2f} %", f"{100*ar['B_RubAlKhali_megadunes']['blocked_edge_frac']:.2f} %"])
+    return md_table(["Range set", "Ranges", "Nominal climbing limit, deg", "Climbing limit across draws, 5th / median / 95th, deg",
+                     "Blocked edges, A south (nominal)", "Blocked edges, B (nominal)"], rows)
+
+
+def t_rs_phase2():
+    data = {name: rd(f"{p2}/class_shares.csv") for name, _, p2, _ in RANGE_SETS_RUN}
+    rows = []
+    for i, r in enumerate(data["original"]):
+        cells = [_area_letter(r["area"]), f"{float(r['posting_m']):.0f}"]
+        for name, _, _, _ in RANGE_SETS_RUN:
+            q = data[name][i]; assert q["area"] == r["area"] and q["posting_m"] == r["posting_m"]
+            cells.append(f"{100*float(q['UNKNOWN (total)']):.1f} % / {100*float(q['BLOCKED']):.2f} %")
+        rows.append(cells)
+    return md_table(["Area", "Posting, m"] + [f"UNKNOWN / BLOCKED, {n}" for n, *_ in RANGE_SETS_RUN], rows)
+
+
+def t_rs_anchor():
+    rows = []
+    for name, _, _, an in RANGE_SETS_RUN:
+        sm = _j(an); d = sm["dumont"]; f = sm["dumont_posthoc_fit"]; e = sm["ishigami2009"]["envelopes"]
+        rows.append([name, f"{d['nominal_cross50_deg']:.1f}", f"{d['median_cross50_deg']:.1f}", f"{d['dumont_cross50_deg']:.1f}",
+                     pct(d["frac_dumont_inside_p05_p95"]), d["dumont_above_p95_deg"], f"{f['rmse']:.3f}",
+                     f"{e['b1_10deg']['model_min']:.2f} to {e['b1_10deg']['model_max']:.2f}", f"{e['b1_5deg']['model_min']:.2f} to {e['b1_5deg']['model_max']:.2f}"])
+    return md_table(["Range set", "Nominal crosses 50 % at, deg", "Median of draws crosses 50 % at, deg", "Dumont crosses 50 % at, deg (PUBLISHED fit)",
+                     "Dumont inside 5 to 95 % band", "Dumont above the band, deg", "POST HOC fit RMSE", "Ishigami b1 at 10 deg (measured about 0.5)",
+                     "Ishigami b1 at 5 deg (his model: above 0.6)"], rows)
+
+
+def t_power_rule():
+    rows = [[r["truth"], r["sigma"], r["replicates"], pct(r["verdict_adequate_rate"], 0), pct(r["verdict_slip_ok_entrapment_not_reached_rate"], 0),
+             pct(r["verdict_not_adequate_rate"], 0), pct(r["entrapment_not_reached_share"], 0), pct(r["flagged_uninformative_rate"], 0)]
+            for r in rd("results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv")]
+    return md_table(["Synthetic truth", "Noise sigma", "Replicates", "Adequate", "Slip within tolerance, entrapment not reached", "Not adequate",
+                     "Entrapment not reached", "Flagged uninformative"], rows)
+
+
+def rs_values(v):
+    for name, p1, p2, an in RANGE_SETS_RUN:
+        key = {"original": "o", "widened_i0": "w", "widened_i0_fr": "wf"}[name]
+        for r in rd(f"{p2}/class_shares.csv"):
+            if float(r["posting_m"]) < 40:
+                v[f"rs_{key}_unk_{_area_letter(r['area'])}"] = pct(r["UNKNOWN (total)"])
+        sm = _j(an); v[f"rs_{key}_nomcross"] = f"{sm['dumont']['nominal_cross50_deg']:.1f}"; v[f"rs_{key}_medcross"] = f"{sm['dumont']['median_cross50_deg']:.1f}"
+        v[f"rs_{key}_b1_10"] = f"{sm['ishigami2009']['envelopes']['b1_10deg']['model_min']:.2f} to {sm['ishigami2009']['envelopes']['b1_10deg']['model_max']:.2f}"
+        v[f"rs_{key}_rmse"] = f"{sm['dumont_posthoc_fit']['rmse']:.3f}"
+        v[f"rs_{key}_crit_med"] = f"{_j(p1)['crit_uphill_deg_across_lhs']['median']:.1f}"
+    pr = {(r["truth"], r["sigma"]): r for r in rd("results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv")}
+    m, c, d = pr[("model", "0.03")], pr[("collapse", "0.03")], pr[("dumont", "0.03")]
+    v["pr_model_adeq"] = pct(m["verdict_adequate_rate"]); v["pr_model_nr"] = pct(m["verdict_slip_ok_entrapment_not_reached_rate"])
+    v["pr_model_not"] = pct(m["verdict_not_adequate_rate"]); v["pr_model_nrshare"] = pct(m["entrapment_not_reached_share"])
+    v["pr_collapse_adeq"] = pct(c["verdict_adequate_rate"]); v["pr_dumont_adeq"] = pct(d["verdict_adequate_rate"])
+    v["pr_janosi10_adeq"] = pct(pr[("janosi_mean", "0.1")]["verdict_adequate_rate"])
+    return v
+
+
 def anchor_values(v):
     S = json.load(open(os.path.join(ROOT, "results/anchors/summary.json"), encoding="utf-8"))
     d, fit, ish = S["dumont"], S["dumont_posthoc_fit"], S["ishigami2009"]
@@ -312,7 +387,7 @@ def values(ev):
             v[f"unk3_{_area_letter(r['area'])}_30"] = pct(r["UNKNOWN (total)"])
         if float(r["posting_m"]) < 40 and r["scenario"] == "base" and r["pi"] == "0.3":
             v[f"unkpi03_{_area_letter(r['area'])}_30"] = pct(r["UNKNOWN (total)"])
-    return anchor_values(v)
+    return rs_values(anchor_values(v))
 
 
 def appendix_a(ev):
@@ -370,7 +445,8 @@ def main():
             "scen": t_scen(), "cc_map": t_cc_map(), "cc_synth": t_cc_synth(), "detector": t_detector(), "reach": t_reach(), "power": t_power(),
             "ladder": ladder_tab, "pred_tally": t_pred_tally(), "verif": t_verif(),
             "anchor_dumont": t_anchor_dumont(), "anchor_ishigami": t_anchor_ishigami(),
-            "ladder_rev": t_ladder_rev(), "power_rev": t_power("results/field_kit/power_study_2026-10-15.csv")}
+            "ladder_rev": t_ladder_rev(), "power_rev": t_power("results/field_kit/power_study_2026-10-15.csv"),
+            "rs_phase1": t_rs_phase1(), "rs_phase2": t_rs_phase2(), "rs_anchor": t_rs_anchor(), "power_rule": t_power_rule()}
     sg = os.path.join(ROOT, "docs/src/subgrid_section.md")
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
     an = os.path.join(ROOT, "docs/src/anchors_section.md")
