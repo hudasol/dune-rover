@@ -177,9 +177,10 @@ def t_rs_anchor():
         sm = _j(an); d = sm["dumont"]; f = sm["dumont_posthoc_fit"]; e = sm["ishigami2009"]["envelopes"]
         rows.append([name, f"{d['nominal_cross50_deg']:.1f}", f"{d['median_cross50_deg']:.1f}", f"{d['dumont_cross50_deg']:.1f}",
                      pct(d["frac_dumont_inside_p05_p95"]), d["dumont_above_p95_deg"], f"{f['rmse']:.3f}",
-                     f"{e['b1_10deg']['model_min']:.2f} to {e['b1_10deg']['model_max']:.2f}", f"{e['b1_5deg']['model_min']:.2f} to {e['b1_5deg']['model_max']:.2f}"])
+                     f"{e['b1_10deg']['model_min']:.2f} to {e['b1_10deg']['model_max']:.2f}", f"{e['b2_10deg']['model_min']:.2f} to {e['b2_10deg']['model_max']:.2f}",
+                     f"{e['b1_5deg']['model_min']:.2f} to {e['b1_5deg']['model_max']:.2f}"])
     return md_table(["Range set", "Nominal crosses 50 % at, deg", "Median of draws crosses 50 % at, deg", "Dumont crosses 50 % at, deg (PUBLISHED fit)",
-                     "Dumont inside 5 to 95 % band", "Dumont above the band, deg", "POST HOC fit RMSE", "Ishigami b1 at 10 deg (measured about 0.5)",
+                     "Dumont inside 5 to 95 % band", "Dumont above the band, deg", "POST HOC fit RMSE", "Ishigami b1 at 10 deg (measured about 0.5)", "Ishigami b2 (i0 0.81) at 10 deg",
                      "Ishigami b1 at 5 deg (his model: above 0.6)"], rows)
 
 
