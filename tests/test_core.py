@@ -105,3 +105,17 @@ def test_metres_per_degree_at_equator_and_pole_sanity():
     mlon, mlat = D.metres_per_degree(0.0)
     assert mlon == pytest.approx(111319.5, rel=1e-3) and mlat == pytest.approx(110574.0, rel=1e-3)
     assert D.metres_per_degree(23.0)[0] < mlon
+
+
+def test_range_sets_leave_the_original_default_unchanged():
+    from dunerover import slipmodel as SM
+    from dunerover.sensitivity import bounds
+    orig = dict(SM.PARAM_TABLE)
+    assert SM.nominal_params() == SM.SlipParams()
+    SM.apply_range_set("widened_i0")
+    assert SM.PARAM_TABLE["i0"][:3] == (0.81, 0.05, 1.20) and bounds()["i0"] == (0.05, 1.20)
+    assert SM.PARAM_TABLE["f_r"] == orig["f_r"] and SM.nominal_params().i0 == 0.81
+    SM.apply_range_set("widened_i0_fr")
+    assert SM.PARAM_TABLE["f_r"][1:3] == (0.05, 0.35) and SM.PARAM_TABLE["i0"][2] == 1.20
+    SM.apply_range_set("original")
+    assert dict(SM.PARAM_TABLE) == orig and SM.nominal_params() == SM.SlipParams()

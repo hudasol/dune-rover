@@ -36,6 +36,34 @@ PARAM_TABLE = {
 }
 
 
+# Alternative range sets (added 2026-10-18, docs/PREDICTIONS.md stage 9).  'original' is the default and is what every
+# result before 2026-10-18 used.  A set is applied only on request (apply_range_set), for a separately labelled run.
+_ORIGINAL = {k: v for k, v in PARAM_TABLE.items()}
+RANGE_SETS = {
+    "original": {},
+    "widened_i0": {
+        "i0": (0.81, 0.05, 1.20, "ASSUMPTION (widened 2026-10-18)",
+               "Nominal 0.81 is the lower bound implied by Ishigami et al. 2009 Table I (kx 0.07 m, wheel radius 0.055 m; "
+               "TM-IS09-2) under i0 = K/L with the largest contact arc; the upper end 1.20 is an assumption chosen to contain "
+               "it and the Dumont fitted i0 of stage 7 (5 to 95 %: 0.29 to 0.94)."),
+    },
+    "widened_i0_fr": {
+        "i0": None,   # same as widened_i0, filled below
+        "f_r": (0.12, 0.05, 0.35, "ASSUMPTION (test of the f_r range, 2026-10-18)",
+                "Upper end raised from 0.25 to 0.35 to test whether the resistance range matters once i0 is widened; "
+                "no retrieved source gives a transferable value."),
+    },
+}
+RANGE_SETS["widened_i0_fr"]["i0"] = RANGE_SETS["widened_i0"]["i0"]
+
+
+def apply_range_set(name: str) -> None:
+    """Set PARAM_TABLE (in place) to a named range set; 'original' restores the default.  Used by the study CLIs."""
+    if name not in RANGE_SETS:
+        raise ValueError(f"unknown range set {name!r}; choose from {sorted(RANGE_SETS)}")
+    PARAM_TABLE.clear(); PARAM_TABLE.update(_ORIGINAL); PARAM_TABLE.update(RANGE_SETS[name])
+
+
 @dataclass(frozen=True)
 class SlipParams:
     phi_deg: float = PARAM_TABLE["phi_deg"][0]
@@ -89,6 +117,11 @@ def slip_from_ratio(x, i0: float, form: str = "exp"):
 
 def slip(tan_along, tan_cross, p: SlipParams):
     return slip_from_ratio(demand(tan_along, tan_cross, p.f_r, p.cross) / p.mu_max, p.i0, p.form)
+
+
+def nominal_params() -> SlipParams:
+    """Nominal parameters of the active range set (equal to SlipParams() under the default 'original' set)."""
+    return SlipParams(**{k: PARAM_TABLE[k][0] for k in ("phi_deg", "f_r", "i0", "i_max")})
 
 
 def critical_uphill_deg(p: SlipParams) -> float:
