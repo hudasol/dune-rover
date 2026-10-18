@@ -62,3 +62,75 @@ Both are comparisons of unlike vehicles and soils, simulation only, model assump
 ## Remind Huda: build the executive brief
 
 Build the executive brief: ask for it when you are ready. `docs/EXECUTIVE_BRIEF.md` still has the 2026-10-12 text, with numbers regenerated from files.
+
+
+---
+
+# Morning report, 2026-10-18 (work from 11:34 to about 13:35 AST)
+
+All six tasks F1 to F6 are done, applying Huda's answers of 2026-10-18. Every push went through the local gate (tests, hygiene, secrets, writing check and, from 11:40, a generated files check) and waited for CI. Labels: PUBLISHED, SIMULATED BY ME, PLANNED. Nothing claims a partnership, and nothing was sent to anyone.
+
+**CI was red once:** about 3 minutes (11:38 to 11:40), after a predictions commit that did not regenerate the report, which embeds the prediction tally. Fixed by 2b552bf; the local gate now runs the generated files check before every push. Two other process slips, both fixed with new commits and not rewritten: commit eaf1a5e says it adds a test but did not (the test came in def9efc), and a parallel re run of four studies ran out of memory, so three were re run with fewer jobs at a time.
+
+## What changed
+
+- **F1, split of FLD-HV13-5.** Stage 8 pre registered (acd2c7a); split mechanism in `scripts/consolidate_evidence.py` (598afe1); FLD-HV13-5a (lab, Marsyard) and FLD-HV13-5b (field, Tecopa) written through `research/corrections.csv`, verified by a fresh agent (batch 14) and merged (bc43125); wording (ab9b3d2); outcomes (9598405).
+- **F2, widened slip scale range.** Stage 9 pre registered (8a42986); named range sets with the original as default (`src/dunerover/slipmodel.py`, c3b022f); phase 1, phase 2 and anchors re run beside the originals (`results/widened_i0*`, `results/subgrid_widened_i0*`, `results/anchors_widened_i0*`); outcomes (aa7d649); report sections 0, 8.4, 8.7, 8.8, 8.9 from files (8a18a88, bd2b7d3).
+- **F3, amended entrapment rule.** Stage 10 pre registered, stating it was made after the 1.3 % result (8d0bdcc); rule coded beside the old flag (1c7c7ab, 4fbd47e); power study re run (cd1637e, `results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv`); outcomes (6a910d4) and question 7 (723f6cc).
+- **F4, licence sentence and second review.** Sentence on the proposed MIT licence (720c433). A fresh reviewer reported 23 findings on the 2026-10-18 work; all are listed with fix commits or reasons in `docs/REVIEW_2026-10-18.md` (87dd778) (tally bug, undisclosed immobile draws as stage 11, unqualified insensitivity claims, b2 label, run labels, plan and proposals, README, and others). The five earlier open findings were rechecked: two are now resolved, three stay open with reasons.
+- **F5.** `docs/NEXT_STEPS.md` rewritten with only what Huda must still do (f7fbdee).
+- **F6.** `docs/EXECUTIVE_BRIEF.md` rebuilt from a new template (67c7916), Markdown and PDF, generated from files.
+
+## Verification (new error rates)
+
+- First check of the 170 rows as extracted: material errors 9 of 170 (5.3 %), unchanged.
+- Current table, 171 rows, latest verdict per row: material 8 of 171 (4.7 %, Wilson 95 % CI 2.4 to 9.0 %); any discrepancy 51 of 171 (29.8 %).
+- Current supplementary rows, 27: material 2 of 27 (7.4 %); any discrepancy 15 of 27 (55.6 %).
+- The two split rows: FLD-HV13-5a correct; FLD-HV13-5b minor (slope range given for Tecopa alone), corrected.
+
+## Prediction hits and misses
+
+- Stage 8 (split): 3 hit; one for a different reason than predicted; P8-3 followed arithmetically from P8-1.
+- Stage 9 (widened range): 6 hit on the anchors (informed by hand arithmetic, so weak), 2 badly missed on the map.
+- Stage 10 (amended rule): 5 hit, but the adequate rates were already fixed by stage 6 files; only three clauses carried new information.
+- Stage 11 (immobile draws): 3 hit, a reproduction of the reviewer's figures, not foresight.
+
+## What the widened range did to the anchors and the map
+
+All simulation only, model assumption dependent; anchors are comparisons of unlike vehicles and soils.
+- Dumont: with nominal i0 0.81 the model crosses 50 % slip at 10.2 deg against 12.6 deg for the published curve; the nominal error changed sign rather than disappearing. The 5 to 95 % band now contains the whole curve, because it is very wide. A post hoc fit improves only from RMSE 0.085 to 0.071; the S shape is still missed.
+- Ishigami 2009: the b1 envelope at 10 deg now reaches 0.59, so the measured 0.5 is inside; at 5 deg it reaches 0.49, so his model value of 0.6 is still outside.
+- Map at 30 m, UNKNOWN: A 8.6 to 33.9 %, B 10.9 to 39.2 %, C 2.5 to 11.2 % with widened i0; with f_r also widened, 92.6, 90.1 and 97.4 %. In that second set 9 to 12 % of draws cannot move on level ground, which explains most of it. BLOCKED stays at or below 0.02 %.
+- Reading: the original claim that the map is insensitive to the slip parameters holds only under the original ranges; once the ranges are wide, the map is mostly uncertain. Only a measured slip curve for the vehicle can narrow it.
+
+## Field rule result
+
+With the revised bins and the amended rule (synthetic data only): a correct model at sigma 0.03 is "slip within tolerance, entrapment not reached" in 74.3 %, adequate in 1.3 % and not adequate in 24.3 % of replicates; entrapment is not reached in 97.7 %. The Dumont shaped truth is never called adequate. **The wrong collapse model is still called adequate in 52.7 %, and the mildly wrong janosi_mean model in 65.3 % at sigma 0.10.** The rule was not tuned further; the decision is question 7.
+
+## Still unknown
+
+- Any slip value for any vehicle on Arabian dune sand; no field data exist.
+- Whether the 1 degree slope tolerance of the revised bins can be met on a real dune (question 5, unanswered).
+- The slip scale and resistance of the actual rover; the widened ranges are assumptions.
+- Whether the slip face detector works on a real dune (validated against synthetic truth only).
+- The Wong dry sand table and Wong and Reece 1967.
+
+## Questions for Huda
+
+Copied from `docs/QUESTIONS_FOR_HUDA.md`. Questions 1 to 4 and 6 were answered on 2026-10-18 and applied; question 3 is yours to do (spot check 3).
+
+5. **Slope tolerance of 1 degree.** The revised bins need plus or minus 1 degree between 10 and 20 degrees. Is that achievable on the dune you have in mind with an RTK walk or a drone map? If not, the plan says to fall back to the original bins.
+
+   Status: UNANSWERED on 2026-10-18; both bin designs stay documented and achievability is not claimed anywhere.
+
+7. **Amended rule still passes a wrong model (your decision before any field day).** With the amended entrapment rule and the 2026-10-15 bins, a correct model is "slip within tolerance, entrapment not reached" in 74 % of synthetic replicates and the Dumont shaped truth is never passed, but the wrong collapse model is called adequate in 53 % at sigma 0.03, and the mildly wrong janosi_mean model in 65 % at sigma 0.10 (`results/field_kit/power_study_2026-10-15_rule_2026-10-18.csv`, `docs/PREDICTIONS.md` stage 10). The rule was not tuned after the run. Choose one: (a) accept it and treat pass or fail as secondary to predicted against observed slip, as the plan already says; (b) ask for a further pre registered change (for example a stricter slip tolerance or a test on the 20 to 25 deg runs alone), with its own power run; (c) something else.
+
+8. **Widened range without immobile draws (optional).** In the widened_i0_fr set 9 to 12 % of draws cannot move on level ground (stage 11), which the original resistance basis excluded and which drives most of its 90 % UNKNOWN share. Do you want a new pre registered run that rejects such draws (and, separately, a power study whose synthetic truths and calibration bounds use the widened i0 range)? Answer yes or no for each.
+
+## Exactly what Huda must do next
+
+1. Spot check 3: rows FLD-HV13-1, TM-IS09-3, TM-TK5 against the PDFs; write and commit `research/spot_check_3.md`.
+2. Answer questions 5, 7 and 8 in `docs/QUESTIONS_FOR_HUDA.md` and commit; question 7 before any field day.
+3. Read report sections 8.4, 8.7, 8.8, 8.9 and the end of section 9, `docs/REVIEW_2026-10-18.md` and `docs/EXECUTIVE_BRIEF.md`.
+4. Photograph the Wong chapter 2 dry sand table with title and page visible and send it in a message.
+5. First field pilot as in `docs/NEXT_STEPS.md` section 5.
