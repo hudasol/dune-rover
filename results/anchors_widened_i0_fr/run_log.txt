@@ -1,0 +1,14 @@
+SIMULATION ONLY - model-assumption dependent, not field evidence
+Comparison of unlike vehicles and soils in both parts. Range set widened_i0_fr. Pre registered in docs/PREDICTIONS.md (stage 5; widened sets stage 9).
+numpy 2.4.2, matplotlib 3.10.8, seeds 20261020 and 20261021, 4000 draws
+(a) Dumont: inside min to max 100.0 %, inside 5 to 95 % band 100.0 %, 50 % crossing Dumont 12.59 deg, nominal 10.15 deg, median 10.04 deg
+(a, POST HOC) fit phi 28.00, f_r 0.050, i0 0.658, RMSE 0.0707, at bound: ['phi_deg', 'f_r']
+(b) b1 10 deg: published 0.5 (TM-IS09-3), model 0.015 to 0.827, compatible True (point)
+(b) b2 10 deg: published 0.5 (TM-IS09-3), model 0.217 to 0.564, compatible True (point)
+(b) b1 5 deg: published 0.6 (TM-IS09-2), model 0.008 to 0.735, compatible True (lower_bound)
+(b) b2 5 deg: published 0.6 (TM-IS09-2), model 0.112 to 0.502, compatible False (lower_bound)
+(b) b1 5 deg: published 0.4 (TM-IS09-5), model 0.008 to 0.735, compatible True (upper_bound)
+(b) b2 5 deg: published 0.4 (TM-IS09-5), model 0.112 to 0.502, compatible True (upper_bound)
+(b) b1 10 deg: published 0.4 (TM-IS09-5), model 0.015 to 0.827, compatible True (upper_bound)
+(b) b2 10 deg: published 0.4 (TM-IS09-5), model 0.217 to 0.564, compatible True (upper_bound)
+run time 20.3 s

@@ -1,0 +1,250 @@
+{
+ "label": "SIMULATION ONLY - model-assumption dependent, not field evidence",
+ "range_set": "widened_i0_fr",
+ "ranges": {
+  "phi_deg": [
+   33.0,
+   28.0,
+   38.0
+  ],
+  "f_r": [
+   0.12,
+   0.05,
+   0.35
+  ],
+  "i0": [
+   0.81,
+   0.05,
+   1.2
+  ]
+ },
+ "dumont": {
+  "first_line": "Comparison of unlike vehicles and soils: Scarecrow (340 kg, six 50 cm grousered wheels) at Dumont Dunes against a lumped slip law with assumed parameters; Dumont soil parameters are not reported.",
+  "slope_grid": "4.0 to 21.0 deg, step 0.1 (171 points)",
+  "n_draws": 4000,
+  "seed": 20261020,
+  "ranges": {
+   "phi_deg": [
+    28.0,
+    38.0
+   ],
+   "f_r": [
+    0.05,
+    0.35
+   ],
+   "i0": [
+    0.05,
+    1.2
+   ]
+  },
+  "dumont_cross50_deg": 12.591935635385067,
+  "nominal_cross50_deg": 10.154627289092533,
+  "median_cross50_deg": 10.042797211227098,
+  "p95_cross50_deg": 0.0,
+  "p05_cross50_deg": 26.56843476545844,
+  "frac_dumont_inside_min_max": 1.0,
+  "frac_dumont_inside_p05_p95": 1.0,
+  "dumont_outside_min_max_deg": "none",
+  "dumont_above_p95_deg": "none",
+  "dumont_below_p05_deg": "none",
+  "first_slope_dumont_above_p95_deg": null,
+  "frac_draws_within_0.10_everywhere": 0.0,
+  "n_draws_within_0.10_everywhere": 0,
+  "nominal_slip_at": {
+   "4.0": 0.2802,
+   "10.0": 0.4936,
+   "12.5": 0.605,
+   "16.0": 0.7974,
+   "20.0": 1.0,
+   "21.0": 1.0
+  },
+  "dumont_slip_at": {
+   "4.0": 0.0912,
+   "10.0": 0.3181,
+   "12.5": 0.4933,
+   "16.0": 0.7328,
+   "20.0": 0.8962,
+   "21.0": 0.9041
+  },
+  "p95_slip_at": {
+   "4.0": 0.8878,
+   "10.0": 1.0,
+   "12.5": 1.0,
+   "16.0": 1.0,
+   "20.0": 1.0,
+   "21.0": 1.0
+  },
+  "c3_rounding_effect_at_21deg_pp": 4.6305000000000005
+ },
+ "dumont_posthoc_fit": {
+  "label": "POST HOC recalibration test, not a validation; the untuned comparison comes first",
+  "phi_deg": 28.000000000000004,
+  "f_r": 0.05000000000000001,
+  "i0": 0.658003319109502,
+  "rmse": 0.07074961434885564,
+  "max_abs_error": 0.10842592099795481,
+  "parameters_at_bound": [
+   "phi_deg",
+   "f_r"
+  ],
+  "fitted_cross50_deg": 13.116698630235424
+ },
+ "ishigami2009": {
+  "first_line": "Comparison of unlike vehicles and soils: a 13.5 kg four wheel rover traversing 5 and 10 deg side slopes in a tilting bed of Toyoura sand, with steering held to keep a straight line, against a lumped slip law that has no steering or lateral slip; Table I gives no motion resistance and no contact length.",
+  "i0_lower_bound_from_table_I": 0.8102433466496491,
+  "seed_b1": 20261021,
+  "n_draws": 4000,
+  "envelopes": {
+   "b1_5deg": {
+    "variant": "b1",
+    "variant_description": "phi 38 (Table I); f_r 0.05 to 0.35 and i0 0.05 to 1.2 assumed (widened_i0_fr); 4000 Latin hypercube draws",
+    "side_slope_deg": 5.0,
+    "model_min": 0.0079,
+    "model_p05": 0.0316,
+    "model_p50": 0.177,
+    "model_p95": 0.5218,
+    "model_max": 0.7345,
+    "model_at_nominal_f_r_0.12": 0.1708
+   },
+   "b1_10deg": {
+    "variant": "b1",
+    "variant_description": "phi 38 (Table I); f_r 0.05 to 0.35 and i0 0.05 to 1.2 assumed (widened_i0_fr); 4000 Latin hypercube draws",
+    "side_slope_deg": 10.0,
+    "model_min": 0.0147,
+    "model_p05": 0.0445,
+    "model_p50": 0.2506,
+    "model_p95": 0.605,
+    "model_max": 0.8266,
+    "model_at_nominal_f_r_0.12": 0.2582
+   },
+   "b2_5deg": {
+    "variant": "b2",
+    "variant_description": "phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps",
+    "side_slope_deg": 5.0,
+    "model_min": 0.1119,
+    "model_p05": 0.1217,
+    "model_p50": 0.2655,
+    "model_p95": 0.4744,
+    "model_max": 0.5019,
+    "model_at_nominal_f_r_0.12": 0.1708
+   },
+   "b2_10deg": {
+    "variant": "b2",
+    "variant_description": "phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps",
+    "side_slope_deg": 10.0,
+    "model_min": 0.2166,
+    "model_p05": 0.2229,
+    "model_p50": 0.3382,
+    "model_p95": 0.537,
+    "model_max": 0.5642,
+    "model_at_nominal_f_r_0.12": 0.2583
+   }
+  },
+  "comparisons": [
+   {
+    "published_row": "TM-IS09-3",
+    "side_slope_deg": 10.0,
+    "published_value": 0.5,
+    "bound": "point",
+    "published_kind": "measured slip ratio, about 0.5, feed forward control, case B",
+    "scored": true,
+    "variant": "b1",
+    "model_min": 0.0147,
+    "model_max": 0.8266,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.3266
+   },
+   {
+    "published_row": "TM-IS09-3",
+    "side_slope_deg": 10.0,
+    "published_value": 0.5,
+    "bound": "point",
+    "published_kind": "measured slip ratio, about 0.5, feed forward control, case B",
+    "scored": true,
+    "variant": "b2",
+    "model_min": 0.2166,
+    "model_max": 0.5642,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.0642
+   },
+   {
+    "published_row": "TM-IS09-2",
+    "side_slope_deg": 5.0,
+    "published_value": 0.6,
+    "bound": "lower_bound",
+    "published_kind": "Ishigami model: slip ratio must exceed 0.6 for positive thrust (model to model)",
+    "scored": true,
+    "variant": "b1",
+    "model_min": 0.0079,
+    "model_max": 0.7345,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.1345
+   },
+   {
+    "published_row": "TM-IS09-2",
+    "side_slope_deg": 5.0,
+    "published_value": 0.6,
+    "bound": "lower_bound",
+    "published_kind": "Ishigami model: slip ratio must exceed 0.6 for positive thrust (model to model)",
+    "scored": true,
+    "variant": "b2",
+    "model_min": 0.1119,
+    "model_max": 0.5019,
+    "model_envelope_compatible": false,
+    "gap_published_minus_model_max": 0.0981
+   },
+   {
+    "published_row": "TM-IS09-5",
+    "side_slope_deg": 5.0,
+    "published_value": 0.4,
+    "bound": "upper_bound",
+    "published_kind": "feedback control kept slip ratio below 0.4 (controlled, not scored)",
+    "scored": false,
+    "variant": "b1",
+    "model_min": 0.0079,
+    "model_max": 0.7345,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.3345
+   },
+   {
+    "published_row": "TM-IS09-5",
+    "side_slope_deg": 5.0,
+    "published_value": 0.4,
+    "bound": "upper_bound",
+    "published_kind": "feedback control kept slip ratio below 0.4 (controlled, not scored)",
+    "scored": false,
+    "variant": "b2",
+    "model_min": 0.1119,
+    "model_max": 0.5019,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.1019
+   },
+   {
+    "published_row": "TM-IS09-5",
+    "side_slope_deg": 10.0,
+    "published_value": 0.4,
+    "bound": "upper_bound",
+    "published_kind": "feedback control kept slip ratio below 0.4 (controlled, not scored)",
+    "scored": false,
+    "variant": "b1",
+    "model_min": 0.0147,
+    "model_max": 0.8266,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.4266
+   },
+   {
+    "published_row": "TM-IS09-5",
+    "side_slope_deg": 10.0,
+    "published_value": 0.4,
+    "bound": "upper_bound",
+    "published_kind": "feedback control kept slip ratio below 0.4 (controlled, not scored)",
+    "scored": false,
+    "variant": "b2",
+    "model_min": 0.2166,
+    "model_max": 0.5642,
+    "model_envelope_compatible": true,
+    "gap_published_minus_model_max": -0.1642
+   }
+  ]
+ }
+}
