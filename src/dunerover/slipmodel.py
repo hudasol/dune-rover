@@ -14,6 +14,7 @@ roughly an order of magnitude between wheels and soils, so the numbers below are
 ASSUMPTIONS with ranges, not measured values.  See docs/REPORT.md, section "Simulation study".
 """
 from __future__ import annotations
+from contextlib import contextmanager
 from dataclasses import dataclass, replace
 import numpy as np
 
@@ -44,8 +45,9 @@ RANGE_SETS = {
     "widened_i0": {
         "i0": (0.81, 0.05, 1.20, "ASSUMPTION (widened 2026-10-18)",
                "Nominal 0.81 is the lower bound implied by Ishigami et al. 2009 Table I (kx 0.07 m, wheel radius 0.055 m; "
-               "TM-IS09-2) under i0 = K/L with the largest contact arc; the upper end 1.20 is an assumption chosen to contain "
-               "it and the Dumont fitted i0 of stage 7 (5 to 95 %: 0.29 to 0.94)."),
+               "TM-IS09-2) under i0 = K/L with the largest contact arc; shorter contact lengths imply larger values (above 1.20 "
+               "for contact lengths below about 0.058 m), so the range contains only that lower bound. The upper end 1.20 is an "
+               "assumption chosen to contain it and the Dumont fitted i0 of stage 7 (5 to 95 %: 0.29 to 0.94)."),
     },
     "widened_i0_fr": {
         "i0": None,   # same as widened_i0, filled below
@@ -62,6 +64,30 @@ def apply_range_set(name: str) -> None:
     if name not in RANGE_SETS:
         raise ValueError(f"unknown range set {name!r}; choose from {sorted(RANGE_SETS)}")
     PARAM_TABLE.clear(); PARAM_TABLE.update(_ORIGINAL); PARAM_TABLE.update(RANGE_SETS[name])
+    _ACTIVE["name"] = name
+
+
+_ACTIVE = {"name": "original"}
+
+
+def active_range_set() -> str:
+    return _ACTIVE["name"]
+
+
+def range_set_label() -> str:
+    """Text for figure footers and logs: empty under the original set, so original outputs keep their wording."""
+    return "" if _ACTIVE["name"] == "original" else f" Range set {_ACTIVE['name']}."
+
+
+@contextmanager
+def use_range_set(name: str):
+    """Apply a range set for the duration of a block and always restore the previous one."""
+    prev = _ACTIVE["name"]
+    apply_range_set(name)
+    try:
+        yield
+    finally:
+        apply_range_set(prev)
 
 
 @dataclass(frozen=True)
