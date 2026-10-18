@@ -172,14 +172,14 @@ Design fixed now:
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| W9-1 | `widened_i0`: the nominal model crosses 50 % slip between 8 and 13 deg, so it now crosses before or near the Dumont curve (12.6 deg) instead of 12.9 deg after it. | |
-| W9-2 | `widened_i0`: the median of the draws crosses 50 % slip between 12 and 18 deg. | |
-| W9-3 | `widened_i0`: at least 80 % of the Dumont grid lies inside the 5 to 95 % band (original: 57.3 %). | |
-| W9-4 | `widened_i0`, Ishigami b1 (phi 38): the envelope maximum at 10 deg side slope lies between 0.50 and 0.70, so the measured slip ratio of about 0.5 is inside it (original: maximum 0.20); at 5 deg the maximum stays below 0.6, so Ishigami's model value is still outside. | |
-| W9-5 | Phase 2, 30 m, `widened_i0`: UNKNOWN is between 8.6 and 12 % in A, between 10.9 and 15 % in B and between 2.5 and 4 % in C; BLOCKED stays below 1 % in A. | |
-| W9-6 | Phase 1, `widened_i0`: the median climbing limit across the Latin hypercube draws falls by at least 3 deg from 23.4 deg. | |
-| W9-7 | `widened_i0_fr` adds at most 3 percentage points of UNKNOWN to `widened_i0` in each area at 30 m. | |
-| W9-8 | Even with the widened range the post hoc fit to the Dumont curve keeps an RMSE above 0.05: the model form, not only the range, misses the S shape. | |
+| W9-1 | `widened_i0`: the nominal model crosses 50 % slip between 8 and 13 deg, so it now crosses before or near the Dumont curve (12.6 deg) instead of 12.9 deg after it. |  HIT. Nominal crossing 10.15 deg (Dumont 12.59): the nominal model now predicts too much slip below about 12 deg, the opposite error to before (`results/anchors_widened_i0/summary.json`). |
+| W9-2 | `widened_i0`: the median of the draws crosses 50 % slip between 12 and 18 deg. |  HIT. Median of draws 12.26 deg. |
+| W9-3 | `widened_i0`: at least 80 % of the Dumont grid lies inside the 5 to 95 % band (original: 57.3 %). |  HIT. 100 % of the Dumont grid lies inside the 5 to 95 % band (original 57.3 %); the band is now so wide that this says little. |
+| W9-4 | `widened_i0`, Ishigami b1 (phi 38): the envelope maximum at 10 deg side slope lies between 0.50 and 0.70, so the measured slip ratio of about 0.5 is inside it (original: maximum 0.20); at 5 deg the maximum stays below 0.6, so Ishigami's model value is still outside. |  HIT. b1 maximum 0.59 at 10 deg (measured 0.5 now inside) and 0.49 at 5 deg (Ishigami's 0.6 still outside). |
+| W9-5 | Phase 2, 30 m, `widened_i0`: UNKNOWN is between 8.6 and 12 % in A, between 10.9 and 15 % in B and between 2.5 and 4 % in C; BLOCKED stays below 1 % in A. |  MISSED, badly. UNKNOWN at 30 m is 33.9 % in A, 39.2 % in B and 11.2 % in C (original 8.6, 10.9, 2.5 %); BLOCKED stays at or below 0.02 %. Stage 7 had suggested a small change, but there i0 was fitted to each draw's phi and f_r, so the draws agreed with each other; here i0 is drawn independently over a range six times wider, so many more cells change verdict between draws. |
+| W9-6 | Phase 1, `widened_i0`: the median climbing limit across the Latin hypercube draws falls by at least 3 deg from 23.4 deg. |  HIT. Median climbing limit across draws 13.5 deg, down 9.9 deg from 23.4 deg; the 5th percentile is 2.4 deg. |
+| W9-7 | `widened_i0_fr` adds at most 3 percentage points of UNKNOWN to `widened_i0` in each area at 30 m. |  MISSED, badly. Widening f_r to 0.35 as well raises UNKNOWN at 30 m to 92.6 % (A), 90.1 % (B) and 97.4 % (C); with f_r near 0.35 and large i0 some draws cannot climb any slope, so almost every cell becomes assumption sensitive. |
+| W9-8 | Even with the widened range the post hoc fit to the Dumont curve keeps an RMSE above 0.05: the model form, not only the range, misses the S shape. |  HIT. Post hoc fit RMSE 0.071 (original 0.085), with phi and f_r at their bounds and i0 0.66 inside the range; the S shape is still missed. |
 
 
 ## Stage 10: amended entrapment rule for the 2026-10-15 ladder (written 2026-10-18, BEFORE the amended rule was coded or run)
@@ -201,3 +201,5 @@ Amended rule (applies to the 2026-10-15 design):
 | R10-5 | The amended rule separates a correct model from the dumont truth: the share of "adequate" plus "slip within tolerance, entrapment not reached" is at least 50 points higher for truth = model than for truth = dumont at sigma 0.03. |  HIT. Adequate plus not reached: 75.6 % for the correct model against 0 % for the dumont truth at sigma 0.03. |
 
 Note on stage 10: the amended rule now separates a correct model from the Dumont shaped truth, but it still calls the wrong collapse model adequate about half the time, and a mildly wrong janosi_mean model 65 % of the time at sigma 0.10. The rule was not tuned after this run; the decision is put to Huda (`docs/QUESTIONS_FOR_HUDA.md`, 2026-10-18 heading).
+
+Note on stage 9: the widened range moves the anchors in the predicted direction and overshoots at the nominal value, while the 30 m map becomes far less certain than predicted. The anchor hits were informed by hand arithmetic on the model equation; the map misses were not foreseen. The main lesson is that the map's UNKNOWN share is controlled by how wide the assumed ranges are, which only a field measurement can narrow.
