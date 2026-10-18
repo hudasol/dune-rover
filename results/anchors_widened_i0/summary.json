@@ -119,7 +119,7 @@
    },
    "b2_5deg": {
     "variant": "b2",
-    "variant_description": "phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps",
+    "variant_description": "phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed (widened_i0), 4000 even steps",
     "side_slope_deg": 5.0,
     "model_min": 0.1119,
     "model_p05": 0.1182,
@@ -130,7 +130,7 @@
    },
    "b2_10deg": {
     "variant": "b2",
-    "variant_description": "phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps",
+    "variant_description": "phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed (widened_i0), 4000 even steps",
     "side_slope_deg": 10.0,
     "model_min": 0.2166,
     "model_p05": 0.2207,

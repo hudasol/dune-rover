@@ -1,5 +1,5 @@
 variant,variant_description,side_slope_deg,model_min,model_p05,model_p50,model_p95,model_max,model_at_nominal_f_r_0.12
 b1,phi 38 (Table I); f_r 0.05 to 0.25 and i0 0.05 to 1.2 assumed (widened_i0); 4000 Latin hypercube draws,5.0,0.0077,0.0254,0.1455,0.3638,0.4919,0.1708
 b1,phi 38 (Table I); f_r 0.05 to 0.25 and i0 0.05 to 1.2 assumed (widened_i0); 4000 Latin hypercube draws,10.0,0.0143,0.0385,0.2156,0.4548,0.5913,0.2582
-b2,"phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps",5.0,0.1119,0.1182,0.2037,0.3208,0.3355,0.1708
-b2,"phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps",10.0,0.2166,0.2207,0.2847,0.3889,0.4026,0.2583
+b2,"phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed (widened_i0), 4000 even steps",5.0,0.1119,0.1182,0.2037,0.3208,0.3355,0.1708
+b2,"phi 38 (Table I); i0 = kx / (r pi / 2) = 0.810 (lower bound); f_r 0.05 to 0.25 assumed (widened_i0), 4000 even steps",10.0,0.2166,0.2207,0.2847,0.3889,0.4026,0.2583

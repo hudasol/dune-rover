@@ -11,4 +11,4 @@ numpy 2.4.2, matplotlib 3.10.8, seeds 20261020 and 20261021, 4000 draws
 (b) b2 5 deg: published 0.4 (TM-IS09-5), model 0.112 to 0.336, compatible True (upper_bound)
 (b) b1 10 deg: published 0.4 (TM-IS09-5), model 0.014 to 0.591, compatible True (upper_bound)
 (b) b2 10 deg: published 0.4 (TM-IS09-5), model 0.217 to 0.403, compatible True (upper_bound)
-run time 19.0 s
+run time 29.0 s
