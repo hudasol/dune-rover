@@ -211,6 +211,13 @@ A diagnostic, not a test of the model. The second review (2026-10-18) found that
 
 | ID | Prediction made before the run | Outcome |
 |---|---|---|
-| G11-1 | original: 0 % of draws immobile on level ground in every area. | |
-| G11-2 | widened_i0: between 1 % and 3 % per area (reviewer: 1.2, 2.0, 2.3 %). | |
-| G11-3 | widened_i0_fr: between 8 % and 13 % per area (reviewer: 12.1, 9.0, 11.3 %), more than the 5 % of draws a cell may fail and still be TRAVERSABLE, which explains most of the 90 % UNKNOWN shares. | |
+| G11-1 | original: 0 % of draws immobile on level ground in every area. |  HIT. 0.0 % in all three areas (`results/range_set_diagnostics/immobile_on_level.csv`). |
+| G11-2 | widened_i0: between 1 % and 3 % per area (reviewer: 1.2, 2.0, 2.3 %). |  HIT. 1.2 %, 2.0 %, 2.3 %, as the reviewer found. |
+| G11-3 | widened_i0_fr: between 8 % and 13 % per area (reviewer: 12.1, 9.0, 11.3 %), more than the 5 % of draws a cell may fail and still be TRAVERSABLE, which explains most of the 90 % UNKNOWN shares. |  HIT. 12.1 %, 9.0 %, 11.3 %, as the reviewer found. Correction to the heading: the script was written in the same step as this table and committed after it; it was not run before the table was committed. |
+
+Notes appended 2026-10-18 after the second review (no prediction text edited):
+- Stage 9 note placement: the "Note on stage 9" paragraph above sits under the stage 10 heading by mistake; it refers to stage 9.
+- Stage 9 outcome corrections: W9-5 says the i0 range is "six times wider"; it is 3.3 times wider (0.35 to 1.15). W9-6 gives the 5th percentile as 2.4 deg; the file value is 2.35 (the report shows 2.3).
+- Stage 9 context: in the widened_i0_fr set 9 to 12 % of draws cannot move on level ground (stage 11), more than the 5 % a TRAVERSABLE cell may tolerate, so the 90 % UNKNOWN shares largely reflect parameter combinations the original f_r basis excluded, not terrain.
+- Stage 10 corrections: R10-2's 38.7 % is the share of all 300 replicates flagged uninformative, not of the not reached replicates. R10-5's sum is 75.7 % (1.3 % plus 74.3 %), not 75.6 %.
+- Stage 10 informativeness: because `adequate` keeps its old meaning, the adequate rates in R10-1 and R10-4 and the R10-3 result were already determined by the stage 6 file, and the not reached share in R10-1 by the stage 6 diagnostic (96.7 % on 60 replicates). Only the third clause of R10-1, R10-2 and R10-5 carried new information. When the predicted entrapment slope is undefined but entrapment is observed, the implementation counts the entrapment test as failed; stage 10 did not state this case.
