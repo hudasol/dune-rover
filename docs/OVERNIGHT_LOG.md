@@ -15,3 +15,6 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 2026-10-18 11:49 F1 done: FLD-HV13-5 split into 5a (lab, correct) and 5b (field, minor, corrected); 171 rows; first check 9 of 170 material, current 8 of 171, supplementary 2 of 27. CI was red about 3 minutes (11:38 to 11:40) after a predictions commit without the report regenerated.
 - 2026-10-18 12:17 F2 done: widened i0 (and i0 plus f_r) range sets added, phase 1, phase 2 and anchors re run beside the originals; stage 9: 6 hit, 2 badly missed (UNKNOWN A 30 m 33.9 % and 92.6 %); report sections 8.4, 8.7, 8.8, 8.9 updated from files.
 - 2026-10-18 12:17 F3 done: amended entrapment rule pre registered (stated as made after the 1.3 % result) and re run; stage 10: 5 hit; correct model 74 % slip ok with entrapment not reached, wrong collapse model still adequate 53 %; question 7 to Huda.
+- 2026-10-18 13:34 F4 done: licence sentence added; second review (23 findings) fixed or reasoned in docs/REVIEW_2026-10-18.md; stage 11 diagnostic added; the widened outputs re run with labelled footers (a first parallel attempt ran out of memory; three re run with fewer jobs).
+- 2026-10-18 13:34 F5 done: NEXT_STEPS rewritten.
+- 2026-10-18 13:34 F6 done: executive brief rebuilt from files, 2 page PDF; report PDF 72 pages. CI red once today, about 3 minutes (11:38 to 11:40).
