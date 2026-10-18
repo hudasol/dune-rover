@@ -1,45 +1,49 @@
-# Executive brief: predicting slip and traversability of robots on dunes
+# Executive brief: predicting slip and traversability of wheeled robots on Arabian dunes
 
-Huda Mueen, `hudasol/dune-rover`, text of 2026-10-12, numbers regenerated from files on each build; the brief has not been rewritten since (generated from `docs/src/brief_template.md` by `scripts/build_report.py`; numbers come from the result files). Research only; not engineering approval for any real vehicle. Row IDs (for example FLD-012) refer to the evidence table in `docs/REPORT.md`, Appendix A.
+Huda Mueen, `hudasol/dune-rover`, 2026-10-18. Generated from `docs/src/brief_template.md` by `scripts/build_report.py`; every number comes from a result file or an evidence row (IDs such as FLD-012 refer to `research/evidence.csv`). **This is a proposal and a research summary. No agreement, partnership or endorsement exists with any institution, and none is implied.** Heat and dust limits for people and electronics are the subject of the separate repository `hudasol/dhill` and are not repeated here. No cost is given.
 
-**Question.** How well can slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes be predicted from terrain data and models, how well does that transfer from lab to field, and what is missing for a minimal open data planner for Arabian dunes?
+Labels: **PUBLISHED** (read in a retrieved source), **SIMULATED BY ME** (output of this repository's code; simulation only, model assumption dependent, never field evidence), **PLANNED** (not run).
 
-## What the published evidence says (171 rows, each traced to a URL and passage)
+## 1. Question and Gulf relevance
 
-- **Models need per soil fitting and are mostly validated on level ground.** Bekker-Wong style drawbar errors are 24 to 27 % (median) on two lunar simulant wheel datasets and sinkage errors 28 to 52 %, up to 135 % and 385 % on firm soil with a small light wheel (SIM-025 to SIM-027). Granular RFT gives wheel drawbar errors of 5.6 to 15 N in a lab bed (TM-001 to TM-004). The Janosi shear modulus differs about 75-fold between papers, so it is tuned, not transferred.
-- **Speed and slope break the quasi static assumption.** Drawbar coefficient fell 63.7 % between 0.2 and 1 m/s on olivine sand (TM-019). A rover slope model had side slip errors of 14.8 % at 10 degrees and 25.9 % at 20 degrees before tuning (a thesis, TM-022, TM-023).
-- **Field slip is large and patchy.** Spirit measured 15 to 20 % slip at 19 degrees and 95 % at 16 degrees about 30 m later on terrain that looked alike (FLD-011, FLD-012). Perseverance exceeded 94 % at about 20 degrees (FLD-025). These are Mars data.
-- **Learning is validated in distribution.** The best held out result is AUROC 0.874 on Perseverance sols (LRN-010). No paper holds out terrain type, and none reports a learned slip error on Earth dunes.
-- **Arabian evidence is nearly absent.** One qualitative report of a rover getting stuck in looser than expected sand in Oman (FLD-042). No Arabian sand parameters, no Empty Quarter grain size map, no open LiDAR of the dunes.
-- **Open data resolve dunes, not slip faces.** Copernicus GLO-30 (about 28 by 31 m, free with attribution) resolves crests and interdune corridors of dunes tens to hundreds of metres high; slip faces are 1 to 4 posts wide and read too gentle. A 90 m product removes 80 to 100 % of cells steeper than 25 degrees in the three windows tested.
+How much does a small wheeled robot slip on a dune slope, can that be predicted before the run, and how much of an open 30 m elevation map of UAE dunes can be trusted for planning? No published slip against slope dataset was found for a wheeled robot on Arabian dune sand with the soil characterised; the only Arabian field item is a qualitative report of a rover getting stuck in loose sand in Oman (FLD-042). Open elevation data (Copernicus GLO-30, about 30 m) resolve the dunes but not their slip faces.
 
-## What I simulated (SIMULATION ONLY, model assumption dependent, not field evidence)
+## 2. What is published (PUBLISHED; 171 rows, each traced to a source passage)
 
-A friction circle slip model with a friction angle (published range 28 to 38 degrees) and three assumed parameters, routed over real GLO-30 data from Liwa and the Rub' al Khali, with one at a time and 256-draw Latin hypercube sensitivity analysis (phase 1). Phase 2 added a sub grid slip face detector (trained on synthetic dunes, validated only against synthetic truth) and a three class map with Monte Carlo over the four assumed parameters, on three windows including a linear dune field in the Saudi Rub' al Khali.
+- **Earth dune slope curve.** At Dumont Dunes, California, a 340 kg test rover went from below 50 % slip at 12.5 degrees to about 75 % at 16 and about 90 % at 20 degrees; no soil parameters are reported (FLD-HV13-1, FLD-HV13-2).
+- **Small rover on a sand bed.** A 13.5 kg rover traversing a 10 degree side slope of Toyoura sand showed a slip ratio of about 0.5 (TM-IS09-3).
+- **Mars field slip is large and patchy.** Spirit measured 15 to 20 % slip at 19 degrees and 95 % at 16 degrees about 30 m away on similar looking terrain (FLD-011, FLD-012).
+- **Models need fitting per soil.** Bekker type drawbar errors of 24 to 27 % (median) on two lunar simulant datasets (SIM-025 to SIM-027); the Janosi shear modulus spans about two orders of magnitude between sources, so it is tuned, not transferred.
 
-| Result | Value |
-|---|---|
-| Nominal climbing limit of the model | 25.5 degrees |
-| Climbing limit across the assumption ranges | 7.6 to 34.7 degrees (5 to 95 %: about 15 to 32) |
-| UNKNOWN share of cells at 30 m: A south Liwa, B megadunes, C linear dunes | 8.6 %, 10.9 %, 2.5 % |
-| Same if a face within one post counts (post hoc variant) | 34.4 %, 32.2 %, 22.0 % |
-| UNKNOWN share at 60 and 90 m (A) | 9.1 % and 7.1 % |
-| BLOCKED share at 30 m (A) | 0.00 % |
-| Cells whose slope based verdict is robust to the four assumed parameters (A, B, C at 30 m) | 99.1 %, 97.0 %, 100.0 % |
-| Assumptions that change the phase 1 map most | friction angle, slip law form, DEM posting, slip scale i0, resistance f_r |
+## 3. What is simulated by me (SIMULATED BY ME; simulation only, model assumption dependent)
 
-The small BLOCKED share reflects the 30 m grid, not easy dunes. The UNKNOWN share depends mostly on the assumed dune shape and on what counts as "inside the cell", not on the four slip parameters.
+A lumped slope to slip model with a friction angle from published laboratory ranges and three assumed parameters, run over GLO-30 data for Liwa and the Rub' al Khali, with Monte Carlo over the assumptions, a sub grid slip face detector validated against synthetic truth only, and a three class map (TRAVERSABLE, BLOCKED, UNKNOWN). The nominal climbing limit is 25.5 degrees; across the original assumption ranges it spans 14.9 to 31.6 degrees (5th to 95th percentile).
 
-## What is planned (PLANNED, not run)
+**UNKNOWN share of cells by elevation model posting** (original ranges; last column with the slip scale range widened on 2026-10-18):
 
-A slope ladder field experiment with one small rover on one dune stoss slope: runs at about 0, 5, 10, 15, 20 and 25 degrees (bins revised on 2026-10-15, see `docs/FIELD_VALIDATION_PLAN.md`), RTK ground truth, full soil description, about 60 runs, calibration on gentle slopes and dated blind predictions for steep slopes. A synthetic design check shows the adequacy tolerance must be set from the pilot's scatter.
+| Area | 30 m | 60 m | 90 m | 30 m, widened i0 range |
+|---|---|---|---|---|
+| A, south Liwa | 8.6 % | 9.1 % | 7.1 % | 33.9 % |
+| B, Rub' al Khali megadunes | 10.9 % | 19.9 % | 14.4 % | 39.2 % |
+| C, Rub' al Khali linear dunes (Saudi Arabia) | 2.5 % | 10.2 % | 27.5 % | 11.2 % |
 
-## How far to trust this
+BLOCKED stays under 0.1 % at 30 m in every area, because the grid hardly shows slopes the model calls impassable. When the resistance range is widened as well, UNKNOWN at 30 m reaches 92.6 % in A, largely because 9 to 12 % of those draws cannot move on level ground at all. Under the original ranges the map is robust to the slip parameters; under the widened ones it is not.
 
-- Verification: **all 171 evidence rows were re checked against their sources** by separate agents. Material errors: 8 of 171 (4.7 %, Wilson 95 % interval 2.4 to 9.0 %); any discrepancy: 51 of 171 (29.8 %). All corrected. The first sample of 30 (0 material) had understated the rate. A second independent check of the 2026-10-11 draft of the report found 5 wrong and 26 minor items among 225 claim groups, all corrected; later sections were not part of it.
-- Limits: search tool US only; paywalled standards (Bekker, Wong) and two references not read (list in `docs/NEXT_STEPS.md`); several rows are from theses, slides or a press release (flagged in the table); simulation not fitted to any data; the sub grid detector has never been compared with a real slip face profile; the synthetic test of the planned field analysis shows its pass or fail rule discriminates weakly, so the ladder results should be read as predicted against observed, not as pass or fail.
-- Pre registration: predictions were committed before each run; most quantitative predictions about the simulation missed (`docs/PREDICTIONS.md`).
+## 4. Negative results
 
-## First experiment to run
+- **The model predicts too little slip on both published anchors** (comparisons of unlike vehicles and soils). With the original ranges the nominal model crosses 50 % slip at 25.5 degrees against 12.6 degrees for the Dumont curve, and it gives 0.01 to 0.20 slip where about 0.5 was measured on Ishigami's 10 degree side slope.
+- **Widening the slip scale range does not fix it.** The nominal model then crosses 50 % at 10.2 degrees, too early, and the envelope contains both anchors only because it is very wide; a post hoc fit still misses the shape of the Dumont curve (RMSE 0.071).
+- **The planned pass or fail rule discriminates weakly.** On synthetic data with the revised slope bins and the amended entrapment rule, a wrong model with collapse above 20 degrees is called adequate in 52.7 % of replicates.
+- Most quantitative predictions about the simulation missed (stage 1: 1 hit, 2 mixed, 1 missed; stage 2: 3 hit, 1 mixed, 4 missed; stage 3: 2 hit, 1 mixed, 3 missed; stage 4: 1 hit, 0 mixed, 3 missed; stage 5: 9 hit, 1 mixed, 0 missed; stage 6: 5 hit, 0 mixed, 1 missed; stage 7: 4 hit, 0 mixed, 2 missed; stage 8: 3 hit, 0 mixed, 0 missed; stage 9: 6 hit, 0 mixed, 2 missed; stage 10: 5 hit, 0 mixed, 0 missed; stage 11: 3 hit, 0 mixed, 0 missed; `docs/PREDICTIONS.md`).
 
-The slope ladder (`docs/FIELD_VALIDATION_PLAN.md`): start with the 12-run pilot to measure run to run scatter (it sets the tolerance), then the main block; dated pre data predictions are in `docs/predictions/`. It fills the largest gap: no published slip versus slope data for a wheeled robot on dune sand with measured soil.
+## 5. Error rate of the evidence table
+
+Every row was re checked against its source by a separate agent with no access to the extraction notes. First check of the 170 rows as extracted: 9 material errors (5.3 %) and 51 with any discrepancy (30.0 %). Current table of 171 rows, latest verdict per row: 8 material (4.7 %). All are corrected. The checkers are language model agents; a human spot check by the author is planned.
+
+## 6. The first field experiment (PLANNED)
+
+A slope ladder with one small four wheel rover (5 to 25 kg) on one dune stoss slope: direct uphill runs in bins at 0, 5, 10, 12.5, 15, 17.5 and 20 degrees (25 degrees only if allowed; whether the 1 degree tolerance of these bins can be met on a real dune is unconfirmed, and the original bins at 5 degree spacing remain documented), a 12 run pilot to measure run to run scatter, RTK ground truth, full soil description at every station, calibration on runs up to 10 degrees and dated predictions committed before the steeper runs. Plan: `docs/FIELD_VALIDATION_PLAN.md`; predictions: `docs/predictions/`.
+
+## 7. The ask
+
+A supervised field day on a dune site with a named supervisor and recovery support; the loan of one small wheeled rover; the loan of an RTK GNSS unit or a drone survey of the test slope; and written site access. Each has a fallback in `docs/PROPOSAL_EDGE.md`. Success means a complete, openly reported dataset and a comparison with the committed predictions, including a failed model.
