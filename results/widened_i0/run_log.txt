@@ -1,6 +1,7 @@
-[  96.5s] A_south_Liwa: blocked 0.0780, cost ratio 1.3435865728244374
-[ 209.6s] A_north_Liwa: blocked 0.0766, cost ratio 1.3292237217314034
-[ 346.6s] B_RubAlKhali_megadunes: blocked 0.1656, cost ratio 1.4583804043109634
-[ 574.2s] LHS A_core done
-[ 745.0s] LHS B_core done
-done in 761.2 s
+Range set widened_i0 (slipmodel.RANGE_SETS); started 2026-10-18 13:09:19; numpy 2.4.2
+[  72.1s] A_south_Liwa: blocked 0.0780, cost ratio 1.3435865728244374
+[ 174.5s] A_north_Liwa: blocked 0.0766, cost ratio 1.3292237217314034
+[ 316.3s] B_RubAlKhali_megadunes: blocked 0.1656, cost ratio 1.4583804043109634
+[ 529.2s] LHS A_core done
+[ 711.9s] LHS B_core done
+done in 729.1 s
