@@ -111,11 +111,11 @@ def test_range_sets_leave_the_original_default_unchanged():
     from dunerover import slipmodel as SM
     from dunerover.sensitivity import bounds
     orig = dict(SM.PARAM_TABLE)
-    assert SM.nominal_params() == SM.SlipParams()
-    SM.apply_range_set("widened_i0")
-    assert SM.PARAM_TABLE["i0"][:3] == (0.81, 0.05, 1.20) and bounds()["i0"] == (0.05, 1.20)
-    assert SM.PARAM_TABLE["f_r"] == orig["f_r"] and SM.nominal_params().i0 == 0.81
-    SM.apply_range_set("widened_i0_fr")
-    assert SM.PARAM_TABLE["f_r"][1:3] == (0.05, 0.35) and SM.PARAM_TABLE["i0"][2] == 1.20
-    SM.apply_range_set("original")
-    assert dict(SM.PARAM_TABLE) == orig and SM.nominal_params() == SM.SlipParams()
+    assert SM.nominal_params() == SM.SlipParams() and SM.range_set_label() == ""
+    with SM.use_range_set("widened_i0"):
+        assert SM.PARAM_TABLE["i0"][:3] == (0.81, 0.05, 1.20) and bounds()["i0"] == (0.05, 1.20)
+        assert SM.PARAM_TABLE["f_r"] == orig["f_r"] and SM.nominal_params().i0 == 0.81
+        assert SM.range_set_label() == " Range set widened_i0."
+    with SM.use_range_set("widened_i0_fr"):
+        assert SM.PARAM_TABLE["f_r"][1:3] == (0.05, 0.35) and SM.PARAM_TABLE["i0"][2] == 1.20
+    assert dict(SM.PARAM_TABLE) == orig and SM.nominal_params() == SM.SlipParams() and SM.active_range_set() == "original"
