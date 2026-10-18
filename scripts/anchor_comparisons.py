@@ -233,7 +233,7 @@ def compare_ishigami(log):
     slopes = np.array([5.0, 10.0])
     rows, res = [], {}
     for name, P, desc in (("b1", P1, f"phi 38 (Table I); f_r {PARAM_TABLE['f_r'][1]:g} to {PARAM_TABLE['f_r'][2]:g} and i0 {PARAM_TABLE['i0'][1]:g} to {PARAM_TABLE['i0'][2]:g} assumed ({RANGE_SET}); 4000 Latin hypercube draws"),
-                          ("b2", P2, f"phi 38 (Table I); i0 = kx / (r pi / 2) = {ISH_I0_LOW:.3f} (lower bound); f_r 0.05 to 0.25 assumed, 4000 even steps")):
+                          ("b2", P2, f"phi 38 (Table I); i0 = kx / (r pi / 2) = {ISH_I0_LOW:.3f} (lower bound); f_r {PARAM_TABLE['f_r'][1]:g} to {PARAM_TABLE['f_r'][2]:g} assumed ({RANGE_SET}), 4000 even steps")):
         S = model_grid(slopes, P, cross=True)
         for j, sl in enumerate(slopes):
             col = S[:, j]
