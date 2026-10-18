@@ -50,11 +50,18 @@ prefix_order = {"terramechanics":0,"simulation":1,"learning":2,"field":3,"legged
 # ---- verification overlay: corrections and verdicts (research/corrections.csv, research/verify_out_batch*.csv)
 corr_path = os.path.join(ROOT, "research", "corrections.csv")
 by_id = {r["id"]: r for r in kept}
-applied = []
+applied, splits, split_new = [], [], set()
 if os.path.exists(corr_path):
     for c in csv.DictReader(open(corr_path, encoding="utf-8")):
+        if c["field"] == "split_into":   # replace one row by several (ids separated by ';'), each starting as a copy
+            src = by_id.pop(c["id"]); kept.remove(src)
+            for nid in c["new_value"].split(";"):
+                r = dict(src); r["id"] = nid; kept.append(r); by_id[nid] = r; split_new.add(nid)
+            splits.append((c["id"], c["new_value"], c["reason"]))
+            continue
         r = by_id[c["id"]]
-        applied.append((c["id"], c["field"], r[c["field"]]))
+        if c["id"] not in split_new:      # fields of a split row define it; they are not verifier corrections
+            applied.append((c["id"], c["field"], r[c["field"]]))
         r[c["field"]] = c["new_value"]
 random_ids = set(r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "verify_sample_random30.csv"), encoding="utf-8"))) if os.path.exists(os.path.join(ROOT, "research", "verify_sample_random30.csv")) else set()
 for r in kept:
@@ -63,7 +70,9 @@ for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"
     for v in csv.DictReader(open(f, encoding="utf-8")):
         if v["id"] in by_id:
             n = int(re.search(r"batch(\d+)", f).group(1))
-            if n >= 8:
+            if n >= 14:
+                grp, date = "split row check", "2026-10-18"
+            elif n >= 8:
                 grp, date = "supplied PDF re-check", "2026-10-15"
             elif n >= 4:
                 grp, date = "full re-check, phase 2", "2026-10-12"
@@ -79,6 +88,7 @@ with open(os.path.join(ROOT, "research", "dedup_log.md"), "w", encoding="utf-8")
     fh.write("# Dedup log\n\n")
     for k, v in DROP.items(): fh.write(f"- {k}: dropped, {v}\n")
     fh.write("\nLEG-015 repaired: unquoted comma had split the passage field.\n")
+    for old, new, why in splits: fh.write(f"\n{old} split into {new.replace(';', ' and ')}: {why}\n")
     fh.write("\n## Corrections applied from independent verification (old values)\n")
     for i, f, old in applied: fh.write(f"- {i}.{f}: was: {old}\n")
 import collections
