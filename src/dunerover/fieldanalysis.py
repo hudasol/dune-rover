@@ -150,6 +150,10 @@ class Result:
     sigma_pilot: float = float("nan")
     sigma_source: str = "fixed tolerance, no pilot"
     informative: bool = True
+    # amended rule of 2026-10-18 (docs/PREDICTIONS.md stage 10): 'adequate' above keeps its old meaning
+    slip_pass: bool = False
+    entrap_status: str = ""          # 'pass', 'fail' or 'not reached'
+    verdict_2026_10_18: str = ""     # 'adequate', 'not adequate' or 'slip within tolerance, entrapment not reached'
 
 
 def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None = None, use_pilot: bool = True, bin_width: float = 5.0) -> Result:
@@ -197,7 +201,15 @@ def analyse(d: dict, n_boot: int = 2000, seed: int = 20261014, tol: float | None
         boots["mae"].append(np.mean(np.abs(e)))
         boots["rmse"].append(np.sqrt(np.mean(e ** 2)))
     ci = {k: (float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))) for k, v in boots.items()}
-    return Result(f_r, i0, int(cal.sum()), int(test.sum()), mae, rmse, cal_slope, within, mae_const, mae_thr, ep, eo, adequate, ci, float(tol), sig, src, informative)
+    slip_pass = bool(within >= ADEQ_FRAC)
+    if not np.isfinite(eo):
+        entrap = "not reached"          # never a failure and never a pass (amended rule, 2026-10-18)
+    else:
+        entrap = "pass" if (np.isfinite(ep) and abs(ep - eo) <= ADEQ_ENTRAP_DEG) else "fail"
+    verdict = ("adequate" if (slip_pass and entrap == "pass") else
+               "slip within tolerance, entrapment not reached" if (slip_pass and entrap == "not reached") else "not adequate")
+    return Result(f_r, i0, int(cal.sum()), int(test.sum()), mae, rmse, cal_slope, within, mae_const, mae_thr, ep, eo, adequate, ci, float(tol), sig, src, informative,
+                  slip_pass, entrap, verdict)
 
 
 def per_bin_means(d: dict, n_boot: int = 2000, seed: int = 20261015, bin_width: float = 5.0):

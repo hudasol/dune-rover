@@ -146,3 +146,21 @@ def test_blatantly_wrong_model_is_always_failed_new_design():
 def test_dumont_truth_follows_the_published_text():
     t = FA.truth_slip("dumont", np.array([2.0, 12.4, 16.0, 20.0, 23.0]))
     assert t[0] == pytest.approx(0.10) and t[1] < 0.5 and abs(t[2] - 0.75) < 0.03 and abs(t[3] - 0.90) < 0.02 and t[4] == 1.0
+
+
+# ---- amended entrapment rule (2026-10-18, docs/PREDICTIONS.md stage 10) ------------------------------------------
+def test_amended_rule_reports_not_reached_and_keeps_old_flag():
+    for k in range(5):
+        r = FA.analyse(FA.synthetic_runs(seed=30000 + k, sigma=0.03, kind="model", design="2026-10-15"), n_boot=5, bin_width=2.5)
+        assert r.entrap_status in ("pass", "fail", "not reached")
+        if r.entrap_status == "not reached":
+            assert not r.adequate and r.verdict_2026_10_18 != "adequate"
+            assert r.verdict_2026_10_18 == ("slip within tolerance, entrapment not reached" if r.slip_pass else "not adequate")
+        if r.verdict_2026_10_18 == "adequate":
+            assert r.adequate
+
+
+def test_amended_rule_fails_when_entrapment_is_far_from_prediction():
+    r = FA.analyse(FA.synthetic_runs(seed=31, sigma=0.03, kind="collapse"), n_boot=5)
+    if r.entrap_status == "fail":
+        assert r.verdict_2026_10_18 == "not adequate" and not r.adequate
