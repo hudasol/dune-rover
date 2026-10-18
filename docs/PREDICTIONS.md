@@ -203,3 +203,14 @@ Amended rule (applies to the 2026-10-15 design):
 Note on stage 10: the amended rule now separates a correct model from the Dumont shaped truth, but it still calls the wrong collapse model adequate about half the time, and a mildly wrong janosi_mean model 65 % of the time at sigma 0.10. The rule was not tuned after this run; the decision is put to Huda (`docs/QUESTIONS_FOR_HUDA.md`, 2026-10-18 heading).
 
 Note on stage 9: the widened range moves the anchors in the predicted direction and overshoots at the nominal value, while the 30 m map becomes far less certain than predicted. The anchor hits were informed by hand arithmetic on the model equation; the map misses were not foreseen. The main lesson is that the map's UNKNOWN share is controlled by how wide the assumed ranges are, which only a field measurement can narrow.
+
+
+## Stage 11: share of draws that cannot move on level ground (written 2026-10-18, BEFORE the diagnostic script was written)
+
+A diagnostic, not a test of the model. The second review (2026-10-18) found that some draws of the widened range sets leave the vehicle unable to move on level sand (slip on level ground above i_max), which the original f_r basis was meant to exclude. Those figures were computed by the reviewer, so the predictions below are a reproduction check, not foresight. Script to be written after this commit: `scripts/diagnose_level_ground.py`; output `results/range_set_diagnostics/immobile_on_level.csv`. Draws: `threeclass.lhs_draws(256, seed)` with the phase 2 seeds of areas A, B and C, under each range set.
+
+| ID | Prediction made before the run | Outcome |
+|---|---|---|
+| G11-1 | original: 0 % of draws immobile on level ground in every area. | |
+| G11-2 | widened_i0: between 1 % and 3 % per area (reviewer: 1.2, 2.0, 2.3 %). | |
+| G11-3 | widened_i0_fr: between 8 % and 13 % per area (reviewer: 12.1, 9.0, 11.3 %), more than the 5 % of draws a cell may fail and still be TRAVERSABLE, which explains most of the 90 % UNKNOWN shares. | |
