@@ -8,3 +8,12 @@ Each item states the exact decision, file or access needed. Nothing below blocks
 4. **Revised ladder against the adequacy rule (your decision before any field day).** With the 2026-10-15 bins (0 to 20 deg, 25 conditional) a correct model is called adequate in only 1.3 % of synthetic replicates, because entrapment is usually not reached and the rule requires an observed entrapment slope (`docs/PREDICTIONS.md`, L6-3; `results/field_kit/power_study_2026-10-15.csv`). Choose one: (a) keep the revised bins and amend the rule so the entrapment part is reported as "not reached" rather than failed, with a new dated pre registration and a re run of the power study; (b) keep the revised bins and run the 25 deg bin always, tethered; (c) go back to the original bins. Overnight nothing was changed to make the rule pass.
 5. **Slope tolerance of 1 degree.** The revised bins need plus or minus 1 degree between 10 and 20 degrees. Is that achievable on the dune you have in mind with an RTK walk or a drone map? If not, the plan says to fall back to the original bins.
 6. **Licence in the public history.** Commit ed7eedb (2026-10-12) added an MIT `LICENSE`, replaced by the all rights reserved notice in commit cb3370c the same day, so that snapshot of the history carries an MIT licence (its commit message calls it proposed). Whether it was public at the time depends on when it was pushed, which cannot be seen from the repository. History was not rewritten (it must not be without your decision). Answer: leave as is, or decide yourself whether to take advice on it.
+
+## Answers received 2026-10-18 (from Huda, recorded verbatim in substance)
+
+1. Slip scale range: YES. Widen the i0 range (and test the f_r range) so it covers the value implied by Ishigami 2009 Table I, keep the old range as a labelled alternative, re run phases 1 and 2 with a new dated prediction set committed first.
+2. FLD-HV13-5: SPLIT into a lab row (Marsyard) and a field row (Tecopa).
+3. Spot check 3: Huda does it herself.
+4. Adequacy rule: option (a). Keep the revised bins; an entrapment slope that is not reached is reported as "not reached", not as a failure, and never counts as a pass for the entrapment test. New dated pre registration stating the amendment was made after seeing the 1.3 % result.
+5. Slope tolerance of 1 degree: UNANSWERED. Both bin designs stay documented; achievability is unconfirmed and is not claimed anywhere.
+6. Licence in the history: LEAVE AS IS; one plain sentence in `docs/DATA_AND_LICENSES.md`.
