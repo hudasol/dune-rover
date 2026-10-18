@@ -15,7 +15,7 @@ from scipy.stats import qmc
 from . import SIM_LABEL, __version__
 from .dem import load_tile, crop, coarsen
 from .terrain import slope_deg, hillshade
-from .slipmodel import SlipParams, PARAM_TABLE, slip, critical_uphill_deg
+from .slipmodel import SlipParams, PARAM_TABLE, slip, critical_uphill_deg, apply_range_set, nominal_params
 from . import traverse as TR
 from . import sensitivity as SE
 
@@ -71,7 +71,7 @@ def anchor_check(path_csv, n_draw=4000, seed=7):
     b = SE.bounds()
     u = qmc.LatinHypercube(d=4, seed=seed).random(n_draw)
     P = {k: b[k][0] + u[:, i] * (b[k][1] - b[k][0]) for i, k in enumerate(("phi_deg", "f_r", "i0", "i_max"))}
-    nominal = SlipParams()
+    nominal = nominal_params()
     out = []
     with open(path_csv, encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
@@ -109,14 +109,16 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/raw"); ap.add_argument("--out", default="results")
     ap.add_argument("--n-lhs", type=int, default=256); ap.add_argument("--only-area-figures", action="store_true"); ap.add_argument("--anchors", default="data/anchor_points.csv")
+    ap.add_argument("--range-set", default="original", help="parameter range set from slipmodel.RANGE_SETS (default: original)")
     a = ap.parse_args(argv)
+    apply_range_set(a.range_set)
     os.makedirs(os.path.join(a.out, "figures"), exist_ok=True)
     if a.only_area_figures:
         rerender_area_figures(a.data, a.out); return
     _style(); t0 = time.time()
     tiles = {k: load_tile(os.path.join(a.data, f)) for k, f in TILES.items()}
-    nominal = SlipParams()
-    summary = {"label": SIM_LABEL, "version": __version__, "python": platform.python_version(),
+    nominal = nominal_params()
+    summary = {"label": SIM_LABEL, "range_set": a.range_set, "version": __version__, "python": platform.python_version(),
                "seeds": {"od": OD_SEED, "lhs_A_core": LHS_SEED_A, "lhs_B_core": LHS_SEED_B},
                "inputs": {k: {"file": TILES[k], "sha256": sha256(os.path.join(a.data, TILES[k]))} for k in TILES},
                "parameters": {k: {"nominal": v[0], "low": v[1], "high": v[2], "status": v[3], "basis": v[4]} for k, v in PARAM_TABLE.items()},
@@ -216,7 +218,7 @@ def rerender_area_figures(data, out):
     """Re-draw only the per-area map figures (same seeds and parameters as the full study)."""
     _style()
     tiles = {k: load_tile(os.path.join(data, f)) for k, f in TILES.items()}
-    nominal = SlipParams()
+    nominal = nominal_params()
     for name in ("A_south_Liwa", "B_RubAlKhali_megadunes"):
         tk, la0, la1, lo0, lo1, sep = AREAS[name]
         dem = crop(tiles[tk], la0, la1, lo0, lo1)
@@ -254,7 +256,7 @@ def figure_envelope(anc, out):
         S[:, j] = np.minimum(np.where(x < 1, -P["i0"] * np.log1p(-np.clip(x, 0, 0.999999)), np.inf), 1.0)
     fig, ax = plt.subplots(figsize=(8, 4.6), constrained_layout=True)
     ax.fill_between(th, np.percentile(S, 5, 0), np.percentile(S, 95, 0), color=BLUE, alpha=0.18, lw=0, label="model, 5-95 % of assumption space")
-    ax.plot(th, [min(float(slip(np.tan(np.radians(t)), 0, SlipParams())), 1) for t in th], color=BLUE, lw=2, label="model, nominal parameters")
+    ax.plot(th, [min(float(slip(np.tan(np.radians(t)), 0, nominal_params())), 1) for t in th], color=BLUE, lw=2, label="model, nominal parameters")
     for r in anc:
         c, m = (ORANGE, "o") if r["validation_type"] == "field" else (AQUA, "s")
         ax.plot([r["slope_deg"]] * 2, [r["published_slip_lo"], r["published_slip_hi"]], color=c, lw=1.6)

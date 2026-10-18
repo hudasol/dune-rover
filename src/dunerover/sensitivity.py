@@ -5,7 +5,7 @@ import numpy as np
 from scipy.stats import qmc, spearmanr, rankdata
 
 from .dem import Dem, coarsen, add_correlated_noise
-from .slipmodel import SlipParams, PARAM_TABLE, critical_uphill_deg
+from .slipmodel import SlipParams, PARAM_TABLE, critical_uphill_deg, nominal_params
 from . import traverse as TR
 
 NOISE_RANGE = (0.0, 2.0)   # m, ASSUMPTION; upper end taken from the published GLO-30 relative-accuracy order (about 2 m)
@@ -64,7 +64,7 @@ def evaluate(sc: Scenario, p: SlipParams, block: int = 1, noise_sigma: float = 0
 
 def oat(sc: Scenario, nominal: SlipParams | None = None) -> list[dict]:
     """One-at-a-time: each assumption to its low and high bound, plus structural and DEM variants."""
-    nominal = nominal or SlipParams()
+    nominal = nominal or nominal_params()
     rows = []
     cache: dict = {}
     base = evaluate(sc, nominal, eg_cache=cache); base.update(case="nominal", factor="-", setting="-"); rows.append(base)

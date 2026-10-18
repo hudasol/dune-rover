@@ -16,7 +16,7 @@ from matplotlib.patches import Patch
 
 from . import SIM_LABEL, __version__
 from .dem import load_tile, crop, coarsen
-from .slipmodel import SlipParams
+from .slipmodel import SlipParams, apply_range_set, nominal_params
 from . import traverse as TR
 from . import subgrid as SG
 from . import threeclass as TC
@@ -63,11 +63,13 @@ def _style():
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/raw"); ap.add_argument("--out", default="results/subgrid"); ap.add_argument("--n-draws", type=int, default=N_DRAWS)
+    ap.add_argument("--range-set", default="original", help="parameter range set from slipmodel.RANGE_SETS (default: original)")
     a = ap.parse_args(argv)
+    apply_range_set(a.range_set)
     os.makedirs(os.path.join(a.out, "figures"), exist_ok=True)
     _style(); t0 = time.time()
     tiles = {k: load_tile(os.path.join(a.data, f)) for k, f in TILES.items()}
-    nominal = SlipParams()
+    nominal = nominal_params()
     models: dict = {}
 
     def model_for(dm, scn, pi, sampling="box", fp=1):
@@ -76,7 +78,7 @@ def main(argv=None):
             models[key] = SG.fit(round(dm, 1), scn, pi, sampling, footprint=fp)
         return models[key]
 
-    summary = {"label": SIM_LABEL, "version": __version__, "python": platform.python_version(), "n_draws": a.n_draws,
+    summary = {"label": SIM_LABEL, "range_set": a.range_set, "version": __version__, "python": platform.python_version(), "n_draws": a.n_draws,
                "seeds": {"od": OD_SEED, "mc": {k: v[6] for k, v in AREAS.items()}, "detector_train": 20261014, "detector_test": 777},
                "inputs": {k: {"file": f, "sha256": sha256(os.path.join(a.data, f))} for k, f in TILES.items()},
                "rules": {"pass_headings": TC.PASS_HEADINGS, "q_lo": TC.Q_LO, "q_hi": TC.Q_HI, "tau": TC.TAU, "face_truth_deg": SG.FACE_TRUTH_DEG},
