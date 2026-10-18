@@ -15,7 +15,7 @@ from scipy.stats import qmc
 from . import SIM_LABEL, __version__
 from .dem import load_tile, crop, coarsen
 from .terrain import slope_deg, hillshade
-from .slipmodel import SlipParams, PARAM_TABLE, slip, critical_uphill_deg, apply_range_set, nominal_params
+from .slipmodel import SlipParams, PARAM_TABLE, slip, critical_uphill_deg, apply_range_set, nominal_params, range_set_label
 from . import traverse as TR
 from . import sensitivity as SE
 
@@ -44,7 +44,7 @@ def _foot(fig, bottom=0.06):
         fig.get_layout_engine().set(rect=(0, bottom, 1, 1 - bottom))
     except Exception:
         pass
-    fig.text(0.01, 0.005, SIM_LABEL + ". Copernicus GLO-30 (c) DLR/Airbus; processing by this repo.", fontsize=7, color="#52514e")
+    fig.text(0.01, 0.005, SIM_LABEL + "." + range_set_label() + " Copernicus GLO-30 (c) DLR/Airbus; processing by this repo.", fontsize=7, color="#52514e")
 
 
 def sha256(path):
@@ -112,6 +112,8 @@ def main(argv=None):
     ap.add_argument("--range-set", default="original", help="parameter range set from slipmodel.RANGE_SETS (default: original)")
     a = ap.parse_args(argv)
     apply_range_set(a.range_set)
+    if a.range_set != "original":
+        print(f"Range set {a.range_set} (slipmodel.RANGE_SETS); started {time.strftime('%Y-%m-%d %H:%M:%S')}; numpy {np.__version__}", flush=True)
     os.makedirs(os.path.join(a.out, "figures"), exist_ok=True)
     if a.only_area_figures:
         rerender_area_figures(a.data, a.out); return

@@ -16,7 +16,7 @@ from matplotlib.patches import Patch
 
 from . import SIM_LABEL, __version__
 from .dem import load_tile, crop, coarsen
-from .slipmodel import SlipParams, apply_range_set, nominal_params
+from .slipmodel import SlipParams, apply_range_set, nominal_params, range_set_label
 from . import traverse as TR
 from . import subgrid as SG
 from . import threeclass as TC
@@ -66,6 +66,8 @@ def main(argv=None):
     ap.add_argument("--range-set", default="original", help="parameter range set from slipmodel.RANGE_SETS (default: original)")
     a = ap.parse_args(argv)
     apply_range_set(a.range_set)
+    if a.range_set != "original":
+        print(f"Range set {a.range_set} (slipmodel.RANGE_SETS); started {time.strftime('%Y-%m-%d %H:%M:%S')}; numpy {np.__version__}", flush=True)
     os.makedirs(os.path.join(a.out, "figures"), exist_ok=True)
     _style(); t0 = time.time()
     tiles = {k: load_tile(os.path.join(a.data, f)) for k, f in TILES.items()}
@@ -164,7 +166,7 @@ def main(argv=None):
 
 
 def _foot(fig):
-    fig.text(0.01, 0.005, SIM_LABEL + ". Copernicus GLO-30 (c) DLR/Airbus; processing by this repo.", fontsize=7, color="#4a3a40")
+    fig.text(0.01, 0.005, SIM_LABEL + "." + range_set_label() + " Copernicus GLO-30 (c) DLR/Airbus; processing by this repo.", fontsize=7, color="#4a3a40")
 
 
 def _fig_maps(keep, out):
