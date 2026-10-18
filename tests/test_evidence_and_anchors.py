@@ -29,3 +29,13 @@ def test_anchor_summary_is_labelled_and_pinned():
     assert s["dumont"]["first_line"].startswith("Comparison of unlike vehicles and soils")
     assert abs(s["dumont"]["dumont_cross50_deg"] - 12.59) < 0.01 and abs(s["dumont"]["nominal_cross50_deg"] - 25.46) < 0.01
     assert s["dumont_posthoc_fit"]["label"].startswith("POST HOC")
+
+
+def test_prediction_tally_counts_every_prediction_row():
+    import re, sys
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    from tally_predictions import tally
+    text = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
+    n_rows = len(re.findall(r"^\| [A-Z]+\d+-\d+ \|", text, flags=re.M))
+    assert n_rows >= 60 and sum(sum(c.values()) for c in tally().values()) == n_rows
+
