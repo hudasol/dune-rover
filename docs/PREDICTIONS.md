@@ -194,8 +194,10 @@ Amended rule (applies to the 2026-10-15 design):
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| R10-1 | truth = model, sigma 0.03: entrapment is not reached in at least 90 % of replicates; the adequate rate stays below 5 % (as in stage 6, by construction); the "slip within tolerance, entrapment not reached" verdict lies between 60 % and 95 %. | |
-| R10-2 | truth = model, sigma 0.10: the "slip within tolerance, entrapment not reached" verdict lies between 40 % and 90 %. | |
-| R10-3 | truth = dumont: the not adequate rate is at least 90 % at sigma 0.03 (the slip test fails, so not reached cannot rescue it). | |
-| R10-4 | truth = collapse, sigma 0.03: entrapment is reached in at least 80 % of replicates (slip 0.85 from 22 deg), and the adequate (false pass) rate lies between 10 % and 60 %. | |
-| R10-5 | The amended rule separates a correct model from the dumont truth: the share of "adequate" plus "slip within tolerance, entrapment not reached" is at least 50 points higher for truth = model than for truth = dumont at sigma 0.03. | |
+| R10-1 | truth = model, sigma 0.03: entrapment is not reached in at least 90 % of replicates; the adequate rate stays below 5 % (as in stage 6, by construction); the "slip within tolerance, entrapment not reached" verdict lies between 60 % and 95 %. |  HIT. Not reached 97.7 %; adequate 1.3 %; slip within tolerance, entrapment not reached 74.3 %. The other 24.3 % of correct model replicates are not adequate because the slip test fails. |
+| R10-2 | truth = model, sigma 0.10: the "slip within tolerance, entrapment not reached" verdict lies between 40 % and 90 %. |  HIT. 79.7 % at sigma 0.10 (38.7 % of those replicates are flagged uninformative). |
+| R10-3 | truth = dumont: the not adequate rate is at least 90 % at sigma 0.03 (the slip test fails, so not reached cannot rescue it). |  HIT. Not adequate in 100 % of replicates at sigma 0.03. |
+| R10-4 | truth = collapse, sigma 0.03: entrapment is reached in at least 80 % of replicates (slip 0.85 from 22 deg), and the adequate (false pass) rate lies between 10 % and 60 %. |  HIT, and it is a poor result for the rule: entrapment is reached in 100 % of collapse replicates, and the wrong collapse model is called adequate in 52.7 % at sigma 0.03 (48.0 % at 0.06, 45.3 % at 0.10), because it entraps at the 25 deg bin close to where the calibrated model predicts. |
+| R10-5 | The amended rule separates a correct model from the dumont truth: the share of "adequate" plus "slip within tolerance, entrapment not reached" is at least 50 points higher for truth = model than for truth = dumont at sigma 0.03. |  HIT. Adequate plus not reached: 75.6 % for the correct model against 0 % for the dumont truth at sigma 0.03. |
+
+Note on stage 10: the amended rule now separates a correct model from the Dumont shaped truth, but it still calls the wrong collapse model adequate about half the time, and a mildly wrong janosi_mean model 65 % of the time at sigma 0.10. The rule was not tuned after this run; the decision is put to Huda (`docs/QUESTIONS_FOR_HUDA.md`, 2026-10-18 heading).
