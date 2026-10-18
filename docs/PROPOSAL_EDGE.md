@@ -12,7 +12,7 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 | Item | Label | Files |
 |---|---|---|
-| Evidence table of 170 published mobility results, each re checked against its source | PUBLISHED | `research/evidence.csv`, `research/verification_log.md` |
+| Evidence table of 171 published mobility results, each re checked against its source | PUBLISHED | `research/evidence.csv`, `research/verification_log.md` |
 | Slope and slip traversability study on GLO-30 data for Liwa and the Rub' al Khali, with sensitivity analysis | SIMULATED BY ME | `src/dunerover/`, `results/`, report section 8 |
 | Sub grid slip face detector and three class map (TRAVERSABLE, BLOCKED, UNKNOWN) | SIMULATED BY ME, validated against synthetic truth only | `results/subgrid/`, report section 8.7 |
 | Comparison of the slip model with Dumont Dunes and Ishigami 2009 | SIMULATED BY ME against PUBLISHED values | `results/anchors/`, report section 8.8 |
@@ -21,7 +21,7 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 ## 3. Validated, simulated, planned
 
-- **Validated:** only the extraction of published numbers (9 material errors before correction across 170 rows, all corrected). No model in this repository has been validated against field data.
+- **Validated:** only the extraction of published numbers (8 material errors before correction across 171 rows, all corrected). No model in this repository has been validated against field data.
 - **Simulated (simulation only, model assumption dependent):** the traversability maps and the UNKNOWN share; the comparison with the published anchors, which shows the slip model predicting too little slip on sand slopes above about 10 degrees (report section 8.8). That is a negative result for the model, stated as such.
 - **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; one design conflict in the planned analysis is open and must be settled by the author before any field day (`docs/FIELD_VALIDATION_PLAN.md`, section 4).
 

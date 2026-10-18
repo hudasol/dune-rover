@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Turn verifier output (research/verify_out_batch4..13.csv) into rows of research/corrections.csv.
+"""Turn verifier output (research/verify_out_batch4..14.csv) into rows of research/corrections.csv.
 
+Batch 14 (2026-10-18): check of the two rows split from FLD-HV13-5.
 Batches 4 to 7: phase 2 re-check of the original rows. Batches 8 to 13: re-check of the 26 rows read from
 the supplied PDFs (research/phase2/supplied_pdf_rows_2026-10-13.csv), 2026-10-15.
 
@@ -22,14 +23,15 @@ def parse(cv):
     parts = pat.split(cv)
     return [(parts[i], parts[i + 1].strip()) for i in range(1, len(parts), 2)]
 path = os.path.join(ROOT, "research", "corrections.csv")
-have = {(r["id"], r["field"]) for r in csv.DictReader(open(path, encoding="utf-8"))}
+# a pair already corrected by a verifier is skipped; definitions of split rows do not count as corrections
+have = {(r["id"], r["field"]) for r in csv.DictReader(open(path, encoding="utf-8")) if not r["reason"].startswith("Definition of the split row")}
 new = []
-for b in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13):
+for b in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14):
     for v in csv.DictReader(open(os.path.join(ROOT, "research", f"verify_out_batch{b}.csv"), encoding="utf-8")):
         if v["overall"] == "correct" or not v["corrected_value"].strip():
             continue
         for fld, val in parse(v["corrected_value"]):
-            reason = ("Phase 2 verifier: " if b <= 7 else "Supplied PDF verifier (2026-10-15): ") + v["what_is_wrong"].strip()
+            reason = ("Phase 2 verifier: " if b <= 7 else "Supplied PDF verifier (2026-10-15): " if b <= 13 else "Split row verifier (2026-10-18): ") + v["what_is_wrong"].strip()
             if (v["id"], fld) in OVERRIDE:
                 val, reason = OVERRIDE[(v["id"], fld)]
             if (v["id"], fld) not in have:

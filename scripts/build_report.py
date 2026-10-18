@@ -276,7 +276,12 @@ def values(ev):
     """Named numbers for the narrative, all computed from files."""
     v = {}
     st = json.load(open(os.path.join(ROOT, "research/verification_stats.json")))
-    al = max((d for k, d in st.items() if k.startswith("ALL ")), key=lambda d: d["n"]); ph2 = st["remaining rows, phase 2 full re-check"]
+    al = st["CURRENT TABLE, latest verdict per row"]; ph2 = st["remaining rows, phase 2 full re-check"]
+    ext = st["ALL 170 ROWS"]; cs = st["CURRENT SUPPLEMENTARY ROWS, latest verdict per row"]
+    v["ver_ext_n"] = ext["n"]; v["ver_ext_material"] = ext["material_error"]; v["ver_ext_material_rate"] = pct(ext["material_rate"])
+    v["ver_ext_any"] = ext["minor_error"] + ext["material_error"]; v["ver_ext_any_rate"] = pct(ext["any_rate"])
+    v["ver_cs_n"] = cs["n"]; v["ver_cs_material"] = cs["material_error"]; v["ver_cs_material_rate"] = pct(cs["material_rate"])
+    v["ver_cs_any"] = cs["minor_error"] + cs["material_error"]; v["ver_cs_any_rate"] = pct(cs["any_rate"])
     o144 = st["ALL 144 ROWS"]; sup = st["supplementary rows from supplied PDFs, phase 3"]
     v["ver_144_material"] = o144["material_error"]; v["ver_144_material_rate"] = pct(o144["material_rate"])
     v["ver_sup_n"] = sup["n"]; v["ver_sup_material"] = sup["material_error"]; v["ver_sup_material_rate"] = pct(sup["material_rate"])

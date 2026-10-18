@@ -9,6 +9,8 @@
 
 LEG-015 repaired: unquoted comma had split the passage field.
 
+FLD-HV13-5 split into FLD-HV13-5a and FLD-HV13-5b: Split on 2026-10-18 at the author's request (answer to question 2): the row mixed lab (JPL Marsyard) and field (Tecopa) results
+
 ## Corrections applied from independent verification (old values)
 - FLD-019.passage_or_location: was: Section on Traction Control checkout, discussion of Figure 25
 - SIM-022.passage_or_location: was: Sec 3.1, Table 2
@@ -83,3 +85,4 @@ LEG-015 repaired: unquoted comma had split the passage field.
 - FLD-HV13-6.method: was: Third order polynomial slip vs slope model, coefficients set by terrain type from terrestrial tests, used to estimate downslope slip from roll and pitch; slip measured on Mars by visual odometry
 - FLD-HV13-6.metric: was: Agreement of Earth based slip prediction with Mars slip data
 - FLD-HV13-1.notes: was: Text states slip nearly constant at about 10% below 4 deg and above 90% with embedding above 21 deg. Values read from text, not from plot.
+- FLD-HV13-5b.terrain_description: was: Cohesive soil of the desiccated lake bed at Tecopa CA, natural slopes flat to 28 deg; four Scarecrow runs (Sec 6.2)

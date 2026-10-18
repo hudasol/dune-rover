@@ -1,8 +1,10 @@
 # Verification log
 
-Every one of the 170 evidence rows has now been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
+Every one of the 171 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
 Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
+Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).
+Two views are reported. 'ALL 170 ROWS' is the first check of the rows as extracted (FLD-HV13-5 counts with its material error). 'CURRENT TABLE' takes each row of the current table with its latest verdict (the two split rows with their phase 4 verdicts; FLD-HV13-5 is no longer in the table).
 Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.
 
 ## random sample, phase 1 (n=30 of 137 unflagged) (n = 30)
@@ -35,6 +37,21 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material error rate 9/170 = 5.3 % (Wilson 95 % CI 2.8 to 9.8 %)
 - any discrepancy rate 51/170 = 30.0 % (Wilson 95 % CI 23.6 to 37.3 %)
 
+## split rows, phase 4 (n = 2)
+- correct 1, minor 1, material 0, unverifiable 0
+- material error rate 0/2 = 0.0 % (exact 95 % upper bound 77.6 %)
+- any discrepancy rate 1/2 = 50.0 % (Wilson 95 % CI 9.5 to 90.5 %)
+
+## CURRENT TABLE, latest verdict per row (n = 171)
+- correct 120, minor 43, material 8, unverifiable 0
+- material error rate 8/171 = 4.7 % (Wilson 95 % CI 2.4 to 9.0 %)
+- any discrepancy rate 51/171 = 29.8 % (Wilson 95 % CI 23.5 to 37.1 %)
+
+## CURRENT SUPPLEMENTARY ROWS, latest verdict per row (n = 27)
+- correct 12, minor 13, material 2, unverifiable 0
+- material error rate 2/27 = 7.4 % (Wilson 95 % CI 2.1 to 23.4 %)
+- any discrepancy rate 15/27 = 55.6 % (Wilson 95 % CI 37.3 to 72.4 %)
+
 ## What this does and does not show
 - The phase 1 random sample (0 material in 30, upper bound 9.5 %) understated the table wide rate: the 107 rows checked in phase 2 had 6 material errors (5.6 %). The bound held, but the point estimate was optimistic.
 - Six of the original 144 rows had a material error before correction; all six are corrected in the table. The 'ALL 144' and 'ALL 170' rates are pre correction error rates of the extraction, not of the corrected table.
@@ -56,6 +73,7 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - FLD-HV13-1 (phase 3): minor_error: The unit field says the slip and slope units are not stated and only presumed, whereas Figure 12 and Eq. (4) establish slip in percent and slope in degrees for the fitted curve.
 - FLD-HV13-5 (phase 3): material_error: The row labels all results as field although the 22 deg bedrock limit and the 75% slip at 20 deg cohesive soil result come only from the engineered Marsyard, and the bedrock slope range starts at flat rather than 5 deg.
 - FLD-HV13-6 (phase 3): minor_error: The good agreement is between Curiosity visual odometry slip data and the Earth test data in Figure 17, not between Mars data and a prediction from the onboard polynomial slip model, so the vehicle, method and metric descriptions misattribute the comparison.
+- FLD-HV13-5b (phase 4): minor_error: The terrain description attributes the flat to 28 degree slope range to the Tecopa runs alone, whereas Section 6.2 gives that range for all cohesive soil tests combined and Figure 10 shows the Tecopa data starting at roughly 9 degrees.
 - TM-018 (phase 1): minor_error: Facility labelled ESA/DLR TROLL; paper describes TROLL as a DLR facility (authors affiliated with ESA/ESTEC).
 - SIM-013 (phase 1): minor_error: Equation 3 coefficients match the printed text, but the unit label 'slip ratio' describes the equation output not the coefficient; unit of alpha is not stated in the paper.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
