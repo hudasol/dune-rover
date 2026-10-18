@@ -6,7 +6,7 @@
 
 Can the slip and entrapment of a small wheeled robot on the stoss slope of a dune in the UAE be predicted, before the runs, by a simple slip model calibrated on gentle slopes only, and how much of a 30 m open elevation map is trustworthy for planning once the unresolved slip faces are accounted for?
 
-Why it matters: the review of 170 published results found no slip against slope dataset for a wheeled robot on dune sand with measured soil, and the only Arabian field evidence is one qualitative report of a rover getting stuck (FLD-042). The simulation shows the traversability map is controlled by assumptions that only a field measurement can fix.
+Why it matters: the review of 171 published results found no slip against slope dataset for a wheeled robot on dune sand with measured soil, and the only Arabian field evidence is one qualitative report of a rover getting stuck (FLD-042). The simulation shows the traversability map is controlled by assumptions that only a field measurement can fix.
 
 ## 2. Method (all PLANNED)
 
