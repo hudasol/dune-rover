@@ -375,6 +375,9 @@ def values(ev):
     sys.path.insert(0, os.path.join(ROOT, "scripts"))
     from tally_predictions import tally
     tl = tally(); v["npred"] = sum(sum(c.values()) for c in tl.values())
+    s1 = json.load(open(os.path.join(ROOT, "results/summary.json"), encoding="utf-8"))
+    v["crit_nom"] = f"{s1['nominal_critical_uphill_deg']:.1f}"; v["crit_p05"] = f"{s1['crit_uphill_deg_across_lhs']['p05']:.1f}"
+    v["crit_p95"] = f"{s1['crit_uphill_deg_across_lhs']['p95']:.1f}"
     v["pred_stage_line"] = "; ".join(f"{k.lower()}: {c['HIT']} hit, {c['MIXED']} mixed, {c['MISSED']} missed" + (f", {c['PENDING']} pending" if c["PENDING"] else "") for k, c in tl.items())
     v["vtype_line"] = f"Of {len(ev)} rows: " + ", ".join(f"{c[k]} {k}" for k in ("lab", "field", "simulation-only", "sim-vs-lab", "sim-vs-field") if k in c) + (f", {c['lab and field']} lab and field (one row mixing a prepared yard and a natural site)" if "lab and field" in c else "") + (f", {c['none']} none (an unreferenced capability statement kept for the record)" if "none" in c else "")
     for r in rd("results/subgrid/class_shares.csv"):
