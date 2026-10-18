@@ -21,7 +21,7 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 ## 3. Validated, simulated, planned
 
-- **Validated:** only the extraction of published numbers (8 material errors before correction across 171 rows, all corrected). No model in this repository has been validated against field data.
+- **Validated:** only the extraction of published numbers (9 material errors before correction in the first check of 170 rows, all corrected; the current table has 171 rows). No model in this repository has been validated against field data.
 - **Simulated (simulation only, model assumption dependent):** the traversability maps and the UNKNOWN share; the comparison with the published anchors, which shows the slip model predicting too little slip on sand slopes above about 10 degrees (report section 8.8). That is a negative result for the model, stated as such.
 - **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; one design conflict in the planned analysis is open and must be settled by the author before any field day (`docs/FIELD_VALIDATION_PLAN.md`, section 4).
 
