@@ -11,7 +11,7 @@ Drift potential per hour ~ U^2 (U - Ut) for U > Ut, Ut = 6.0 m/s at 10 m (ASSUMP
 Outputs: results/wind_azimuth/ (face_vs_wind.csv, summary.json, run_log.txt, figures/).
 """
 from __future__ import annotations
-import csv, json, os, sys, time, urllib.request
+import csv, json, os, sys, time, urllib.error, urllib.request
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -35,13 +35,32 @@ PRED = {"WhiteSands": "T13-1", "Dumont": "T13-2", "Kelso": "T13-3", "A_south_Liw
 
 
 def fetch(site, lat, lon):
+    """One request per year (the free API rate limits large requests); cached as one merged file."""
     os.makedirs(WIND, exist_ok=True)
     path = os.path.join(WIND, f"{site}_era5_2015_2024.json")
     if not os.path.exists(path):
-        url = (f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date=2015-01-01&end_date=2024-12-31"
-               "&hourly=wind_speed_10m,wind_direction_10m&models=era5&wind_speed_unit=ms&timezone=GMT")
-        with urllib.request.urlopen(url, timeout=300) as r:
-            open(path, "wb").write(r.read())
+        merged = None
+        for y in range(2015, 2025):
+            url = (f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={y}-01-01&end_date={y}-12-31"
+                   "&hourly=wind_speed_10m,wind_direction_10m&models=era5&wind_speed_unit=ms&timezone=GMT")
+            for attempt in range(8):
+                try:
+                    with urllib.request.urlopen(url, timeout=300) as r:
+                        d = json.loads(r.read())
+                    break
+                except (urllib.error.URLError, ConnectionError, TimeoutError) as e:   # rate limits and dropped connections: wait and retry
+                    if isinstance(e, urllib.error.HTTPError) and e.code != 429:
+                        raise
+                    time.sleep(30 * (attempt + 1))
+            else:
+                raise SystemExit(f"rate limited for {site} {y}")
+            if merged is None:
+                merged = d
+            else:
+                for k in ("time", "wind_speed_10m", "wind_direction_10m"):
+                    merged["hourly"][k] += d["hourly"][k]
+            time.sleep(3)
+        json.dump(merged, open(path, "w"))
     return json.load(open(path)), path
 
 
