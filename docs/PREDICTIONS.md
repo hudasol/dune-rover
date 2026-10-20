@@ -369,10 +369,10 @@ Design fixed now (`scripts/model_validation.py`, seed 20261022):
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| V15-1 | The existing model with its nominal original parameters has root mean square error above 0.25 on the Dumont figure 12 curve. | |
+| V15-1 | The existing model with its nominal original parameters has root mean square error above 0.25 on the Dumont figure 12 curve. | HIT. Nominal original model against the Dumont figure 12 points: root mean square error 0.42 (`results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/nominal.csv`). |
 | V15-2 | No family passes the validation bar. | |
 | V15-3 | Per curve fits: the logistic and exponential families reach a median error of at most 0.08; Bekker Wong at most 0.12. | |
 | V15-4 | In LOSO the physics families do not beat the empirical logistic by more than 0.03 in median held out error. | |
-| V15-5 | Transfer from Dumont to the Yoshida curves has error above 0.20 for every family. | |
-| V15-6 | The exponential posterior 5 to 95 % interval of i0 extends above 0.40 (beyond the original range), and its f_r interval is wider than the original 0.05 to 0.25. | |
-| V15-7 | Phase 2 with `posterior_2026_10_20`: UNKNOWN at 30 m in area A between 20 % and 60 %. | |
+| V15-5 | Transfer from Dumont to the Yoshida curves has error above 0.20 for every family. | MISSED. Median transfer error from Dumont to the five Yoshida curves is 0.199 (exponential), 0.194 (Mohr Coulomb) and 0.234 (logistic); two families fall just below 0.20, and single curves range from 0.08 to 0.42 (`transfer.csv`). |
+| V15-6 | The exponential posterior 5 to 95 % interval of i0 extends above 0.40 (beyond the original range), and its f_r interval is wider than the original 0.05 to 0.25. | HIT. Exponential posterior (12 curves): i0 0.63 (5 to 95 %: 0.33 to 1.21), f_r 0.13 (0.03 to 0.32), phi 36.9 (30.6 to 43.7) (`posterior_exp.json`). |
+| V15-7 | Phase 2 with `posterior_2026_10_20`: UNKNOWN at 30 m in area A between 20 % and 60 %. | MISSED, above the range. UNKNOWN at 30 m with `posterior_2026_10_20`: 62.8 % (A), 44.3 % (B), 46.0 % (C) (`results/subgrid_posterior_2026_10_20/class_shares.csv`). Diagnostic (post hoc): 4.3 to 5.5 % of the draws of this set cannot move on level ground, close to the 5 % a TRAVERSABLE cell may tolerate. |
