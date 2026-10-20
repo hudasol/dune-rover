@@ -750,6 +750,7 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 | supplementary rows from supplied PDFs, phase 3 | 26 | 11 | 12 | 3 | 11.5 % (Wilson 95 % CI 4.0 to 29.0 %) | 57.7 % (Wilson 95 % CI 38.9 to 74.5 %) |
 | ALL 170 ROWS | 170 | 119 | 42 | 9 | 5.3 % (Wilson 95 % CI 2.8 to 9.8 %) | 30.0 % (Wilson 95 % CI 23.6 to 37.3 %) |
 | split rows, phase 4 | 2 | 1 | 1 | 0 | 0 % (exact 95 % upper bound 77.6 %) | 50.0 % (Wilson 95 % CI 9.5 to 90.5 %) |
+| new rows of the 2026-10-20 evidence expansion, phase 5 | 36 | 28 | 3 | 5 | 13.9 % (Wilson 95 % CI 6.1 to 28.7 %) | 22.2 % (Wilson 95 % CI 11.7 to 38.1 %) |
 | CURRENT TABLE, latest verdict per row | 171 | 120 | 43 | 8 | 4.7 % (Wilson 95 % CI 2.4 to 9.0 %) | 29.8 % (Wilson 95 % CI 23.5 to 37.1 %) |
 | CURRENT SUPPLEMENTARY ROWS, latest verdict per row | 27 | 12 | 13 | 2 | 7.4 % (Wilson 95 % CI 2.1 to 23.4 %) | 55.6 % (Wilson 95 % CI 37.3 to 72.4 %) |
 
