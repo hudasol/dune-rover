@@ -14,7 +14,7 @@ import subprocess, sys, os, fnmatch
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_LIMIT = 3_000_000
 FILE_LIMIT = 5_000_000
-PDF_ALLOW = {"docs/REPORT.pdf", "docs/EXECUTIVE_BRIEF.pdf", "docs/PROPOSAL_SEED.pdf", "docs/FIELD_DAY_CHECKLIST.pdf"}
+PDF_ALLOW = {"docs/REPORT.pdf", "docs/EXECUTIVE_BRIEF.pdf", "docs/PROPOSAL_SEED.pdf", "docs/FIELD_DAY_CHECKLIST.pdf", "manuscript/MANUSCRIPT.pdf", "docs/PROPOSAL_ROBOTICS.pdf"}
 RAW_EXT = (".tif", ".tiff", ".hgt", ".nc", ".h5", ".hdf", ".zip", ".tar", ".gz", ".tgz", ".7z", ".npy", ".npz", ".laz", ".las", ".mat")
 DOWNLOAD_DIRS = ("research/sources/", "research/verify_sources/", "data/raw/", "research/phase2/")
 DIR_OK = {"data/raw/MANIFEST.md"}
