@@ -307,9 +307,9 @@ Design fixed now:
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
 | G16-1 | `widened_i0_fr` without immobile draws: UNKNOWN at 30 m lies between 34 % and 70 % in area A, between 39 % and 75 % in B and between 11 % and 50 % in C (above `widened_i0`, far below the 90 % of stage 9). | MISSED for A and C. Without immobile draws, UNKNOWN at 30 m is 33.3 % in A (just below the predicted 34 %), 40.6 % in B (inside) and 8.5 % in C (below 11 %), almost exactly the `widened_i0` values (33.9, 39.2, 11.2 %) (`results/subgrid_widened_i0_fr_mobile/class_shares.csv`). Once draws that cannot move on level ground are rejected, widening f_r to 0.35 adds nothing: the 90 % UNKNOWN shares of stage 9 came entirely from immobile draws. |
-| G16-2 | Area A, `original`: no parameter has a total Sobol index above 0.6 (the four parameters share the variance). | |
-| G16-3 | Area A, `widened_i0`: i0 has the largest total index, above 0.5. | |
-| G16-4 | In both range sets the sum of first order indices is above 0.7 (interactions are modest). | |
+| G16-2 | Area A, `original`: no parameter has a total Sobol index above 0.6 (the four parameters share the variance). | HIT. Original set, area A: largest total index i0 0.55 (95 % interval 0.30 to 0.93), then phi 0.45, i_max 0.17, f_r 0.04 (`results/sobol_map/sobol_indices.csv`). The output barely varies under the original set (passable share 0.998, sd 0.003), so the indices describe very small changes. |
+| G16-3 | Area A, `widened_i0`: i0 has the largest total index, above 0.5. | HIT. widened_i0: i0 has the largest total index, 0.67 (interval 0.36 to 1.17), then f_r 0.48, i_max 0.31, phi 0.26; the passable share now varies (mean 0.945, sd 0.116). |
+| G16-4 | In both range sets the sum of first order indices is above 0.7 (interactions are modest). | MISSED. The first order indices sum to 0.27 (original) and 0.08 (widened_i0), with intervals that include zero: interactions dominate, because a cell is passable only when the parameters jointly keep demand below a threshold. With N = 256 the first order estimates are imprecise. |
 
 
 ## Stage 17: route planning policies scored against real lidar truth (written 2026-10-20, BEFORE the planner script was written or run)
