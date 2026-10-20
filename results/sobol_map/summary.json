@@ -1,0 +1,10 @@
+{
+ "N": 256,
+ "seed": 20261023,
+ "bootstrap": 200,
+ "output": "share of area A cells (30 m) with at least 4 of 8 passable headings",
+ "range_sets": [
+  "original",
+  "widened_i0"
+ ]
+}
