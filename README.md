@@ -9,12 +9,12 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 | Label | Meaning | Where |
 |---|---|---|
 | **PUBLISHED** | A number read in a retrieved source: 494 rows from 174 sources with URL, passage, retrieval date and an independent re check; 26 digitised published curves | `research/evidence.csv`, `research/phase3/curves.csv`, report Appendix A |
-| **SIMULATED BY ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, four slip model families validated on published curves, a Project Chrono single wheel simulation, a sub grid slip face detector and three class map tested against one metre lidar of real dunes, route planning policies, and synthetic tests of the field analysis. Model assumption dependent, never field evidence | `src/dunerover/`, `results/`, `manuscript/` |
-| **PLANNED** | A slope ladder field experiment, its pre data predictions, checklist, rover options and two proposal outlines (no agreement exists with anyone). Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md`, `docs/PROPOSAL_EDGE.md` |
+| **SIMULATED BY ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, four slip model families tested on published curves (none passed the pre registered bar), a Project Chrono single wheel simulation, a sub grid slip face detector and three class map tested against one metre lidar of real dunes, route planning policies, and synthetic tests of the field analysis. Model assumption dependent, never field evidence | `src/dunerover/`, `results/`, `manuscript/` |
+| **PLANNED** | A slope ladder field experiment, its pre data predictions, checklist, rover options and proposals (seed, EDGE, AAU field day, robotics project; no agreement exists with anyone). Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md`, `docs/PROPOSAL_EDGE.md` |
 
 ## Headline numbers (from files)
 
-- **2026-10-20 (report section 13, `manuscript/MANUSCRIPT.md`):** slip model families calibrated on other studies predict a held out study with median errors of 0.20 to 0.24 slip (exponential fails (held out median 0.24); Mohr Coulomb ratio fails (held out median 0.23); logistic fails (held out median 0.24); Bekker Wong fails (held out median 0.20); bar 0.15). Against one metre lidar of three dune fields, the 30 m map calls cells TRAVERSABLE that contain steep faces in 25.6 %, 28.6 % and 28.0 % of cases; at 10 m 3.6 %, 2.5 % and 1.8 %. Completeness: `docs/COMPLETENESS.md`.
+- **2026-10-20 (SIMULATED BY ME against PUBLISHED data; report section 13, `manuscript/MANUSCRIPT.md`):** slip model families calibrated on other studies predict a held out study with median errors of 0.20 to 0.24 slip (exponential fails (held out median 0.24); Mohr Coulomb ratio fails (held out median 0.23); logistic fails (held out median 0.24); Bekker Wong fails (held out median 0.20); bar 0.15). Against one metre lidar of three dune fields, 25.6 % to 28.6 % of the cells the 30 m map calls TRAVERSABLE contain steep faces (1.8 % to 3.6 % at 10 m). Completeness: `docs/COMPLETENESS.md`.
 
 - Verification: all 494 evidence rows re checked against their sources. First check of the 170 rows as extracted: material errors 9 of 170 (5.3 %), any discrepancy 51 of 170 (30.0 %); of these, the 26 rows read from supplied PDFs had 3 material (11.5 %, all on validation type). Current table, latest verdict per row (FLD-HV13-5 split into a lab and a field row): material 38 of 494 (7.7 %); current supplementary rows 2 of 27 (7.4 %). Every material error corrected (`research/verification_log.md`).
 - Simulation, 30 m: UNKNOWN share 8.6 % (A south Liwa), 10.9 % (B megadunes), 2.5 % (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; 99.1 % of cells in A have the same slope based verdict in at least 95 % of the 256 draws of the four assumed parameters (under the original ranges; not under the widened ranges below). If a face within one post of the cell counts (post hoc variant), UNKNOWN is 34.4 %, 32.2 %, 22.0 %. **Simulation only, model assumption dependent; the detector was validated against synthetic truth in phase 2 and tested against North American lidar on 2026-10-20 (it fails at 30 m).**
@@ -74,6 +74,19 @@ PYTHONPATH=src python3 -m dunerover.study_subgrid --data data/raw --out results/
 PYTHONPATH=src python3 scripts/anchor_comparisons.py --range-set widened_i0                # stage 9, writes results/anchors_widened_i0, also widened_i0_fr
 PYTHONPATH=src python3 scripts/field_analysis_power.py --design 2026-10-15 --rule 2026-10-18   # stage 10, amended entrapment rule
 PYTHONPATH=src python3 scripts/diagnose_level_ground.py                                  # stage 11, draws that cannot move on level ground
+bash scripts/fetch_lidar.sh                                                              # 2026-10-20: USGS 3DEP lidar tiles with SHA-256 check
+PYTHONPATH=src python3 scripts/terrain_validation_lidar.py                               # stage 12, detector and map against lidar (also --truth-max-deg 36, post hoc)
+PYTHONPATH=src python3 scripts/wind_face_direction.py                                    # stage 13, ERA5 wind from the Open-Meteo archive (slow: rate limited)
+/opt/mm/chrono/bin/python scripts/chrono_wheel_slope.py                                  # stage 14, needs pychrono 9.0.1 (conda, see the script header)
+PYTHONPATH=src python3 scripts/compare_chrono.py                                         # stage 14 comparison
+PYTHONPATH=src python3 scripts/digitise_figures.py --check                               # W2: rebuild curves.csv from the calibration files (needs the source PDFs locally)
+PYTHONPATH=src python3 scripts/model_validation.py --families exp_existing,mohr_coulomb_ratio,logistic_empirical   # stage 15, also --families bekker_wong (slow)
+PYTHONPATH=src python3 -m dunerover.study_subgrid --range-set posterior_2026_10_20 --out results/subgrid_posterior_2026_10_20   # stage 15 map
+PYTHONPATH=src python3 -m dunerover.study_subgrid --range-set widened_i0_fr --reject-immobile --out results/subgrid_widened_i0_fr_mobile   # stage 16, question 8
+PYTHONPATH=src python3 scripts/sobol_map.py                                              # stage 16, Sobol indices
+PYTHONPATH=src python3 scripts/planner_lidar.py && python3 scripts/planner_matched_pairs.py   # stage 17
+PYTHONPATH=src python3 scripts/field_rule_options.py                                     # stage 18
+PYTHONPATH=src python3 scripts/build_manuscript.py --pdf && python3 scripts/check_manuscript_numbers.py   # manuscript and its number check
 python3 scripts/consolidate_evidence.py && python3 scripts/verify_stats.py                  # evidence table and verification log from files
 python3 scripts/build_report.py  # rebuilds docs/REPORT.md, the brief and this README from docs/src, the CSVs and results
 python3 scripts/check_repo_hygiene.py --history && python3 scripts/scan_secrets.py --history

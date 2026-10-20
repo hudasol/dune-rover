@@ -3,14 +3,11 @@ token,justification
 0.02,result: largest slip change in the Chrono grid and speed checks (results/chrono_scm/checks.csv: 0.003 to 0.018 rounded up)
 0.055,published wheel radius TM-IS09-2
 0.064,published wheel width TM-IS09-2
-0.15,design: validation bar fixed in stage 15
 0.2,result: approximate held out error band, from the family table (0.23 to 0.24 and Bekker Wong) rounded
 0.25,published wheel radius (Heverly 2013 FLD-HV13-5a) used in stage 14
 0.3,result: approximate held out error band upper end (family table)
-0.16,result: Bekker Wong held out errors on the Heverly curves 0.08 to 0.16 (results/model_validation/part_bekker_wong/loso.csv)
-0.08,result: as above, lower end
-0.36,result: Bekker Wong held out errors on the El Dorado curves 0.36 to 0.56 (loso.csv)
-0.56,result: as above, upper end
+0.08,result: Bekker Wong held out errors on the Heverly curves 0.08 to 0.15 (part_bekker_wong/loso.csv)
+0.56,result: upper end of Bekker Wong held out errors on the Inotsume curves (part_bekker_wong/loso.csv)
 0.23,result: logistic median held out error on the same 8 curves as Bekker Wong (computed from the two loso.csv files; recorded in docs/PREDICTIONS.md V15-4)
 0.40,published wheel width (Heverly 2013 FLD-HV13-5a)
 0.49,published: Dumont cubic at 12.5 deg (FLD-HV13-1 coefficients, results/chrono_scm/comparison.csv)
@@ -68,3 +65,11 @@ token,justification
 2007,year in a citation
 2015,first year of the ERA5 series
 2024,last year of the ERA5 series
+0.07,published: Janosi kx 0.07 m for Toyoura sand model inputs (TM-IS09-2)
+0.20,result: lower end of Bekker Wong held out errors on the Inotsume curves (0.197 Scarab; part_bekker_wong/loso.csv)
+1.4,result: ratio of the two UNKNOWN shares in area B (44.3 against 30.9 percent; class_shares.csv of the two posterior runs)
+20.4,published: two expert slip prediction RMSE (PLN-055, MAP-023)
+30.3,published: slope only slip prediction RMSE (PLN-055, MAP-023)
+75,published: Janosi K differs about 75 fold across the materials of Agarwal et al. 2019 (0.0006 to 0.045 m, TM-001 to TM-006)
+135,published: 135 percent drawbar error on a firm soil (SIM-025 to SIM-027)
+0.15,design: validation bar; result: Bekker Wong held out errors on the Heverly curves 0.08 to 0.15 (part_bekker_wong/loso.csv)

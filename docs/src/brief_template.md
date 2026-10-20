@@ -14,18 +14,18 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Field slip is large and patchy:** Spirit 15 to 20 % at 19 degrees and 95 % at 16 degrees on look alike terrain (FLD-011, FLD-012); Perseverance above 94 % at about 20 degrees (FLD-025).
 - **Arabian sand:** grain size, sorting, mineralogy and density of UAE, Qatari, Saudi and Omani dune sands are published (SND rows); no friction angle or slip face angle measured on UAE dunes was found.
 
-## 3. What was tested (SIMULATED BY ME, every test pre registered in `docs/PREDICTIONS.md`)
+## 3. What was tested (SIMULATED BY ME; every main test pre registered in `docs/PREDICTIONS.md`, post hoc analyses labelled)
 
 - **Slip models against published curves.** {{VAL:mv_nfamilies}} model families, calibrated on other studies, predicted a held out study with median slip errors of {{VAL:mv_heldout_min}} to {{VAL:mv_heldout_max}}; none met the bar of 0.15 fixed beforehand, and an empirical curve did as well as the physics.
 - **Independent simulator.** Project Chrono with published soils gives {{VAL:ch_w1s1_125}} slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve.
-- **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), a 30 m three class map called cells TRAVERSABLE that contained steep slip faces in {{VAL:tv_fs_Dumont_30}}, {{VAL:tv_fs_WhiteSands_30}} and {{VAL:tv_fs_Kelso_30}} of cases; at 10 m in {{VAL:tv_fs_Dumont_10}}, {{VAL:tv_fs_WhiteSands_10}} and {{VAL:tv_fs_Kelso_10}}.
+- **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), {{VAL:tv_fs_min_30}} to {{VAL:tv_fs_max_30}} of the cells a 30 m three class map called TRAVERSABLE contained steep slip faces ({{VAL:tv_fs_min_10}} to {{VAL:tv_fs_max_10}} at 10 m).
 - **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison).
 - **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is {{VAL:post_unk_A}} (Liwa), {{VAL:post_unk_B}} and {{VAL:post_unk_C}} (Rub' al Khali), against {{VAL:orig_unk_A}}, {{VAL:orig_unk_B}} and {{VAL:orig_unk_C}} under the original assumed ranges ({{VAL:postm_unk_A}}, {{VAL:postm_unk_B}} and {{VAL:postm_unk_C}} if draws that cannot move on level ground are rejected, post hoc).
 
 ## 4. Negative results
 
 - No slip model transfers between vehicles and soils with useful accuracy; two implementations of the same Bekker and Janosi laws disagree by more than field scatter.
-- A 30 m map hides about a quarter of the steep ground; the slip face detector works at 10 m and fails at 30 m.
+- A 30 m map labels {{VAL:tv_miss_min_30}} to {{VAL:tv_miss_max_30}} of the cells that contain a steep face as TRAVERSABLE ({{VAL:tv_miss_min_10}} to {{VAL:tv_miss_max_10}} at 10 m); the slip face detector works much better at 10 m than at 30 m.
 - The planned pass or fail rule accepts a model that collapses above 20 degrees in {{VAL:ro_current_collapse_0.03}} of synthetic replicates; stricter options reject a correct model more than half the time.
 
 ## 5. Error rate of the evidence table

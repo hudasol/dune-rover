@@ -8,3 +8,6 @@ label,range_set,area,draws,share_immobile_on_level
 "SIMULATED BY ME, diagnostic",widened_i0_fr,A_south_Liwa,256,0.12109375
 "SIMULATED BY ME, diagnostic",widened_i0_fr,B_RubAlKhali_megadunes,256,0.08984375
 "SIMULATED BY ME, diagnostic",widened_i0_fr,C_RubAlKhali_linear,256,0.11328125
+"SIMULATED BY ME, diagnostic",posterior_2026_10_20,A_south_Liwa,256,0.0546875
+"SIMULATED BY ME, diagnostic",posterior_2026_10_20,B_RubAlKhali_megadunes,256,0.04296875
+"SIMULATED BY ME, diagnostic",posterior_2026_10_20,C_RubAlKhali_linear,256,0.05078125

@@ -3,7 +3,7 @@
 **Status: PROPOSAL. No agreement, partnership or endorsement exists.** The author has not yet obtained access to Al Ain University (AAU). Until access exists, the project proceeds alone (see `docs/NEXT_STEPS.md`, section 2, route A). This document is what the author would send, or present, once access exists (route B).
 
 ## Purpose
-Run the pre registered slope ladder (`docs/FIELD_VALIDATION_PLAN.md`) on one dune stoss slope, to measure slip against slope for a small wheeled rover and to test the sub grid slip face detector against a surveyed profile. Nothing in the repository has yet been compared with real dune data.
+Run the pre registered slope ladder (`docs/FIELD_VALIDATION_PLAN.md`) on one dune stoss slope, to measure slip against slope for a small wheeled rover and to test the sub grid slip face detector against a surveyed profile. No slip model in the repository has been compared with field slip data; the detector and map have been tested only against North American lidar (report section 13.5), not on an Arabian dune.
 
 ## What the author brings (already done)
 - Pre registered, dated predictions (`docs/predictions/`) and a tested analysis script (`scripts/analyze_field_runs.py`, with a wrong model test).
