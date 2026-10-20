@@ -19,7 +19,7 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Slip models against published curves.** 3 model families, calibrated on other studies, predicted a held out study with median slip errors of 0.23 to 0.24; none met the bar of 0.15 fixed beforehand, and an empirical curve did as well as the physics.
 - **Independent simulator.** Project Chrono with published soils gives 0.21 slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve.
 - **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), a 30 m three class map called cells TRAVERSABLE that contained steep slip faces in 25.6 %, 28.6 % and 28.0 % of cases; at 10 m in 3.6 %, 2.5 % and 1.8 %.
-- **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy avoided most steep ground (post hoc analysis).
+- **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison).
 - **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is 62.8 % (Liwa), 44.3 % and 46.0 % (Rub' al Khali), against 8.6 %, 10.9 % and 2.5 % under the original assumed ranges.
 
 ## 4. Negative results
@@ -30,7 +30,7 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 
 ## 5. Error rate of the evidence table
 
-Every row was re checked against its full text by a separate agent. Of the 323 rows added on 2026-10-20, 30 had a material error before correction (9.3 %, Wilson 95 % interval 6.6 to 12.9 %); all are corrected. A blinded human spot check of 20 rows is prepared.
+Every row was re checked against its full text by a separate agent. Of the 323 rows added on 2026-10-20, 30 had a material error before correction (9.3 %, Wilson 95 % interval 6.6 to 12.9 %); every material error is corrected, and minor errors where the verifier gave a corrected value. A blinded human spot check of 20 rows is prepared.
 
 ## 6. The first field experiment (PLANNED)
 

@@ -80,4 +80,18 @@ No new dataset or library was added for the 2026-10-18 work; it used the environ
 | emcee 3.1.6 | MIT (package metadata) | 2026-10-20 | MCMC calibration in `scripts/model_validation.py` (stage 15) |
 | pyproj 3.8.0 | licence field empty in package metadata; not used by repository code | 2026-10-20 | one off conversion of the lidar window centres to latitude and longitude, written into `scripts/wind_face_direction.py` |
 
-New papers read for evidence rows and curves in phase 3 are listed with their licences in `research/phase3/*_references.csv`. The PDFs are kept in `research/sources/phase3/` (git ignored) and are not distributed.
+New papers read for evidence rows in phase 3 are listed with their licences in `research/phase3/*_references.csv`. The PDFs are kept in `research/sources/phase3/` (git ignored) and are not distributed.
+
+**Digitised curves (`research/phase3/curves.csv`, `research/phase3/digitise/`, `research/phase3/tabulated/`).** These files hold numbers read from published figures and tables (marker coordinates and calibration points), not images or text of the sources; each point carries its source, figure and page. Licences as recorded by Crossref on 2026-10-20, or as found:
+
+| Source key | Source | Licence as read |
+|---|---|---|
+| heverly2013 | Heverly et al. 2013, J. Field Robotics, doi 10.1002/rob.21481 | Wiley terms and conditions (Crossref licence field); PDF supplied by the author |
+| ishigami2007 | Ishigami et al. 2007, J. Field Robotics, doi 10.1002/rob.20187 | Wiley terms and conditions (Crossref); PDF supplied by the author |
+| li2008 | Li et al. 2008, J. Geophys. Res., doi 10.1029/2008JE003097 | Wiley terms and conditions (Crossref) |
+| hurrell2025 | Hurrell et al. 2025, Space Science Reviews, doi 10.1007/s11214-025-01164-8 | CC BY 4.0 (Crossref) |
+| takehana2025 | Takehana et al. 2025, J. Terramechanics, doi 10.1016/j.jterra.2025.101084 | CC BY 4.0 for the version of record (Crossref) |
+| inotsume2016 | Inotsume, MSc thesis 2016, CMU Robotics Institute publications page | no licence statement found; not checked further |
+| yoshida2010 | Yoshida, workshop slides, ICRA 2010 | no licence statement found; not checked further |
+
+Short factual extracts of this kind are used with attribution; the repository's all rights reserved notice does not extend to them.

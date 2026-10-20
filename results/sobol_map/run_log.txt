@@ -1,2 +1,3 @@
 original: Y mean 0.998 sd 0.003; phi_deg S1 0.16 ST 0.45, f_r S1 0.01 ST 0.04, i0 S1 0.11 ST 0.55, i_max S1 -0.01 ST 0.17 [231 s]
 widened_i0: Y mean 0.945 sd 0.116; phi_deg S1 -0.06 ST 0.26, f_r S1 0.10 ST 0.48, i0 S1 0.16 ST 0.67, i_max S1 -0.12 ST 0.31 [275 s]
+posterior_2026_10_20: Y mean 0.920 sd 0.174; phi_deg S1 0.11 ST 0.32, f_r S1 0.29 ST 0.70, i0 S1 0.19 ST 0.49, i_max S1 0.11 ST 0.22 [376 s]

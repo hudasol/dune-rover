@@ -352,7 +352,12 @@ Note on stage 17 (appended after the run, no prediction edited): under the pre r
 | Q18-5 | No option accepts the dumont truth in more than 10 % of replicates at any sigma. | HIT. Largest acceptance of the dumont truth is 5.3 % (current rule, sigma 0.10). |
 
 
+Correction to the stage 17 note (appended after the midpoint review of 2026-10-20, no prediction edited): the post hoc comparison above set conservative routes on the pairs it could route against naive routes on all 40 pairs, which credits the conservative policy for refusing hard pairs. On matched pairs (only the pairs the conservative policy routed; `scripts/planner_matched_pairs.py`, `results/planner/matched_pairs.csv`): with the registered 3 m baseline at 10 m, conservative routes fail more often than naive at Dumont (26.7 % against 13.3 %, 15 pairs) and less often at White Sands (61.1 % against 66.7 %) and Kelso (36.1 % against 63.9 %); with the post hoc 10 m baseline, Dumont 6.7 % against 6.7 %, White Sands 13.9 % against 25.0 %, Kelso 2.8 % against 11.1 %. The fair reading: at 10 m the conservative policy lowers the failure share at two of three sites on the pairs it accepts, and at Dumont it mostly refuses to route (25 of 40 pairs); at 30 m it does not help anywhere. The Dumont window also contains steep ground that is not sand (see the stage 12 correction below), which affects every Dumont planning number.
+
+
 Note on stage 18 (appended after the run, no prediction edited): every option that rejects the collapse model at least 80 % of the time also rejects a correct model more than half the time (options B and C accept the correct model in 39 to 48 %). With six runs per bin the ladder cannot separate a correct model from a model that is wrong only above 20 deg; more runs in the 20 and 25 deg bins, or a different rule, would be needed. This is put to Huda as part of question 7; the current rule stays in force.
+
+Correction to the stage 18 note (appended after the midpoint review, no prediction edited): "options B and C accept the correct model in 39 to 48 %" holds only for B; option C accepts it in 43.7 %, 37.0 % and 28.0 % at sigma 0.03, 0.06 and 0.10, and option B in 39.3 %, 42.3 % and 48.0 %.
 
 
 ## Stage 15: model families against the published curves (numbered 15 as planned; written 2026-10-20 after stages 16 to 18 were registered, BEFORE any calibration or validation run on the final curve set)

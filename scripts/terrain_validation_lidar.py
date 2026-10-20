@@ -74,12 +74,20 @@ def block(a, k, how="mean"):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--truth-max-deg", type=float, default=None,
+                    help="POST HOC (after the midpoint review): count only posts between 28 deg and this angle, to exclude rock and lidar artefacts steeper than sand can stand")
+    args = ap.parse_args()
+    global OUT
+    if args.truth_max_deg is not None:
+        OUT = os.path.join(OUT, f"posthoc_truth_max_{args.truth_max_deg:g}deg")
     os.makedirs(os.path.join(OUT, "figures"), exist_ok=True)
     apply_range_set("original")
     log = open(os.path.join(OUT, "run_log.txt"), "w")
     def say(s):
         print(s, flush=True); log.write(s + "\n")
-    say(f"stage 12 run started {time.strftime('%Y-%m-%d %H:%M:%S')}; numpy {np.__version__}; seed {SEED}; windows {json.dumps({k: v[1] for k, v in SITES.items()})}")
+    say(f"stage 12 run started {time.strftime('%Y-%m-%d %H:%M:%S')}; truth max {args.truth_max_deg} (None = registered design); numpy {np.__version__}; seed {SEED}; windows {json.dumps({k: v[1] for k, v in SITES.items()})}")
     draws = TC.lhs_draws(256, SEED)
     models = {d: SG.fit(float(d), "base", 1.0) for d in POSTINGS}
     rows, gaps, summary = [], [], {"label": "SIMULATED BY ME (detector and map) scored against PUBLISHED lidar elevation (USGS 3DEP, public domain)",
@@ -92,7 +100,8 @@ def main():
         z1 = np.where(np.isnan(z1), np.nanmean(z1), z1)
         ge, gn = horn_gradient(z1, 1.0, 1.0)
         s1 = np.degrees(np.arctan(np.hypot(ge, gn)))
-        steep = (s1 >= SG.FACE_TRUTH_DEG).astype(float)
+        steep = (s1 >= SG.FACE_TRUTH_DEG) if args.truth_max_deg is None else ((s1 >= SG.FACE_TRUTH_DEG) & (s1 <= args.truth_max_deg))
+        steep = steep.astype(float)
         summary["sites"][site] = {"description": desc, "file": fname, "sha256": sha256(os.path.join(RAW, fname)), "window_utm": win,
                                   "shape_1m": list(z1.shape), "nodata_share": nanshare, "relief_m": float(z1.max() - z1.min()),
                                   "share_1m_posts_steeper_than_truth": float(steep.mean())}

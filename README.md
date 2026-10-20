@@ -83,4 +83,4 @@ Full list in `docs/DATA_AND_LICENSES.md`. Copernicus GLO-30 (the controlling Fre
 
 ## Not done
 
-Chrono, DEM and RFT were reviewed, not run. No field data exist. No learning model was trained. The sub grid detector has not been compared with any real slip face profile. See report section 10.
+DEM and RFT were reviewed, not run; Project Chrono was run for a single wheel on 2026-10-20 (report section 13.4). No field data exist. No learning model was trained. The sub grid detector was tested against one metre lidar of three North American dune fields on 2026-10-20 (it works at 10 m and fails at 30 m; report section 13.5), never against an Arabian slip face. See report sections 10 and 13.

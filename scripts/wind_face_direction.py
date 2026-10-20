@@ -51,9 +51,12 @@ def fetch(site, lat, lon):
             for attempt in range(10):
                 try:
                     with urllib.request.urlopen(url, timeout=120) as r:
-                        open(yp, "wb").write(r.read())
+                        body = r.read()
+                    if len(json.loads(body)["hourly"]["time"]) < 8760:   # a truncated or partial year is not cached
+                        raise ConnectionError("incomplete year")
+                    open(yp, "wb").write(body)
                     break
-                except (urllib.error.URLError, ConnectionError, TimeoutError) as e:   # rate limits and dropped connections: wait and retry
+                except (urllib.error.URLError, ConnectionError, TimeoutError, ValueError, KeyError) as e:   # rate limits, dropped or partial transfers: wait and retry
                     if isinstance(e, urllib.error.HTTPError) and e.code != 429:
                         raise
                     time.sleep(20 * (attempt + 1))

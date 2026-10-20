@@ -14,7 +14,7 @@ python3 scripts/scan_secrets.py
 python3 scripts/consolidate_evidence.py > /dev/null
 python3 scripts/verify_stats.py > /dev/null
 PYTHONPATH=src python3 scripts/build_report.py > /dev/null
-git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md docs/PROPOSAL_ROBOTICS.md research/ || { echo "generated files are stale: regenerate and commit them"; exit 1; }
+git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md docs/PROPOSAL_ROBOTICS.md docs/COMPLETENESS.md research/ || { echo "generated files are stale: regenerate and commit them"; exit 1; }
 python3 - <<'PY'
 import subprocess, sys
 bad = []
