@@ -266,3 +266,25 @@ Design fixed now:
 | T13-5 | Area B, Rub al Khali megadunes: miss. | |
 | T13-6 | Area C, linear dunes: miss, with R below 0.3 because linear dunes have faces on both flanks. | |
 | T13-7 | Overall at least 3 hits out of 6. With six sites this is a check of the method, not a statistical test. | |
+
+
+## Stage 14: independent simulation of a single wheel on a sand slope in Project Chrono (written 2026-10-20, BEFORE the sweep script was written or run)
+
+**SIMULATED BY ME with an independent simulator (Project Chrono 9.0.1, Soil Contact Model terrain, BSD 3 licence).** Disclosure: three feasibility runs were made before this entry to check that the installation works (wheel W1 on soil S1, 4 s, slopes 0, 10 and 20 deg: slip 0.01, 0.18 and 0.32). Predictions P14-1 and P14-7 are informed by them.
+
+Design fixed now:
+- Rig: one rigid smooth cylinder driven at constant angular speed (surface speed 0.2 m/s after 1 s of settling), carried by a body that may move freely along the slope and vertically; slope emulated by tilting gravity on a flat Soil Contact Model bed (normal load W cos(theta), tangential load W sin(theta)). Slip = 1 minus mean forward speed over 2 to 8 s divided by the surface speed; entrapment = slip of 0.9 or more. Time step 1 ms, SCM grid 0.02 m (W1) and 0.01 m (W2). Elastic stiffness 2e8 Pa and damping 3e4 Pa s are Chrono example defaults (ASSUMPTION).
+- Wheels (PUBLISHED dimensions, smooth instead of grousered, an ASSUMPTION): W1 Scarecrow like, radius 0.25 m, width 0.40 m, load 556 N (340 kg Earth weight shared by six wheels; Heverly et al. 2013, FLD-HV13-5a). W2 Ishigami test bed like, radius 0.055 m, width 0.064 m, load 29.8 N (TM-IS09-2).
+- Soils (PUBLISHED parameter sets): S1 Toyoura sand, Ishigami et al. 2007 Table I (TM-IS07-1): Kphi 8.14e5 N/m^(n+2), Kc 1.37e3 N/m^(n+1), n 1.00, c 800 Pa, phi 37.2 deg, K 0.036 m (kx at zero slip angle). S2 DEM calibrated Soil Contact Model set of Zhang et al. 2024 Table 4 (SIM-005): Kc -4957, Kphi 235605, n 0.883, c 21.872 Pa, phi 21.259 deg, K 0.0062 m (a simulated material, not a real sand).
+- Sweep: slopes 0 to 30 deg in steps of 2.5 deg for each wheel and soil (52 runs). Checks: grid 0.01 m against 0.02 m and surface speed 0.05 m/s against 0.2 m/s at 5, 15 and 25 deg for W1 S1.
+- Comparisons: with the Dumont Dunes cubic (FLD-HV13-1, 4 to 21 deg), with the nominal original slip model (phi 33, f_r 0.12, i0 0.20) and with the W3 model families once they exist.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| P14-1 | W1 S1: slip at 12.5 deg below 0.30, so Chrono with a published Toyoura set predicts less slip than the Dumont curve (about 0.49 there). | |
+| P14-2 | W1 S2: entrapment at or below 20 deg. | |
+| P14-3 | W2 S1: slip at 10 deg direct ascent between 0.05 and 0.40. | |
+| P14-4 | For every wheel and soil, slip does not decrease by more than 0.05 from one slope step to the next. | |
+| P14-5 | W1 S1 against the Dumont cubic over 4 to 21 deg: root mean square difference above 0.15. | |
+| P14-6 | Halving the SCM grid (0.01 m) and lowering the speed to 0.05 m/s each change W1 S1 slip by less than 0.05 at 5, 15 and 25 deg. | |
+| P14-7 | W1 S1 against the nominal original slip model: within 0.15 at every slope from 5 to 15 deg. | |
