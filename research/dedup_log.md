@@ -6,6 +6,7 @@
 - TM-028: dropped, duplicate of SIM-027 (Wang and Han wheel, arXiv 2606.21755)
 - LRN-023: dropped, duplicate of LEG-007 (same source and values, arXiv 2603.06928)
 - TM-030: dropped, duplicate of SIM-010 (same 7.4 % value, arXiv 2507.05643)
+- MOB-054: dropped, unverifiable: the key digit is garbled in the DTIC scan (para. 40); the verifier could not read the claimed value (batch 19)
 
 LEG-015 repaired: unquoted comma had split the passage field.
 
@@ -86,3 +87,40 @@ FLD-HV13-5 split into FLD-HV13-5a and FLD-HV13-5b: Split on 2026-10-18 at the au
 - FLD-HV13-6.metric: was: Agreement of Earth based slip prediction with Mars slip data
 - FLD-HV13-1.notes: was: Text states slip nearly constant at about 10% below 4 deg and above 90% with embedding above 21 deg. Values read from text, not from plot.
 - FLD-HV13-5b.terrain_description: was: Cohesive soil of the desiccated lake bed at Tecopa CA, natural slopes flat to 28 deg; four Scarecrow runs (Sec 6.2)
+- MAP-010.terrain_description: was: Mojave desert roads and lakebeds, 2004 and 2005 Grand Challenge courses; labelled reference data set
+- MAP-014.passage_or_location: was: Sec. 10 Results, paragraph beginning 'As explained in this paper, Stanley uses a number of strategies'
+- MAP-025.terrain_description: was: Moosilauke Valley: small ripple field surrounded by high thermal inertia terrain
+- MAP-025.slope_deg: was: 3.5 (maximum slope of samples)
+- MAP-028.soil_parameters_reported: was: river sand; no grain size or density reported
+- MAP-029.metric: was: change in total actual path length and in total effective distance versus distance based planner
+- MAP-029.slope_deg: was: from map nodes (range not reported)
+- MAP-032.validation_type: was: field
+- MAP-032.method: was: Route planning on coarse satellite DEM compared with rover odometry
+- MAP-035.validation_type: was: field
+- MAP-036.validation_type: was: field
+- ENV-001.vehicle_or_wheel: was: Automotive lidars Ouster OS-1 and Velodyne VLP-16 (static test)
+- ENV-010.metric: was: ambient temperature on a typical day after 3 months (early August): average and peak
+- MOB-008.terrain_description: was: Yuma sand slopes, soil bins
+- MOB-008.soil_parameters_reported: was: soil conditions S1 to C3
+- MOB-008.method: was: slope climbing ability estimated from single wheel pull coefficient plus vehicle slope tests
+- MOB-010.soil_parameters_reported: was: wet sand condition (cohesion levels C1 to C3)
+- MOB-010.slope_deg: was: not reported
+- MOB-019.passage_or_location: was: Executive summary (printed p. ii) and Section 3, bullet list of limitations
+- MOB-021.vehicle_or_wheel: was: Military wheeled vehicles (all vehicles in coarse grained soil tests)
+- MOB-026.metric: was: constant offset between single wheel and field vehicle pull curves
+- MOB-026.passage_or_location: was: Paras. 52 to 53 (p. 27)
+- MOB-042.validation_type: was: field
+- MOB-042.slope_deg: was: approximately 10, 15 and 20 percent grades
+- MOB-042.terrain_description: was: Desert dune area near Yuma, Arizona, test lanes on slopes
+- MOB-043.terrain_description: was: Level harrowed sand at coastal and river sites
+- MOB-045.terrain_description: was: Beach, tidal flat, coastal dune and river sands
+- MOB-046.terrain_description: was: Warren Dunes, Lake Michigan, dune area; Cape Cod Camp Wellfleet dune area
+- MOB-046.slope_deg: was: not reported
+- MOB-047.slope_deg: was: 0 (level)
+- MOB-048.slope_deg: was: 0 (level)
+- MOB-053.passage_or_location: was: Sec. 1.3(b), p. 3; Sec. 2.3.1(a), p. 6; Table 5
+- MOB-057.passage_or_location: was: p. 85, Discussion; p. 83 wheel sizes
+- MOB-058.passage_or_location: was: Section VIII, pp. 28, 29 and 35; Figs. 10 to 47
+- MOB-058.metric: was: agreement of calculated with measured pull coefficient, Yuma sand
+- MOB-059.terrain_description: was: Yuma sand
+- MOB-062.validation_type: was: sim-vs-field

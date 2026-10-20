@@ -116,22 +116,40 @@
    0.905471345199134
   ]
  },
- "CURRENT TABLE, latest verdict per row": {
-  "n": 171,
-  "correct": 120,
-  "minor_error": 43,
-  "material_error": 8,
+ "new rows of the 2026-10-20 evidence expansion, phase 5": {
+  "n": 123,
+  "correct": 96,
+  "minor_error": 17,
+  "material_error": 10,
   "unverifiable": 0,
-  "material_rate": 0.04678362573099415,
+  "material_rate": 0.08130081300813008,
   "material_wilson95": [
-   0.023893560130576114,
-   0.08958972988736011
+   0.04475838884502017,
+   0.1432051814662972
   ],
   "material_upper95_exact": null,
-  "any_rate": 0.2982456140350877,
+  "any_rate": 0.21951219512195122,
   "any_wilson95": [
-   0.23472075226984004,
-   0.37063632522201545
+   0.1554740213505587,
+   0.30054040924634323
+  ]
+ },
+ "CURRENT TABLE, latest verdict per row": {
+  "n": 294,
+  "correct": 216,
+  "minor_error": 60,
+  "material_error": 18,
+  "unverifiable": 0,
+  "material_rate": 0.061224489795918366,
+  "material_wilson95": [
+   0.03907448197222858,
+   0.09469326571647577
+  ],
+  "material_upper95_exact": null,
+  "any_rate": 0.2653061224489796,
+  "any_wilson95": [
+   0.218101258628808,
+   0.31856521106515023
   ]
  },
  "CURRENT SUPPLEMENTARY ROWS, latest verdict per row": {

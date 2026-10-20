@@ -49,6 +49,11 @@ if os.path.exists(manifest):
         for r in read_rows(os.path.join(ROOT, "research", "phase3", name)):
             r["area"] = P3_AREA[r["id"].split("-")[0]]
             rows.append(r)
+# phase 3 rows dropped after verification (unverifiable, or kept out for a stated reason): research/phase3/dropped.csv
+P3_DROP_PATH = os.path.join(ROOT, "research", "phase3", "dropped.csv")
+if os.path.exists(P3_DROP_PATH):
+    for d in csv.DictReader(open(P3_DROP_PATH, encoding="utf-8")):
+        DROP[d["id"]] = d["reason"]
 kept = [r for r in rows if r["id"] not in DROP]
 for r in kept:
     r["evidence_label"] = "PUBLISHED"
@@ -67,6 +72,8 @@ if os.path.exists(corr_path):
                 r = dict(src); r["id"] = nid; kept.append(r); by_id[nid] = r; split_new.add(nid)
             splits.append((c["id"], c["new_value"], c["reason"]))
             continue
+        if c["id"] not in by_id and c["id"].split("-")[0] in P3_AREA:
+            continue   # a phase 3 row whose file is not merged yet, or a dropped row
         r = by_id[c["id"]]
         if not c["reason"].startswith("Definition of the split row"):   # definitions of a split row are not verifier corrections
             applied.append((c["id"], c["field"], r[c["field"]]))

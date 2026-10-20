@@ -1,9 +1,10 @@
 # Verification log
 
-Every one of the 171 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
+Every one of the 294 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
 Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
 Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).
+Phase 5 (2026-10-20): the rows added by the evidence expansion of 2026-10-20 (ids PLN, TM3, MOB, SND, DUN, MAP, ENV), each checked by a fresh verifier agent against the full text (batches 15 and up).
 Two views are reported. 'ALL 170 ROWS' is the first check of the rows as extracted (FLD-HV13-5 counts with its material error). 'CURRENT TABLE' takes each row of the current table with its latest verdict (the two split rows with their phase 4 verdicts; FLD-HV13-5 is no longer in the table).
 Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.
 
@@ -42,10 +43,15 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material error rate 0/2 = 0.0 % (exact 95 % upper bound 77.6 %)
 - any discrepancy rate 1/2 = 50.0 % (Wilson 95 % CI 9.5 to 90.5 %)
 
-## CURRENT TABLE, latest verdict per row (n = 171)
-- correct 120, minor 43, material 8, unverifiable 0
-- material error rate 8/171 = 4.7 % (Wilson 95 % CI 2.4 to 9.0 %)
-- any discrepancy rate 51/171 = 29.8 % (Wilson 95 % CI 23.5 to 37.1 %)
+## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 123)
+- correct 96, minor 17, material 10, unverifiable 0
+- material error rate 10/123 = 8.1 % (Wilson 95 % CI 4.5 to 14.3 %)
+- any discrepancy rate 27/123 = 22.0 % (Wilson 95 % CI 15.5 to 30.1 %)
+
+## CURRENT TABLE, latest verdict per row (n = 294)
+- correct 216, minor 60, material 18, unverifiable 0
+- material error rate 18/294 = 6.1 % (Wilson 95 % CI 3.9 to 9.5 %)
+- any discrepancy rate 78/294 = 26.5 % (Wilson 95 % CI 21.8 to 31.9 %)
 
 ## CURRENT SUPPLEMENTARY ROWS, latest verdict per row (n = 27)
 - correct 12, minor 13, material 2, unverifiable 0
@@ -74,6 +80,33 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - FLD-HV13-5 (phase 3): material_error: The row labels all results as field although the 22 deg bedrock limit and the 75% slip at 20 deg cohesive soil result come only from the engineered Marsyard, and the bedrock slope range starts at flat rather than 5 deg.
 - FLD-HV13-6 (phase 3): minor_error: The good agreement is between Curiosity visual odometry slip data and the Earth test data in Figure 17, not between Mars data and a prediction from the onboard polynomial slip model, so the vehicle, method and metric descriptions misattribute the comparison.
 - FLD-HV13-5b (phase 4): minor_error: The terrain description attributes the flat to 28 degree slope range to the Tecopa runs alone, whereas Section 6.2 gives that range for all cohesive soil tests combined and Figure 10 shows the Tecopa data starting at roughly 9 degrees.
+- MAP-010 (phase 5): minor_error: Value, threshold and metric are right, but the terrain detail (Mojave roads and lakebeds, 2004 and 2005 Grand Challenge courses) is not stated for this labelled reference dataset in the source.
+- MAP-014 (phase 5): minor_error: Value right; the section is titled 'Development Process and Race' (subsection 10.3 The Race), not 'Results'.
+- MAP-025 (phase 5): material_error: The RMSE values 24.4 (THEMIS) and 18.6 (GTS) are pooled cross validation errors over all nine sand sites, not values for Moosilauke Valley; terrain and slope (3.5) are attributed to a single site.
+- MAP-028 (phase 5): minor_error: Value right; the soil field says no grain size is reported, but the paper states the river sand grain size used for the experiment was between 0.06 mm and 2 mm.
+- MAP-029 (phase 5): material_error: The figures are quoted exactly from the abstract and Results, but Table 3 shows they are ratios, not percentage changes: 135.94% is 20.20/14.86 (35.94% longer, not 135.94% longer) and 44.72% is 22.40/50.09 (55.28% shorter, not 44.72% shorter). The slope range is also reported.
+- MAP-032 (phase 5): material_error: Fig. 9 is a survey traverse concept illustration; '10-20% longer' is a stated expectation ('will be'), not a measured comparison of plan against rover odometry, so it is not field validation.
+- MAP-035 (phase 5): material_error: Tests ran in an indoor Mars analogue terrain facility (constructed yard inside a museum), which the brief codes as lab, not field.
+- MAP-036 (phase 5): material_error: Same indoor Mars analogue facility as MAP-035 (the row itself calls it a yard); constructed yard is lab under the brief, not field.
+- ENV-001 (phase 5): minor_error: The cited Figure 1c and 1d show Ouster OS-1 data only (caption: experiment environment and Ouster OS-1 LIDAR data); the row attributes the car and truck obscuration result to both OS-1 and VLP-16. The paper only states generally that attenuation behaviours were observed for both sensors.
+- ENV-004 (phase 5): minor_error: Value matches the abstract (p1: approximately 7 minutes versus over 27 minutes) but the cited Sec. IV B (p4) prints more than 26 minutes of continuous locomotion, not 27; the source is internally inconsistent and the row does not flag it. Also the proposed policy run ended because the battery was depleted, so the 27 min figure is a battery limit, not a thermal limit.
+- ENV-010 (phase 5): minor_error: The parenthetical (early August) is not in the source. The paper gives only 'a typical day after the 3rd month'; the experiment started 22 April 2018, so 3 months is about 22 July, and the exact date of the typical day is never printed.
+- MOB-008 (phase 5): minor_error: Values right. The estimate is drawn from the single wheel P20/W tabulation on level sand for soil conditions S1 and C2 (para. 28), not from vehicle slope tests or sloped bins; vehicle slope tests used pneumatic and SLRV wheels, not the original Bendix, Boeing-GM and Grumman wheels. Soil conditions S1 to C3 overstated.
+- MOB-010 (phase 5): minor_error: Value right. The comparison in para. 40 is shown in Fig. 28 for soil condition C2 only (not C1 to C3), at 115 N wheel load, 8.80 kN/m2 inflation; slopes are reported (0, 15, 25 deg tested; maximum slope climbed tan 28 deg), not absent.
+- MOB-019 (phase 5): minor_error: Content right but location wrong: the executive summary is on printed p. iii (p. ii is the STO boilerplate), and the bullet list of NRMM limitations is in Section 1.1 (printed p. 20), not Section 3; Section 3.1 only lists Identified limitations as a topic of the AVT-107 report. Cone index and rating cone index are not named in the limitation statements (only in the acronym list); the text says in-situ soil measurements.
+- MOB-021 (phase 5): material_error: Vehicle labelled as wheeled only; the coarse grained drawbar pull set includes tracked vehicles (M113A1, M60), and the 17.9 percent is the weighted average for all vehicles.
+- MOB-026 (phase 5): material_error: The 2.5 percent offset is stated for the towed coefficient curves (plate 25, para 53), not for the pull curves. For pull (para 52, plate 24) the report says only that the curves differ by a nearly constant amount and gives no number.
+- MOB-042 (phase 5): material_error: The value is a site cone index (a property measurement), so validation type should be none, not field. The slope grades of approximately 10, 15 and 20 percent are for the prepared harrowed test lanes at Yuma Test Station (paras. 43 and 44), not for the dune area whose cone index is reported (para. 45 gives no slope). Terrain merges the two sites.
+- MOB-043 (phase 5): material_error: Para. 9 states 'Pilot towing tests were conducted on natural and harrowed sand' under findings of the 15th Supplement; it does not mention coastal or river sites. The 15th Supplement test programme (AD0218089, checked in this batch) was at Yuma, a desert sand area, so 'coastal and river sites' is not supported and likely wrong.
+- MOB-045 (phase 5): minor_error: Para. 6 lists findings of the 13th Supplement pilot study, whose tests were 'on quartz sands found on inland areas and beaches of the United States'; the row terrain (beach, tidal flat, coastal dune and river sands) describes a different test series. Finding and value are correct.
+- MOB-046 (phase 5): minor_error: The 16 to 110 cone index range in para. 27 covers tests on the beach and unstabilized dunes together, not only the dune area or dune sand; para. 27 also reports slopes from level to 75%, so 'not reported' is wrong. Cape Cod values are correct.
+- MOB-047 (phase 5): minor_error: The DTIC copy does not state the slope of the drawbar pull tests (details referred to reference [3]); 0 (level) is assumed, not printed. Also the journal, volume and year (Proc. IMechE Part D, 2018) do not appear in the DTIC copy and could not be confirmed. Values correct.
+- MOB-048 (phase 5): minor_error: Slope of the MMP measurements is not stated in the DTIC copy; 0 (level) is assumed. Journal citation not confirmable from the DTIC copy. Value correct.
+- MOB-053 (phase 5): minor_error: The statement is in Sec. 1.3 b, p. 3 only. Sec. 2.3.1 a (p. 6) describes the cone penetrometer and Table 5 is the normal critical layer table; neither mentions natural or unprepared lanes.
+- MOB-057 (phase 5): minor_error: Wheel sizes sentence falls between the p. 81 and p. 83 folios, so on p. 82, not p. 83. The source does not use the words 'soil bin' (it says 'a uniform bed of dry Calne sand'). The conference name on the cover is OCR garbled and the year 1984 rests only on the DTIC receipt stamp 'DEC2 71984', so the source title detail is not confirmed.
+- MOB-058 (phase 5): minor_error: 'Excellent agreement' refers to Figs. 3 to 8, described as 'examples of good simulation of pull coefficients' after the parameters e, p1, j0 and K were determined per test to yield good simulation; it is a fitted example statement, not a general validation. p. 35 holds only the Fig. 8 caption; the sentence ends on p. 36. Figs. 10 to 36 are Yuma sand (Section IX); Figs. 37 to 47 are Buckshot clay.
+- MOB-059 (phase 5): minor_error: The text before Eq. 6 does not name Yuma sand; it says the limiting pressure 'may be estimated on the basis of inflation pressure for all tire sizes', and Section VIII draws on data from both Tables 1 (Yuma sand) and 2 (Buckshot clay). Restriction to Yuma sand is not supported. Equation coefficients correct.
+- MOB-062 (phase 5): material_error: The value (cone index 80 of the test course) is a property measurement, so validation type should be none; the sim-vs-field comparison is the go/no go result, not this value.
 - TM-018 (phase 1): minor_error: Facility labelled ESA/DLR TROLL; paper describes TROLL as a DLR facility (authors affiliated with ESA/ESTEC).
 - SIM-013 (phase 1): minor_error: Equation 3 coefficients match the printed text, but the unit label 'slip ratio' describes the equation output not the coefficient; unit of alpha is not stated in the paper.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
