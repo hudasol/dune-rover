@@ -16,3 +16,6 @@ data/derived/tileList.txt
 data/raw/lidar/
 data/raw/wind/
 research/sources/phase3/
+# stray downloads by research agents at the repository root
+/*.pdf
+/*.txt
