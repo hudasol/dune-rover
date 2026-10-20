@@ -1,6 +1,6 @@
 # Verification log
 
-Every one of the 423 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
+Every one of the 494 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
 Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
 Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).
@@ -43,15 +43,15 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material error rate 0/2 = 0.0 % (exact 95 % upper bound 77.6 %)
 - any discrepancy rate 1/2 = 50.0 % (Wilson 95 % CI 9.5 to 90.5 %)
 
-## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 252)
-- correct 190, minor 36, material 26, unverifiable 0
-- material error rate 26/252 = 10.3 % (Wilson 95 % CI 7.1 to 14.7 %)
-- any discrepancy rate 62/252 = 24.6 % (Wilson 95 % CI 19.7 to 30.3 %)
+## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 323)
+- correct 241, minor 52, material 30, unverifiable 0
+- material error rate 30/323 = 9.3 % (Wilson 95 % CI 6.6 to 12.9 %)
+- any discrepancy rate 82/323 = 25.4 % (Wilson 95 % CI 20.9 to 30.4 %)
 
-## CURRENT TABLE, latest verdict per row (n = 423)
-- correct 310, minor 79, material 34, unverifiable 0
-- material error rate 34/423 = 8.0 % (Wilson 95 % CI 5.8 to 11.0 %)
-- any discrepancy rate 113/423 = 26.7 % (Wilson 95 % CI 22.7 to 31.1 %)
+## CURRENT TABLE, latest verdict per row (n = 494)
+- correct 361, minor 95, material 38, unverifiable 0
+- material error rate 38/494 = 7.7 % (Wilson 95 % CI 5.7 to 10.4 %)
+- any discrepancy rate 133/494 = 26.9 % (Wilson 95 % CI 23.2 to 31.0 %)
 
 ## CURRENT SUPPLEMENTARY ROWS, latest verdict per row (n = 27)
 - correct 12, minor 13, material 2, unverifiable 0
@@ -144,6 +144,26 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - DUN-025 (phase 5): material_error: Validation type: regional morphology description (property and review statement), so none, not field.
 - DUN-026 (phase 5): material_error: Validation type: field measured barchan dimensions are a terrain property measurement, so none, not field.
 - DUN-027 (phase 5): material_error: Validation type: field measured dune dimensions are a terrain property measurement, so none, not field. The note printed I is an OCR artefact; the printed page reads 1 and 6.
+- TM3-006 (phase 5): material_error: Validation type: r_eff is a calibration property measurement of the wheel (d / phi on a non slip surface), which the brief classes as none, not lab. Minor: the source says 'non-slip surface', it does not say hard.
+- TM3-016 (phase 5): minor_error: Terrain label says seven tamped densities, but the source states that for the loosest (T3) condition no compacting took place; only the other conditions were tamped.
+- TM3-020 (phase 5): material_error: Validation type: Figure 22 is titled 'physical testing data vs. CRM simulation results' and plots the simulated MGRU3 Earth slope/slip curves against experimental 'TREC Nominal Tests, GRC3' lab data, so the value is a simulation compared with a lab measurement, not simulation only. Value, slope and parameter set are right.
+- TM3-021 (phase 5): material_error: Validation type: same as TM3-020; the 18% comes from the simulated curve in Figure 22, which is plotted against experimental TREC GRC-3 lab data ('physical testing data vs. CRM simulation results'). Value, slope and parameter set are right.
+- TM3-023 (phase 5): minor_error: Wheel described as smooth, but the source states the wheel circumference is covered with 100 grit abrasive tape (lightening holes covered by it). Outcome, slope and validation type are right.
+- TM3-024 (phase 5): minor_error: Same wheel description issue as TM3-023 (wheel called smooth; source says 100 grit abrasive tape).
+- TM3-028 (phase 5): minor_error: Soil field attributes the 99% sand figure to the jar sedimentation test; on p.5 the jar test only classifies the soil as sandy, and the 99% figure comes from the sieve analysis at the soil mechanics lab. Method also says forward speed came from traces; p.6 says forward velocity was estimated by measuring the time to run 1 m, the traces gave amplitude to wavelength ratios.
+- TM3-029 (phase 5): minor_error: Soil field attributes the 99% sand figure to the jar sedimentation test; on p.5 the jar test only classifies the soil as sandy, and the 99% figure comes from the sieve analysis at the soil mechanics lab. Value 3, 7, 9 N is right.
+- TM3-030 (phase 5): minor_error: Soil field attributes the 99% sand figure to the jar sedimentation test; on p.5 the jar test only classifies the soil as sandy, and the 99% figure comes from the sieve analysis at the soil mechanics lab. Value 100% is right.
+- TM3-033 (phase 5): minor_error: Method calls the Coulomb wedge the 'rear'; Sections 7.3 and 7.3.3 and the Figure 17 caption put soil wedge area A beneath the wheel (moving with it), not at the rear. Conclusion text and validation type are right.
+- TM3-041 (phase 5): minor_error: Vehicle field points to the six wheeled prototype wheel (as TM3-038, radius 155 mm, 24 lugs 10 mm). The 292 of 300 result comes only from the single wheel test, which used a different wheel (radius 140 mm, 28 lugs 15 mm, 100 N). Value, terrain and unit are right.
+- TM3-055 (phase 5): minor_error: Value 1.4 m/s is right, but the method implies GM XIII was tested on sand from 0.9 m/s; in fact the 0.9 m/s sand baseline in the comparison table is a CPS test with a different wheel (GM VIII) from an earlier program, and the GM XIII sand data cover 1.40 to 3.00 m/s. Also GM XIII measured diameter is 82.2 cm; 81 cm is the nominal size of the wheel family.
+- TM3-056 (phase 5): minor_error: The parenthetical 'peak near 40 knots in most tests' is the Summary statement for the whole program (mostly clay beds), not a sand result. In Fig. 20(a) the sand curves peak at different speeds by inflation (about 48 knots at 48 N/cm2, about 32 knots at 31 N/cm2, and the 21 N/cm2 curve highest near 60 knots), so the 40 knot peak should not be attached to the sand claim. Core qualitative statement is right.
+- TM3-057 (phase 5): minor_error: Value 0.1 to 0.4 is right. The method names the indexes as pull, power, traction and drive efficiency; the paper defines PE as traction efficiency, PC as traction coefficient, TC as thrust coefficient and TE as drive efficiency (no power index).
+- TM3-062 (phase 5): minor_error: Values are right, but they appear only in Section III.1 on p. 16; the Section IV first paragraph is about longitudinal friction at 37% slip and does not contain the sand properties (two column layout puts IV beside III.1).
+- TM3-063 (phase 5): material_error: Value h/r = 0.9 tan(phi) is right, but the paper derives it from numerical simulations of the semi empirical wheel model (Section 3.1 'Fundamental simulation conditions', 3.2 'Simulation analysis', 4.1 'Simulated tractive limitations'; Eq. 10 fitted to 'simulation plots of both types of soils'), with no experiment ('we are planning experimental evaluations for validating the prediction model'). Under the brief this is simulation-only rather than none.
+- TM3-064 (phase 5): minor_error: Values 0.963 and 0.965 are right, but they are the overall accuracy of the three class classifier, not an accuracy for the stuck class alone (the true positive rate for the stuck class is reported separately, about 0.99).
+- TM3-065 (phase 5): minor_error: Value 0.921 is right. The row says the sand is not further described, but Section 5.1 gives the field size, silica sand no.5 and depth over 15 cm; and the accuracy is the overall three class accuracy, not a stuck class accuracy.
+- TM3-067 (phase 5): minor_error: Values 0.05 (level) and 0.3 (18 deg slope) are right, but the slope field gives only 18 while the row reports the level ground value too.
+- TM3-068 (phase 5): minor_error: Values 709 N, 650 N and about 8% are right. The soil field says the simulator terrain values are in a paper table; there is no terrain parameter table (Table 3 lists bucket geometry), the paper only says the preset 'sand' model of Vortex Studio was selected and used as presented.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
 - LRN-009 (phase 1): minor_error: Dataset split (9235/3958) is in Sec. 4.1 (end of testbed/dataset text, Fig 3), not Sec. 4.2 (which is feature selection).
 - TM-021 (phase 1): minor_error: Source never calls the Toyoura sand 'dry' (word not found in the text); otherwise terrain fine. Also the '85% accuracy' is not defined in the paper and matches the average of the Table 1 adjusted R-square values (about 0.85), i.e. an in-sample goodness-of-fit, not a prediction error.
