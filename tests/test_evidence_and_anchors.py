@@ -4,9 +4,28 @@ import csv, json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def test_evidence_table_has_171_verified_rows():
+P3 = ("PLN", "TM3", "MOB", "SND", "DUN", "MAP", "ENV")
+
+
+def _p3_expected():
+    """Rows in the merged phase 3 files minus the dropped ones (research/phase3/MERGED.txt, dropped.csv)."""
+    man = os.path.join(ROOT, "research", "phase3", "MERGED.txt")
+    if not os.path.exists(man):
+        return 0
+    names = [l.strip() for l in open(man, encoding="utf-8") if l.strip() and not l.startswith("#")]
+    ids = set()
+    for n in names:
+        ids |= {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "phase3", n), encoding="utf-8"))}
+    dp = os.path.join(ROOT, "research", "phase3", "dropped.csv")
+    dropped = {r["id"] for r in csv.DictReader(open(dp, encoding="utf-8"))} if os.path.exists(dp) else set()
+    return len(ids - dropped)
+
+
+def test_evidence_table_has_171_verified_rows_plus_merged_phase3():
     rows = list(csv.DictReader(open(os.path.join(ROOT, "research", "evidence.csv"), encoding="utf-8")))
-    assert len(rows) == 171 and len({r["id"] for r in rows}) == 171
+    old = [r for r in rows if not r["id"].startswith(P3)]
+    assert len(old) == 171 and len({r["id"] for r in rows}) == len(rows)
+    assert len(rows) - len(old) == _p3_expected()
     assert all(r["verification"].startswith("verified ") for r in rows)
     assert sum(r["verification"].startswith("verified 2026-10-15") for r in rows) == 25
     split = {r["id"]: r for r in rows if r["id"].startswith("FLD-HV13-5")}
@@ -19,7 +38,8 @@ def test_verification_stats_match_the_log():
     st = json.load(open(os.path.join(ROOT, "research", "verification_stats.json"), encoding="utf-8"))
     assert st["ALL 170 ROWS"]["n"] == 170 and st["ALL 170 ROWS"]["material_error"] == 9
     assert st["supplementary rows from supplied PDFs, phase 3"]["n"] == 26
-    assert st["CURRENT TABLE, latest verdict per row"]["n"] == 171
+    n = len(list(csv.DictReader(open(os.path.join(ROOT, "research", "evidence.csv"), encoding="utf-8"))))
+    assert st["CURRENT TABLE, latest verdict per row"]["n"] == n == 171 + _p3_expected()
     assert st["CURRENT SUPPLEMENTARY ROWS, latest verdict per row"]["n"] == 27
 
 
