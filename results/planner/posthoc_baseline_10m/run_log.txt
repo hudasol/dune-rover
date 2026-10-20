@@ -1,0 +1,20 @@
+stage 17 run 2026-10-20 12:44:38; grade baseline 10.0 m (POST HOC); critical uphill 25.46 deg; risk weight 5.0; OD seed 20261024
+Dumont 30 m naive: routed 40/40, fail on truth 0.600
+Dumont 30 m conservative: routed 40/40, fail on truth 0.625
+Dumont 30 m risk_weighted: routed 40/40, fail on truth 0.550
+Dumont 10 m naive: routed 40/40, fail on truth 0.550
+Dumont 10 m conservative: routed 15/40, fail on truth 0.067
+Dumont 10 m risk_weighted: routed 40/40, fail on truth 0.200
+WhiteSands 30 m naive: routed 40/40, fail on truth 0.375
+WhiteSands 30 m conservative: routed 40/40, fail on truth 0.450
+WhiteSands 30 m risk_weighted: routed 40/40, fail on truth 0.175
+WhiteSands 10 m naive: routed 40/40, fail on truth 0.250
+WhiteSands 10 m conservative: routed 36/40, fail on truth 0.139
+WhiteSands 10 m risk_weighted: routed 40/40, fail on truth 0.175
+Kelso 30 m naive: routed 40/40, fail on truth 0.375
+Kelso 30 m conservative: routed 40/40, fail on truth 0.325
+Kelso 30 m risk_weighted: routed 40/40, fail on truth 0.425
+Kelso 10 m naive: routed 40/40, fail on truth 0.150
+Kelso 10 m conservative: routed 36/40, fail on truth 0.028
+Kelso 10 m risk_weighted: routed 40/40, fail on truth 0.100
+done 2026-10-20 12:46:40

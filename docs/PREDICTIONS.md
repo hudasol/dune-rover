@@ -321,11 +321,14 @@ Design fixed now:
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| R17-1 | 30 m, naive: at least 40 % of routed pairs fail on truth at Dumont. | |
-| R17-2 | 30 m, conservative: fewer failures than naive at every site, but still at least 15 % of routed pairs fail on truth at Dumont (the map's false safe rate is about a quarter). | |
-| R17-3 | 10 m, conservative: at most 10 % of routed pairs fail on truth at every site. | |
-| R17-4 | 10 m, conservative: a route is found for at least 70 % of pairs at every site. | |
-| R17-5 | Risk weighted lies between naive and conservative in failure share at 30 m at every site (ties allowed). | |
+| R17-1 | 30 m, naive: at least 40 % of routed pairs fail on truth at Dumont. | HIT. 70.0 % of naive routes at 30 m fail on truth at Dumont (`results/planner/policy_summary.csv`). |
+| R17-2 | 30 m, conservative: fewer failures than naive at every site, but still at least 15 % of routed pairs fail on truth at Dumont (the map's false safe rate is about a quarter). | MISSED. At 30 m the conservative policy fails as often as or more often than naive: Dumont 72.5 % against 70.0 %, White Sands 77.5 % against 60.0 %, Kelso 75.0 % against 75.0 %. It does cut face contacts per km at Dumont (38 against 125), but at the cost of routes twice as long (2.15 times the straight distance). |
+| R17-3 | 10 m, conservative: at most 10 % of routed pairs fail on truth at every site. | MISSED. 10 m conservative routes fail on truth in 26.7 % (Dumont), 61.1 % (White Sands) and 36.1 % (Kelso) of routed pairs. |
+| R17-4 | 10 m, conservative: a route is found for at least 70 % of pairs at every site. | MISSED at Dumont: only 15 of 40 pairs (37.5 %) have a conservative route at 10 m; White Sands and Kelso 90 %. |
+| R17-5 | Risk weighted lies between naive and conservative in failure share at 30 m at every site (ties allowed). | MISSED. Risk weighted at 30 m: Dumont 72.5 % (equal to conservative, allowed), White Sands 85.0 % (worse than both), Kelso 72.5 % (better than both). |
+
+
+Note on stage 17 (appended after the run, no prediction edited): under the pre registered event rule (a 3 m uphill grade above 25.5 deg anywhere along the route) most routes of every policy fail on truth, because a 3 m baseline on one metre lidar picks up small steep features (ripple lee sides, vegetated hummocks, lidar artefacts) that a coarse map cannot see and a real driver would steer around. **POST HOC** (chosen after seeing the result): with a 10 m baseline (`results/planner/posthoc_baseline_10m/`), 10 m conservative routes fail in 6.7 % (Dumont, 15 routed pairs), 13.9 % (White Sands) and 2.8 % (Kelso), against 55.0, 25.0 and 15.0 % for naive routes; at 30 m no policy is reliably safer than naive (Dumont 62.5 % conservative against 60.0 % naive). Reading: a 10 m map with the conservative policy avoids most dune scale steep ground, a 30 m map does not, and nothing at map scale replaces onboard sensing for metre scale features. The post hoc numbers are not evidence of a pre registered effect.
 
 
 ## Stage 18: options for the field adequacy rule, for Huda's question 7 (written 2026-10-20, BEFORE the options were coded or run)

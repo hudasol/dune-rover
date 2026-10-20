@@ -10,8 +10,8 @@ For a wheel of radius R and width b carrying normal load Wn = W cos(slope) at sl
     vertical force   Fz = R b integral (sigma cos + tau sin) dtheta, solved for z so that Fz = Wn
     drawbar pull     DP = R b integral (tau cos - sigma sin) dtheta
 
-The climbing slip is the i at which DP equals the slope load W sin(slope); if DP stays below it up to i = 0.99 the wheel
-is entrapped (slip 1).  Direct ascent only.  Grousers, bulldozing, multi pass and dynamic sinkage are not modelled.
+The climbing slip is the i at which DP first reaches the slope load W sin(slope); if DP stays below it up to i = 0.99 the
+wheel is entrapped (slip 1).  Direct ascent only.  Grousers, bulldozing, multi pass and dynamic sinkage are not modelled.
 
 Parameter sets are PUBLISHED (named rows); calibration varies phi, K, cohesion and a common multiplier of kc and kphi.
 """
@@ -25,7 +25,7 @@ SOIL_SETS = {  # name: kc N/m^(n+1), kphi N/m^(n+2), n, c Pa, phi deg, K m, a0, 
     "dem_calibrated_zhang2024": (-4957.0, 235605.0, 0.883, 21.872, 21.259, 0.0062, 0.40, 0.15,
                                  "Zhang et al. 2024 Table 4 (SIM-005), a simulated material; a0 and a1 from Ishigami 2007 (ASSUMPTION)"),
 }
-NQ = 160
+NQ = 64
 _U = (np.arange(NQ) + 0.5) / NQ    # midpoint rule on [0, 1]
 
 
@@ -48,33 +48,38 @@ def _forces(z, i, R, b, kc, kphi, n, c, phi, K, a0, a1):
     return fz, dp
 
 
+I_GRID = np.concatenate([np.linspace(0.0, 0.2, 21), np.linspace(0.21, 0.99, 40)])
+
+
 def climbing_slip(slopes_deg, R, b, W, kc, kphi, n, c, phi, K, a0=0.4, a1=0.15, emulated=False):
-    """Slip needed to climb each slope (direct ascent); 1.0 where the wheel cannot climb (entrapment)."""
-    s = np.radians(np.asarray(slopes_deg, dtype=float))
+    """Slip needed to climb each slope (direct ascent); 1.0 where the wheel cannot climb (entrapment).
+
+    Drawbar pull is evaluated on a fixed grid of slip values (I_GRID, each with its own equilibrium sinkage found by
+    bisection) and the climbing slip is the first grid crossing of DP = W sin(slope), linearly interpolated."""
+    s = np.radians(np.asarray(slopes_deg, dtype=float)).ravel()
     wn = W * (np.ones_like(s) if emulated else np.cos(s))
     target = W * np.sin(s)
-
-    def dp_at(i):
-        lo, hi = np.full(s.shape, 1e-7), np.full(s.shape, 0.999 * R)
-        for _ in range(40):                                   # bisection on sinkage: Fz increases with z
-            mid = 0.5 * (lo + hi)
-            fz, _ = _forces(mid, i, R, b, kc, kphi, n, c, phi, K, a0, a1)
-            big = fz > wn
-            hi = np.where(big, mid, hi); lo = np.where(big, lo, mid)
-        z = 0.5 * (lo + hi)
-        return _forces(z, i, R, b, kc, kphi, n, c, phi, K, a0, a1)[1], z
-
-    dp_max, _ = dp_at(np.full(s.shape, 0.99))
-    ilo, ihi = np.zeros(s.shape), np.full(s.shape, 0.99)
-    dp0, _ = dp_at(ilo)
-    for _ in range(30):                                       # bisection on slip: DP increases with i
-        mid = 0.5 * (ilo + ihi)
-        dp, _ = dp_at(mid)
-        up = dp < target
-        ilo = np.where(up, mid, ilo); ihi = np.where(up, ihi, mid)
-    out = 0.5 * (ilo + ihi)
-    out = np.where(dp0 >= target, 0.0, out)
-    return np.where(dp_max < target, 1.0, out)
+    ii = np.broadcast_to(I_GRID[None, :], (s.size, I_GRID.size))
+    wnn = np.broadcast_to(wn[:, None], ii.shape)
+    lo, hi = np.full(ii.shape, 1e-7), np.full(ii.shape, 0.999 * R)
+    for _ in range(28):                                       # bisection on sinkage: Fz increases with z
+        mid = 0.5 * (lo + hi)
+        fz, _ = _forces(mid, ii, R, b, kc, kphi, n, c, phi, K, a0, a1)
+        big = fz > wnn
+        hi = np.where(big, mid, hi); lo = np.where(big, lo, mid)
+    _, dp = _forces(0.5 * (lo + hi), ii, R, b, kc, kphi, n, c, phi, K, a0, a1)
+    out = np.ones(s.size)
+    for k in range(s.size):
+        above = np.flatnonzero(dp[k] >= target[k])
+        if above.size == 0:
+            continue                                          # entrapped
+        j = above[0]
+        if j == 0:
+            out[k] = 0.0
+        else:
+            d0, d1 = dp[k, j - 1], dp[k, j]
+            out[k] = I_GRID[j - 1] + (target[k] - d0) / max(d1 - d0, 1e-12) * (I_GRID[j] - I_GRID[j - 1])
+    return out.reshape(np.shape(slopes_deg))
 
 
 class BekkerWong(Family):
