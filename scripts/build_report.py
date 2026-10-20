@@ -458,7 +458,7 @@ def main():
             "anchor_dumont": t_anchor_dumont(), "anchor_ishigami": t_anchor_ishigami(),
             "ladder_rev": t_ladder_rev(), "power_rev": t_power("results/field_kit/power_study_2026-10-15.csv"),
             "rs_phase1": t_rs_phase1(), "rs_phase2": t_rs_phase2(), "rs_anchor": t_rs_anchor(), "power_rule": t_power_rule(),
-            "families": BM.t_families(), "lidar": BM.t_lidar()}
+            "families": BM.t_families(), "lidar": BM.t_lidar(), "locomotion": BM.t_locomotion()}
     sg = os.path.join(ROOT, "docs/src/subgrid_section.md")
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
     p3s = os.path.join(ROOT, "docs/src/phase3_section.md")

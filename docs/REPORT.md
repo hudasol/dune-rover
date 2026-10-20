@@ -862,6 +862,24 @@ Total Sobol indices of the passable share in area A at 30 m: original ranges i0 
 
 Every option that catches the collapse model also rejects a correct model more than half the time; more runs in the steep bins would be needed. The choice is Huda's (question 7).
 
+### 13.9 Wheeled, tracked and legged (PUBLISHED rows only)
+
+Wheeled, tracked and legged locomotion on sand (PUBLISHED rows only; vehicles, soils and metrics differ, so the rows are not comparable with each other).
+
+| Row | Vehicle | Slope, deg | Metric | Value | Validation |
+|---|---|---|---|---|---|
+| MOB-043 | Military wheeled vehicles (and tracked for comparison) | 0 (level) | maximum drawbar pull on level sand as fraction of gross vehicle test weight (wh… | 20 and 40; 50 and 60 percent (ranges between) | field |
+| TM3-067 | Four track platform rover with robotic arm, 120 kg, L153 x W154 x H11… | 0 (level) and 18 | steady state track slip on level ground and on an 18 deg sand slope | approximately 0.05 (level); approximately 0.3 (18 deg slope… | lab |
+| TM3-071 | Model wheeled vehicle with independently driven front and back wheels… | 0 (level) | slip ratio of the wheeled vehicle without and with the intermediate crawler on… | 1 (wheels only, did not move); 0.065 (with crawler) ratio | lab |
+| FLD-HV13-1 | Scarecrow (Mars weight MSL test rover, 340 kg, 50 cm diameter rigid g… | 4 to 21 (fit validity r… | Cubic fit coefficients c0; c1; c2; c3 (slip vs slope) | 26.197; -8.849; 1.281; -0.034 dimensionless polynomial coef… | field |
+| FLD-025 | Perseverance (Mars 2020) | about 20 | slip | in excess of 94 % | field |
+| LEG-007 | Hexapod with C-shaped legs (350 g, 22 cm x 10 cm; leg radius 4 cm, wi… | 0 | step-averaged speed parallel to surface | 15.7 cm/s | lab |
+| LEG-008 | Same 350 g hexapod | 10 | step-averaged speed parallel to surface | 11.0 cm/s | lab |
+| LEG-009 | Same 350 g hexapod | 24 | step-averaged speed parallel to surface | 5.6 cm/s | lab |
+| LEG-013 | SpaceBok quadruped (22 kg), planar and point feet, static and trot | 25 | maximum slope traversed (testbed limit) | 25 deg | lab |
+
+The published rows suggest that tracks and wheel and crawler hybrids keep moving on sand where plain wheels stall (MOB-043, TM3-071), and that small legged robots climb sand slopes slowly (LEG-007 to LEG-009). None of these rows shares a vehicle size, sand or slip definition with another, so no ranking of locomotion types follows from them.
+
 
 ## Sources and appendices
 
