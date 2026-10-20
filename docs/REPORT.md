@@ -28,9 +28,11 @@ Related work, not repeated here: `hudasol/dhill` (heat and dust operating envelo
 
 **Headline findings (SIMULATED BY ME, model assumption dependent, not field evidence).** With a stated friction circle slip model and nominal assumptions, the 30 m grid blocks only 0.2 to 1 % of travel directions in three real dune windows, because few cells exceed the model's nominal climbing limit of 25.5 degrees. That is mostly a statement about grid resolution and assumptions, not evidence that the dunes are easy. Across the plausible assumption ranges, under the original ranges (i0 0.05 to 0.40, f_r 0.05 to 0.25), the model's climbing limit varies from 7.6 to 34.7 degrees (5 to 95 %: about 15 to 32 degrees). The assumptions that change the map most are the friction angle, the form of the slip law, the DEM posting, the slip scale i0 and the motion resistance coefficient. DEM noise and the planning slip limit matter least (section 8).
 
-**Headline findings, phase 2 (SIMULATED BY ME, model assumption dependent; detector validated on synthetic truth only).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict in at least 95 % of the 256 draws of the four assumed slip parameters, so, under the original ranges (i0 0.05 to 0.40, f_r 0.05 to 0.25), the three class map is far more sensitive to the sub grid morphology assumptions and the resolution than to those four parameters (section 8.7); with the widened ranges of 2026-10-18 this no longer holds (below). Of 104 pre registered predictions (stage 1: 1 hit, 2 mixed, 1 missed; stage 2: 3 hit, 1 mixed, 4 missed; stage 3: 2 hit, 1 mixed, 3 missed; stage 4: 1 hit, 0 mixed, 3 missed; stage 5: 9 hit, 1 mixed, 0 missed; stage 6: 5 hit, 0 mixed, 1 missed; stage 7: 4 hit, 0 mixed, 2 missed; stage 8: 3 hit, 0 mixed, 0 missed; stage 9: 6 hit, 0 mixed, 2 missed; stage 10: 5 hit, 0 mixed, 0 missed; stage 11: 3 hit, 0 mixed, 0 missed; stage 12: 3 hit, 0 mixed, 3 missed; stage 13: 0 hit, 0 mixed, 0 missed, 7 pending; stage 14: 5 hit, 0 mixed, 2 missed; stage 16: 2 hit, 0 mixed, 2 missed; stage 17: 1 hit, 0 mixed, 4 missed; stage 18: 3 hit, 0 mixed, 2 missed; stage 15: 2 hit, 0 mixed, 2 missed, 3 pending), the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the phase 2 and 3 simulation missed, and the stage 5 hits were partly informed by hand arithmetic on the model equation.
+**Headline findings, phase 2 (SIMULATED BY ME, model assumption dependent; detector validated on synthetic truth only in phase 2, tested on real lidar on 2026-10-20, section 13).** A 30 m DEM cannot see slip faces, so each cell now carries a modelled probability that an unresolved active face lies inside it and the map has three classes. At 30 m the **UNKNOWN share is 8.6 % in A south Liwa, 10.9 % in B (megadunes) and 2.5 % in C (Saudi Rub' al Khali linear dunes)**; BLOCKED is under 0.1 % everywhere, because the DEM hardly shows slopes the model calls impassable. If a face within one post of the cell counts (a post hoc variant) the UNKNOWN share is 34.4 %, 32.2 % and 22.0 %. 99.1 % (A), 97.0 % (B) and 100.0 % (C) of cells have the same slope based verdict in at least 95 % of the 256 draws of the four assumed slip parameters, so, under the original ranges (i0 0.05 to 0.40, f_r 0.05 to 0.25), the three class map is far more sensitive to the sub grid morphology assumptions and the resolution than to those four parameters (section 8.7); with the widened ranges of 2026-10-18 this no longer holds (below). Of 104 pre registered predictions (stage 1: 1 hit, 2 mixed, 1 missed; stage 2: 3 hit, 1 mixed, 4 missed; stage 3: 2 hit, 1 mixed, 3 missed; stage 4: 1 hit, 0 mixed, 3 missed; stage 5: 9 hit, 1 mixed, 0 missed; stage 6: 5 hit, 0 mixed, 1 missed; stage 7: 4 hit, 0 mixed, 2 missed; stage 8: 3 hit, 0 mixed, 0 missed; stage 9: 6 hit, 0 mixed, 2 missed; stage 10: 5 hit, 0 mixed, 0 missed; stage 11: 3 hit, 0 mixed, 0 missed; stage 12: 3 hit, 0 mixed, 3 missed; stage 13: 0 hit, 0 mixed, 0 missed, 7 pending; stage 14: 5 hit, 0 mixed, 2 missed; stage 16: 2 hit, 0 mixed, 2 missed; stage 17: 1 hit, 0 mixed, 4 missed; stage 18: 3 hit, 0 mixed, 2 missed; stage 15: 2 hit, 0 mixed, 2 missed, 3 pending), the hits and misses are in `docs/PREDICTIONS.md`; most of the quantitative ones about the phase 2 and 3 simulation missed, and the stage 5 hits were partly informed by hand arithmetic on the model equation.
 
 **Headline finding, published anchors (SIMULATED BY ME against PUBLISHED values; comparison of unlike vehicles and soils; section 8.8).** Run on the same slopes as the Dumont Dunes curve, the nominal model crosses 50 % slip at 25.5 degrees against 12.6 degrees for the published curve, and the curve lies above the 95th percentile of the model's assumption range between 10.7 to 17.9 degrees. With the Ishigami et al. 2009 Table I friction angle the model gives 0.01 to 0.20 slip on a 10 degree side slope (0.22 to 0.40 with the Table I shear modulus), where a slip ratio of about 0.5 was measured. **The model predicts too little slip on sand slopes; a post hoc refit at the edge of its ranges still misses the shape of the Dumont curve.** **Widened slip scale range (2026-10-18, sections 8.4, 8.7, 8.8):** with i0 widened to 0.05 to 1.20 (nominal 0.81, the lower bound implied by Ishigami 2009 Table I; shorter contact lengths imply larger values) the nominal model crosses 50 % slip at 10.2 degrees, now before the Dumont curve, and UNKNOWN at 30 m rises to 33.9 % (A), 39.2 % (B) and 11.2 % (C); with f_r also widened to 0.35 it reaches 92.6 %, 90.1 % and 97.4 %. In the second set 9 to 12 % of draws cannot move on level ground at all (`results/range_set_diagnostics/immobile_on_level.csv`), a combination the original resistance range excluded, and that explains most of its UNKNOWN share. Widening the ranges brackets the Dumont curve and the measured Ishigami slip, though not Ishigami's own model value at 5 degrees, and leaves the map much less certain.
+
+**Headline findings, 2026-10-20 (section 13; every test pre registered, stages 12 to 18).** The evidence table grew to 494 verified rows from 174 sources. Calibrated on other studies, 3 slip model families predicted a held out study with median errors of 0.23 to 0.24 slip, against a pre registered bar of 0.15 (exponential fails (held out median 0.24); Mohr Coulomb ratio fails (held out median 0.23); logistic fails (held out median 0.24)). Project Chrono with published soils gives far less slip than the Dumont curve and disagrees with a direct implementation of the same Bekker and Janosi laws. Against one metre lidar of three North American dune fields, the slip face detector and three class map work at 10 m and fail at 30 m, where about a quarter of TRAVERSABLE cells contain steep faces; route planning on 30 m maps was no safer than naive planning. With slip ranges calibrated on published curves, UNKNOWN at 30 m becomes 62.8 % (A), 44.3 % (B) and 46.0 % (C).
 
 **Verification.** All 494 rows of the current table have an independent re check against the source (section 11). In the first check of the 170 rows as extracted, material errors were **9 of 170 (5.3 %)**: 6 in the 107 rows checked in phase 2 (5.6 %), 3 in the 26 rows from supplied PDFs checked in phase 3 (11.5 %, all on validation type) and none in the 37 rows of phase 1; any discrepancy including minor label errors: 51 of 170 (30.0 %). All are corrected in the table. For the current table, taking each row's latest verdict (the two rows split from FLD-HV13-5 were checked again on 2026-10-18), material errors are **38 of 494 (7.7 %, Wilson 95 % interval 5.7 to 10.4 %)** and any discrepancy 133 of 494 (26.9 %). The phase 1 random sample (0 of 30 material) had understated the rate. The unit of the slope term in SIM-013 is not stated in its source, so that row is flagged and must not be used numerically outside the tested envelope.
 
@@ -91,7 +93,7 @@ Row identifiers refer to Appendix A. Every number below is **PUBLISHED** unless 
 - **Calibration is not independent evidence.** SCM parameters fitted to a DEM gave a negative Kc and a friction angle of about 21 degrees (a numerical fit, SIM-005); DEM used scaled particles and tuned friction (SIM-015, SIM-018).
 - **Cost.** Wall clock to simulated time ranges from about 9 million (fine particle CPU DEM, SIM-020, derived) to hundreds or thousands (GPU DEM, SIM-016, SIM-024) to about 11 to 23 (Chrono CRM) and 18 to 51 (Chrono SCM) on one benchmark (SIM-011), and about 0.5 ms per closed form Bekker-Wong wheel solve (SIM-028; no simulated time ratio reported). The SCM versus CRM ordering depends on the benchmark.
 - **Gravity.** Simulating a 440 kg rover at lunar gravity predicted far higher slip than a light 1 g comparison (about 85 % versus about 42 % at 30 degrees, SIM-003, where the source of the 42 % is not stated; about 75 % versus 18 % at 10 degrees, SIM-004), with no lunar validation (simulation only).
-- Project Chrono is BSD-3 licensed (verified from its LICENSE file). **It is not used by this repository's code.** No retrieved source compares Chrono, DEM or any multibody simulator with a full rover on real dune sand.
+- Project Chrono is BSD-3 licensed (verified from its LICENSE file). It was not used in phases 1 and 2; from 2026-10-20 a single wheel Soil Contact Model sweep is run with it (section 13.4). No retrieved source compares Chrono, DEM or any multibody simulator with a full rover on real dune sand.
 - **High speed grouser wheels (supplied paper, read 2026-10-13).** In single wheel tests on a prepared bed of Tohoku silica sand at up to 1.0 m/s, a slick wheel reached a traction coefficient of only about 0.02 at slip 0.5 and 1.0 m/s, and its traction efficiency fell from about 0.2 at 0.2 m/s to about 0.03 at 1.0 m/s (TM-TK1, TM-TK2). The DEM simulation predicted negative traction for the slick wheel at every slip ratio and both speeds, where the experiment did not, and the paper gives no numeric error between DEM and experiment (TM-TK4). Speed matters for sand traction, and DEM did not capture it for the slick wheel.
 
 ### 3.4 Learning based slip and traversability
@@ -169,7 +171,7 @@ All retrievals 2026-10-11. Licences are as read from provider pages; legal readi
 - A slip face at 32 degrees has a horizontal run of about 1.6 times its height, so a 50 m dune face spans about 80 m, 2.7 posts at 30 m. In the Rub' al Khali window, runs of consecutive posts steeper than 25 degrees had a median length of 2 posts (90th percentile 4; 45 % a single post).
 - A synthetic test of an ideal 32 degree face sampled at 30 m with random phase (SIMULATED BY ME, optimistic because it samples points rather than averaging over cells) recovers full steepness only if the face is 30 m or higher by forward difference (50 m or higher by central difference). A 10 m face reads as 9 to 18 degrees and a 20 m face as 18 to 26 degrees. At 90 m, even 50 m faces read 16 to 23 degrees.
 - **Verdict.** Dune crests, ridges and interdune corridors of the large Liwa and Rub' al Khali dunes: resolved at 30 m. Slip faces of dunes above about 40 to 50 m: marginal, located as thin bands of high slope but biased low. Slip faces of dunes below about 20 m, brink sharpness, ripples (centimetre wavelength) and small barchans of 1 to 7 m: not resolved, and the barchans are at or below the published vertical error. A planner reading 30 m slope alone will under flag lee faces.
-- **Caveats.** GLO-30 is a radar surface model; the size of X-band bias over dry sand was not retrieved. The epoch (2010 to 2015) is stale for fast small dunes (over 20 m/yr in Kuwait). No lidar truth was available, so slip face bias is estimated by synthetic and cross product comparison only.
+- **Caveats.** GLO-30 is a radar surface model; the size of X-band bias over dry sand was not retrieved. The epoch (2010 to 2015) is stale for fast small dunes (over 20 m/yr in Kuwait). No lidar truth of Arabian dunes was available (North American lidar is used from 2026-10-20, section 13.5), so slip face bias is estimated by synthetic and cross product comparison only.
 
 ---
 
@@ -386,7 +388,7 @@ The assumption envelope overlaps 11 of the 13 published points, which says mostl
 
 ### 8.7 Phase 2: what the elevation model cannot see (SIMULATED BY ME, model assumption dependent)
 
-> **SIMULATION ONLY, model assumption dependent.** Everything below describes a synthetic detector and a model, validated only against synthetic truth. No lidar, drone or field profile of a real Arabian slip face was retrieved, so the detector has never been tested against reality. The predictions for this stage were committed before the code was run (`docs/PREDICTIONS.md`, stage 2) and the hits and misses are recorded there.
+> **SIMULATION ONLY, model assumption dependent.** Everything below describes a synthetic detector and a model, validated only against synthetic truth in phase 2 (tested against North American lidar on 2026-10-20, section 13.5). No lidar, drone or field profile of a real Arabian slip face was retrieved, so the detector has never been tested against reality. The predictions for this stage were committed before the code was run (`docs/PREDICTIONS.md`, stage 2) and the hits and misses are recorded there.
 
 **Problem.** A 30 m GLO-30 post spacing cannot resolve an active slip face, whose horizontal run is only about 1.4 to 1.7 times its height (morphology row PM10): a few metres to a few tens of metres. A cell that contains a face reads as a gentle slope. The phase 1 map was therefore binary and optimistic.
 
@@ -731,7 +733,7 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 - The rows' extraction and the first verification were done by language model agents using the same search tools; shared blind spots (especially on figure only values) are possible.
 - UAE items are as of 2026-10-11 and some, such as the Rashid 2 launch date, conflict between sources.
 
-**Not done.** Chrono, DEM and RFT were reviewed but not run. No dataset with slip labels from dunes was available, so no learning model was trained. The GLO-30 licence (COP-DEM-GLO-30-F) was read in full in phase 2 (`docs/DATA_AND_LICENSES.md`). Ishigami et al. 2007 and 2009, Heverly et al. 2013, Yu et al. 2024 and Takehana et al. 2025 were supplied by the author as PDFs on 2026-10-13, read in full and added as 26 rows (verified 2026-10-15). Still not retrieved: Wong and Reece 1967 and the Wong textbook parameter table; neither is cited for any number. The sub grid detector (section 8.7) has never been compared with a real lidar or drone profile of a slip face; the share of dune crests with an active face and the face height fraction of tall dunes are not published and are assumptions.
+**Not done.** DEM and RFT were reviewed but not run; Chrono was run from 2026-10-20 (section 13.4). No dataset with slip labels from dunes was available, so no learning model was trained. The GLO-30 licence (COP-DEM-GLO-30-F) was read in full in phase 2 (`docs/DATA_AND_LICENSES.md`). Ishigami et al. 2007 and 2009, Heverly et al. 2013, Yu et al. 2024 and Takehana et al. 2025 were supplied by the author as PDFs on 2026-10-13, read in full and added as 26 rows (verified 2026-10-15). Still not retrieved: Wong and Reece 1967 and the Wong textbook parameter table; neither is cited for any number. Until 2026-10-20 the sub grid detector (section 8.7) had not been compared with any real lidar or drone profile; it has since been tested against one metre lidar of three North American dune fields (section 13.5), never against an Arabian slip face; the share of dune crests with an active face and the face height fraction of tall dunes are not published and are assumptions.
 
 **Licence.** All rights reserved: the work is public for reading and review, and any use, modification, distribution or sale needs the author's prior permission (`LICENSE`, `LICENSE-DOCS.md`). Source PDFs and raw downloads are excluded by a CI check.
 
@@ -794,6 +796,72 @@ All errors were corrected through `research/corrections.csv` (old values in `res
 7. **Dynamics.** Crosswind, lateral slip on crests, speed and repeated passes.
 
 ---
+
+## 13. Validation and extension of 2026-10-20
+
+Everything in this section was pre registered in `docs/PREDICTIONS.md` (stages 12 to 18) before its run; hits, misses and post hoc analyses are listed there. The narrative version is `manuscript/MANUSCRIPT.md`. Labels as above.
+
+### 13.1 Evidence base (PUBLISHED)
+
+The evidence table now has **494 rows from 174 distinct sources** (162 lab, 133 field, 112 none, 33 sim-vs-lab, 31 simulation-only, 23 sim-vs-field). 323 rows were added on 2026-10-20 under a written protocol (`docs/SEARCH_PROTOCOL.md`: five topic agents, a live DOI or URL check for every source, licences recorded, a not retrieved list per topic) in seven groups: planetary and analog traverses (PLN), single wheel terramechanics (TM3), empirical mobility models such as the cone index family and NRMM (MOB), Arabian dune sand properties (SND), dune morphology, wind and DEM error (DUN), terrain mapping and planning (MAP), and heat and dust effects (ENV). Every new row was re checked against its full text by a fresh agent: **30 of 323 merged rows had a material error before correction (9.3 %, Wilson 95 % interval 6.6 to 12.9 %)**, most of them a wrong validation type; any discrepancy 25.4 %. One row was dropped as unverifiable. A blinded random sample of 20 rows for a human rater is in `research/spot_check_inter_rater.md`. Arabian items now include grain size, sorting, mineralogy and density of UAE, Qatari, Saudi and Omani dune sands and Gulf drift potentials; no friction angle or slip face angle measured on UAE dunes was found.
+
+### 13.2 Published curves (PUBLISHED, digitised)
+
+26 curves (235 points) from 7 sources were digitised reproducibly (`scripts/digitise_figures.py`, calibration files in `research/phase3/digitise/`), with uncertainty, conditions and a comparability judgement per curve (`docs/DATA_CATALOG.md`). Nine published soil parameter sets are in `research/phase3/sand_parameters.csv`. The Wong table images supplied earlier remain unusable (no legible title and page) and were not used.
+
+### 13.3 Model families (SIMULATED BY ME against PUBLISHED curves; stage 15)
+
+Table 1. Model families on the published slip against slope curves (SIMULATED BY ME against PUBLISHED curves). Bar fixed before the run: median held out error at most 0.15 and coverage at least 0.80.
+
+| Family | Held out curves | Median error, nominal | Median error, own fit | Median error, held out | 90 % interval coverage | Bar |
+|---|---|---|---|---|---|---|
+| Exponential (existing model) | 17 | 0.31 | 0.06 | 0.24 | 0.89 | fails |
+| Mohr Coulomb ratio | 17 | 0.24 | 0.10 | 0.23 | 0.85 | fails |
+| Logistic, empirical | 17 | 0.19 | 0.03 | 0.24 | 0.86 | fails |
+
+No family meets the bar fixed before the run. Held out errors are about 0.2 to 0.3 slip for every family, and the empirical logistic curve transfers as well as the physics based ones. The posterior of the existing exponential model over the 12 curves judged comparable to dune sand is phi 36.93 (30.57 to 43.74) degrees, f_r 0.13 (0.03 to 0.32), i0 0.63 (0.33 to 1.21); used as map ranges (`posterior_2026_10_20`) it gives UNKNOWN at 30 m of 62.8 % (A), 44.3 % (B) and 46.0 % (C). The Bekker Wong family with the published Ishigami 2007 simulant set does not reproduce that paper's drawbar pull curve (`results/model_validation/bw_vs_ishigami2007.csv`). Question 8: without draws that cannot move on level ground, the widened resistance range gives UNKNOWN of 33.3 %, 40.6 % and 8.5 %, close to the widened i0 set, so the earlier 90 % shares came from immobile draws.
+
+### 13.4 Independent simulation (SIMULATED BY ME; stage 14)
+
+Project Chrono's Soil Contact Model with published wheel sizes and soil sets gives slip 0.21 at 12.5 degrees for a Scarecrow sized wheel against about 0.49 on the Dumont curve (root mean square difference 0.35), and differs from the repository's Bekker Wong family with the same inputs by 0.44 to 0.75. Both use the Bekker and Janosi laws, so this is model form and implementation uncertainty, not independent physics. The "Toyoura" label of soil set S1 in the stage 14 files is wrong: that set is the FJS-1 lunar simulant of Ishigami et al. 2007.
+
+### 13.5 Real terrain test (SIMULATED BY ME on PUBLISHED lidar; stages 12 and 13)
+
+Table 2. Slip face detector and three class map against one metre lidar truth (SIMULATED BY ME on PUBLISHED USGS 3DEP data; North American dune fields).
+
+| Site | Posting, m | AUC | True face rate | Mean predicted probability | TRAVERSABLE share | Faces in TRAVERSABLE | Faces in UNKNOWN |
+|---|---|---|---|---|---|---|---|
+| Dumont | 5 | 0.98 | 23.0 % | 35.5 % | 59.3 % | 0.2 % | 51.4 % |
+| Dumont | 10 | 0.97 | 32.0 % | 29.9 % | 62.0 % | 3.6 % | 77.1 % |
+| Dumont | 30 | 0.86 | 48.0 % | 23.1 % | 67.8 % | 25.6 % | 95.1 % |
+| WhiteSands | 5 | 0.98 | 5.0 % | 10.2 % | 87.3 % | 0.1 % | 38.4 % |
+| WhiteSands | 10 | 0.97 | 10.8 % | 9.9 % | 86.0 % | 2.5 % | 61.6 % |
+| WhiteSands | 30 | 0.66 | 35.7 % | 14.6 % | 75.9 % | 28.6 % | 58.0 % |
+| Kelso | 5 | 0.98 | 5.5 % | 15.7 % | 79.1 % | 0.1 % | 26.4 % |
+| Kelso | 10 | 0.95 | 10.7 % | 13.0 % | 80.8 % | 1.8 % | 48.4 % |
+| Kelso | 30 | 0.70 | 34.0 % | 8.6 % | 88.4 % | 28.0 % | 79.5 % |
+
+The detector and the map work at 5 and 10 m and fail at 30 m on three real dune fields (Dumont Dunes, White Sands, Kelso Dunes; USGS 3DEP one metre lidar): at 30 m about one TRAVERSABLE cell in four contains at least 10 square metres steeper than 28 degrees, and the detector underestimates face prevalence by about 0.2. Slip face direction against ERA5 resultant drift direction: not run sites within 45 degrees (`results/wind_azimuth/face_vs_wind.csv`).
+
+### 13.6 Planning (SIMULATED BY ME; stage 17)
+
+On 30 m maps no policy was reliably safer than naive least cost planning against lidar truth (Dumont: 70.0 % naive and 72.5 % conservative routes met a 3 m grade above the climbing limit). At 10 m, compared on matched pairs (only the pairs the conservative policy could route; post hoc after the midpoint review), the conservative policy failed less often than naive at White Sands (61.1 % against 66.7 % with the registered 3 m baseline; 13.9 % against 25.0 % with a 10 m baseline) and at Kelso (36.1 % against 63.9 %; 2.8 % against 11.1 %), and at Dumont it routed only 15 of 40 pairs and did not do better (26.7 % against 13.3 %). The Dumont window contains steep ground that is not sand, which affects all Dumont numbers.
+
+### 13.7 Sensitivity (SIMULATED BY ME; stage 16)
+
+Total Sobol indices of the passable share in area A at 30 m: original ranges i0 0.55, phi 0.45, i_max 0.17, f_r 0.04; widened i0 range i0 0.67, f_r 0.48, i_max 0.31, phi 0.26. First order indices sum to well below one: the parameters act through interactions.
+
+### 13.8 Field rule options (synthetic data only; stage 18; the current rule stays in force)
+
+| Rule | Correct model accepted (sigma 0.03) | Collapse model accepted (sigma 0.03) | Dumont truth accepted (sigma 0.10) |
+|---|---|---|---|
+| Current (stage 10) | 76 % | 53 % | 5 % |
+| A, stricter tolerance | 43 % | 30 % | 0 % |
+| B, steep runs | 39 % | 18 % | 5 % |
+| C, calibration slope | 44 % | 20 % | 2 % |
+
+Every option that catches the collapse model also rejects a correct model more than half the time; more runs in the steep bins would be needed. The choice is Huda's (question 7).
+
 
 ## Sources and appendices
 

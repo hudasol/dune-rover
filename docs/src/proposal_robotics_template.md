@@ -10,10 +10,10 @@ A small wheeled robot on a dune slope can lose most of its forward progress to s
 
 ## 2. Evidence (what the desk study established)
 
-- **Published evidence base:** {{VAL:p3_rows_total}} verified rows from {{VAL:p3_sources_total}} sources, with a measured extraction error rate ({{VAL:p5_material_rate}} material errors in the {{VAL:p5_n}} rows added on 2026-10-20, all corrected) (`research/evidence.csv`, `docs/SEARCH_PROTOCOL.md`).
+- **Published evidence base:** {{VAL:p3_rows_total}} verified rows from {{VAL:p3_sources_total}} sources, with a measured extraction error rate ({{VAL:p5_material_rate}} material errors in the {{VAL:p5_n}} rows added on 2026-10-20; every material error corrected) (`research/evidence.csv`, `docs/SEARCH_PROTOCOL.md`).
 - **Slip models do not transfer between vehicles and soils** (SIMULATED BY ME against PUBLISHED curves): calibrated on other studies, {{VAL:mv_nfamilies}} model families predicted a held out study with median root mean square slip errors of {{VAL:mv_heldout_min}} to {{VAL:mv_heldout_max}}; none met the pre registered bar of 0.15, and an empirical curve did as well as the physics.
 - **Open 30 m terrain data are not enough** (SIMULATED BY ME on PUBLISHED lidar): on three real dune fields, a three class map at 30 m called cells TRAVERSABLE that contained steep slip faces in {{VAL:tv_fs_Dumont_30}}, {{VAL:tv_fs_WhiteSands_30}} and {{VAL:tv_fs_Kelso_30}} of cases; at 10 m the same method fell to {{VAL:tv_fs_Dumont_10}}, {{VAL:tv_fs_WhiteSands_10}} and {{VAL:tv_fs_Kelso_10}}.
-- **Planning on 30 m maps was not safer than naive planning** against lidar truth; with 10 m maps a conservative policy avoided most steep ground (post hoc analysis, `docs/PREDICTIONS.md` stage 17).
+- **Planning on 30 m maps was not safer than naive planning** against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route, and refused most pairs at the third (post hoc comparison, `docs/PREDICTIONS.md` stage 17).
 - **A simulator does not replace measurement:** Project Chrono with published soils predicted slip of {{VAL:ch_w1s1_125}} at 12.5 degrees where the Dumont Dunes field curve shows about 0.49.
 
 ## 3. What is validated and what is not
@@ -22,7 +22,7 @@ A small wheeled robot on a dune slope can lose most of its forward progress to s
 |---|---|
 | Extraction of published numbers | Checked against full text by independent agents; human spot check prepared, not done |
 | Slip model for any vehicle on Arabian sand | **Not validated.** No field data exist |
-| Slip face detector | Validated against real lidar at 5 to 30 m in North America; works at 10 m, fails at 30 m; **not tested on Arabian dunes** |
+| Slip face detector | Tested against real lidar at 5 to 30 m in North America; works at 10 m, fails at 30 m; **not tested on Arabian dunes** |
 | Planner | Tested against lidar truth in North America; **not tested in Arabia** |
 | Field protocol and analysis rule | Written, pre registered, tested on synthetic data; the pass or fail rule cannot yet separate a correct model from a collapse model (an open decision) |
 

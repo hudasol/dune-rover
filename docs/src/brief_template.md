@@ -19,7 +19,7 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Slip models against published curves.** {{VAL:mv_nfamilies}} model families, calibrated on other studies, predicted a held out study with median slip errors of {{VAL:mv_heldout_min}} to {{VAL:mv_heldout_max}}; none met the bar of 0.15 fixed beforehand, and an empirical curve did as well as the physics.
 - **Independent simulator.** Project Chrono with published soils gives {{VAL:ch_w1s1_125}} slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve.
 - **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), a 30 m three class map called cells TRAVERSABLE that contained steep slip faces in {{VAL:tv_fs_Dumont_30}}, {{VAL:tv_fs_WhiteSands_30}} and {{VAL:tv_fs_Kelso_30}} of cases; at 10 m in {{VAL:tv_fs_Dumont_10}}, {{VAL:tv_fs_WhiteSands_10}} and {{VAL:tv_fs_Kelso_10}}.
-- **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy avoided most steep ground (post hoc analysis).
+- **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison).
 - **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is {{VAL:post_unk_A}} (Liwa), {{VAL:post_unk_B}} and {{VAL:post_unk_C}} (Rub' al Khali), against {{VAL:orig_unk_A}}, {{VAL:orig_unk_B}} and {{VAL:orig_unk_C}} under the original assumed ranges.
 
 ## 4. Negative results
@@ -30,7 +30,7 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 
 ## 5. Error rate of the evidence table
 
-Every row was re checked against its full text by a separate agent. Of the {{VAL:p5_n}} rows added on 2026-10-20, {{VAL:p5_material}} had a material error before correction ({{VAL:p5_material_rate}}, Wilson 95 % interval {{VAL:p5_material_ci}}); all are corrected. A blinded human spot check of 20 rows is prepared.
+Every row was re checked against its full text by a separate agent. Of the {{VAL:p5_n}} rows added on 2026-10-20, {{VAL:p5_material}} had a material error before correction ({{VAL:p5_material_rate}}, Wilson 95 % interval {{VAL:p5_material_ci}}); every material error is corrected, and minor errors where the verifier gave a corrected value. A blinded human spot check of 20 rows is prepared.
 
 ## 6. The first field experiment (PLANNED)
 

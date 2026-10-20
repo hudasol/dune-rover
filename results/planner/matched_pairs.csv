@@ -1,0 +1,13 @@
+grade_baseline,site,posting_m,pairs_total,pairs_routed_by_conservative,naive_fail_share,conservative_fail_share,risk_weighted_fail_share
+3 m (registered),Dumont,30,40,40,0.7,0.725,0.725
+3 m (registered),Dumont,10,40,15,0.1333,0.2667,0.2
+3 m (registered),WhiteSands,30,40,40,0.6,0.775,0.85
+3 m (registered),WhiteSands,10,40,36,0.6667,0.6111,0.5556
+3 m (registered),Kelso,30,40,40,0.75,0.75,0.725
+3 m (registered),Kelso,10,40,36,0.6389,0.3611,0.5
+10 m (post hoc),Dumont,30,40,40,0.6,0.625,0.55
+10 m (post hoc),Dumont,10,40,15,0.0667,0.0667,0.0
+10 m (post hoc),WhiteSands,30,40,40,0.375,0.45,0.175
+10 m (post hoc),WhiteSands,10,40,36,0.25,0.1389,0.1944
+10 m (post hoc),Kelso,30,40,40,0.375,0.325,0.425
+10 m (post hoc),Kelso,10,40,36,0.1111,0.0278,0.1111

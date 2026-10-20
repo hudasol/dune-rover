@@ -164,7 +164,7 @@ The helper script `scripts/analyze_field_runs.py` and the log template `docs/fie
 - The rows' extraction and the first verification were done by language model agents using the same search tools; shared blind spots (especially on figure only values) are possible.
 - UAE items are as of 2026-10-11 and some, such as the Rashid 2 launch date, conflict between sources.
 
-**Not done.** Chrono, DEM and RFT were reviewed but not run. No dataset with slip labels from dunes was available, so no learning model was trained. The GLO-30 licence (COP-DEM-GLO-30-F) was read in full in phase 2 (`docs/DATA_AND_LICENSES.md`). Ishigami et al. 2007 and 2009, Heverly et al. 2013, Yu et al. 2024 and Takehana et al. 2025 were supplied by the author as PDFs on 2026-10-13, read in full and added as {{VAL:ver_sup_n}} rows (verified 2026-10-15). Still not retrieved: Wong and Reece 1967 and the Wong textbook parameter table; neither is cited for any number. The sub grid detector (section 8.7) has never been compared with a real lidar or drone profile of a slip face; the share of dune crests with an active face and the face height fraction of tall dunes are not published and are assumptions.
+**Not done.** DEM and RFT were reviewed but not run; Chrono was run from 2026-10-20 (section 13.4). No dataset with slip labels from dunes was available, so no learning model was trained. The GLO-30 licence (COP-DEM-GLO-30-F) was read in full in phase 2 (`docs/DATA_AND_LICENSES.md`). Ishigami et al. 2007 and 2009, Heverly et al. 2013, Yu et al. 2024 and Takehana et al. 2025 were supplied by the author as PDFs on 2026-10-13, read in full and added as {{VAL:ver_sup_n}} rows (verified 2026-10-15). Still not retrieved: Wong and Reece 1967 and the Wong textbook parameter table; neither is cited for any number. Until 2026-10-20 the sub grid detector (section 8.7) had not been compared with any real lidar or drone profile; it has since been tested against one metre lidar of three North American dune fields (section 13.5), never against an Arabian slip face; the share of dune crests with an active face and the face height fraction of tall dunes are not published and are assumptions.
 
 **Licence.** All rights reserved: the work is public for reading and review, and any use, modification, distribution or sale needs the author's prior permission (`LICENSE`, `LICENSE-DOCS.md`). Source PDFs and raw downloads are excluded by a CI check.
 
@@ -197,6 +197,8 @@ All errors were corrected through `research/corrections.csv` (old values in `res
 7. **Dynamics.** Crosswind, lateral slip on crests, speed and repeated passes.
 
 ---
+
+{{INCLUDE:phase3}}
 
 ## Sources and appendices
 

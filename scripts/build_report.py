@@ -438,10 +438,14 @@ def main():
     vals.update(P3.values()); vals = BM.extra_values(vals)
     for tmpl, outp in (("docs/src/brief_template.md", "docs/EXECUTIVE_BRIEF.md"), ("docs/src/readme_template.md", "README.md"),
                        ("docs/src/proposal_edge_template.md", "docs/PROPOSAL_EDGE.md"),
-                       ("docs/src/proposal_robotics_template.md", "docs/PROPOSAL_ROBOTICS.md")):
+                       ("docs/src/proposal_robotics_template.md", "docs/PROPOSAL_ROBOTICS.md"),
+                       ("docs/src/completeness_template.md", "docs/COMPLETENESS.md")):
         t = open(os.path.join(ROOT, tmpl), encoding="utf-8").read()
         for k, v in vals.items():
             t = t.replace("{{VAL:%s}}" % k, str(v))
+        if "{{VAL:score_overall}}" in t:   # unweighted mean of the scores in the last column of the completeness table
+            sc = [int(m) for m in re.findall(r"\| (\d+) \|\n", t)]
+            t = t.replace("{{VAL:score_overall}}", f"{sum(sc) / len(sc):.1f}")
         left = re.findall(r"\{\{[^}]*\}\}", t)
         if left:
             raise SystemExit(f"unresolved placeholders in {tmpl}: {sorted(set(left))}")

@@ -98,6 +98,11 @@ def values() -> dict:
     ho = [float(v[k]) for k in v if k.startswith("mv_") and k.endswith("_heldout")]
     if ho:
         v["mv_heldout_min"] = f2(min(ho)); v["mv_heldout_max"] = f2(max(ho)); v["mv_nfamilies"] = len(ho)
+    names = {"exp_existing": "exponential", "bekker_wong": "Bekker Wong", "mohr_coulomb_ratio": "Mohr Coulomb ratio", "logistic_empirical": "logistic"}
+    fams = [k[3:-9] for k in v if k.startswith("mv_") and k.endswith("_survives")]
+    if fams:
+        v["mv_verdict_line"] = "; ".join(f"{names.get(f, f)} {v['mv_' + f + '_survives']} (held out median {v['mv_' + f + '_heldout']})" for f in fams)
+        v["score_model"] = "4" if any(v["mv_" + f + "_survives"] == "passes" for f in fams) else "3"
     pe = _js("results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/posterior_exp.json")
     if pe:
         q = pe["quantiles_5_50_95"]
@@ -118,6 +123,12 @@ def values() -> dict:
         v[f"pl_fpk_{r['site']}_{r['posting_m']}_{r['policy']}"] = f"{float(r['face_contacts_per_km']):.0f}" if r["face_contacts_per_km"] else NR
     for r in _rd("results/planner/posthoc_baseline_10m/policy_summary.csv"):
         v[f"pl10_{r['site']}_{r['posting_m']}_{r['policy']}"] = pct(r["share_routed_failing_on_truth"], 1) if r["share_routed_failing_on_truth"] else NR
+    for r in _rd("results/planner/matched_pairs.csv"):   # POST HOC matched pairs (only pairs the conservative policy routed)
+        b = "3" if r["grade_baseline"].startswith("3") else "10"
+        for pol in ("naive", "conservative", "risk_weighted"):
+            if r[f"{pol}_fail_share"] != "":
+                v[f"pm{b}_{r['site']}_{r['posting_m']}_{pol}"] = pct(r[f"{pol}_fail_share"], 1)
+        v[f"pm_n_{r['site']}_{r['posting_m']}"] = r["pairs_routed_by_conservative"]
     # stage 18: rule options
     for r in _rd("results/field_kit/rule_options_2026-10-20.csv"):
         v[f"ro_{r['rule'].split('_')[0] if r['rule'] == 'current' else r['rule'].split('_')[1]}_{r['truth']}_{r['sigma']}"] = pct(r["accepted_rate"], 0)
