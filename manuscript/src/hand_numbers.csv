@@ -7,6 +7,11 @@ token,justification
 0.2,result: approximate held out error band, from the family table (0.23 to 0.24 and Bekker Wong) rounded
 0.25,published wheel radius (Heverly 2013 FLD-HV13-5a) used in stage 14
 0.3,result: approximate held out error band upper end (family table)
+0.16,result: Bekker Wong held out errors on the Heverly curves 0.08 to 0.16 (results/model_validation/part_bekker_wong/loso.csv)
+0.08,result: as above, lower end
+0.36,result: Bekker Wong held out errors on the El Dorado curves 0.36 to 0.56 (loso.csv)
+0.56,result: as above, upper end
+0.23,result: logistic median held out error on the same 8 curves as Bekker Wong (computed from the two loso.csv files; recorded in docs/PREDICTIONS.md V15-4)
 0.40,published wheel width (Heverly 2013 FLD-HV13-5a)
 0.49,published: Dumont cubic at 12.5 deg (FLD-HV13-1 coefficients, results/chrono_scm/comparison.csv)
 0.6,result: slip up to which the Bekker Wong family gives negative pull (results/model_validation/bw_vs_ishigami2007.csv)

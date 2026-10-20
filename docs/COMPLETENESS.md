@@ -6,7 +6,7 @@ Generated from `docs/src/completeness_template.md` by `scripts/build_report.py`;
 |---|---|---|---|
 | Literature and evidence | At least 300 rows read in full, a logged search, an error rate, a human spot check, the key classical sources retrieved | 494 rows from 174 sources; search protocol and flow logged; material error rate of new rows 9.3 %; human spot check prepared, not done; Wong and Reece 1967, the Wong dry sand table, Sullivan 2011 and Arvidson 2017 not retrieved | 8 |
 | Quantitative curves | At least 8 curves from 4 sources, uncertainty recorded, at least one curve on Arabian sand | 26 curves from 7 sources with uncertainty; none on Arabian sand | 6 |
-| Model validity | A model family passes a pre registered held out test on comparable data | exponential fails (held out median 0.24); Mohr Coulomb ratio fails (held out median 0.23); logistic fails (held out median 0.24) | 3 |
+| Model validity | A model family passes a pre registered held out test on comparable data | exponential fails (held out median 0.24); Mohr Coulomb ratio fails (held out median 0.23); logistic fails (held out median 0.24); Bekker Wong fails (held out median 0.20) | 3 |
 | Independent simulation | An independent simulator and a discrete element check, agreement explained | Chrono run with published wheels and soils; discrete element check not run; the gap between Chrono and the Bekker Wong family is not explained | 5 |
 | Terrain validation | The map tested against real high resolution terrain, including Arabian dunes | Tested on three North American dune fields with one metre lidar (works at 10 m, fails at 30 m); not tested in Arabia | 6 |
 | Field data | Measured slip on dune sand for the project's own vehicle | None | 0 |

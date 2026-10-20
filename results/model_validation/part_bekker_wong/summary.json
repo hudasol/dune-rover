@@ -1,0 +1,16 @@
+{
+ "bar": {
+  "median_heldout_rmse_max": 0.15,
+  "pooled_coverage90_min": 0.8
+ },
+ "families": {
+  "bekker_wong": {
+   "heldout_curves": 8,
+   "median_heldout_rmse": 0.2011,
+   "pooled_coverage90": 0.708,
+   "median_nominal_rmse": 0.255,
+   "median_fit_rmse": 0.0796,
+   "survives": false
+  }
+ }
+}

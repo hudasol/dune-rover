@@ -1,0 +1,9 @@
+family,held_out_source,curve,points,train_curves,rmse_heldout,coverage90,mean_interval_width
+bekker_wong,heverly2013,heverly2013_fig11_dtm_marsyard_sand,16,5,0.0836,1.0,0.5
+bekker_wong,heverly2013,heverly2013_fig11_scarecrow_marsyard_sand,10,5,0.1479,1.0,0.573
+bekker_wong,heverly2013,heverly2013_fig12_scarecrow_dumont,20,5,0.1549,0.95,0.544
+bekker_wong,inotsume2016,inotsume2016_fig3_9_scarab_direct_ascent,4,3,0.1971,0.75,0.233
+bekker_wong,inotsume2016,inotsume2016_figB10_eldorado_0grousers,5,3,0.2051,0.4,0.25
+bekker_wong,inotsume2016,inotsume2016_figB10_eldorado_12grousers_15mm,6,3,0.4767,0.0,0.166
+bekker_wong,inotsume2016,inotsume2016_figB10_eldorado_24grousers_15mm,5,3,0.5621,0.0,0.224
+bekker_wong,inotsume2016,inotsume2016_figB10_eldorado_24grousers_5mm,6,3,0.3565,0.167,0.219
