@@ -434,6 +434,8 @@ def main():
     second = open(sp, encoding="utf-8").read().strip() if os.path.exists(sp) else "Pending at the time of building this file."
     ladder_tab, ladder_file = t_ladder()
     vals = values(ev)
+    import phase3_values as P3, build_manuscript as BM   # 2026-10-20 values and tables (stages 12 to 18)
+    vals.update(P3.values()); vals = BM.extra_values(vals)
     for tmpl, outp in (("docs/src/brief_template.md", "docs/EXECUTIVE_BRIEF.md"), ("docs/src/readme_template.md", "README.md"),
                        ("docs/src/proposal_edge_template.md", "docs/PROPOSAL_EDGE.md")):
         t = open(os.path.join(ROOT, tmpl), encoding="utf-8").read()
@@ -450,9 +452,12 @@ def main():
             "ladder": ladder_tab, "pred_tally": t_pred_tally(), "verif": t_verif(),
             "anchor_dumont": t_anchor_dumont(), "anchor_ishigami": t_anchor_ishigami(),
             "ladder_rev": t_ladder_rev(), "power_rev": t_power("results/field_kit/power_study_2026-10-15.csv"),
-            "rs_phase1": t_rs_phase1(), "rs_phase2": t_rs_phase2(), "rs_anchor": t_rs_anchor(), "power_rule": t_power_rule()}
+            "rs_phase1": t_rs_phase1(), "rs_phase2": t_rs_phase2(), "rs_anchor": t_rs_anchor(), "power_rule": t_power_rule(),
+            "families": BM.t_families(), "lidar": BM.t_lidar()}
     sg = os.path.join(ROOT, "docs/src/subgrid_section.md")
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
+    p3s = os.path.join(ROOT, "docs/src/phase3_section.md")
+    body = body.replace("{{INCLUDE:phase3}}", open(p3s, encoding="utf-8").read() if os.path.exists(p3s) else "")
     an = os.path.join(ROOT, "docs/src/anchors_section.md")
     body = body.replace("{{INCLUDE:anchors}}", open(an, encoding="utf-8").read() if os.path.exists(an) else "")
     for k, v in tabs.items():
