@@ -1,6 +1,6 @@
 ### 8.7 Phase 2: what the elevation model cannot see (SIMULATED BY ME, model assumption dependent)
 
-> **SIMULATION ONLY, model assumption dependent.** Everything below describes a synthetic detector and a model, validated only against synthetic truth in phase 2 (tested against North American lidar on 2026-10-20, section 13.5). No lidar, drone or field profile of a real Arabian slip face was retrieved, so the detector has never been tested against reality. The predictions for this stage were committed before the code was run (`docs/PREDICTIONS.md`, stage 2) and the hits and misses are recorded there.
+> **SIMULATION ONLY, model assumption dependent.** Everything below describes a synthetic detector and a model, validated only against synthetic truth in phase 2 (tested against North American lidar on 2026-10-20, section 13.5). No lidar, drone or field profile of a real Arabian slip face was retrieved, so the detector has never been tested against an Arabian dune. The predictions for this stage were committed before the code was run (`docs/PREDICTIONS.md`, stage 2) and the hits and misses are recorded there.
 
 **Problem.** A 30 m GLO-30 post spacing cannot resolve an active slip face, whose horizontal run is only about 1.4 to 1.7 times its height (morphology row PM10): a few metres to a few tens of metres. A cell that contains a face reads as a gentle slope. The phase 1 map was therefore binary and optimistic.
 

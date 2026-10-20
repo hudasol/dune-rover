@@ -38,6 +38,7 @@ def values() -> dict:
     v["p3_rows_new"] = sum(r["id"].startswith(p3) for r in ev)
     v["p3_sources_total"] = len({r["source_url"] for r in ev})
     v["p3_sources_new"] = len({r["source_url"] for r in ev if r["id"].startswith(p3)})
+    v["ver_p4_n"] = sum(not r["id"].startswith(p3) for r in ev)
     st = _js("research/verification_stats.json") or {}
     g = st.get("new rows of the 2026-10-20 evidence expansion, phase 5")
     if g:
@@ -57,6 +58,14 @@ def values() -> dict:
         v[f"tv_auc_{s}_{k}"] = f2(r["auc"]); v[f"tv_fs_{s}_{k}"] = pct(r["face_rate_in_traversable"]); v[f"tv_rate_{s}_{k}"] = pct(r["true_face_rate"])
         v[f"tv_p_{s}_{k}"] = pct(r["mean_predicted_face_probability"]); v[f"tv_trav_{s}_{k}"] = pct(r["share_traversable"])
         v[f"tv_unkface_{s}_{k}"] = pct(r["face_rate_in_unknown"])
+    tvm = _rd("results/terrain_validation/metrics.csv")
+    for k in ("5", "10", "30"):
+        rr = [r for r in tvm if r["posting_m"] == k]
+        if rr:
+            fs = [float(r["face_rate_in_traversable"]) for r in rr]; au = [float(r["auc"]) for r in rr]
+            miss = [float(r["share_traversable"]) * float(r["face_rate_in_traversable"]) / float(r["true_face_rate"]) for r in rr]
+            v[f"tv_fs_min_{k}"] = pct(min(fs)); v[f"tv_fs_max_{k}"] = pct(max(fs)); v[f"tv_auc_min_{k}"] = f2(min(au)); v[f"tv_auc_max_{k}"] = f2(max(au))
+            v[f"tv_miss_min_{k}"] = pct(min(miss), 0); v[f"tv_miss_max_{k}"] = pct(max(miss), 0)
     for r in _rd("results/terrain_validation/slope_gap.csv"):
         v[f"tv_gap_{r['site']}"] = f"{float(r['median_gap_deg']):.1f}"
         v[f"tv_max1m_{r['site']}"] = f"{float(r['median_max_1m_slope_in_face_cells_deg']):.1f}"
@@ -131,7 +140,9 @@ def values() -> dict:
         v[f"pm_n_{r['site']}_{r['posting_m']}"] = r["pairs_routed_by_conservative"]
     # stage 18: rule options
     for r in _rd("results/field_kit/rule_options_2026-10-20.csv"):
-        v[f"ro_{r['rule'].split('_')[0] if r['rule'] == 'current' else r['rule'].split('_')[1]}_{r['truth']}_{r['sigma']}"] = pct(r["accepted_rate"], 0)
+        tag = r["rule"].split("_")[0] if r["rule"] == "current" else r["rule"].split("_")[1]
+        v[f"ro_{tag}_{r['truth']}_{r['sigma']}"] = pct(r["accepted_rate"], 0)
+        v[f"ro_{tag}_{r['truth']}_rej_{r['sigma']}"] = pct(1 - float(r["accepted_rate"]), 0)
     return v
 
 

@@ -81,7 +81,7 @@ def main():
     with open(os.path.join(OUT, "sobol_indices.csv"), "w", newline="") as fh:   # rows of earlier range sets first, then the new ones
         w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
     json.dump({"N": N, "seed": SEED, "bootstrap": NBOOT, "output": "share of area A cells (30 m) with at least 4 of 8 passable headings",
-               "range_sets": sets}, open(os.path.join(OUT, "summary.json"), "w"), indent=1)
+               "range_sets": sorted({r["range_set"] for r in rows})}, open(os.path.join(OUT, "summary.json"), "w"), indent=1)
 
 
 if __name__ == "__main__":

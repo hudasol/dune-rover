@@ -14,18 +14,18 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Field slip is large and patchy:** Spirit 15 to 20 % at 19 degrees and 95 % at 16 degrees on look alike terrain (FLD-011, FLD-012); Perseverance above 94 % at about 20 degrees (FLD-025).
 - **Arabian sand:** grain size, sorting, mineralogy and density of UAE, Qatari, Saudi and Omani dune sands are published (SND rows); no friction angle or slip face angle measured on UAE dunes was found.
 
-## 3. What was tested (SIMULATED BY ME, every test pre registered in `docs/PREDICTIONS.md`)
+## 3. What was tested (SIMULATED BY ME; every main test pre registered in `docs/PREDICTIONS.md`, post hoc analyses labelled)
 
 - **Slip models against published curves.** 4 model families, calibrated on other studies, predicted a held out study with median slip errors of 0.20 to 0.24; none met the bar of 0.15 fixed beforehand, and an empirical curve did as well as the physics.
 - **Independent simulator.** Project Chrono with published soils gives 0.21 slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve.
-- **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), a 30 m three class map called cells TRAVERSABLE that contained steep slip faces in 25.6 %, 28.6 % and 28.0 % of cases; at 10 m in 3.6 %, 2.5 % and 1.8 %.
+- **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), 25.6 % to 28.6 % of the cells a 30 m three class map called TRAVERSABLE contained steep slip faces (1.8 % to 3.6 % at 10 m).
 - **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison).
 - **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is 62.8 % (Liwa), 44.3 % and 46.0 % (Rub' al Khali), against 8.6 %, 10.9 % and 2.5 % under the original assumed ranges (25.1 %, 30.9 % and 4.2 % if draws that cannot move on level ground are rejected, post hoc).
 
 ## 4. Negative results
 
 - No slip model transfers between vehicles and soils with useful accuracy; two implementations of the same Bekker and Janosi laws disagree by more than field scatter.
-- A 30 m map hides about a quarter of the steep ground; the slip face detector works at 10 m and fails at 30 m.
+- A 30 m map labels 36 % to 73 % of the cells that contain a steep face as TRAVERSABLE (7 % to 20 % at 10 m); the slip face detector works much better at 10 m than at 30 m.
 - The planned pass or fail rule accepts a model that collapses above 20 degrees in 53 % of synthetic replicates; stricter options reject a correct model more than half the time.
 
 ## 5. Error rate of the evidence table

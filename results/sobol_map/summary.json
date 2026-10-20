@@ -4,6 +4,8 @@
  "bootstrap": 200,
  "output": "share of area A cells (30 m) with at least 4 of 8 passable headings",
  "range_sets": [
-  "posterior_2026_10_20"
+  "original",
+  "posterior_2026_10_20",
+  "widened_i0"
  ]
 }

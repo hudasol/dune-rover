@@ -24,7 +24,7 @@ Project Chrono's Soil Contact Model with published wheel sizes and soil sets giv
 
 {{TABLE:lidar}}
 
-The detector and the map work at 5 and 10 m and fail at 30 m on three real dune fields (Dumont Dunes, White Sands, Kelso Dunes; USGS 3DEP one metre lidar): at 30 m about one TRAVERSABLE cell in four contains at least 10 square metres steeper than 28 degrees, and the detector underestimates face prevalence by about 0.2. Slip face direction against ERA5 resultant drift direction: {{VAL:wind_hits}} sites within 45 degrees (`results/wind_azimuth/face_vs_wind.csv`).
+The detector and the map work much better at 5 and 10 m than at 30 m on three real dune fields (Dumont Dunes, White Sands, Kelso Dunes; USGS 3DEP one metre lidar): at 30 m about one TRAVERSABLE cell in four contains at least 10 square metres steeper than 28 degrees, {{VAL:tv_miss_min_30}} to {{VAL:tv_miss_max_30}} of the cells containing a face are called TRAVERSABLE ({{VAL:tv_miss_min_10}} to {{VAL:tv_miss_max_10}} at 10 m), and the detector underestimates face prevalence by about 0.2. Slip face direction against ERA5 resultant drift direction: {{VAL:wind_hits}} sites within 45 degrees (`results/wind_azimuth/face_vs_wind.csv`).
 
 ### 13.6 Planning (SIMULATED BY ME; stage 17)
 
