@@ -1,0 +1,7 @@
+slope_deg,wheel,soil,speed_m_s,grid_m,forward_speed_m_s,slip,entrapped,sinkage_m,wall_s,check
+5.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.01,0.1773,0.1135,False,0.0307,54.5,grid 0.01 m
+5.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.05,0.02,0.04481,0.1038,False,0.0336,31.6,speed 0.05 m/s
+15.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.01,0.14971,0.2514,False,0.0303,70.9,grid 0.01 m
+15.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.05,0.02,0.03813,0.2373,False,0.0324,23.6,speed 0.05 m/s
+25.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.01,0.11555,0.4222,False,0.0298,59.1,grid 0.01 m
+25.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.05,0.02,0.02991,0.4018,False,0.0318,33.4,speed 0.05 m/s
