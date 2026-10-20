@@ -117,39 +117,39 @@
   ]
  },
  "new rows of the 2026-10-20 evidence expansion, phase 5": {
-  "n": 123,
-  "correct": 96,
-  "minor_error": 17,
-  "material_error": 10,
+  "n": 194,
+  "correct": 153,
+  "minor_error": 29,
+  "material_error": 12,
   "unverifiable": 0,
-  "material_rate": 0.08130081300813008,
+  "material_rate": 0.061855670103092786,
   "material_wilson95": [
-   0.04475838884502017,
-   0.1432051814662972
+   0.03573428875613663,
+   0.1049924340362387
   ],
   "material_upper95_exact": null,
-  "any_rate": 0.21951219512195122,
+  "any_rate": 0.211340206185567,
   "any_wilson95": [
-   0.1554740213505587,
-   0.30054040924634323
+   0.15978018092961468,
+   0.2741103658512444
   ]
  },
  "CURRENT TABLE, latest verdict per row": {
-  "n": 294,
-  "correct": 216,
-  "minor_error": 60,
-  "material_error": 18,
+  "n": 365,
+  "correct": 273,
+  "minor_error": 72,
+  "material_error": 20,
   "unverifiable": 0,
-  "material_rate": 0.061224489795918366,
+  "material_rate": 0.0547945205479452,
   "material_wilson95": [
-   0.03907448197222858,
-   0.09469326571647577
+   0.03574747162361154,
+   0.08311547659047275
   ],
   "material_upper95_exact": null,
-  "any_rate": 0.2653061224489796,
+  "any_rate": 0.25205479452054796,
   "any_wilson95": [
-   0.218101258628808,
-   0.31856521106515023
+   0.21025032606355656,
+   0.2990241158649027
   ]
  },
  "CURRENT SUPPLEMENTARY ROWS, latest verdict per row": {

@@ -1,6 +1,6 @@
 # Verification log
 
-Every one of the 294 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
+Every one of the 365 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
 Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
 Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).
@@ -43,15 +43,15 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material error rate 0/2 = 0.0 % (exact 95 % upper bound 77.6 %)
 - any discrepancy rate 1/2 = 50.0 % (Wilson 95 % CI 9.5 to 90.5 %)
 
-## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 123)
-- correct 96, minor 17, material 10, unverifiable 0
-- material error rate 10/123 = 8.1 % (Wilson 95 % CI 4.5 to 14.3 %)
-- any discrepancy rate 27/123 = 22.0 % (Wilson 95 % CI 15.5 to 30.1 %)
+## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 194)
+- correct 153, minor 29, material 12, unverifiable 0
+- material error rate 12/194 = 6.2 % (Wilson 95 % CI 3.6 to 10.5 %)
+- any discrepancy rate 41/194 = 21.1 % (Wilson 95 % CI 16.0 to 27.4 %)
 
-## CURRENT TABLE, latest verdict per row (n = 294)
-- correct 216, minor 60, material 18, unverifiable 0
-- material error rate 18/294 = 6.1 % (Wilson 95 % CI 3.9 to 9.5 %)
-- any discrepancy rate 78/294 = 26.5 % (Wilson 95 % CI 21.8 to 31.9 %)
+## CURRENT TABLE, latest verdict per row (n = 365)
+- correct 273, minor 72, material 20, unverifiable 0
+- material error rate 20/365 = 5.5 % (Wilson 95 % CI 3.6 to 8.3 %)
+- any discrepancy rate 92/365 = 25.2 % (Wilson 95 % CI 21.0 to 29.9 %)
 
 ## CURRENT SUPPLEMENTARY ROWS, latest verdict per row (n = 27)
 - correct 12, minor 13, material 2, unverifiable 0
@@ -109,6 +109,20 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - MOB-062 (phase 5): material_error: The value (cone index 80 of the test course) is a property measurement, so validation type should be none; the sim-vs-field comparison is the go/no go result, not this value.
 - TM-018 (phase 1): minor_error: Facility labelled ESA/DLR TROLL; paper describes TROLL as a DLR facility (authors affiliated with ESA/ESTEC).
 - SIM-013 (phase 1): minor_error: Equation 3 coefficients match the printed text, but the unit label 'slip ratio' describes the equation output not the coefficient; unit of alpha is not stated in the paper.
+- PLN-003 (phase 5): minor_error: Method names rear HazCam images, but the X to A track analysis (Extended Data Fig. 4b) used a NaTeCam image taken on sol 11; Methods say trace unit width is estimated using NaTeCam or rear HazCam images. Value is right.
+- PLN-007 (phase 5): minor_error: Method says measured from the navigation camera panorama, but the paper gives the dimensions with reference to Fig. 3b, an image taken on sol 50; the 360 deg NaTeCam panorama (Fig. 3a) was taken on sol 6, and the paper does not state the camera or how the dune was measured. Values are right.
+- PLN-018 (phase 5): minor_error: Value is right, but two context labels are misattributed: the 28% SO3 measurement is from target John Wesley Powell on sol 1861 in the western valley, not the sol 1870 site; the 4 deg south tilt is stated for sol 2072, not the sol 1870 position (the sol 1870 drive placed Spirit about 9 m northwest of Troy).
+- PLN-022 (phase 5): minor_error: Values are right, but the paper describes the inoperative right front wheel as pushed during forward drives (the 500 N case), not dragged; dragging applies to backward drives (75 N).
+- PLN-033 (phase 5): material_error: Value 12% per step is correct, but the VO validation run in Sec. II.C names neither the vehicle nor the terrain or site, so Rocky8 and field are not supported; the 12% is a measurement precision of the VO ground truth against a total station (an instrument property), which fits validation_type none rather than field.
+- PLN-035 (phase 5): minor_error: Value right; location says paragraph after Fig. 18, but on p. 1338 the sentence sits in the paragraph that follows Fig. 17 and precedes Fig. 18.
+- PLN-040 (phase 5): minor_error: Value 8.3 to 16.5 deg is right, but the soil parameter context is wrong: the external friction angle was bounded with K_y = 13 mm and 40 mm, not the 15 to 45 mm range used for the outbound path predictions.
+- PLN-051 (phase 5): minor_error: Values correct but the WES conclusions are on printed pp. 27 to 28 (PDF pp. 36 to 37), not pp. 21 to 22.
+- PLN-060 (phase 5): minor_error: Value correct but the M2020 Rover Capability subsection belongs to Sec. 2 Problem Description, not Sec. 3 Overview of Analysis Method.
+- PLN-064 (phase 5): material_error: Values correct, but no simulation is involved: kD^0.39 is obtained by inverting an analytic small wheel model on image derived field sinkage and compared with an analytic fit to field penetrometer data, which is field under the brief (analytic model compared with a measurement takes the measurement's type), not sim-vs-field. The comparison model is named Bernstein-Goriatchkin (BG) in the paper, not Bekker.
+- PLN-065 (phase 5): minor_error: Value correct. The paper does not place this ripple at the Seitah region edge; it is on the return trip from the Delta base toward Enchanted Lake. The passage is in The Next Year of Driving subsection, not the Mobility Faults paragraph.
+- PLN-066 (phase 5): minor_error: Value correct; passage is in The Next Year of Driving subsection, not the Mobility Faults paragraph.
+- PLN-067 (phase 5): minor_error: Value correct; passage is in The Next Year of Driving subsection, not the Mobility Faults paragraph.
+- PLN-068 (phase 5): minor_error: Value correct; VOSLIP EXCESSIVE is in the Unexpected Drive Faults list (and Table 2), not the Nominal Drive Faults list.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
 - LRN-009 (phase 1): minor_error: Dataset split (9235/3958) is in Sec. 4.1 (end of testbed/dataset text, Fig 3), not Sec. 4.2 (which is feature selection).
 - TM-021 (phase 1): minor_error: Source never calls the Toyoura sand 'dry' (word not found in the text); otherwise terrain fine. Also the '85% accuracy' is not defined in the paper and matches the average of the Table 1 adjusted R-square values (about 0.85), i.e. an in-sample goodness-of-fit, not a prediction error.
