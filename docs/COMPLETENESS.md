@@ -1,6 +1,6 @@
 # Completeness of the research (2026-10-20)
 
-Generated from `docs/src/completeness_template.md` by `scripts/build_report.py`; the facts in each row come from result files, the scores are the author's working judgement against the criteria written next to them, set before scoring. A score is out of 10. Nothing here claims field validation.
+Generated from `docs/src/completeness_template.md` by `scripts/build_report.py`; the facts in each row come from result files, the scores are working judgements against the criteria written next to them (criteria set before scoring), for the author to revise. A score is out of 10. Nothing here claims field validation.
 
 | Part | Criteria for a full score | State (from the files) | Score |
 |---|---|---|---|
