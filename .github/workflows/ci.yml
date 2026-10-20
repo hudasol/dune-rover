@@ -40,7 +40,7 @@ jobs:
           python scripts/consolidate_evidence.py
           python scripts/verify_stats.py
           PYTHONPATH=src python scripts/build_report.py
-          git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md research/
+          git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md docs/PROPOSAL_ROBOTICS.md research/
       - name: Writing rules (no dash characters, no banned names)
         run: |
           python - <<'PY'

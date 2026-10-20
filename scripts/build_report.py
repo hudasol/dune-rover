@@ -437,7 +437,8 @@ def main():
     import phase3_values as P3, build_manuscript as BM   # 2026-10-20 values and tables (stages 12 to 18)
     vals.update(P3.values()); vals = BM.extra_values(vals)
     for tmpl, outp in (("docs/src/brief_template.md", "docs/EXECUTIVE_BRIEF.md"), ("docs/src/readme_template.md", "README.md"),
-                       ("docs/src/proposal_edge_template.md", "docs/PROPOSAL_EDGE.md")):
+                       ("docs/src/proposal_edge_template.md", "docs/PROPOSAL_EDGE.md"),
+                       ("docs/src/proposal_robotics_template.md", "docs/PROPOSAL_ROBOTICS.md")):
         t = open(os.path.join(ROOT, tmpl), encoding="utf-8").read()
         for k, v in vals.items():
             t = t.replace("{{VAL:%s}}" % k, str(v))
