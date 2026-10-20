@@ -20,7 +20,7 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Independent simulator.** Project Chrono with published soils gives 0.21 slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve.
 - **Terrain map against real lidar.** On three North American dune fields (USGS one metre lidar), a 30 m three class map called cells TRAVERSABLE that contained steep slip faces in 25.6 %, 28.6 % and 28.0 % of cases; at 10 m in 3.6 %, 2.5 % and 1.8 %.
 - **Planning.** On 30 m maps no policy was safer than naive planning against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison).
-- **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is 62.8 % (Liwa), 44.3 % and 46.0 % (Rub' al Khali), against 8.6 %, 10.9 % and 2.5 % under the original assumed ranges.
+- **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is 62.8 % (Liwa), 44.3 % and 46.0 % (Rub' al Khali), against 8.6 %, 10.9 % and 2.5 % under the original assumed ranges (25.1 %, 30.9 % and 4.2 % if draws that cannot move on level ground are rejected, post hoc).
 
 ## 4. Negative results
 
