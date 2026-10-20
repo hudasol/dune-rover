@@ -34,3 +34,5 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 2026-10-20 13:25 W3 stage 15 done: the Bekker Wong family also fails the bar (held out 0.20, coverage 0.71) (cd11473); post hoc posterior without immobile draws (94e720c) and on Earth sand curves only (0920219).
 - 2026-10-20 13:30 W4 discrete element check blocked: a Chrono DEM bed of 1860 spheres ran at more than 60 ms per step on this two core machine (a 3 s run would need over 30 minutes per slope); stopped within its budget, not run. Logged as a remaining gap in docs/COMPLETENESS.md.
 - 2026-10-20 13:40 W9 final review done: 12 findings, fixed in a1d3fc0 and recorded in docs/REVIEW_2026-10-20.md (86d0e19).
+- 2026-10-20 14:05 W5 stage 13 done: ERA5 wind for six sites (download slowed by rate limits); 4 of 6 sites within 45 deg (b73b595).
+- 2026-10-20 14:08 W7, W8 and W9 closed: manuscript committed with a CI check (b8ecce1), report and brief PDFs rebuilt (dcf7b6b), morning report section written. CI green on the latest commit.
