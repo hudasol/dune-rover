@@ -47,7 +47,7 @@ manuscript/           the paper (source in manuscript/src, generated MANUSCRIPT.
 src/dunerover/        simulation code (DEM, slope, slip model, graph routing, sensitivity, sub-grid detector, three class map, field analysis)
 scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verification.py, verify_stats.py, build_report.py,
                       analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, anchor_comparisons.py, check_repo_hygiene.py, scan_secrets.py ...
-tests/                66 tests
+tests/                66 test functions (more cases when parametrised)
 results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit (synthetic data),
                       results/anchors (model against the Dumont Dunes and Ishigami 2009 values), results/dumont_prior (stage 7),
                       results/*widened_i0* (stage 9, widened ranges), results/range_set_diagnostics (stage 11)
