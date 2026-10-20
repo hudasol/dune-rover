@@ -306,7 +306,7 @@ Design fixed now:
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| G16-1 | `widened_i0_fr` without immobile draws: UNKNOWN at 30 m lies between 34 % and 70 % in area A, between 39 % and 75 % in B and between 11 % and 50 % in C (above `widened_i0`, far below the 90 % of stage 9). | |
+| G16-1 | `widened_i0_fr` without immobile draws: UNKNOWN at 30 m lies between 34 % and 70 % in area A, between 39 % and 75 % in B and between 11 % and 50 % in C (above `widened_i0`, far below the 90 % of stage 9). | MISSED for A and C. Without immobile draws, UNKNOWN at 30 m is 33.3 % in A (just below the predicted 34 %), 40.6 % in B (inside) and 8.5 % in C (below 11 %), almost exactly the `widened_i0` values (33.9, 39.2, 11.2 %) (`results/subgrid_widened_i0_fr_mobile/class_shares.csv`). Once draws that cannot move on level ground are rejected, widening f_r to 0.35 adds nothing: the 90 % UNKNOWN shares of stage 9 came entirely from immobile draws. |
 | G16-2 | Area A, `original`: no parameter has a total Sobol index above 0.6 (the four parameters share the variance). | |
 | G16-3 | Area A, `widened_i0`: i0 has the largest total index, above 0.5. | |
 | G16-4 | In both range sets the sum of first order indices is above 0.7 (interactions are modest). | |
@@ -345,11 +345,14 @@ Note on stage 17 (appended after the run, no prediction edited): under the pre r
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| Q18-1 | Current rule reproduces stage 10: collapse accepted in 50 to 56 % at sigma 0.03. | |
-| Q18-2 | Option B rejects collapse in at least 80 % of replicates at sigma 0.03 and accepts the correct model in at least 60 %. | |
-| Q18-3 | Option C rejects collapse in at least 70 % at sigma 0.03 and accepts the correct model in at least 60 %. | |
-| Q18-4 | Option A accepts the correct model in fewer than 50 % of replicates at sigma 0.10 (strictness costs power). | |
-| Q18-5 | No option accepts the dumont truth in more than 10 % of replicates at any sigma. | |
+| Q18-1 | Current rule reproduces stage 10: collapse accepted in 50 to 56 % at sigma 0.03. | HIT. Current rule accepts collapse in 52.7 % at sigma 0.03 (`results/field_kit/rule_options_2026-10-20.csv`). |
+| Q18-2 | Option B rejects collapse in at least 80 % of replicates at sigma 0.03 and accepts the correct model in at least 60 %. | MISSED. Option B rejects collapse in 82.0 % at sigma 0.03, as predicted, but accepts the correct model in only 39.3 %. |
+| Q18-3 | Option C rejects collapse in at least 70 % at sigma 0.03 and accepts the correct model in at least 60 %. | MISSED. Option C rejects collapse in 80.0 % at sigma 0.03 but accepts the correct model in only 43.7 %. |
+| Q18-4 | Option A accepts the correct model in fewer than 50 % of replicates at sigma 0.10 (strictness costs power). | HIT. Option A accepts the correct model in 44.0 % at sigma 0.10 (and 43.0 % at 0.03). |
+| Q18-5 | No option accepts the dumont truth in more than 10 % of replicates at any sigma. | HIT. Largest acceptance of the dumont truth is 5.3 % (current rule, sigma 0.10). |
+
+
+Note on stage 18 (appended after the run, no prediction edited): every option that rejects the collapse model at least 80 % of the time also rejects a correct model more than half the time (options B and C accept the correct model in 39 to 48 %). With six runs per bin the ladder cannot separate a correct model from a model that is wrong only above 20 deg; more runs in the 20 and 25 deg bins, or a different rule, would be needed. This is put to Huda as part of question 7; the current rule stays in force.
 
 
 ## Stage 15: model families against the published curves (numbered 15 as planned; written 2026-10-20 after stages 16 to 18 were registered, BEFORE any calibration or validation run on the final curve set)
