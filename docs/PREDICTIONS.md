@@ -221,3 +221,45 @@ Notes appended 2026-10-18 after the second review (no prediction text edited):
 - Stage 9 context: in the widened_i0_fr set 9 to 12 % of draws cannot move on level ground (stage 11), more than the 5 % a TRAVERSABLE cell may tolerate, so the 90 % UNKNOWN shares largely reflect parameter combinations the original f_r basis excluded, not terrain.
 - Stage 10 corrections: R10-2's 38.7 % is the share of all 300 replicates flagged uninformative, not of the not reached replicates. R10-5's sum is 75.7 % (1.3 % plus 74.3 %), not 75.6 %.
 - Stage 10 informativeness: because `adequate` keeps its old meaning, the adequate rates in R10-1 and R10-4 and the R10-3 result were already determined by the stage 6 file, and the not reached share in R10-1 by the stage 6 diagnostic (96.7 % on 60 replicates). Only the third clause of R10-1, R10-2 and R10-5 carried new information. When the predicted entrapment slope is undefined but entrapment is observed, the implementation counts the entrapment test as failed; stage 10 did not state this case.
+
+
+## Stage 12: slip face detector and three class map against real lidar dune surfaces (written 2026-10-20, BEFORE any metric was computed on lidar data)
+
+**SIMULATED BY ME (the detector and the map) scored against PUBLISHED elevation data.** Data: USGS 3DEP one metre bare earth DEMs (public domain), lidar derived. Sites: Dumont Dunes, California (tile USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24, the dune field of the Heverly et al. 2013 anchor), White Sands, New Mexico (NM_WhiteSandsNM_2020_D20), Kelso Dunes, California (USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24). These are North American dune fields, not Arabian; the test checks the method, not Arabian terrain.
+
+Design fixed now:
+- Windows: one rectangle per site covering the active dune field, chosen by looking at a 20 m slope image before any metric was computed. Dumont: easting 564900 to 567900 m, northing 3943500 to 3948300 m (UTM 11N). White Sands and Kelso windows are chosen the same way and recorded in the run log before the metrics are computed.
+- Truth: the one metre slope (Horn gradient). A coarse cell "contains a face" if at least 10 one metre posts inside its footprint have slope of 28 deg or more (the detector's FACE_TRUTH_DEG), so isolated noisy posts do not count. A secondary truth (any post at 28 deg or more) is reported beside it.
+- Degraded surfaces: block means of the one metre DEM at 5, 10 and 30 m (box sampling, as the detector assumes).
+- Detector: `subgrid.fit(d, "base", 1.0)` per posting, unchanged, trained on synthetic dunes only.
+- Map: `threeclass.q_pass` with 256 draws of the original range set (seed 20261020) and `threeclass.classify` at tau 0.20, unchanged.
+- Metrics per site and posting: AUC and Brier score of the face probability against truth; mean predicted probability against the true face rate; class shares; the true face rate inside TRAVERSABLE, UNKNOWN and BLOCKED cells ("false safe" = TRAVERSABLE cells that contain a face).
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| D12-1 | At 30 m the detector AUC against lidar truth lies between 0.65 and 0.92 at each of the three sites (no better than its synthetic AUC of 0.92). | |
+| D12-2 | At each site the AUC at 5 m is at least the AUC at 30 m. | |
+| D12-3 | At 30 m the true face rate inside UNKNOWN cells is at least three times the rate inside TRAVERSABLE cells at each site. | |
+| D12-4 | At 30 m the false safe rate (share of TRAVERSABLE cells that contain a face) lies between 2 % and 20 % at each site. | |
+| D12-5 | At 30 m the mean predicted face probability over the window is within 0.10 of the true face rate at each site. | |
+| D12-6 | Over 30 m cells that contain a face, the median of (steepest one metre slope in the cell minus the 30 m cell slope) is at least 10 deg at each site. | |
+
+
+## Stage 13: slip face direction against the wind (written 2026-10-20, BEFORE any wind data or face direction was computed)
+
+Hypothesis: on dune fields shaped by one dominant wind, slip faces dip toward the resultant sand drift direction. **Wind: PUBLISHED reanalysis (ERA5 hourly 10 m wind through the free Open-Meteo archive API, 2015 to 2024, the grid point nearest each window centre). Face directions: SIMULATED BY ME from the elevation data.**
+
+Design fixed now:
+- Drift potential per hour proportional to U squared times (U minus Ut) for U above Ut, with Ut = 6.0 m/s at 10 m (ASSUMPTION, a common threshold in the Fryberger style method; cited only if a retrieved source prints it). Sand moves toward the direction opposite to where the wind comes from. Resultant drift direction (RDD) and the ratio RDP/DP are computed from the vector sum.
+- Face dip direction: downslope azimuth of every post steeper than 28 deg (lidar sites, one metre) or of every 30 m post steeper than 15 deg (Arabian Copernicus areas A, B, C of phase 2; ASSUMPTION, faces are not resolved at 30 m), circular mean and resultant length R.
+- A site is a hit if the circular mean face dip azimuth is within 45 deg of the RDD.
+
+| ID | Prediction made before the run | Outcome |
+|---|---|---|
+| T13-1 | White Sands (transverse and barchan dunes): hit. | |
+| T13-2 | Dumont Dunes: hit. | |
+| T13-3 | Kelso Dunes (complex dunes in variable winds): miss, or face resultant length R below 0.3. | |
+| T13-4 | Area A, Liwa (crescentic megadunes): hit. | |
+| T13-5 | Area B, Rub al Khali megadunes: miss. | |
+| T13-6 | Area C, linear dunes: miss, with R below 0.3 because linear dunes have faces on both flanks. | |
+| T13-7 | Overall at least 3 hits out of 6. With six sites this is a check of the method, not a statistical test. | |
