@@ -1,0 +1,6 @@
+WhiteSands: faces 269220 mean dip 75 deg (R 0.85), RDD 39 deg (RDP/DP 0.53), difference 36 deg
+Dumont: faces 3008787 mean dip 274 deg (R 0.15), RDD 52 deg (RDP/DP 0.77), difference 138 deg
+Kelso: faces 494562 mean dip 38 deg (R 0.49), RDD 93 deg (RDP/DP 0.74), difference 55 deg
+A_south_Liwa: faces 30332 mean dip 157 deg (R 0.58), RDD 159 deg (RDP/DP 0.56), difference 2 deg
+B_RubAlKhali_megadunes: faces 195890 mean dip 168 deg (R 0.25), RDD 161 deg (RDP/DP 0.42), difference 7 deg
+C_RubAlKhali_linear: faces 2322 mean dip 151 deg (R 0.87), RDD 189 deg (RDP/DP 0.39), difference 38 deg
