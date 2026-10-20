@@ -281,13 +281,16 @@ Design fixed now:
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| P14-1 | W1 S1: slip at 12.5 deg below 0.30, so Chrono with a published Toyoura set predicts less slip than the Dumont curve (about 0.49 there). | |
-| P14-2 | W1 S2: entrapment at or below 20 deg. | |
-| P14-3 | W2 S1: slip at 10 deg direct ascent between 0.05 and 0.40. | |
-| P14-4 | For every wheel and soil, slip does not decrease by more than 0.05 from one slope step to the next. | |
-| P14-5 | W1 S1 against the Dumont cubic over 4 to 21 deg: root mean square difference above 0.15. | |
-| P14-6 | Halving the SCM grid (0.01 m) and lowering the speed to 0.05 m/s each change W1 S1 slip by less than 0.05 at 5, 15 and 25 deg. | |
-| P14-7 | W1 S1 against the nominal original slip model: within 0.15 at every slope from 5 to 15 deg. | |
+| P14-1 | W1 S1: slip at 12.5 deg below 0.30, so Chrono with a published Toyoura set predicts less slip than the Dumont curve (about 0.49 there). | HIT. W1 S1 slip 0.212 at 12.5 deg (`results/chrono_scm/sweep.csv`), against about 0.49 on the Dumont curve; informed by the feasibility runs. |
+| P14-2 | W1 S2: entrapment at or below 20 deg. | MISSED, narrowly. W1 S2 slip is 0.405 at 20 deg and the wheel slides back at 22.5 deg, so entrapment comes at 22.5 deg, not at or below 20. |
+| P14-3 | W2 S1: slip at 10 deg direct ascent between 0.05 and 0.40. | HIT. W2 S1 slip 0.369 at 10 deg. |
+| P14-4 | For every wheel and soil, slip does not decrease by more than 0.05 from one slope step to the next. | MISSED for W2 S1: slip falls from 0.534 at 17.5 deg to 0.503 at 20 and 0.178 at 22.5 before the wheel slides back at 25 deg, a non physical drop that points to a numerical artefact of the small wheel on the 0.01 m grid; the other three combinations are monotone until entrapment. |
+| P14-5 | W1 S1 against the Dumont cubic over 4 to 21 deg: root mean square difference above 0.15. | HIT. Root mean square difference between W1 S1 and the Dumont cubic over 4 to 21 deg is 0.354; at 12.6 deg Chrono gives 0.21 against 0.50. |
+| P14-6 | Halving the SCM grid (0.01 m) and lowering the speed to 0.05 m/s each change W1 S1 slip by less than 0.05 at 5, 15 and 25 deg. | HIT. Grid 0.01 m changes slip by 0.003, 0.003 and 0.002 at 5, 15 and 25 deg; speed 0.05 m/s by 0.007, 0.012 and 0.018 (`results/chrono_scm/checks.csv`). |
+| P14-7 | W1 S1 against the nominal original slip model: within 0.15 at every slope from 5 to 15 deg. | HIT. W1 S1 against the nominal original model at 5 to 15 deg: largest difference 0.067 (at 15 deg, 0.249 against 0.182); informed by the feasibility runs. |
+
+
+Note on stage 14 (appended after the run, no prediction edited): with published soil sets and smooth wheels, Chrono predicts much less slip than the Dumont curve for the Scarecrow sized wheel (0.21 against 0.50 at 12.6 deg) and climbs to 30 deg at 48 % slip on the Toyoura set. The same wheels and soil sets in the repository's Bekker Wong family (`scripts/compare_chrono.py`, `results/chrono_scm/comparison.csv`) give very different curves (root mean square difference 0.44 to 0.75, the family entraps far earlier), although both rest on the Bekker pressure sinkage and Janosi shear laws. The reason was not isolated in this session. Two implementations of the same textbook laws disagree by more than the field data scatter, so model form is itself a large source of uncertainty. Chrono's Soil Contact Model is therefore not independent of terramechanics theory; a discrete element or physical test would be.
 
 
 ## Stage 16: question 8 (widened range without immobile draws) and global sensitivity of the map (written 2026-10-20, BEFORE either run)

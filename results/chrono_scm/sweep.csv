@@ -1,0 +1,53 @@
+slope_deg,wheel,soil,speed_m_s,grid_m,forward_speed_m_s,slip,entrapped,sinkage_m,wall_s
+0.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.19837,0.0081,False,0.0305,10.4
+2.5,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.18529,0.0736,False,0.0307,10.1
+5.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.17783,0.1109,False,0.0303,12.1
+7.5,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.17117,0.1441,False,0.0303,14.9
+10.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.16444,0.1778,False,0.0306,11.0
+12.5,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.15759,0.212,False,0.0306,11.5
+15.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.15022,0.2489,False,0.0307,10.8
+17.5,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.1427,0.2865,False,0.0306,11.4
+20.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.13454,0.3273,False,0.0306,9.9
+22.5,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.12601,0.37,False,0.0303,10.3
+25.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.11595,0.4202,False,0.0299,11.6
+27.5,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.10899,0.4551,False,0.0295,13.7
+30.0,W1_scarecrow_like,S1_toyoura_ishigami2007,0.2,0.02,0.10323,0.4838,False,0.0292,14.2
+0.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.19508,0.0246,False,0.0523,15.6
+2.5,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.19275,0.0362,False,0.0521,15.0
+5.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.18855,0.0572,False,0.0526,13.3
+7.5,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.18225,0.0887,False,0.0519,10.2
+10.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.17398,0.1301,False,0.0527,10.3
+12.5,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.16673,0.1663,False,0.0525,10.3
+15.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.15921,0.2039,False,0.0518,10.1
+17.5,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.14777,0.2612,False,0.0521,10.2
+20.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,0.11893,0.4053,False,0.0514,10.3
+22.5,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,-1.13938,6.6969,True,0.0532,11.5
+25.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,,,not run (entrapped at a lower slope),,0
+27.5,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,,,not run (entrapped at a lower slope),,0
+30.0,W1_scarecrow_like,S2_dem_calibrated_zhang2024,0.2,0.02,,,not run (entrapped at a lower slope),,0
+0.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.19953,0.0023,False,0.0199,5.0
+2.5,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.17716,0.1142,False,0.02,5.0
+5.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.15343,0.2328,False,0.0201,4.9
+7.5,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.13897,0.3052,False,0.02,6.3
+10.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.12626,0.3687,False,0.02,5.7
+12.5,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.11439,0.428,False,0.02,5.8
+15.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.1037,0.4815,False,0.0199,5.1
+17.5,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.09317,0.5342,False,0.0198,5.4
+20.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.09939,0.5031,False,0.0197,5.2
+22.5,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,0.16435,0.1783,False,0.0203,6.3
+25.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,-0.41363,3.0681,True,0.0238,5.4
+27.5,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,,,not run (entrapped at a lower slope),,0
+30.0,W2_ishigami_like,S1_toyoura_ishigami2007,0.2,0.01,,,not run (entrapped at a lower slope),,0
+0.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.19407,0.0297,False,0.054,5.4
+2.5,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.18499,0.0751,False,0.0539,4.9
+5.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.17041,0.1479,False,0.0541,6.7
+7.5,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.15582,0.2209,False,0.0543,7.7
+10.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.13886,0.3057,False,0.0547,7.1
+12.5,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.11767,0.4116,False,0.0549,7.2
+15.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.09151,0.5424,False,0.0541,7.3
+17.5,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.06052,0.6974,False,0.0561,7.2
+20.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,0.04337,0.7832,False,0.0639,6.3
+22.5,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,-1.44238,8.2119,True,0.0814,4.6
+25.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,,,not run (entrapped at a lower slope),,0
+27.5,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,,,not run (entrapped at a lower slope),,0
+30.0,W2_ishigami_like,S2_dem_calibrated_zhang2024,0.2,0.01,,,not run (entrapped at a lower slope),,0
