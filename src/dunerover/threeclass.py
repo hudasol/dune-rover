@@ -25,11 +25,19 @@ TAU = 0.20
 CODES = {0: "TRAVERSABLE", 1: "BLOCKED", 2: "UNKNOWN (assumption sensitive)", 3: "UNKNOWN (sub-grid face risk)", 4: "UNKNOWN (both)"}
 
 
-def lhs_draws(n: int, seed: int) -> list[SlipParams]:
+def lhs_draws(n: int, seed: int, reject_immobile: bool = False) -> list[SlipParams]:
+    """Latin hypercube draws over the active range set.  reject_immobile (added 2026-10-20, stage 16, question 8):
+    draw 3 n points from the same seed and keep the first n that can move on level ground (slip on level ground at or
+    below i_max); the default keeps the original behaviour exactly."""
     b = bounds()
     keys = ("phi_deg", "f_r", "i0", "i_max")
-    u = qmc.LatinHypercube(d=4, seed=seed).random(n)
-    return [SlipParams(**{k: b[k][0] + u[j, i] * (b[k][1] - b[k][0]) for i, k in enumerate(keys)}) for j in range(n)]
+    u = qmc.LatinHypercube(d=4, seed=seed).random(3 * n if reject_immobile else n)
+    out = [SlipParams(**{k: b[k][0] + u[j, i] * (b[k][1] - b[k][0]) for i, k in enumerate(keys)}) for j in range(len(u))]
+    if reject_immobile:
+        out = [p for p in out if p.f_r / p.mu_max <= 1.0 - np.exp(-p.i_max / p.i0)][:n]
+        if len(out) < n:
+            raise RuntimeError("not enough mobile draws")
+    return out
 
 
 def q_pass(eg: TR.EdgeGeometry, draws: list[SlipParams]) -> np.ndarray:

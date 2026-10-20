@@ -41,7 +41,7 @@ research/phase2/      phase 2 retrieval reports and CSVs (morphology, rover opti
 src/dunerover/        simulation code (DEM, slope, slip model, graph routing, sensitivity, sub-grid detector, three class map, field analysis)
 scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verification.py, verify_stats.py, build_report.py,
                       analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, anchor_comparisons.py, check_repo_hygiene.py, scan_secrets.py ...
-tests/                65 tests
+tests/                66 tests
 results/              simulation outputs and figures (all labelled SIMULATION ONLY); results/subgrid, results/field_kit (synthetic data),
                       results/anchors (model against the Dumont Dunes and Ishigami 2009 values), results/dumont_prior (stage 7),
                       results/*widened_i0* (stage 9, widened ranges), results/range_set_diagnostics (stage 11)

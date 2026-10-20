@@ -64,6 +64,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/raw"); ap.add_argument("--out", default="results/subgrid"); ap.add_argument("--n-draws", type=int, default=N_DRAWS)
     ap.add_argument("--range-set", default="original", help="parameter range set from slipmodel.RANGE_SETS (default: original)")
+    ap.add_argument("--reject-immobile", action="store_true", help="stage 16: drop draws that cannot move on level ground (default off)")
     a = ap.parse_args(argv)
     apply_range_set(a.range_set)
     if a.range_set != "original":
@@ -80,7 +81,7 @@ def main(argv=None):
             models[key] = SG.fit(round(dm, 1), scn, pi, sampling, footprint=fp)
         return models[key]
 
-    summary = {"label": SIM_LABEL, "range_set": a.range_set, "version": __version__, "python": platform.python_version(), "n_draws": a.n_draws,
+    summary = {"label": SIM_LABEL, "range_set": a.range_set, "reject_immobile": a.reject_immobile, "version": __version__, "python": platform.python_version(), "n_draws": a.n_draws,
                "seeds": {"od": OD_SEED, "mc": {k: v[6] for k, v in AREAS.items()}, "detector_train": 20261014, "detector_test": 777},
                "inputs": {k: {"file": f, "sha256": sha256(os.path.join(a.data, f))} for k, f in TILES.items()},
                "rules": {"pass_headings": TC.PASS_HEADINGS, "q_lo": TC.Q_LO, "q_hi": TC.Q_HI, "tau": TC.TAU, "face_truth_deg": SG.FACE_TRUTH_DEG},
@@ -92,7 +93,7 @@ def main(argv=None):
         pairs = TR.select_od_pairs(base, 10, OD_SEED, sep)
         od_ll = od_to_latlon(base, pairs)
         summary["areas"][name] = {"description": desc, "shape_30m": list(base.shape), "relief_m": float(np.nanmax(base.z) - np.nanmin(base.z))}
-        draws = TC.lhs_draws(a.n_draws, seed)
+        draws = TC.lhs_draws(a.n_draws, seed, reject_immobile=a.reject_immobile)
         for k in (1, 2, 3):
             dem = coarsen(base, k); dm = 0.5 * (dem.dx + dem.dy); dms.add(round(dm, 1))
             eg = TR.precompute_edges(dem)
