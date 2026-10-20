@@ -57,6 +57,14 @@ RANGE_SETS = {
     },
 }
 RANGE_SETS["widened_i0_fr"]["i0"] = RANGE_SETS["widened_i0"]["i0"]
+# Posterior range set (added 2026-10-20, docs/PREDICTIONS.md stage 15): 5, 50 and 95 % posterior quantiles of the exponential
+# family calibrated on the 12 direct ascent curves comparable to dune sand (results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/posterior_exp.json).
+# SIMULATED BY ME from PUBLISHED curves of other vehicles (Heverly 2013, Inotsume 2016, Li 2008 on Mars): not a measurement for any rover in Arabia.
+RANGE_SETS["posterior_2026_10_20"] = {
+    "phi_deg": (36.93, 30.57, 43.74, "POSTERIOR (stage 15), lumped effective friction angle of the fitted curves", "posterior_exp.json, 5 to 95 %"),
+    "f_r": (0.129, 0.033, 0.320, "POSTERIOR (stage 15)", "posterior_exp.json, 5 to 95 %"),
+    "i0": (0.627, 0.327, 1.211, "POSTERIOR (stage 15)", "posterior_exp.json, 5 to 95 %"),
+}
 
 
 def apply_range_set(name: str) -> None:

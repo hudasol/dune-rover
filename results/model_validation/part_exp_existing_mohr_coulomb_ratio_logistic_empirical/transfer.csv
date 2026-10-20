@@ -1,0 +1,19 @@
+family,direction,curve,rmse,coverage90
+exp_existing,Dumont to Toyoura lab curves,yoshida2010_slide37_d116_w100,0.1988,0.5
+exp_existing,Dumont to Toyoura lab curves,yoshida2010_slide37_d202_w100,0.1871,0.222
+exp_existing,Dumont to Toyoura lab curves,yoshida2010_slide37_d327_w100,0.4206,0.222
+exp_existing,Dumont to Toyoura lab curves,yoshida2010_slide39_d202_w050,0.0856,0.714
+exp_existing,Dumont to Toyoura lab curves,yoshida2010_slide39_d202_w150,0.2648,0.222
+exp_existing,Toyoura lab curves to Dumont,heverly2013_fig12_scarecrow_dumont,0.2498,0.65
+mohr_coulomb_ratio,Dumont to Toyoura lab curves,yoshida2010_slide37_d116_w100,0.1388,0.667
+mohr_coulomb_ratio,Dumont to Toyoura lab curves,yoshida2010_slide37_d202_w100,0.1935,0.556
+mohr_coulomb_ratio,Dumont to Toyoura lab curves,yoshida2010_slide37_d327_w100,0.4081,0.222
+mohr_coulomb_ratio,Dumont to Toyoura lab curves,yoshida2010_slide39_d202_w050,0.1504,0.857
+mohr_coulomb_ratio,Dumont to Toyoura lab curves,yoshida2010_slide39_d202_w150,0.2633,0.222
+mohr_coulomb_ratio,Toyoura lab curves to Dumont,heverly2013_fig12_scarecrow_dumont,0.2542,0.6
+logistic_empirical,Dumont to Toyoura lab curves,yoshida2010_slide37_d116_w100,0.2345,0.0
+logistic_empirical,Dumont to Toyoura lab curves,yoshida2010_slide37_d202_w100,0.179,0.222
+logistic_empirical,Dumont to Toyoura lab curves,yoshida2010_slide37_d327_w100,0.4136,0.111
+logistic_empirical,Dumont to Toyoura lab curves,yoshida2010_slide39_d202_w050,0.0803,0.429
+logistic_empirical,Dumont to Toyoura lab curves,yoshida2010_slide39_d202_w150,0.2509,0.111
+logistic_empirical,Toyoura lab curves to Dumont,heverly2013_fig12_scarecrow_dumont,0.2607,0.65
