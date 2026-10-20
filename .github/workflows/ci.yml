@@ -41,6 +41,11 @@ jobs:
           python scripts/verify_stats.py
           PYTHONPATH=src python scripts/build_report.py
           git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTIVE_BRIEF.md docs/PROPOSAL_EDGE.md docs/PROPOSAL_ROBOTICS.md docs/COMPLETENESS.md research/
+      - name: Manuscript matches its sources and every hand typed number is justified
+        run: |
+          PYTHONPATH=src python scripts/build_manuscript.py --strict
+          git diff --ignore-cr-at-eol --exit-code -- manuscript/MANUSCRIPT.md
+          python scripts/check_manuscript_numbers.py
       - name: Writing rules (no dash characters, no banned names)
         run: |
           python - <<'PY'
