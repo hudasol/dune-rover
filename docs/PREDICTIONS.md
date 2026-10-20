@@ -389,3 +389,31 @@ Correction to V15-4 (appended after the final review, no prediction edited): the
 
 Note on stage 15 (appended after the run, no prediction edited): **POST HOC** (after seeing V15-7): re running phase 2 with the posterior set and the draws that cannot move on level ground rejected (`--reject-immobile`, `results/subgrid_posterior_2026_10_20_mobile_posthoc/`) gives UNKNOWN at 30 m of 25.1 % (A), 30.9 % (B) and 4.2 % (C) instead of 62.8, 44.3 and 46.0 %. About 5 % of immobile draws sit right at the 5 % a TRAVERSABLE cell may tolerate, so the UNKNOWN share under this set depends strongly on how such draws are treated; both numbers are reported.
 
+
+
+## Stage 19: satellite laser profiles (ICESat-2) as terrain truth, first on North American lidar, then on Arabian dunes (written 2026-10-21, BEFORE any ICESat-2 data was saved or analysed)
+
+**PUBLISHED data (ICESat-2 photon heights, NASA, processed on demand by the public SlideRule Earth service into ATL06 style segments; USGS 3DEP lidar; Copernicus GLO 30) scored by code of this repository (SIMULATED BY ME).** Disclosure: one connection test request over the White Sands tile was sent before this stage was written; the process was killed by the machine before any data was saved or seen.
+
+Design fixed now (`scripts/icesat2_profiles.py`):
+- Segments: SlideRule `atl06p` with surface type land (`srt` 0), high confidence photons only (`cnf` 4), segment length 10 m, step 5 m, at least 10 photons, along track spread at least 5 m. Along track slope angle of a segment = arctan of the fitted along track slope `dh_fit_dx`. The track azimuth comes from consecutive segments of the same beam and pass. Segments 20 m long (step 10 m) are reported beside them as a sensitivity check only.
+- Validation sites and dates (dunes move, so only passes near the lidar date are used): White Sands (lidar flown 2020-01-18 to 2020-01-19; ICESat-2 passes 2019-01-18 to 2021-01-19) and Kelso (lidar flown 2024-04-06 to 2025-09-06; passes 2023-04-06 to 2026-09-06), inside the stage 12 windows. If a site has fewer than 200 valid segments inside its window, the whole one metre tile is used instead. Dumont is not used, because its lidar truth includes rock (stage 12 correction).
+- Lidar along track slope: least squares line through the one metre lidar heights sampled every metre (bilinear) along the same 10 m line, centred on the segment centre and oriented along the track.
+- **Method bar, fixed now.** At a site the method passes if (i) the Pearson correlation between the ICESat-2 and lidar signed along track slope angles is at least 0.80, (ii) the median absolute difference is at most 2.0 deg, and (iii) on segments where the lidar slope is 20 deg or more in absolute value, the median ratio of ICESat-2 to lidar absolute slope is at least 0.75. The method is accepted for Arabia if it passes at every validation site with at least 200 valid segments. If it fails, the Arabian results below are still computed and reported, but labelled "method not validated".
+- Arabian areas: A (Liwa), B and C (Rub' al Khali), the windows of phase 2; all passes from 2018-10-14 to 2026-10-21.
+- Face crossing: a segment whose raw along track slope is 28 deg or more in absolute value. If an area has fewer than 30 such segments, the threshold 20 deg is used for that area and reported as such.
+- Apparent slope correction: an along track slope is an apparent dip, a lower bound on the true dip. With the angle d between the downhill direction of the track and the area's mean face dip azimuth from stage 13 (A 157.0 deg, B 167.8 deg, C 151.0 deg), the corrected slope is arctan(tan(apparent) / cos d), applied only where d is at most 60 deg; the spread is shown by repeating the correction with the dip azimuth moved by plus and minus 30 deg.
+- Map: the 30 m three class map of each area rebuilt exactly as in phase 2 (original range set, 256 draws, area seeds, detector `base`, tau 0.20), and, beside it, with the posterior range set `posterior_2026_10_20`. A segment is assigned the class of the 30 m cell containing its centre.
+- Copernicus slope along the track: least squares line through the GLO 30 heights sampled (bilinear) at 1 m steps along a 30 m line centred on the segment centre and oriented along the track.
+- Time gap caveat, stated now: Copernicus GLO 30 comes from radar acquisitions of about 2011 to 2015 and ICESat-2 from 2018 to 2026, so small dunes on the megadunes may have moved between the two; the map tests are therefore statistical, not cell by cell truth.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| D19-1 | The correlation between ICESat-2 and lidar along track slope angles is at least 0.85 at White Sands and at Kelso. | pending |
+| D19-2 | The method passes its bar at both validation sites. | pending |
+| D19-3 | On segments where the lidar slope is 20 deg or more, ICESat-2 underestimates it: the median ratio of ICESat-2 to lidar absolute slope lies between 0.70 and 0.95 at each site. | pending |
+| D19-4 | Area A has at least 50 face crossing segments (raw slope of 28 deg or more). | pending |
+| D19-5 | In each area with at least 30 face crossings, the share of face crossing segments that fall in cells the original 30 m map labels TRAVERSABLE lies between 25 % and 75 % (stage 12 found 36 to 73 % of face cells TRAVERSABLE on US dunes). | pending |
+| D19-6 | Per face crossing run (consecutive segments of one beam with raw slope of 20 deg or more), the median of the steepest corrected slope lies between 28 and 35 deg in area A. | pending |
+| D19-7 | On face crossing segments, the median of (ICESat-2 slope minus Copernicus slope along the same track) is at least 10 deg in each area with at least 30 face crossings. | pending |
+| D19-8 | Over all valid segments of area A, the 95th percentile of the absolute ICESat-2 along track slope is at least 10 deg higher than the 95th percentile of the absolute Copernicus along track slope at the same segments. | pending |
