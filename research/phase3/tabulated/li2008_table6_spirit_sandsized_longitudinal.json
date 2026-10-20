@@ -1,0 +1,57 @@
+{
+ "meta": {
+  "source_key": "li2008",
+  "source_title": "Characterization of traverse slippage experienced by Spirit rover on Husband Hill at Gusev crater (Li et al.; JGR Planets 113, E12S35, 2008)",
+  "source_url": "https://doi.org/10.1029/2008JE003097",
+  "evidence_row": "not in evidence.csv (FLD-010 to FLD-012 are Spirit rows from another source)",
+  "figure_or_table": "Table 6",
+  "page": "14 of 16",
+  "vehicle": "MER Spirit rover (six wheel rocker bogie)",
+  "wheel_diameter_m": "not reported",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "natural terrain, Husband Hill, Gusev crater, sols 154 to 737; terrain class assigned manually from rover images per traverse segment",
+  "test_type": "field",
+  "gravity_g": "0.38",
+  "x_unit": "deg",
+  "y_unit": "percent",
+  "soil": "Spirit terrain class sand-sized (loose sand-sized material), Gusev crater, Mars",
+  "x_name": "longitudinal slope",
+  "y_name": "longitudinal relative slippage",
+  "slope_kind": "direct ascent",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "x is the midpoint of the printed slope range and x_unc half its width (derived here); y is the printed relative slippage, total slippage over total distance traversed, from bundle adjustment (BA) of long traverse segments. The authors note (para 48) that VO corrections fed into telemetry on steep drives make BA slippage smaller at high slopes, so values are biased low where slip was large; they also state the expected rise with slope is not clearly exhibited. Mars gravity 0.38 g, 177 kg rover, basaltic soils, not quartz dune sand. The open ended 20+ deg row (one segment of 0.02 m) is not included. Segment counts and distances per bin: 0 to 5 deg: 49 segments, 528.56 m; 5 to 10 deg: 36 segments, 239.49 m; 10 to 15 deg: 16 segments, 54.02 m; 15 to 20 deg: 4 segments, 9.52 m. How Table 6 treats the sign of the slope is not stated (Table 5 separates upslope and downslope drives).",
+  "curve_id": "li2008_table6_spirit_sandsized_longitudinal"
+ },
+ "method": "table",
+ "points": [
+  {
+   "x": 2.5,
+   "y": 4.0,
+   "x_unc": 2.5,
+   "y_unc": "not reported"
+  },
+  {
+   "x": 7.5,
+   "y": 9.9,
+   "x_unc": 2.5,
+   "y_unc": "not reported"
+  },
+  {
+   "x": 12.5,
+   "y": 7.6,
+   "x_unc": 2.5,
+   "y_unc": "not reported"
+  },
+  {
+   "x": 17.5,
+   "y": 8.9,
+   "x_unc": 2.5,
+   "y_unc": "not reported"
+  }
+ ]
+}

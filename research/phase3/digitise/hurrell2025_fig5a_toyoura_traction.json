@@ -1,0 +1,121 @@
+{
+ "pdf": "research/sources/phase3/hurrell2025.pdf",
+ "pdf_note": "copy of research/sources/hurrell.pdf (open access, CC BY); plot is an embedded raster image",
+ "page": 10,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   295,
+   864
+  ],
+  "val": [
+   0,
+   60
+  ],
+  "scale": "linear",
+  "note": "left and right frame lines at slip 0 and 60 percent"
+ },
+ "y_axis": {
+  "px": [
+   664,
+   232.5
+  ],
+  "val": [
+   0,
+   0.6
+  ],
+  "scale": "linear",
+  "note": "bottom frame line and top grid row"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 8,
+  "refine": {
+   "kind": "errorbar_mid",
+   "include": [
+    {
+     "rgb": [
+      250,
+      40,
+      40
+     ],
+     "tol": 110
+    }
+   ],
+   "radius_px": 10
+  },
+  "identification": "manual seeds for red + markers (experiment), refined to the error bar midpoint",
+  "points": [
+   {
+    "px": [
+     295.0,
+     491.4
+    ]
+   },
+   {
+    "px": [
+     375.6,
+     464.1
+    ]
+   },
+   {
+    "px": [
+     470.4,
+     448.2
+    ]
+   },
+   {
+    "px": [
+     565.3,
+     433.9
+    ]
+   },
+   {
+    "px": [
+     660.1,
+     408.7
+    ]
+   },
+   {
+    "px": [
+     764.4,
+     378.5
+    ]
+   },
+   {
+    "px": [
+     859.3,
+     290.0
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "hurrell2025",
+  "source_title": "Traction Performance Evaluation for a Rashid-1 Rover Wheel (Hurrell et al.; Space Science Reviews 221:37, 2025)",
+  "source_url": "https://doi.org/10.1007/s11214-025-01164-8",
+  "evidence_row": "not in evidence.csv",
+  "vehicle": "single wheel testbed with a model of the Rashid-1 rover wheel (closed on one side)",
+  "wheel_diameter_m": "0.200",
+  "wheel_width_m": "0.080",
+  "load_per_wheel_N": "24.5",
+  "grousers": "14 grousers, 20 mm long (flight wheel: 15 mm, skeletonised)",
+  "soil": "Toyoura sand, loose (about 25 percent relative density)",
+  "grain_size_mm": "0.15 to 0.3",
+  "bulk_density_kg_m3": "1410 to 1440",
+  "friction_angle_deg": "not reported (angle of repose 34.3)",
+  "preparation": "loose packing checked with a hand vane against calibrated bulk density samples",
+  "test_type": "lab",
+  "gravity_g": "1",
+  "slope_kind": "level",
+  "x_name": "slip ratio",
+  "x_unit": "percent",
+  "comparable_to_dune_sand": "partly",
+  "curve_id": "hurrell2025_fig5a_toyoura_traction",
+  "figure_or_table": "Fig. 5(a)",
+  "page": "10",
+  "y_name": "traction coefficient Fx/Fz",
+  "y_unit": "dimensionless",
+  "comparability_note": "Seed pixels read by eye for the red + experiment markers, refined automatically to the column of the vertical error bar and the midpoint of that bar (error bars are symmetric about the mean); error bar half lengths are not transcribed. Forced slip on level loose Toyoura sand at wheel speed 0.2 rad/s, Earth gravity, nominal 24.5 N per wheel for the 10 kg Rashid-1 rover. Toyoura sand is a uniform laboratory quartz sand (0.15 to 0.3 mm), close in grain size to fine dune sand but better sorted. "
+ }
+}
