@@ -33,6 +33,15 @@ def html_to_pdf(html, pdf):
         b.close()
 
 
+def compress(pdf):
+    """Recompress streams with qpdf when it is installed (keeps the report under the 3 MB hygiene limit); skipped otherwise."""
+    import shutil
+    if shutil.which("qpdf"):
+        tmp = pdf + ".tmp"
+        subprocess.run(["qpdf", "--object-streams=generate", "--compress-streams=y", "--recompress-flate", "--compression-level=9", pdf, tmp], check=True)
+        os.replace(tmp, pdf)
+
+
 def main():
     rep = open(os.path.join(DOCS, "REPORT.md"), encoding="utf-8").read()
     rep = rep.replace("](../results/", "](../results/")
@@ -43,6 +52,7 @@ def main():
         html = os.path.join(tempfile.gettempdir(), f"{name}.html")
         to_html(text, html, "dune-rover " + name.lower().replace("_", " "), brief)
         html_to_pdf(html, os.path.join(DOCS, f"{name}.pdf"))
+        compress(os.path.join(DOCS, f"{name}.pdf"))
         print("wrote", os.path.join(DOCS, f"{name}.pdf"))
 
 
