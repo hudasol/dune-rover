@@ -1,6 +1,6 @@
 # Verification log
 
-Every one of the 365 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
+Every one of the 423 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
 Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
 Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).
@@ -43,15 +43,15 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material error rate 0/2 = 0.0 % (exact 95 % upper bound 77.6 %)
 - any discrepancy rate 1/2 = 50.0 % (Wilson 95 % CI 9.5 to 90.5 %)
 
-## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 194)
-- correct 153, minor 29, material 12, unverifiable 0
-- material error rate 12/194 = 6.2 % (Wilson 95 % CI 3.6 to 10.5 %)
-- any discrepancy rate 41/194 = 21.1 % (Wilson 95 % CI 16.0 to 27.4 %)
+## new rows of the 2026-10-20 evidence expansion, phase 5 (n = 252)
+- correct 190, minor 36, material 26, unverifiable 0
+- material error rate 26/252 = 10.3 % (Wilson 95 % CI 7.1 to 14.7 %)
+- any discrepancy rate 62/252 = 24.6 % (Wilson 95 % CI 19.7 to 30.3 %)
 
-## CURRENT TABLE, latest verdict per row (n = 365)
-- correct 273, minor 72, material 20, unverifiable 0
-- material error rate 20/365 = 5.5 % (Wilson 95 % CI 3.6 to 8.3 %)
-- any discrepancy rate 92/365 = 25.2 % (Wilson 95 % CI 21.0 to 29.9 %)
+## CURRENT TABLE, latest verdict per row (n = 423)
+- correct 310, minor 79, material 34, unverifiable 0
+- material error rate 34/423 = 8.0 % (Wilson 95 % CI 5.8 to 11.0 %)
+- any discrepancy rate 113/423 = 26.7 % (Wilson 95 % CI 22.7 to 31.1 %)
 
 ## CURRENT SUPPLEMENTARY ROWS, latest verdict per row (n = 27)
 - correct 12, minor 13, material 2, unverifiable 0
@@ -123,6 +123,27 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - PLN-066 (phase 5): minor_error: Value correct; passage is in The Next Year of Driving subsection, not the Mobility Faults paragraph.
 - PLN-067 (phase 5): minor_error: Value correct; passage is in The Next Year of Driving subsection, not the Mobility Faults paragraph.
 - PLN-068 (phase 5): minor_error: Value correct; VOSLIP EXCESSIVE is in the Unexpected Drive Faults list (and Table 2), not the Nominal Drive Faults list.
+- SND-014 (phase 5): minor_error: The values (Q 86, F 9, n = 12) are from the Table 1 row SW Rub al Khali, which holds the 12 dune samples only; the 2 sand sheet samples are a separate row (Sand sheets, Q 83, F 9). The terrain field wrongly includes sand sheets.
+- SND-020 (phase 5): material_error: Validation type is field, but the row is a borehole log property (dune sand thickness and depth to water table), which the brief classes as none. Values, unit and location are right.
+- SND-023 (phase 5): material_error: Validation type is lab, but a direct shear friction angle is a sand property measurement, which the brief classes as none. Minor: the 60 by 60 mm shear box is not stated in this thesis (it appears in the author's 2017 CSCE paper; the thesis cites only ASTM D 5321), and the 1 percent silt loose dry density is printed 1.7, not 1.70.
+- SND-024 (phase 5): material_error: Validation type is field, but nuclear gauge moisture and dry density of a backfill are property measurements, which the brief classes as none. Minor: the site is described in the thesis as a large housing project area in Jubail, not an industrial site, and the table sits in Section 5.2.1, not Section 5.4.
+- SND-025 (phase 5): material_error: Validation type is lab, but the DCP index of sand prepared at set relative densities is a penetration resistance property measurement, which the brief classes as none. Minor: the 63 to 8 mm/blow sentence is on page CON33-5, not CON33-4, and Fig. 5 is on CON33-6.
+- SND-026 (phase 5): material_error: Validation type is lab, but the equations are empirical regressions fitted to the same lab property data (direct shear friction angle against DCPI and Dr), with no independent validation; under the brief this is a property correlation or a value with no validation, so none. Equations and R2 values are right.
+- SND-029 (phase 5): material_error: Validation type is field, but surface moisture content is a property measurement, which the brief classes as none. Minor: the source does not say the moisture was measured gravimetrically.
+- SND-030 (phase 5): material_error: Validation type is field, but a wetting front depth after an infiltration test is a property measurement, which the brief classes as none. Values, unit and location are right.
+- SND-031 (phase 5): minor_error: Values are right, but Table 1 gives the desert sample positions as windward side, leeward side and inside the dune (samples 13 and 14), not crest and horns; the source also does not say the sieving was dry.
+- DUN-001 (phase 5): material_error: Validation type: the values are dune spacing and swale width summarised in a symposium report (a terrain property and review statement), so none, not field. Metric label has a stray word (wales).
+- DUN-006 (phase 5): minor_error: Location: Figure 2.5 and its table are on printed thesis page 35 (PDF page 56), not page 36; the 36 is the header of the next page.
+- DUN-007 (phase 5): minor_error: Location: the table is on printed thesis page 35 (PDF page 56), not page 36.
+- DUN-008 (phase 5): minor_error: Location: the table is on printed thesis page 35 (PDF page 56), not page 36.
+- DUN-009 (phase 5): material_error: Validation type: the heights are a study area description quoted from earlier work (Embabi and Ashour [10]), a property and review statement, so none, not field.
+- DUN-018 (phase 5): minor_error: Terrain label: Fig. 96 uses Bahrain (panel B) as the example of a wide unimodal regime; narrow unimodal is panel A (Walvisbaai).
+- DUN-020 (phase 5): minor_error: Slope: the paper gives no slope distribution for UAV Sample Area 1; the 0 to 15 deg statement (page 13, page 17) is about where ICESat-2 based DEM errors mostly occur across the hinterland.
+- DUN-023 (phase 5): material_error: Validation type: a regional morphology description is a property and review statement, so none, not field. Also, Al Ain is not named in this passage (minor).
+- DUN-024 (phase 5): material_error: Validation type: regional morphology description (property and review statement), so none, not field.
+- DUN-025 (phase 5): material_error: Validation type: regional morphology description (property and review statement), so none, not field.
+- DUN-026 (phase 5): material_error: Validation type: field measured barchan dimensions are a terrain property measurement, so none, not field.
+- DUN-027 (phase 5): material_error: Validation type: field measured dune dimensions are a terrain property measurement, so none, not field. The note printed I is an OCR artefact; the printed page reads 1 and 6.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
 - LRN-009 (phase 1): minor_error: Dataset split (9235/3958) is in Sec. 4.1 (end of testbed/dataset text, Fig 3), not Sec. 4.2 (which is feature selection).
 - TM-021 (phase 1): minor_error: Source never calls the Toyoura sand 'dry' (word not found in the text); otherwise terrain fine. Also the '85% accuracy' is not defined in the paper and matches the average of the Table 1 adjusted R-square values (about 0.85), i.e. an in-sample goodness-of-fit, not a prediction error.

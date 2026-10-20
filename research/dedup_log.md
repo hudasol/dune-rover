@@ -143,3 +143,33 @@ FLD-HV13-5 split into FLD-HV13-5a and FLD-HV13-5b: Split on 2026-10-18 at the au
 - PLN-018.soil_parameters_reported: was: Sulfate rich fine grained sands (28% SO3 at sol 1870 site) mixed with basaltic sand
 - PLN-018.slope_deg: was: not reported (rover tilted 4 deg south at sol 1870 position)
 - PLN-022.metric: was: resisting force from dragged inoperative wheel, forward vs backward driving
+- SND-014.terrain_description: was: Southwestern Rub al Khali dunes and sand sheets (Saudi Arabia)
+- SND-020.validation_type: was: field
+- SND-023.validation_type: was: lab
+- SND-023.method: was: direct shear, 60 by 60 mm box, normal stresses 27.8, 55.5 and 83.3 kPa, dry
+- SND-023.soil_parameters_reported: was: relative density; dry density 1.70, 1.75, 1.82 t/m3 at Dr 40, 60, 90 percent (1 percent silt)
+- SND-024.validation_type: was: field
+- SND-024.terrain_description: was: Compacted dune sand backfill, industrial site in Al Jubail, Eastern Province, Saudi Arabia (field)
+- SND-024.passage_or_location: was: Table 5-8, thesis page 123 (Section 5.4 field study)
+- SND-025.validation_type: was: lab
+- SND-025.passage_or_location: was: Section 3 Results, page CON33-4, Fig. 5
+- SND-026.validation_type: was: lab
+- SND-029.validation_type: was: field
+- SND-029.method: was: gravimetric moisture of top millimetre layers (as reported)
+- SND-030.validation_type: was: field
+- SND-031.terrain_description: was: Inland (desert) dunes along the Jeddah to Makkah highway, Saudi Arabia; samples 7 to 16 from windward side, lee side, crest and horns
+- SND-031.method: was: dry sieving at 10 intervals, Folk and Ward graphic measures
+- DUN-001.validation_type: was: field
+- DUN-006.passage_or_location: was: Figure 2.5 and its table, thesis page 36
+- DUN-007.passage_or_location: was: Figure 2.5 table, thesis page 36
+- DUN-008.passage_or_location: was: Figure 2.5 table, thesis page 36
+- DUN-009.validation_type: was: field
+- DUN-009.method: was: field and image description
+- DUN-018.terrain_description: was: Bahrain station, Arabian Gulf (example of a narrow unimodal regime)
+- DUN-020.slope_deg: was: not reported (dune terrain, mostly 0 to 15)
+- DUN-023.validation_type: was: field
+- DUN-024.validation_type: was: field
+- DUN-025.validation_type: was: field
+- DUN-026.validation_type: was: field
+- DUN-027.validation_type: was: field
+- DUN-027.value: was: 1 to 6 (printed I and 6); 3 to 180
