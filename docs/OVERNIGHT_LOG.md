@@ -18,3 +18,16 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 2026-10-18 13:34 F4 done: licence sentence added; second review (23 findings) fixed or reasoned in docs/REVIEW_2026-10-18.md; stage 11 diagnostic added; the widened outputs re run with labelled footers (a first parallel attempt ran out of memory; three re run with fewer jobs).
 - 2026-10-18 13:34 F5 done: NEXT_STEPS rewritten.
 - 2026-10-18 13:34 F6 done: executive brief rebuilt from files, 2 page PDF; report PDF 72 pages. CI red once today, about 3 minutes (11:38 to 11:40).
+
+## 2026-10-20 session (W0 to W9; times AST)
+
+- 2026-10-20 12:17 W0 done: plan with success criteria committed first (6d5619d); local gate script; task list opened.
+- 2026-10-20 12:43 W5 stage 12 done: detector and map against one metre lidar of Dumont, White Sands and Kelso (144796e to ee865d9): works at 5 and 10 m, fails at 30 m; Kelso window corrected before any metric (084f92a). CI red once, under a minute (144796e, report not regenerated; fixed by 658e4d7).
+- 2026-10-20 12:50 W4 stage 14 done: Project Chrono single wheel sweep with published wheels and soils (e0befa1 to a6668e8); far less slip than Dumont; disagrees with the Bekker Wong family; FJS-1 mislabel corrected later.
+- 2026-10-20 12:52 W6 stage 17 done: three planner policies against lidar truth (1704723 to a63419e); stage 18 rule options done (61e9cb4, fe18ea0).
+- 2026-10-20 12:55 W3 stage 16 done: question 8 re run without immobile draws and Sobol indices (6cb4c9b, fe18ea0, 51e874e).
+- 2026-10-20 13:00 W1 done: 323 rows extracted by five topic agents, all verified by 13 fresh verifier agents (batches 15 to 27), 322 merged, 1 dropped (382dc39 to a341cd8); table 494 rows. CI red once, about a minute (382dc39: tests pinned the old row count; fixed by 4cc3810).
+- 2026-10-20 13:02 W2 done: 26 curves from 7 sources digitised reproducibly, 9 soil parameter sets, data catalogue (3b58074).
+- 2026-10-20 13:05 W3 stage 15 three families done (b90eb64); posterior range set and map re run (b0a7c21); Bekker Wong family still running.
+- 2026-10-20 13:16 W9 midpoint review done: 12 findings, fixed or reasoned in docs/REVIEW_2026-10-20.md (21d8e6f, 0920219, 17dde09, 20cbe58).
+- 2026-10-20 13:16 W7 and W8 drafts committed: manuscript template and builder, report section 13, robotics proposal, brief and EDGE proposal rewritten, completeness table.
