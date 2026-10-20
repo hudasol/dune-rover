@@ -326,3 +326,21 @@ Design fixed now:
 | R17-3 | 10 m, conservative: at most 10 % of routed pairs fail on truth at every site. | |
 | R17-4 | 10 m, conservative: a route is found for at least 70 % of pairs at every site. | |
 | R17-5 | Risk weighted lies between naive and conservative in failure share at 30 m at every site (ties allowed). | |
+
+
+## Stage 18: options for the field adequacy rule, for Huda's question 7 (written 2026-10-20, BEFORE the options were coded or run)
+
+**SIMULATED BY ME, synthetic data only.** The current rule (stage 10) stays in force; these are options for Huda to choose from, evaluated on the same synthetic truths as stage 10 (model, janosi_mean, collapse, dumont), noise 0.03, 0.06 and 0.10, 300 replicates, seeds 30000 and up, design 2026-10-15. A replicate is **accepted** when its verdict is "adequate" or "slip within tolerance, entrapment not reached", and **rejected** when it is "not adequate".
+
+- **Current** (stage 10): as coded.
+- **Option A, stricter tolerance**: tolerance max(2 times pilot sigma, 0.03) instead of max(3 times, 0.05); entrapment as in stage 10.
+- **Option B, steep runs**: the slip test uses only held out runs at 15 deg or steeper (at least 80 % within tolerance), and the mean signed error over runs at 17.5 deg or steeper must lie within half the tolerance; entrapment as in stage 10.
+- **Option C, calibration slope**: the current slip test and, in addition, the slope of observed against predicted slip on held out runs must lie between 0.8 and 1.25; entrapment as in stage 10.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| Q18-1 | Current rule reproduces stage 10: collapse accepted in 50 to 56 % at sigma 0.03. | |
+| Q18-2 | Option B rejects collapse in at least 80 % of replicates at sigma 0.03 and accepts the correct model in at least 60 %. | |
+| Q18-3 | Option C rejects collapse in at least 70 % at sigma 0.03 and accepts the correct model in at least 60 %. | |
+| Q18-4 | Option A accepts the correct model in fewer than 50 % of replicates at sigma 0.10 (strictness costs power). | |
+| Q18-5 | No option accepts the dumont truth in more than 10 % of replicates at any sigma. | |
