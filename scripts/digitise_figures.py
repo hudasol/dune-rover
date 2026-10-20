@@ -332,11 +332,19 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--check", action="store_true",
                     help="rebuild into a temporary file and compare with curves.csv")
+    ap.add_argument("--phase", default="3", choices=["3", "4"],
+                    help="3: the phase 3 curves (research/phase3/curves.csv, unchanged); 4: the curves added on 2026-10-21 "
+                         "(research/phase4/digitise and tabulated, written to research/phase4/curves_new.csv)")
     ap.add_argument("--debug", action="store_true",
                     help="write overlay images of masks and refined points into the figures folder")
     a = ap.parse_args()
-    global DEBUG
+    global DEBUG, DIGITISE_DIR, TABULATED_DIR, FIG_DIR, OUT_CSV
     DEBUG = a.debug
+    if a.phase == "4":
+        DIGITISE_DIR = os.path.join(REPO, "research", "phase4", "digitise")
+        TABULATED_DIR = os.path.join(REPO, "research", "phase4", "tabulated")
+        FIG_DIR = os.path.join(REPO, "research", "sources", "phase4", "figures")
+        OUT_CSV = os.path.join(REPO, "research", "phase4", "curves_new.csv")
     rows = build()
     if DEBUG:
         from PIL import ImageDraw
