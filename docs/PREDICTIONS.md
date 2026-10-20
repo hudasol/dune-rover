@@ -293,6 +293,9 @@ Design fixed now:
 Note on stage 14 (appended after the run, no prediction edited): with published soil sets and smooth wheels, Chrono predicts much less slip than the Dumont curve for the Scarecrow sized wheel (0.21 against 0.50 at 12.6 deg) and climbs to 30 deg at 48 % slip on the Toyoura set. The same wheels and soil sets in the repository's Bekker Wong family (`scripts/compare_chrono.py`, `results/chrono_scm/comparison.csv`) give very different curves (root mean square difference 0.44 to 0.75, the family entraps far earlier), although both rest on the Bekker pressure sinkage and Janosi shear laws. The reason was not isolated in this session. Two implementations of the same textbook laws disagree by more than the field data scatter, so model form is itself a large source of uncertainty. Chrono's Soil Contact Model is therefore not independent of terramechanics theory; a discrete element or physical test would be.
 
 
+Correction to stage 14 (appended 2026-10-20, no prediction edited): the parameter set called "S1 Toyoura sand, Ishigami et al. 2007 Table I" is not a sand. That table is for a lunar regolith simulant equivalent to FJS-1 (evidence row TM-IS07-1; the curves agent found the mislabel). The Chrono outputs keep the label `S1_toyoura_ishigami2007` in their files because they were produced under it; the Bekker Wong family now names the set `fjs1_ishigami2007`. Every stage 14 statement about "Toyoura" applies to FJS-1 simulant parameters.
+
+
 ## Stage 16: question 8 (widened range without immobile draws) and global sensitivity of the map (written 2026-10-20, BEFORE either run)
 
 **SIMULATED BY ME, simulation only, model assumption dependent.** Huda answered yes to question 8 for this session.
@@ -347,3 +350,26 @@ Note on stage 17 (appended after the run, no prediction edited): under the pre r
 | Q18-3 | Option C rejects collapse in at least 70 % at sigma 0.03 and accepts the correct model in at least 60 %. | |
 | Q18-4 | Option A accepts the correct model in fewer than 50 % of replicates at sigma 0.10 (strictness costs power). | |
 | Q18-5 | No option accepts the dumont truth in more than 10 % of replicates at any sigma. | |
+
+
+## Stage 15: model families against the published curves (numbered 15 as planned; written 2026-10-20 after stages 16 to 18 were registered, BEFORE any calibration or validation run on the final curve set)
+
+**SIMULATED BY ME (fits and predictions) against PUBLISHED curves.** Disclosure: a quick test of the script ran on an earlier, partial curve file (7 curves from Heverly and Inotsume) and showed exponential model held out errors of about 0.1 to 0.5 and a pooled posterior with i0 median 0.46; the predictions below are informed by that.
+
+Design fixed now (`scripts/model_validation.py`, seed 20261022):
+- Curves: the 18 slip against slope curves of `research/phase3/curves.csv` from 4 sources (Heverly 2013: Dumont and two Marsyard curves; Inotsume 2016: Scarab and four El Dorado wheels; Yoshida 2010: five wheels with the slope emulated by a pull; Li 2008: Spirit on Mars, two figure curves and two table curves). The published Dumont cubic is used for nominal scores only (it duplicates the digitised points). Lateral slippage is excluded. The Bekker Wong family applies only to the 8 curves with wheel size and load.
+- Families: `exp_existing`, `bekker_wong` (soil set FJS-1 simulant of Ishigami 2007 as nominal, with phi, K, cohesion and a stiffness multiplier free), `mohr_coulomb_ratio`, `logistic_empirical`.
+- Scores: nominal error; per curve best fit (shape capacity only); leave one study out (LOSO) with posterior predictive intervals; two way transfer between the Dumont curve and the Toyoura lab curves (Yoshida and Inotsume El Dorado are not in that group by name, so the transfer uses the curves whose source key starts with ishigami, takehana or yoshida, which here means Yoshida only).
+- **Validation bar, fixed now:** a family survives if its median held out root mean square error is at most 0.15 and the pooled share of held out points inside the 90 % predictive interval is at least 0.80.
+- Posterior range set: the exponential family calibrated on the direct ascent curves comparable to dune sand ("yes" or "partly"); its 5 to 95 % posterior quantiles of phi, f_r and i0 become the range set `posterior_2026_10_20` (i_max keeps its original range), and phase 2 is re run with it.
+- The Bekker Wong family is calibrated with fewer optimiser starts and an 8 sample bootstrap instead of MCMC, because it is slow; its intervals are therefore rougher.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| V15-1 | The existing model with its nominal original parameters has root mean square error above 0.25 on the Dumont figure 12 curve. | |
+| V15-2 | No family passes the validation bar. | |
+| V15-3 | Per curve fits: the logistic and exponential families reach a median error of at most 0.08; Bekker Wong at most 0.12. | |
+| V15-4 | In LOSO the physics families do not beat the empirical logistic by more than 0.03 in median held out error. | |
+| V15-5 | Transfer from Dumont to the Yoshida curves has error above 0.20 for every family. | |
+| V15-6 | The exponential posterior 5 to 95 % interval of i0 extends above 0.40 (beyond the original range), and its f_r interval is wider than the original 0.05 to 0.25. | |
+| V15-7 | Phase 2 with `posterior_2026_10_20`: UNKNOWN at 30 m in area A between 20 % and 60 %. | |
