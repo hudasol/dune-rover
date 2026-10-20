@@ -8,14 +8,16 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 | Label | Meaning | Where |
 |---|---|---|
-| **PUBLISHED** | A number read in a retrieved source: 494 rows with URL, passage, retrieval date and an independent re check | `research/evidence.csv`, report Appendix A |
-| **SIMULATED BY ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, a sub grid slip face detector trained on synthetic dunes, a three class map (TRAVERSABLE, BLOCKED, UNKNOWN) and synthetic tests of the field analysis. Model assumption dependent, never field evidence | `src/dunerover/`, `results/` |
+| **PUBLISHED** | A number read in a retrieved source: 494 rows from 174 sources with URL, passage, retrieval date and an independent re check; 26 digitised published curves | `research/evidence.csv`, `research/phase3/curves.csv`, report Appendix A |
+| **SIMULATED BY ME** | Output of the code here: a slip model on real Copernicus GLO-30 elevation data, four slip model families validated on published curves, a Project Chrono single wheel simulation, a sub grid slip face detector and three class map tested against one metre lidar of real dunes, route planning policies, and synthetic tests of the field analysis. Model assumption dependent, never field evidence | `src/dunerover/`, `results/`, `manuscript/` |
 | **PLANNED** | A slope ladder field experiment, its pre data predictions, checklist, rover options and two proposal outlines (no agreement exists with anyone). Nothing here has been run | `docs/FIELD_VALIDATION_PLAN.md`, `docs/predictions/`, `docs/FIELD_DAY_CHECKLIST.md`, `docs/ROVER_OPTIONS.md`, `docs/PROPOSAL_SEED.md`, `docs/PROPOSAL_EDGE.md` |
 
 ## Headline numbers (from files)
 
-- Verification: all 494 evidence rows re checked against their sources. First check of the 170 rows as extracted: material errors 9 of 170 (5.3 %), any discrepancy 51 of 170 (30.0 %); of these, the 26 rows read from supplied PDFs had 3 material (11.5 %, all on validation type). Current table, latest verdict per row (FLD-HV13-5 split into a lab and a field row): material 38 of 494 (7.7 %); current supplementary rows 2 of 27 (7.4 %). All corrected (`research/verification_log.md`).
-- Simulation, 30 m: UNKNOWN share 8.6 % (A south Liwa), 10.9 % (B megadunes), 2.5 % (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; 99.1 % of cells in A have the same slope based verdict in at least 95 % of the 256 draws of the four assumed parameters (under the original ranges; not under the widened ranges below). If a face within one post of the cell counts (post hoc variant), UNKNOWN is 34.4 %, 32.2 %, 22.0 %. **Simulation only, model assumption dependent; the detector is validated against synthetic truth only.**
+- **2026-10-20 (report section 13, `manuscript/MANUSCRIPT.md`):** slip model families calibrated on other studies predict a held out study with median errors of 0.23 to 0.24 slip (exponential fails (held out median 0.24); Mohr Coulomb ratio fails (held out median 0.23); logistic fails (held out median 0.24); bar 0.15). Against one metre lidar of three dune fields, the 30 m map calls cells TRAVERSABLE that contain steep faces in 25.6 %, 28.6 % and 28.0 % of cases; at 10 m 3.6 %, 2.5 % and 1.8 %. Completeness: `docs/COMPLETENESS.md`.
+
+- Verification: all 494 evidence rows re checked against their sources. First check of the 170 rows as extracted: material errors 9 of 170 (5.3 %), any discrepancy 51 of 170 (30.0 %); of these, the 26 rows read from supplied PDFs had 3 material (11.5 %, all on validation type). Current table, latest verdict per row (FLD-HV13-5 split into a lab and a field row): material 38 of 494 (7.7 %); current supplementary rows 2 of 27 (7.4 %). Every material error corrected (`research/verification_log.md`).
+- Simulation, 30 m: UNKNOWN share 8.6 % (A south Liwa), 10.9 % (B megadunes), 2.5 % (C linear dunes, Saudi Arabia); BLOCKED under 0.1 %; 99.1 % of cells in A have the same slope based verdict in at least 95 % of the 256 draws of the four assumed parameters (under the original ranges; not under the widened ranges below). If a face within one post of the cell counts (post hoc variant), UNKNOWN is 34.4 %, 32.2 %, 22.0 %. **Simulation only, model assumption dependent; the detector was validated against synthetic truth in phase 2 and tested against North American lidar on 2026-10-20 (it fails at 30 m).**
 - Published anchors (comparison of unlike vehicles and soils, report section 8.8): the Dumont Dunes slip curve (PUBLISHED, FLD-HV13-1) crosses 50 % slip at 12.6 degrees, the nominal model at 25.5 degrees; with Ishigami 2009 Table I values the model gives 0.22 to 0.40 slip on a 10 degree side slope where a slip ratio of about 0.5 was measured (TM-IS09-3). **The model predicts too little slip on sand slopes. Simulation only, model assumption dependent.**
 - Widened slip scale range (2026-10-18, simulation only, model assumption dependent): with i0 0.05 to 1.20 (nominal 0.81) the nominal model crosses 50 % slip at 10.2 degrees and UNKNOWN at 30 m is 33.9 % (A), 39.2 % (B), 11.2 % (C); with f_r also widened, 92.6 %, 90.1 %, 97.4 %. The original ranges remain the reference.
 - Pre registered predictions and their hits and misses: `docs/PREDICTIONS.md`.
@@ -23,10 +25,12 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 ## Read in this order
 
 1. `docs/EXECUTIVE_BRIEF.md` (also `.pdf`): two pages.
-2. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8, 8.7 and the published anchors in 8.8), field plan (section 9, with the 2026-10-15 revision), limitations, verification, appendices.
-3. `docs/NEXT_STEPS.md`: what the author does next: decisions, checks, then the first field experiment, and what to fetch.
-4. `docs/PREDICTIONS.md`, `docs/predictions/`: dated predictions written before runs.
-5. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/DATA_AND_LICENSES.md`.
+2. `manuscript/MANUSCRIPT.md` (also `.pdf`): the paper, with every negative result.
+3. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8, 8.7 and the published anchors in 8.8), field plan (section 9, with the 2026-10-15 revision), limitations, verification, appendices.
+4. `docs/NEXT_STEPS.md`: what the author does next: decisions, checks, then the first field experiment, and what to fetch.
+5. `docs/PREDICTIONS.md`, `docs/predictions/`: dated predictions written before runs.
+6. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/SEARCH_PROTOCOL.md`, `docs/DATA_CATALOG.md`, `docs/DATA_AND_LICENSES.md`.
+7. `docs/PROPOSAL_ROBOTICS.md` and `docs/PROPOSAL_EDGE.md`: proposals; nothing has been sent and no agreement exists.
 
 ## Layout
 
@@ -38,6 +42,8 @@ docs/predictions/     dated pre-data slope ladder predictions (PLANNED field exp
 research/evidence.csv the evidence table (one row per reported mobility result)
 research/raw/         per-topic notes and row files, data audit, morphology and UAE facts
 research/phase2/      phase 2 retrieval reports and CSVs (morphology, rover options, rows read from supplied PDFs); no PDFs committed
+research/phase3/      2026-10-20 evidence rows by topic, references with licences, search logs, digitised curves and calibrations, agent briefs
+manuscript/           the paper (source in manuscript/src, generated MANUSCRIPT.md and .pdf)
 src/dunerover/        simulation code (DEM, slope, slip model, graph routing, sensitivity, sub-grid detector, three class map, field analysis)
 scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verification.py, verify_stats.py, build_report.py,
                       analyze_field_runs.py, field_analysis_power.py, make_ladder_predictions.py, anchor_comparisons.py, check_repo_hygiene.py, scan_secrets.py ...
