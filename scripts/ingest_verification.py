@@ -26,12 +26,14 @@ path = os.path.join(ROOT, "research", "corrections.csv")
 # a pair already corrected by a verifier is skipped; definitions of split rows do not count as corrections
 have = {(r["id"], r["field"]) for r in csv.DictReader(open(path, encoding="utf-8")) if not r["reason"].startswith("Definition of the split row")}
 new = []
-for b in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14):
+import glob
+BATCHES = sorted({int(re.search(r'batch(\d+)', f).group(1)) for f in glob.glob(os.path.join(ROOT, 'research', 'verify_out_batch*.csv'))} - {1, 2, 3})
+for b in BATCHES:
     for v in csv.DictReader(open(os.path.join(ROOT, "research", f"verify_out_batch{b}.csv"), encoding="utf-8")):
         if v["overall"] == "correct" or not v["corrected_value"].strip():
             continue
         for fld, val in parse(v["corrected_value"]):
-            reason = ("Phase 2 verifier: " if b <= 7 else "Supplied PDF verifier (2026-10-15): " if b <= 13 else "Split row verifier (2026-10-18): ") + v["what_is_wrong"].strip()
+            reason = ("Phase 2 verifier: " if b <= 7 else "Supplied PDF verifier (2026-10-15): " if b <= 13 else "Split row verifier (2026-10-18): " if b == 14 else "Phase 3 verifier (2026-10-20): ") + v["what_is_wrong"].strip()
             if (v["id"], fld) in OVERRIDE:
                 val, reason = OVERRIDE[(v["id"], fld)]
             if (v["id"], fld) not in have:

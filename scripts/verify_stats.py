@@ -7,7 +7,7 @@ rows = []
 for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"))):
     nb = int(re.search(r"batch(\d+)", f).group(1))
     for r in csv.DictReader(open(f, encoding="utf-8")):
-        r["phase"] = 4 if nb >= 14 else (3 if nb >= 8 else (2 if nb >= 4 else 1)); rows.append(r)
+        r["phase"] = 5 if nb >= 15 else 4 if nb >= 14 else (3 if nb >= 8 else (2 if nb >= 4 else 1)); rows.append(r)
 current = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "evidence.csv"), encoding="utf-8"))}
 supplied = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "phase2", "supplied_pdf_rows_2026-10-13.csv"), encoding="utf-8"))}
 latest = {}
@@ -30,21 +30,27 @@ grp = (("random sample, phase 1 (n=30 of 137 unflagged)", lambda r: r["phase"] =
        ("ALL 144 ROWS", lambda r: r["phase"] in (1, 2)),
        ("supplementary rows from supplied PDFs, phase 3", lambda r: r["phase"] == 3),
        ("ALL 170 ROWS", lambda r: r["phase"] in (1, 2, 3)),
-       ("split rows, phase 4", lambda r: r["phase"] == 4))
+       ("split rows, phase 4", lambda r: r["phase"] == 4),
+       ("new rows of the 2026-10-20 evidence expansion, phase 5", lambda r: r["phase"] == 5))
 for name, fn in grp:
     sub = [r for r in rows if fn(r)]; n = len(sub)
     cnt = {k: sum(r["overall"] == k for r in sub) for k in ("correct", "minor_error", "material_error", "unverifiable")}
-    out.append((name, n, cnt))
+    if n or not name.startswith("new rows"):
+        out.append((name, n, cnt))
 for name, sub in (("CURRENT TABLE, latest verdict per row", cur_rows), ("CURRENT SUPPLEMENTARY ROWS, latest verdict per row", cur_sup)):
     out.append((name, len(sub), {k: sum(r["overall"] == k for r in sub) for k in ("correct", "minor_error", "material_error", "unverifiable")}))
 assert out[3][1] == 144 and out[4][1] == 26 and out[5][1] == 170
-assert out[7][1] == len(current) and all(i in latest for i in current), "every current row needs a verdict"
+cur_idx = [k for k, o in enumerate(out) if o[0].startswith("CURRENT TABLE")][0]
+assert out[cur_idx][1] == len(current) and all(i in latest for i in current), "every current row needs a verdict"
 lines = ["# Verification log", "", f"Every one of the {len(current)} rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.",
          "Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).",
          "Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.",
          "Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).",
+         "Phase 5 (2026-10-20): the rows added by the evidence expansion of 2026-10-20 (ids PLN, TM3, MOB, SND, DUN, MAP, ENV), each checked by a fresh verifier agent against the full text (batches 15 and up)." if any(r["phase"] == 5 for r in rows) else "",
          "Two views are reported. 'ALL 170 ROWS' is the first check of the rows as extracted (FLD-HV13-5 counts with its material error). 'CURRENT TABLE' takes each row of the current table with its latest verdict (the two split rows with their phase 4 verdicts; FLD-HV13-5 is no longer in the table).",
          "Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.", ""]
+if lines[5] == "":
+    del lines[5]   # no phase 5 rows yet
 for name, n, c in out:
     lines.append(f"## {name} (n = {n})")
     lines.append(f"- correct {c['correct']}, minor {c['minor_error']}, material {c['material_error']}, unverifiable {c['unverifiable']}")
