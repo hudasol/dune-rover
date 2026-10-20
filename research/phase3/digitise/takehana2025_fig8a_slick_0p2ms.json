@@ -1,0 +1,94 @@
+{
+ "pdf": "research/sources/phase3/1-s2.0-S0022489825000400-main.pdf",
+ "pdf_note": "copy of the author supplied PDF; plots are embedded raster images",
+ "page": 8,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1638.5,
+   2182
+  ],
+  "val": [
+   0.1,
+   0.5
+  ],
+  "scale": "linear",
+  "note": "light grey vertical gridlines at slip 0.1 and 0.5"
+ },
+ "y_axis": {
+  "px": [
+   594,
+   244
+  ],
+  "val": [
+   0,
+   0.4
+  ],
+  "scale": "linear",
+  "note": "light grey horizontal gridlines at 0 and 0.4"
+ },
+ "marker": {
+  "mode": "components",
+  "crop": [
+   1485,
+   250,
+   2195,
+   770
+  ],
+  "exclude_boxes": [
+   [
+    1687,
+    255,
+    2185,
+    405
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "rgb": [
+      0,
+      0,
+      255
+     ],
+     "tol": 110
+    }
+   ]
+  },
+  "open_px": 5,
+  "area_px": [
+   40,
+   2000
+  ],
+  "merge_px": 14,
+  "marker_radius_px": 8
+ },
+ "meta": {
+  "source_key": "takehana2025",
+  "source_title": "Grouser wheel high-speed traction performance: DEM simulation and experimental result (Takehana et al.; Journal of Terramechanics 120, 2025, 101084)",
+  "source_url": "https://doi.org/10.1016/j.jterra.2025.101084",
+  "vehicle": "single wheel testbed (high speed rig, sandpit 6.85 m by 0.5 m by 0.4 m, sand height 0.3 m)",
+  "wheel_diameter_m": "0.18",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "50",
+  "soil": "Tohoku Silica Sand No. 5 (washed natural quartz sand, rounded grains)",
+  "grain_size_mm": "0.106 to 0.6 (Table 2: 51.9 percent at 0.425 mm sieve)",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported (angle of repose 34 deg, Sec 5.2)",
+  "preparation": "tilled with a shovel, levelled with a board, checked with a level; vane shear test for consistency",
+  "test_type": "lab",
+  "gravity_g": "1",
+  "slope_kind": "level",
+  "x_name": "slip ratio",
+  "x_unit": "fraction",
+  "y_name": "traction coefficient (drawbar pull over vertical load)",
+  "y_unit": "dimensionless",
+  "comparable_to_dune_sand": "partly",
+  "curve_id": "takehana2025_fig8a_slick_0p2ms",
+  "evidence_row": "not in evidence.csv",
+  "figure_or_table": "Fig. 8(a)",
+  "page": "8",
+  "grousers": "none (slick)",
+  "comparability_note": "Markers found automatically as connected components of the blue (0.2 m/s) markers after a morphological opening that removes the thin fitted curve and error bars; legend excluded. Forced slip on level sand at wheel speed 0.2 m/s, the slowest speed tested but still faster than most planetary rovers; the paper shows strong speed dependence. Traction coefficient Fx/Fz is the tangent of an equivalent slope. Means of steady state data, error bars 1 SD not transcribed. Wheels are 3D printed PLA. Markers of other speeds drawn on top can hide part of a blue marker (fragments are merged, merge_px) or all of it (then that slip value is missing). "
+ }
+}

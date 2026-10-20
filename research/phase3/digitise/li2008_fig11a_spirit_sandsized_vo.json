@@ -1,0 +1,92 @@
+{
+ "pdf": "research/sources/phase3/LIRjgre08.pdf",
+ "pdf_note": "copy of the author supplied PDF; vector figure",
+ "page": 13,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1397,
+   1974
+  ],
+  "val": [
+   0,
+   30
+  ],
+  "scale": "linear",
+  "note": "frame edges at slope 0 and 30 deg (inner ticks at 10 and 20 deg confirm 19.2 px per deg)"
+ },
+ "y_axis": {
+  "px": [
+   418,
+   336
+  ],
+  "val": [
+   50,
+   100
+  ],
+  "scale": "linear",
+  "note": "inner tick marks at slip 50 and 100 percent on the left frame"
+ },
+ "marker": {
+  "mode": "cloud",
+  "crop": [
+   1402,
+   260,
+   1969,
+   527
+  ],
+  "exclude_boxes": [
+   [
+    1405,
+    258,
+    1695,
+    322
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "rgb": [
+      128,
+      250,
+      60
+     ],
+     "tol": 90
+    }
+   ]
+  },
+  "bin_axis": "x",
+  "bin_width": 2.0,
+  "bin_start": 0.0,
+  "min_pixels": 60,
+  "marker_radius_px": 5
+ },
+ "meta": {
+  "source_key": "li2008",
+  "source_title": "Characterization of traverse slippage experienced by Spirit rover on Husband Hill at Gusev crater (Li et al.; JGR Planets 113, E12S35, 2008)",
+  "source_url": "https://doi.org/10.1029/2008JE003097",
+  "evidence_row": "not in evidence.csv (FLD-010 to FLD-012 are Spirit rows from another source)",
+  "figure_or_table": "Figure 11a",
+  "page": "13 of 16",
+  "vehicle": "MER Spirit rover (six wheel rocker bogie)",
+  "wheel_diameter_m": "not reported",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "natural terrain, Husband Hill, Gusev crater, sols 154 to 737; terrain class assigned manually from rover images per traverse segment",
+  "test_type": "field",
+  "gravity_g": "0.38",
+  "x_unit": "deg",
+  "y_unit": "percent",
+  "soil": "Spirit terrain class sand-sized (loose sand-sized material), Gusev crater, Mars",
+  "x_name": "longitudinal slope (absolute value)",
+  "y_name": "longitudinal slip (absolute value)",
+  "slope_kind": "direct ascent",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "Points are medians of marker pixels in 2 deg slope bins (pixel weighted, so roughly marker weighted); x_unc and y_unc combine reading error with half the interquartile range in the bin. Each published dot is one short visual odometry segment (mean 0.51 m); absolute values of slope and slip are used for forward and backward drives (para 39), so ascents and descents are pooled and this is not strictly direct ascent. Overlapping dots near zero slip are under counted. Terrain classes assigned manually. Mars gravity 0.38 g, 177 kg rover, basaltic soil.",
+  "curve_id": "li2008_fig11a_spirit_sandsized_vo"
+ }
+}

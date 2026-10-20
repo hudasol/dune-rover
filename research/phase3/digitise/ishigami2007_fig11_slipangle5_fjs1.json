@@ -1,0 +1,89 @@
+{
+ "pdf": "research/sources/phase3/ishigami2007.pdf",
+ "pdf_note": "copy of the author supplied PDF; journal page 242 is PDF page 10; plot is a raster image",
+ "page": 10,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   562.5,
+   1160.5
+  ],
+  "val": [
+   0,
+   0.8
+  ],
+  "scale": "linear",
+  "note": "light blue vertical gridlines at slip 0.0 and 0.8"
+ },
+ "y_axis": {
+  "px": [
+   741,
+   411
+  ],
+  "val": [
+   0,
+   30
+  ],
+  "scale": "linear",
+  "note": "light blue horizontal gridlines at 0 and 30 N"
+ },
+ "marker": {
+  "mode": "components",
+  "crop": [
+   560,
+   410,
+   1240,
+   856
+  ],
+  "exclude_boxes": [
+   [
+    940,
+    705,
+    1225,
+    845
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "max_value": 100
+    }
+   ]
+  },
+  "open_px": 11,
+  "area_px": [
+   80,
+   3000
+  ],
+  "marker_radius_px": 9,
+  "note": "black filled circles; an opening of 11 px removes the black theory curve and error bars; where two runs overlap they form one blob whose box centre lies between them"
+ },
+ "meta": {
+  "curve_id": "ishigami2007_fig11_slipangle5_fjs1",
+  "source_key": "ishigami2007",
+  "source_title": "Terramechanics-based model for steering maneuver of planetary exploration rovers on loose soil (Ishigami et al.; Journal of Field Robotics 24(3), 2007)",
+  "source_url": "https://doi.org/10.1002/rob.20187",
+  "evidence_row": "not in evidence.csv",
+  "figure_or_table": "Figure 11 (panel slip angle 5 deg, experiment markers)",
+  "page": "242",
+  "x_name": "slip ratio",
+  "x_unit": "fraction",
+  "y_name": "drawbar pull",
+  "y_unit": "N",
+  "vehicle": "single wheel test bed",
+  "wheel_diameter_m": "0.18",
+  "wheel_width_m": "0.11",
+  "load_per_wheel_N": "64.7",
+  "grousers": "paddles 0.01 m high (count not reported)",
+  "soil": "lunar regolith simulant equivalent to FJS-1 (loose, dry)",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "1600",
+  "friction_angle_deg": "37.2",
+  "preparation": "vessel filled with 12 cm of loose soil",
+  "test_type": "lab",
+  "gravity_g": "1",
+  "slope_kind": "level",
+  "comparable_to_dune_sand": "no",
+  "comparability_note": "Markers found automatically (black components after morphological opening; legend excluded); each marker is the mean of one run (more than 100 samples) and error bars (1 SD) are not transcribed; overlapping repeat runs may merge into one point. Slip angle 5 deg (wheel steered relative to travel), not straight driving; slip set from 0 to 0.8 by the carriage; wheel speed 0.030 m/s. Soil is a crushed basalt lunar simulant (FJS-1 equivalent) with cohesion 0.80 kPa (Table I), not quartz dune sand, so the curve is for model checking only. Table I parameters of the same soil are in sand_parameters.csv. load_per_wheel_N derived here as 6.6 kg times 9.81."
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "meta": {
+  "source_key": "heverly2013",
+  "source_title": "Traverse Performance Characterization for the Mars Science Laboratory Rover (Heverly et al.; Journal of Field Robotics 30(6), 2013)",
+  "source_url": "https://doi.org/10.1002/rob.21481",
+  "wheel_diameter_m": "0.50",
+  "wheel_width_m": "0.40",
+  "grousers": "chevron grousers at 15 deg spacing, 7.5 mm radial height (Sec 3)",
+  "gravity_g": "1 (Earth test; vehicle mass chosen for Mars weight)",
+  "slope_kind": "direct ascent",
+  "vehicle": "Scarecrow (Mars weight MSL mobility test rover, 340 kg, six wheel rocker bogie)",
+  "load_per_wheel_N": "554.8",
+  "soil": "Dumont Dunes aeolian dune sand, Mojave Desert, California (natural, cohesionless)",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "natural dune slopes, undisturbed",
+  "test_type": "field",
+  "evidence_row": "FLD-HV13-1",
+  "figure_or_table": "Section 6.3 text (cubic fit to Figure 12 data)",
+  "page": "843",
+  "x_name": "slope",
+  "x_unit": "deg",
+  "y_name": "slip",
+  "y_unit": "percent",
+  "comparable_to_dune_sand": "yes",
+  "comparability_note": "Third order polynomial slip(%) = c0 + c1 s + c2 s^2 + c3 s^3 with s the slope in deg, coefficients printed in Sec 6.3 (c0 = 26.197, c1 = -8.849, c2 = 1.281, c3 = -0.034), evaluated here at whole degrees inside the stated validity range of about 4 to 21 deg. Below 4 deg the paper expects nearly constant slip of about 10 percent; above 21 deg slip in excess of 90 percent and embedding. Fit residuals are not reported; the scatter in Figure 12 (curve heverly2013_fig12_scarecrow_dumont) shows the spread. Same vehicle and sand caveats as that curve. load_per_wheel_N derived here from Table I Earth weight 3329 N divided by 6 wheels.",
+  "curve_id": "heverly2013_sec6_3_cubic_fit_dumont"
+ },
+ "fit": {
+  "type": "polynomial",
+  "coefficients": [
+   26.197,
+   -8.849,
+   1.281,
+   -0.034
+  ],
+  "x": [
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21
+  ],
+  "y_unc": "not reported"
+ }
+}

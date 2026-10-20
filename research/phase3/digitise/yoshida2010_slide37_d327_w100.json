@@ -1,0 +1,101 @@
+{
+ "pdf": "research/sources/phase3/yoshida2010_slides.pdf",
+ "pdf_note": "copy of research/sources/yoshida_traction.pdf; plot is an embedded raster image",
+ "page": 32,
+ "dpi": 200,
+ "x_axis": {
+  "px": [
+   559,
+   1880.5
+  ],
+  "val": [
+   0,
+   1
+  ],
+  "scale": "linear",
+  "note": "vertical gridlines at slip 0 and 1 (detected as long dark columns)"
+ },
+ "y_axis": {
+  "px": [
+   1192.5,
+   386
+  ],
+  "val": [
+   0,
+   22
+  ],
+  "scale": "linear",
+  "note": "horizontal gridlines at 0 and 22 deg"
+ },
+ "marker": {
+  "mode": "components",
+  "crop": [
+   565,
+   392,
+   1876,
+   1200
+  ],
+  "exclude_boxes": [
+   [
+    1610,
+    805,
+    1860,
+    1055
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "rgb": [
+      150,
+      185,
+      95
+     ],
+     "tol": 60
+    }
+   ]
+  },
+  "area_px": [
+   40,
+   3000
+  ],
+  "marker_radius_px": 12,
+  "swap_output": true,
+  "swap_note": "source plot has slip on x and slope on y; output x is slope and y is slip"
+ },
+ "meta": {
+  "source_key": "yoshida2010",
+  "source_title": "Traction Performance of Wheel and Track for Soft-Soil Traversal (K. Yoshida, slides, ICRA 2010 Workshop on Planetary Rovers)",
+  "source_url": "https://ewh.ieee.org/conf/icra/2010/workshops/PlanetaryRovers/05-Yoshida-Traction/Yoshida-Traction.pdf",
+  "vehicle": "inline four wheel test bed (four identical rigid lugged wheels in line)",
+  "load_per_wheel_N": "not reported (test bed range 1.5 to 4.5 kg per wheel, slide 19)",
+  "soil": "Toyoura sand (described as a standard soil in terramechanics research)",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "sand box; preparation not described in the slides",
+  "test_type": "lab",
+  "gravity_g": "1",
+  "slope_kind": "emulated by pull",
+  "x_name": "equivalent slope angle (arctan of horizontal load over vertical load)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "fraction",
+  "comparable_to_dune_sand": "partly",
+  "curve_id": "yoshida2010_slide37_d327_w100",
+  "evidence_row": "LEG-018",
+  "figure_or_table": "slide 37 (PDF page 32), With Larger Diameter, width = 100 mm",
+  "page": "32",
+  "wheel_diameter_m": "0.327",
+  "wheel_width_m": "0.100",
+  "grousers": "24 lugs, 15 mm high",
+  "comparability_note": "Markers found automatically as connected components of the series fill colour (legend box excluded); centroid converted with gridline calibration; error bars (black) not transcribed. Slope is emulated on level sand by a horizontal load, theta = arctan(Fx/Fz) (slides 23 to 24, valid while no avalanche occurs), so slope effects on normal load, soil failure downslope and slip face avalanching are absent. Slip s = 1 minus v/vd. Slides only, not a peer reviewed paper; load per wheel for this series is not stated. Toyoura sand is a uniform laboratory quartz sand. Diameter and lug height change together across this series. "
+ },
+ "text_checks": [
+  {
+   "x": 12,
+   "y": 0.056,
+   "where": "slide 38 photo caption"
+  }
+ ]
+}

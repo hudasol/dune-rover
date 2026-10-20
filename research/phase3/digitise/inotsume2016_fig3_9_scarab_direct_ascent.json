@@ -1,0 +1,132 @@
+{
+ "pdf": "research/sources/phase3/inotsume_thesis.pdf",
+ "pdf_note": "vector figure, printed page 44",
+ "page": 56,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   904,
+   1563
+  ],
+  "val": [
+   10,
+   90
+  ],
+  "scale": "linear",
+  "note": "angle of attack ticks 10 and 90 deg on the bottom frame; only used to confirm the markers sit at about 90 deg"
+ },
+ "y_axis": {
+  "px": [
+   1155,
+   386.5
+  ],
+  "val": [
+   0,
+   1
+  ],
+  "scale": "linear",
+  "note": "bottom frame at slip 0 and dashed line at slip 1"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 8,
+  "refine": {
+   "include": [
+    {
+     "rgb": [
+      0,
+      0,
+      255
+     ],
+     "tol": 120
+    },
+    {
+     "rgb": [
+      255,
+      0,
+      0
+     ],
+     "tol": 120
+    },
+    {
+     "rgb": [
+      0,
+      255,
+      0
+     ],
+     "tol": 120
+    }
+   ],
+   "radius_px": 12,
+   "min_pixels": 8
+  },
+  "identification": "manual: markers at angle of attack about 90 deg (direct ascent) read by eye for each slope series and refined to the colour centroid; the 10 and 17.5 deg series have no 90 deg marker (Table 3.2: data collection failure, test failure)",
+  "points": [
+   {
+    "px": [
+     1569,
+     526
+    ],
+    "x_nominal": 13.1,
+    "x_unc_nominal": "not reported",
+    "note": "blue diamond, target 12.5 deg"
+   },
+   {
+    "px": [
+     1570,
+     473
+    ],
+    "x_nominal": 15.5,
+    "x_unc_nominal": "not reported",
+    "note": "red square, target 15 deg"
+   },
+   {
+    "px": [
+     1555,
+     426
+    ],
+    "x_nominal": 20.8,
+    "x_unc_nominal": "not reported",
+    "note": "green triangle, target 20 deg"
+   }
+  ]
+ },
+ "extra_points": [
+  {
+   "x": 25.3,
+   "y": 1.0,
+   "x_unc": "not reported",
+   "y_unc": "not reported",
+   "method": "text",
+   "note": "Sec 3.4.1: on the 25 deg slope (actual 25.3 deg, Table 3.2) longitudinal slip reached 100 percent at 90 deg angle of attack"
+  }
+ ],
+ "meta": {
+  "source_key": "inotsume2016",
+  "source_title": "Analysis of Angle of Attack for Efficient Slope Ascent by Rovers (H. Inotsume, Master's thesis, 2016)",
+  "source_url": "https://publications.ri.cmu.edu/storage/publications/pub_files/2016/8/MSThesis_Hiroaki.pdf",
+  "curve_id": "inotsume2016_fig3_9_scarab_direct_ascent",
+  "evidence_row": "FLD-027; FLD-028",
+  "figure_or_table": "Figure 3.9 (slip at angle of attack about 90 deg) with Table 3.2 actual slopes; Sec 3.4.1 text",
+  "page": "39, 43 to 44 (PDF pages 51, 56)",
+  "x_name": "slope (actual, from Table 3.2)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "fraction",
+  "vehicle": "Scarab rover set to 400 kg, four rigid wheels, active suspension disabled (Table 3.1)",
+  "wheel_diameter_m": "0.71",
+  "wheel_width_m": "0.18",
+  "load_per_wheel_N": "981",
+  "grousers": "none (sandpaper covered rim)",
+  "soil": "GRC-1 lunar regolith simulant (manufactured), loosened",
+  "grain_size_mm": "0.05 to 2",
+  "bulk_density_kg_m3": "1630",
+  "friction_angle_deg": "33.7",
+  "preparation": "SLOPE tilt bed 6 m by 4.5 m, 0.23 m deep, soil loosened and levelled before each test; slope measured by stereo plane fit",
+  "test_type": "constructed bed",
+  "gravity_g": "1",
+  "slope_kind": "direct ascent",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "x values are the actual slopes printed in Table 3.2 for the 90 deg runs; y digitised from markers (means over the run, error bars 1 SD not transcribed). Slip ratio s = 1 minus vx over vref (Eq. 3.1). GRC-1 is a manufactured lunar simulant with a wide grading, not dune sand; 400 kg rover with large smooth wheels at 1 g. Soil properties from Table 2.1 (loosened). load_per_wheel_N derived here as 400 kg times 9.81 divided by 4 wheels. The last point is text, not digitised."
+ }
+}

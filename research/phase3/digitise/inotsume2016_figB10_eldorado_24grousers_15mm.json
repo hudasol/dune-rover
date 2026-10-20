@@ -1,0 +1,109 @@
+{
+ "pdf": "research/sources/phase3/inotsume_thesis.pdf",
+ "pdf_note": "copy of research/sources/hiroaki_thesis.pdf; vector figure",
+ "page": 97,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   559,
+   1199
+  ],
+  "val": [
+   0,
+   16
+  ],
+  "scale": "linear",
+  "note": "tick marks at 0 and 16 deg found as short dark marks on the bottom frame (40 px per deg at 300 dpi)"
+ },
+ "y_axis": {
+  "px": [
+   855,
+   287
+  ],
+  "val": [
+   0,
+   1
+  ],
+  "scale": "linear",
+  "note": "bottom and top frame lines at slip 0 and 1"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 8,
+  "refine": {
+   "include": [
+    {
+     "rgb": [
+      255,
+      0,
+      0
+     ],
+     "tol": 120
+    }
+   ],
+   "radius_px": 13,
+   "min_pixels": 8
+  },
+  "identification": "manual: seed pixels read by eye (red squares in panel (a); the 15 mm series of panel (b) is the same configuration and the same data); refined automatically to the colour centroid",
+  "points": [
+   {
+    "px": [
+     559,
+     835.1
+    ]
+   },
+   {
+    "px": [
+     719,
+     809.6
+    ]
+   },
+   {
+    "px": [
+     879,
+     749.9
+    ]
+   },
+   {
+    "px": [
+     1039,
+     543.7
+    ]
+   },
+   {
+    "px": [
+     1199,
+     414.8
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "inotsume2016",
+  "source_title": "Analysis of Angle of Attack for Efficient Slope Ascent by Rovers (H. Inotsume, Master's thesis, 2016)",
+  "source_url": "https://publications.ri.cmu.edu/storage/publications/pub_files/2016/8/MSThesis_Hiroaki.pdf",
+  "vehicle": "El-Dorado-II four wheel rover, 35 kg, steering fixed (Table B.1)",
+  "wheel_diameter_m": "0.178",
+  "wheel_width_m": "0.100",
+  "load_per_wheel_N": "85.8",
+  "soil": "Toyoura standard sand, dry, cohesionless",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "sandbox 2 m by 1 m, soil loosened and levelled before each run, box jacked to the slope angle (up to about 20 deg)",
+  "test_type": "constructed bed",
+  "gravity_g": "1",
+  "slope_kind": "direct ascent",
+  "figure_or_table": "Figure B.10",
+  "page": "85 (PDF page 97)",
+  "x_name": "slope",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "fraction",
+  "curve_id": "inotsume2016_figB10_eldorado_24grousers_15mm",
+  "evidence_row": "not in evidence.csv",
+  "grousers": "24 grousers, 15 mm high",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "Seed pixels read by eye on the 300 dpi raster, refined to the centroid of the series colour within the stated radius; markers are means of three runs, error bars (1 SD, not transcribed) visible on some points. Slip ratio from motion capture and wheel encoders, wheel speed 1.8 rpm. Small 35 kg rover at 1 g on dry Toyoura sand is close in scale to a small dune rover, but Toyoura sand is a uniform laboratory quartz sand and the bed is shallow and freshly loosened. load_per_wheel_N derived here as 35 kg times 9.81 divided by 4 wheels. Unpublished campaign reported only in this thesis appendix."
+ }
+}

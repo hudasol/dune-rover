@@ -1,0 +1,101 @@
+{
+ "pdf": "research/sources/phase3/heverly2013.pdf",
+ "pdf_note": "copy of the author supplied PDF (sourced evidence folder); journal page 843 is PDF page 9",
+ "page": 9,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   361.5,
+   1231.5
+  ],
+  "val": [
+   0,
+   25
+  ],
+  "scale": "linear",
+  "note": "left and right frame edges at slope 0 and 25 deg, found as long dark lines (rows 427.5, 1145.5; columns 361.5, 1231.5)"
+ },
+ "y_axis": {
+  "px": [
+   1145.5,
+   427.5
+  ],
+  "val": [
+   0,
+   100
+  ],
+  "scale": "linear",
+  "note": "bottom and top frame edges at slip 0 and 100 percent"
+ },
+ "marker": {
+  "mode": "cloud",
+  "crop": [
+   374,
+   440,
+   1219,
+   1133
+  ],
+  "exclude_boxes": [
+   [
+    365,
+    431,
+    745,
+    520
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "min_saturation": 70
+    },
+    {
+     "max_value": 80
+    }
+   ],
+   "exclude": [
+    {
+     "rgb": [
+      245,
+      128,
+      125
+     ],
+     "tol": 50
+    }
+   ]
+  },
+  "mask_note": "all coloured or black marker pixels; the salmon polynomial fit line is removed by colour; legend box excluded; crop is the frame inset by 12 px to drop tick marks",
+  "bin_axis": "x",
+  "bin_width": 1.0,
+  "bin_start": 0.0,
+  "min_pixels": 40,
+  "marker_radius_px": 5
+ },
+ "meta": {
+  "source_key": "heverly2013",
+  "source_title": "Traverse Performance Characterization for the Mars Science Laboratory Rover (Heverly et al.; Journal of Field Robotics 30(6), 2013)",
+  "source_url": "https://doi.org/10.1002/rob.21481",
+  "wheel_diameter_m": "0.50",
+  "wheel_width_m": "0.40",
+  "grousers": "chevron grousers at 15 deg spacing, 7.5 mm radial height (Sec 3)",
+  "gravity_g": "1 (Earth test; vehicle mass chosen for Mars weight)",
+  "slope_kind": "direct ascent",
+  "vehicle": "Scarecrow (Mars weight MSL mobility test rover, 340 kg, six wheel rocker bogie)",
+  "load_per_wheel_N": "554.8",
+  "soil": "Dumont Dunes aeolian dune sand, Mojave Desert, California (natural, cohesionless)",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "natural dune slopes, undisturbed",
+  "test_type": "field",
+  "evidence_row": "FLD-HV13-1; FLD-HV13-2",
+  "figure_or_table": "Figure 12",
+  "page": "843",
+  "x_name": "slope",
+  "x_unit": "deg",
+  "y_name": "slip",
+  "y_unit": "percent",
+  "comparable_to_dune_sand": "yes",
+  "comparability_note": "Points are bin medians of all marker pixels found by colour masking in 1 deg slope bins (pixel weighted, so runs with more plotted samples weigh more); x_unc and y_unc combine the reading error with half the interquartile range of the masked pixels in the bin. Slip = 1 minus traverse distance over commanded distance, in percent, from 10 s windows at 1 Hz (GPS) or 2 Hz (motion capture), Eq. 2 to 4; slope is measured rover pitch. Natural aeolian dune sand in a hot desert, so the terrain is the closest analogue in this table; but the vehicle is 340 kg with 0.50 m wheels at 1 g, far heavier than a small rover, and eight runs at roughly constant slope are pooled. Where the fit line overlapped markers those pixels were lost. load_per_wheel_N derived here from Table I Earth weight 3329 N divided by 6 wheels (equal share assumed). ",
+  "curve_id": "heverly2013_fig12_scarecrow_dumont"
+ }
+}
