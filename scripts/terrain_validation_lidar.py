@@ -36,10 +36,12 @@ SEED = 20261020
 POSTINGS = (5, 10, 30)
 MIN_POSTS = 10          # truth: at least this many one metre posts at FACE_TRUTH_DEG or steeper inside the footprint
 # Windows (UTM easting min, easting max, northing min, northing max), chosen from a 20 m slope image before any metric.
+# Kelso: the first committed northing (3872400 to 3875100) lay outside the tile because the image axis was read from the
+# wrong origin; corrected to the same image region (3862400 to 3865100) before any Kelso metric was computed.
 SITES = {
     "Dumont": ("USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24.tif", (564900, 567900, 3943500, 3948300), "Dumont Dunes, California (UTM 11N); Heverly et al. 2013 anchor site"),
     "WhiteSands": ("USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20.tif", (378400, 379900, 3630400, 3634600), "White Sands, New Mexico (UTM 13N); western edge of the gypsum dune field"),
-    "Kelso": ("USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24.tif", (615000, 618600, 3872400, 3875100), "Kelso Dunes, California (UTM 11N); main ridge and surroundings"),
+    "Kelso": ("USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24.tif", (615000, 618600, 3862400, 3865100), "Kelso Dunes, California (UTM 11N); main ridge and surroundings"),
 }
 PINK = {"bg": "#fffafb", "sakura": "#e8a5bb", "rose": "#c9769a", "deep": "#a8325e", "plum": "#5b3a78", "sage": "#6fa28f", "ink": "#2b2024"}
 CLASS_COLORS = {0: "#a9cdbd", 1: "#7a1f45", 2: "#a98fd1", 3: "#ee7aa8", 4: "#5b3a78"}
