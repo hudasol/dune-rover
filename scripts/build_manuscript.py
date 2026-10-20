@@ -63,6 +63,18 @@ def t_lidar():
             + BR.md_table(["Site", "Posting, m", "AUC", "True face rate", "Mean predicted probability", "TRAVERSABLE share", "Faces in TRAVERSABLE", "Faces in UNKNOWN"], rows))
 
 
+LOCO_IDS = ["MOB-043", "TM3-067", "TM3-071", "FLD-HV13-1", "FLD-025", "LEG-007", "LEG-008", "LEG-009", "LEG-013"]
+
+
+def t_locomotion():
+    """Wheeled, tracked and legged results on sand, PUBLISHED rows only, never compared numerically across rows."""
+    ev = {r["id"]: r for r in BR.rd("research/evidence.csv")}
+    rows = [[i, BR.esc(ev[i]["vehicle_or_wheel"], 70), BR.esc(ev[i]["slope_deg"], 24), BR.esc(ev[i]["metric"], 80), BR.esc(ev[i]["value"] + " " + ev[i]["unit"], 60),
+             ev[i]["validation_type"]] for i in LOCO_IDS if i in ev]
+    return ("Wheeled, tracked and legged locomotion on sand (PUBLISHED rows only; vehicles, soils and metrics differ, so the rows are not comparable with each other).\n\n"
+            + BR.md_table(["Row", "Vehicle", "Slope, deg", "Metric", "Value", "Validation"], rows))
+
+
 def references(text, ev):
     ids = set(re.findall(r"\b(?:FLD|TM|SIM|LRN|LEG|PLN|TM3|MOB|SND|DUN|MAP|ENV)-[A-Za-z0-9]+(?:-[0-9a-z]+)?\b", text))
     by = {}
@@ -95,7 +107,7 @@ def build(pdf=False):
     ev = BR.rd("research/evidence.csv")
     v = BR.values(ev); v.update(P3.values()); v = extra_values(v)
     t = open(os.path.join(MS, "src", "manuscript.md"), encoding="utf-8").read()
-    t = t.replace("{{TABLE:families}}", t_families()).replace("{{TABLE:lidar}}", t_lidar())
+    t = t.replace("{{TABLE:families}}", t_families()).replace("{{TABLE:lidar}}", t_lidar()).replace("{{TABLE:locomotion}}", t_locomotion())
     for k, (path, cap) in FIGS.items():
         fig = f"![{cap}]({path})" if os.path.exists(os.path.join(MS, path)) else f"*Figure not available: {path} has not been produced.*"
         t = t.replace("{{FIG:%s}}" % k, fig)

@@ -44,3 +44,9 @@ Total Sobol indices of the passable share in area A at 30 m: original ranges i0 
 | C, calibration slope | {{VAL:ro_C_model_0.03}} | {{VAL:ro_C_collapse_0.03}} | {{VAL:ro_C_dumont_0.1}} |
 
 Every option that catches the collapse model also rejects a correct model more than half the time; more runs in the steep bins would be needed. The choice is Huda's (question 7).
+
+### 13.9 Wheeled, tracked and legged (PUBLISHED rows only)
+
+{{TABLE:locomotion}}
+
+The published rows suggest that tracks and wheel and crawler hybrids keep moving on sand where plain wheels stall (MOB-043, TM3-071), and that small legged robots climb sand slopes slowly (LEG-007 to LEG-009). None of these rows shares a vehicle size, sand or slip definition with another, so no ranking of locomotion types follows from them.

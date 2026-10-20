@@ -26,6 +26,10 @@ This paper reports what can and cannot be said with open data and published mode
 
 **Terrain mapping.** Coarser elevation models lower the measured slope of steep terrain; satellite DEM errors grow on dune slopes (DUN rows). Risk aware planners improve success rates in simulation, but evidence on real dunes is thin (MAP rows).
 
+**Other locomotion.** Published comparisons on sand favour tracks and wheel and crawler hybrids over plain wheels in some conditions (MOB-043, TM3-071), and small legged robots climb sand slopes slowly (LEG-007 to LEG-009); the rows differ in size, sand and metric and cannot be ranked (table below).
+
+{{TABLE:locomotion}}
+
 **Arabian sand and dunes.** Grain size, sorting and mineralogy of UAE, Qatari, Saudi and Omani dune sands are published (SND rows); a direct shear friction angle of 45 to 48 degrees was found for Dhahran dune sand in one thesis, and no friction angle or slip face angle measured on UAE dunes was found. Drift potentials from Gulf stations exist (DUN rows).
 
 ## 3. Data and methods
