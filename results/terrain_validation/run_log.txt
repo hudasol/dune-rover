@@ -1,0 +1,11 @@
+stage 12 run started 2026-10-20 12:24:44; numpy 2.5.3; seed 20261020; windows {"Dumont": [564900, 567900, 3943500, 3948300], "WhiteSands": [378400, 379900, 3630400, 3634600], "Kelso": [615000, 618600, 3862400, 3865100]}
+Dumont 5 m: cells 576000, face rate 0.230, mean p 0.355, AUC 0.984, TRAV 0.593 UNK 0.367 BLK 0.041, false safe 0.002, face in UNKNOWN 0.514
+Dumont 10 m: cells 144000, face rate 0.320, mean p 0.299, AUC 0.973, TRAV 0.620 UNK 0.356 BLK 0.024, false safe 0.036, face in UNKNOWN 0.771
+Dumont 30 m: cells 16000, face rate 0.480, mean p 0.231, AUC 0.860, TRAV 0.678 UNK 0.318 BLK 0.004, false safe 0.256, face in UNKNOWN 0.951
+WhiteSands 5 m: cells 252000, face rate 0.050, mean p 0.102, AUC 0.977, TRAV 0.873 UNK 0.127 BLK 0.000, false safe 0.001, face in UNKNOWN 0.384
+WhiteSands 10 m: cells 63000, face rate 0.108, mean p 0.099, AUC 0.966, TRAV 0.860 UNK 0.140 BLK 0.000, false safe 0.025, face in UNKNOWN 0.616
+WhiteSands 30 m: cells 7000, face rate 0.357, mean p 0.146, AUC 0.658, TRAV 0.759 UNK 0.241 BLK 0.001, false safe 0.286, face in UNKNOWN 0.580
+Kelso 5 m: cells 388800, face rate 0.055, mean p 0.157, AUC 0.982, TRAV 0.791 UNK 0.209 BLK 0.000, false safe 0.001, face in UNKNOWN 0.264
+Kelso 10 m: cells 97200, face rate 0.107, mean p 0.130, AUC 0.953, TRAV 0.808 UNK 0.191 BLK 0.000, false safe 0.018, face in UNKNOWN 0.484
+Kelso 30 m: cells 10800, face rate 0.340, mean p 0.086, AUC 0.700, TRAV 0.884 UNK 0.115 BLK 0.000, false safe 0.280, face in UNKNOWN 0.795
+done 2026-10-20 12:26:11

@@ -237,12 +237,15 @@ Design fixed now:
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| D12-1 | At 30 m the detector AUC against lidar truth lies between 0.65 and 0.92 at each of the three sites (no better than its synthetic AUC of 0.92). | |
-| D12-2 | At each site the AUC at 5 m is at least the AUC at 30 m. | |
-| D12-3 | At 30 m the true face rate inside UNKNOWN cells is at least three times the rate inside TRAVERSABLE cells at each site. | |
-| D12-4 | At 30 m the false safe rate (share of TRAVERSABLE cells that contain a face) lies between 2 % and 20 % at each site. | |
-| D12-5 | At 30 m the mean predicted face probability over the window is within 0.10 of the true face rate at each site. | |
-| D12-6 | Over 30 m cells that contain a face, the median of (steepest one metre slope in the cell minus the 30 m cell slope) is at least 10 deg at each site. | |
+| D12-1 | At 30 m the detector AUC against lidar truth lies between 0.65 and 0.92 at each of the three sites (no better than its synthetic AUC of 0.92). | HIT. AUC at 30 m: Dumont 0.860, White Sands 0.658, Kelso 0.700, all inside 0.65 to 0.92 (White Sands only just) and all below the synthetic 0.92 (`results/terrain_validation/metrics.csv`). |
+| D12-2 | At each site the AUC at 5 m is at least the AUC at 30 m. | HIT. AUC at 5 m: 0.984, 0.977, 0.982; at 10 m: 0.973, 0.966, 0.953; at 30 m: 0.860, 0.658, 0.700. Skill falls steeply between 10 and 30 m. |
+| D12-3 | At 30 m the true face rate inside UNKNOWN cells is at least three times the rate inside TRAVERSABLE cells at each site. | MISSED (1 of 3 sites). Face rate in UNKNOWN against TRAVERSABLE at 30 m: Dumont 0.951 against 0.256 (3.7 times), White Sands 0.580 against 0.286 (2.0 times), Kelso 0.795 against 0.280 (2.8 times). |
+| D12-4 | At 30 m the false safe rate (share of TRAVERSABLE cells that contain a face) lies between 2 % and 20 % at each site. | MISSED, and the error is on the unsafe side. At 30 m the false safe rate is 25.6 % (Dumont), 28.6 % (White Sands) and 28.0 % (Kelso): about one TRAVERSABLE cell in four contains at least 10 square metres steeper than 28 deg. At 10 m it is 3.6, 2.5 and 1.8 %; at 5 m 0.2, 0.1 and 0.1 %. |
+| D12-5 | At 30 m the mean predicted face probability over the window is within 0.10 of the true face rate at each site. | MISSED. At 30 m the detector underestimates face prevalence: mean predicted probability 0.231 against a true rate of 0.480 (Dumont), 0.146 against 0.357 (White Sands), 0.086 against 0.340 (Kelso). Its Brier score at 30 m is no better than climatology at White Sands and Kelso. |
+| D12-6 | Over 30 m cells that contain a face, the median of (steepest one metre slope in the cell minus the 30 m cell slope) is at least 10 deg at each site. | HIT. Median gap between the steepest one metre slope and the 30 m slope in face cells: 27.6 deg (Dumont), 29.0 deg (White Sands), 21.8 deg (Kelso) (`results/terrain_validation/slope_gap.csv`). Caveat: at Dumont the median steepest one metre slope in face cells is 45 deg, steeper than loose sand can stand, so the truth there includes rock outcrops or lidar artefacts; at White Sands it is 32.6 deg, matching published slip face angles. |
+
+
+Note on stage 12 (appended after the run, no prediction edited): the detector and the map work at 5 and 10 m and fail at 30 m on all three real dune fields. At 30 m about one cell in four that the map calls TRAVERSABLE contains a steep face. This contradicts the comfort that the 30 m map's low BLOCKED share could give, and it means the phase 2 maps of the Arabian areas at 30 m should not be used to plan a route without a 10 m or finer surface. The truth counts any surface steeper than 28 deg (sand faces, rock and lidar artefacts alike), and the sites are North American, so the numbers transfer to Arabia only as an indication. The Kelso window was corrected before any metric because the first committed northing lay outside the tile.
 
 
 ## Stage 13: slip face direction against the wind (written 2026-10-20, BEFORE any wind data or face direction was computed)

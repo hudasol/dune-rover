@@ -1,0 +1,62 @@
+{
+ "label": "SIMULATED BY ME (detector and map) scored against PUBLISHED lidar elevation (USGS 3DEP, public domain)",
+ "seed": 20261020,
+ "min_posts": 10,
+ "face_truth_deg": 28.0,
+ "sites": {
+  "Dumont": {
+   "description": "Dumont Dunes, California (UTM 11N); Heverly et al. 2013 anchor site",
+   "file": "USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24.tif",
+   "sha256": "92bf61b84f66b8911aa111aeea24f6b73ba374e18facf1e51ad361bbbe19c93a",
+   "window_utm": [
+    564900,
+    567900,
+    3943500,
+    3948300
+   ],
+   "shape_1m": [
+    4800,
+    3000
+   ],
+   "nodata_share": 0.0,
+   "relief_m": 321.93343353271484,
+   "share_1m_posts_steeper_than_truth": 0.20894354166666668
+  },
+  "WhiteSands": {
+   "description": "White Sands, New Mexico (UTM 13N); western edge of the gypsum dune field",
+   "file": "USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20.tif",
+   "sha256": "8a49fdeed74e4a9b77749e7b0641618d9d19d8dd20dfa280f7be738afd9bd9af",
+   "window_utm": [
+    378400,
+    379900,
+    3630400,
+    3634600
+   ],
+   "shape_1m": [
+    4200,
+    1500
+   ],
+   "nodata_share": 0.0,
+   "relief_m": 19.72509765625,
+   "share_1m_posts_steeper_than_truth": 0.04273333333333333
+  },
+  "Kelso": {
+   "description": "Kelso Dunes, California (UTM 11N); main ridge and surroundings",
+   "file": "USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24.tif",
+   "sha256": "ffb88a0dda813af158cdcff08778565fe078baa75ac616568d6c61e061479e96",
+   "window_utm": [
+    615000,
+    618600,
+    3862400,
+    3865100
+   ],
+   "shape_1m": [
+    2700,
+    3600
+   ],
+   "nodata_share": 0.0,
+   "relief_m": 240.02142333984375,
+   "share_1m_posts_steeper_than_truth": 0.050880864197530865
+  }
+ }
+}
