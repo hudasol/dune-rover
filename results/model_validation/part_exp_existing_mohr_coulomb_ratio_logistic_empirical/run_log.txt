@@ -1,0 +1,39 @@
+stage 15 run 2026-10-20 12:52:36; 18 slip against slope curves from 4 sources; seed 20261022
+  heverly2013_fig11_dtm_marsyard_sand: direct ascent, 16 points, 0.8 to 22.1 deg, constructed bed, comparable partly
+  heverly2013_fig11_scarecrow_marsyard_sand: direct ascent, 10 points, 4.6 to 17.1 deg, constructed bed, comparable partly
+  heverly2013_fig12_scarecrow_dumont: direct ascent, 20 points, 3.8 to 22.1 deg, field, comparable yes
+  inotsume2016_fig3_9_scarab_direct_ascent: direct ascent, 4 points, 13.1 to 25.3 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_0grousers: direct ascent, 5 points, 0.0 to 4.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_12grousers_15mm: direct ascent, 6 points, 0.0 to 16.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_24grousers_15mm: direct ascent, 5 points, 0.0 to 16.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_24grousers_5mm: direct ascent, 6 points, 0.0 to 12.0 deg, constructed bed, comparable partly
+  li2008_fig11a_spirit_finegrain_vo: direct ascent, 10 points, 0.9 to 18.6 deg, field, comparable partly
+  li2008_fig11a_spirit_sandsized_vo: direct ascent, 11 points, 1.3 to 20.4 deg, field, comparable partly
+  yoshida2010_slide37_d116_w100: emulated by pull, 6 points, 0.1 to 12.0 deg, lab, comparable partly
+  yoshida2010_slide37_d202_w100: emulated by pull, 9 points, 0.1 to 20.0 deg, lab, comparable partly
+  yoshida2010_slide37_d327_w100: emulated by pull, 9 points, 0.0 to 19.9 deg, lab, comparable partly
+  yoshida2010_slide39_d202_w050: emulated by pull, 7 points, 4.0 to 16.0 deg, lab, comparable partly
+  yoshida2010_slide39_d202_w150: emulated by pull, 9 points, 0.0 to 19.9 deg, lab, comparable partly
+  heverly2013_sec6_3_cubic_fit_dumont: direct ascent, 18 points, 4.0 to 21.0 deg, field, comparable yes
+  li2008_table6_spirit_finegrain_longitudinal: direct ascent, 3 points, 2.5 to 12.5 deg, field, comparable partly
+  li2008_table6_spirit_sandsized_longitudinal: direct ascent, 4 points, 2.5 to 17.5 deg, field, comparable partly
+exp_existing: nominal and per curve fits done on 17 curves
+exp_existing: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.198 cover 0.94, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.207 cover 1.00, heverly2013_fig12_scarecrow_dumont rmse 0.191 cover 1.00
+exp_existing: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.392 cover 0.50, inotsume2016_figB10_eldorado_0grousers rmse 0.475 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.250 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.210 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.458 cover 0.33
+exp_existing: LOSO held out li2008: li2008_fig11a_spirit_finegrain_vo rmse 0.239 cover 1.00, li2008_fig11a_spirit_sandsized_vo rmse 0.377 cover 0.82, li2008_table6_spirit_finegrain_longitudinal rmse 0.248 cover 1.00, li2008_table6_spirit_sandsized_longitudinal rmse 0.358 cover 0.75
+exp_existing: LOSO held out yoshida2010: yoshida2010_slide37_d116_w100 rmse 0.192 cover 1.00, yoshida2010_slide37_d202_w100 rmse 0.124 cover 1.00, yoshida2010_slide37_d327_w100 rmse 0.321 cover 1.00, yoshida2010_slide39_d202_w050 rmse 0.116 cover 1.00, yoshida2010_slide39_d202_w150 rmse 0.189 cover 1.00
+exp_existing posterior on 12 comparable direct ascent curves: {"phi_deg": [30.574841730287048, 36.928257986989266, 43.74278781334155], "f_r": [0.03318098283082999, 0.12897588124670634, 0.31982906223512303], "i0": [0.32748764339358755, 0.627231132140032, 1.2107130061083984], "s": [0.23363415400313742, 0.263810639560917, 0.2989856667228185]}
+mohr_coulomb_ratio: nominal and per curve fits done on 17 curves
+mohr_coulomb_ratio: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.210 cover 1.00, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.216 cover 1.00, heverly2013_fig12_scarecrow_dumont rmse 0.214 cover 1.00
+mohr_coulomb_ratio: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.438 cover 0.00, inotsume2016_figB10_eldorado_0grousers rmse 0.469 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.231 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.196 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.432 cover 0.33
+mohr_coulomb_ratio: LOSO held out li2008: li2008_fig11a_spirit_finegrain_vo rmse 0.239 cover 1.00, li2008_fig11a_spirit_sandsized_vo rmse 0.373 cover 0.64, li2008_table6_spirit_finegrain_longitudinal rmse 0.266 cover 0.67, li2008_table6_spirit_sandsized_longitudinal rmse 0.369 cover 0.50
+mohr_coulomb_ratio: LOSO held out yoshida2010: yoshida2010_slide37_d116_w100 rmse 0.171 cover 1.00, yoshida2010_slide37_d202_w100 rmse 0.145 cover 1.00, yoshida2010_slide37_d327_w100 rmse 0.326 cover 0.89, yoshida2010_slide39_d202_w050 rmse 0.129 cover 1.00, yoshida2010_slide39_d202_w150 rmse 0.199 cover 1.00
+logistic_empirical: nominal and per curve fits done on 17 curves
+logistic_empirical: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.216 cover 1.00, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.216 cover 1.00, heverly2013_fig12_scarecrow_dumont rmse 0.214 cover 1.00
+logistic_empirical: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.407 cover 0.50, inotsume2016_figB10_eldorado_0grousers rmse 0.483 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.252 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.203 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.470 cover 0.33
+logistic_empirical: LOSO held out li2008: li2008_fig11a_spirit_finegrain_vo rmse 0.237 cover 1.00, li2008_fig11a_spirit_sandsized_vo rmse 0.375 cover 0.64, li2008_table6_spirit_finegrain_longitudinal rmse 0.257 cover 0.67, li2008_table6_spirit_sandsized_longitudinal rmse 0.364 cover 0.50
+logistic_empirical: LOSO held out yoshida2010: yoshida2010_slide37_d116_w100 rmse 0.183 cover 1.00, yoshida2010_slide37_d202_w100 rmse 0.136 cover 1.00, yoshida2010_slide37_d327_w100 rmse 0.331 cover 0.89, yoshida2010_slide39_d202_w050 rmse 0.116 cover 1.00, yoshida2010_slide39_d202_w150 rmse 0.196 cover 1.00
+VERDICT exp_existing: {'heldout_curves': 17, 'median_heldout_rmse': 0.2392, 'pooled_coverage90': 0.893, 'median_nominal_rmse': 0.3105, 'median_fit_rmse': 0.0555, 'survives': False}
+VERDICT mohr_coulomb_ratio: {'heldout_curves': 17, 'median_heldout_rmse': 0.2306, 'pooled_coverage90': 0.85, 'median_nominal_rmse': 0.2426, 'median_fit_rmse': 0.0959, 'survives': False}
+VERDICT logistic_empirical: {'heldout_curves': 17, 'median_heldout_rmse': 0.2369, 'pooled_coverage90': 0.864, 'median_nominal_rmse': 0.188, 'median_fit_rmse': 0.03, 'survives': False}
+done 2026-10-20 12:58:42

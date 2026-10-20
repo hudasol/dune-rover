@@ -42,8 +42,13 @@ def main():
     tk, la0, la1, lo0, lo1 = AREAS["A_south_Liwa"][:5]
     dem = crop(load_tile(os.path.join(ROOT, "data", "raw", TILES[tk])), la0, la1, lo0, lo1)
     eg = TR.precompute_edges(dem)
-    rows, log = [], open(os.path.join(OUT, "run_log.txt"), "w")
-    sets = [s for s in ("original", "widened_i0", "posterior_2026_10_20") if s in RANGE_SETS]
+    rows, log = [], open(os.path.join(OUT, "run_log.txt"), "a")
+    import argparse
+    ap = argparse.ArgumentParser(); ap.add_argument("--sets", default="original,widened_i0,posterior_2026_10_20"); a = ap.parse_args()
+    sets = [s for s in a.sets.split(",") if s in RANGE_SETS]
+    prev = os.path.join(OUT, "sobol_indices.csv")
+    if os.path.exists(prev):   # keep the rows of range sets not re run
+        rows = [r for r in csv.DictReader(open(prev)) if r["range_set"] not in sets]
     for rs in sets:
         with use_range_set(rs):
             b = bounds()
@@ -73,7 +78,7 @@ def main():
                              "Y_mean": round(float(np.mean(np.concatenate([fA, fB]))), 4), "Y_sd": round(float(np.sqrt(var)), 4)})
             msg = f"{rs}: Y mean {np.mean(fA):.3f} sd {np.sqrt(var):.3f}; " + ", ".join(f"{k} S1 {S1[i]:.2f} ST {ST[i]:.2f}" for i, k in enumerate(KEYS)) + f" [{time.time()-t0:.0f} s]"
             print(msg, flush=True); log.write(msg + "\n")
-    with open(os.path.join(OUT, "sobol_indices.csv"), "w", newline="") as fh:
+    with open(os.path.join(OUT, "sobol_indices.csv"), "w", newline="") as fh:   # rows of earlier range sets first, then the new ones
         w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
     json.dump({"N": N, "seed": SEED, "bootstrap": NBOOT, "output": "share of area A cells (30 m) with at least 4 of 8 passable headings",
                "range_sets": sets}, open(os.path.join(OUT, "summary.json"), "w"), indent=1)
