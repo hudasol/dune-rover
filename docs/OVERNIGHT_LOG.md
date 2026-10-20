@@ -31,3 +31,6 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 2026-10-20 13:05 W3 stage 15 three families done (b90eb64); posterior range set and map re run (b0a7c21); Bekker Wong family still running.
 - 2026-10-20 13:16 W9 midpoint review done: 12 findings, fixed or reasoned in docs/REVIEW_2026-10-20.md (21d8e6f, 0920219, 17dde09, 20cbe58).
 - 2026-10-20 13:16 W7 and W8 drafts committed: manuscript template and builder, report section 13, robotics proposal, brief and EDGE proposal rewritten, completeness table.
+- 2026-10-20 13:25 W3 stage 15 done: the Bekker Wong family also fails the bar (held out 0.20, coverage 0.71) (cd11473); post hoc posterior without immobile draws (94e720c) and on Earth sand curves only (0920219).
+- 2026-10-20 13:30 W4 discrete element check blocked: a Chrono DEM bed of 1860 spheres ran at more than 60 ms per step on this two core machine (a 3 s run would need over 30 minutes per slope); stopped within its budget, not run. Logged as a remaining gap in docs/COMPLETENESS.md.
+- 2026-10-20 13:40 W9 final review done: 12 findings, fixed in a1d3fc0 and recorded in docs/REVIEW_2026-10-20.md (86d0e19).
