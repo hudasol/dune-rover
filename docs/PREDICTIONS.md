@@ -262,13 +262,13 @@ Design fixed now:
 
 | ID | Prediction made before the run | Outcome |
 |---|---|---|
-| T13-1 | White Sands (transverse and barchan dunes): hit. | |
-| T13-2 | Dumont Dunes: hit. | |
-| T13-3 | Kelso Dunes (complex dunes in variable winds): miss, or face resultant length R below 0.3. | |
-| T13-4 | Area A, Liwa (crescentic megadunes): hit. | |
-| T13-5 | Area B, Rub al Khali megadunes: miss. | |
-| T13-6 | Area C, linear dunes: miss, with R below 0.3 because linear dunes have faces on both flanks. | |
-| T13-7 | Overall at least 3 hits out of 6. With six sites this is a check of the method, not a statistical test. | |
+| T13-1 | White Sands (transverse and barchan dunes): hit. | HIT. White Sands: mean face dip 75 deg (R 0.85), resultant drift direction 39 deg, difference 36 deg (`results/wind_azimuth/face_vs_wind.csv`). |
+| T13-2 | Dumont Dunes: hit. | MISSED. Dumont: mean dip 274 deg with R 0.15 (no dominant face direction; the window also holds rock, see the stage 12 correction), drift 52 deg, difference 138 deg. |
+| T13-3 | Kelso Dunes (complex dunes in variable winds): miss, or face resultant length R below 0.3. | HIT. Kelso: mean dip 38 deg (R 0.49), drift 93 deg, difference 55 deg, a miss as predicted. |
+| T13-4 | Area A, Liwa (crescentic megadunes): hit. | HIT. Area A, Liwa: mean dip 157 deg (R 0.58), drift 159 deg, difference 2 deg. |
+| T13-5 | Area B, Rub al Khali megadunes: miss. | MISSED. Area B: mean dip 168 deg, drift 161 deg, difference 7 deg, a hit rather than the predicted miss, although the face directions are spread (R 0.25). |
+| T13-6 | Area C, linear dunes: miss, with R below 0.3 because linear dunes have faces on both flanks. | MISSED. Area C: mean dip 151 deg with R 0.87 (not below 0.3), drift 189 deg, difference 38 deg, a hit. At 30 m the posts steeper than 15 deg lie mostly on one flank of the linear dunes; the drift is weakly directional there (RDP/DP 0.39). |
+| T13-7 | Overall at least 3 hits out of 6. With six sites this is a check of the method, not a statistical test. | HIT. 4 of 6 sites within 45 deg (White Sands, Liwa, Rub' al Khali megadunes, linear dunes). With six sites this is a check of the method, not a test. |
 
 
 ## Stage 14: independent simulation of a single wheel on a sand slope in Project Chrono (written 2026-10-20, BEFORE the sweep script was written or run)

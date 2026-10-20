@@ -1,0 +1,7 @@
+site,prediction,face_source,face_posts,face_mean_dip_azimuth_deg,face_resultant_length_R,rdd_deg,rdp_over_dp,share_hours_above_threshold,angular_difference_deg,hit,wind_hours,era5_grid_lat,era5_grid_lon,face_modal_10deg_bin_deg
+WhiteSands,T13-1,"one metre lidar, posts at 28 deg or steeper",269220,74.8,0.852,39.2,0.532,0.0383,35.6,True,87672,32.75,-106.25,65.0
+Dumont,T13-2,"one metre lidar, posts at 28 deg or steeper",3008787,274.3,0.146,51.8,0.773,0.0108,137.5,False,87672,35.75,-116.25,245.0
+Kelso,T13-3,"one metre lidar, posts at 28 deg or steeper",494562,38.2,0.488,93.4,0.745,0.0156,55.2,False,87672,35.0,-115.75,355.0
+A_south_Liwa,T13-4,"Copernicus GLO 30, posts at 15 deg or steeper",30332,157.0,0.578,158.9,0.562,0.1078,1.9,True,87672,23.0,53.75,155.0
+B_RubAlKhali_megadunes,T13-5,"Copernicus GLO 30, posts at 15 deg or steeper",195890,167.8,0.246,160.9,0.424,0.0761,6.9,True,87672,22.25,54.5,165.0
+C_RubAlKhali_linear,T13-6,"Copernicus GLO 30, posts at 15 deg or steeper",2322,151.0,0.87,188.7,0.385,0.0775,37.7,True,87672,20.5,52.5,135.0
