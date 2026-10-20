@@ -64,7 +64,7 @@ def route(g, nc, s_rc, t_rc):
     return np.column_stack(np.divmod(np.array(path[::-1]), nc))
 
 
-def truth_events(rc, k, z1, s1, crit_deg):
+def truth_events(rc, k, z1, s1, crit_deg, baseline=3.0):
     """Resample the route at 1 m on the lidar surface; count uphill events and face contacts."""
     pts = (rc + 0.5) * k                                      # cell centres in one metre post coordinates (row, col)
     samples = [pts[0]]
@@ -79,7 +79,7 @@ def truth_events(rc, k, z1, s1, crit_deg):
     up = 0
     j = 0
     for i in range(len(z)):
-        while j < len(z) and s_along[j] - s_along[i] < 3.0:
+        while j < len(z) and s_along[j] - s_along[i] < baseline:
             j += 1
         if j >= len(z):
             break
@@ -90,13 +90,20 @@ def truth_events(rc, k, z1, s1, crit_deg):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--baseline", type=float, default=3.0, help="grade baseline in m; 3 is the pre registered value, others are POST HOC")
+    args = ap.parse_args()
+    global OUT
+    if args.baseline != 3.0:
+        OUT = os.path.join(OUT, f"posthoc_baseline_{args.baseline:g}m")
     os.makedirs(os.path.join(OUT, "figures"), exist_ok=True)
     apply_range_set("original")
     nominal = nominal_params(); crit = critical_uphill_deg(nominal)
     log = open(os.path.join(OUT, "run_log.txt"), "w")
     def say(m):
         print(m, flush=True); log.write(m + "\n"); log.flush()
-    say(f"stage 17 run {time.strftime('%Y-%m-%d %H:%M:%S')}; critical uphill {crit:.2f} deg; risk weight {RISK_W}; OD seed {SEED_OD}")
+    say(f"stage 17 run {time.strftime('%Y-%m-%d %H:%M:%S')}; grade baseline {args.baseline} m{' (POST HOC)' if args.baseline != 3.0 else ''}; critical uphill {crit:.2f} deg; risk weight {RISK_W}; OD seed {SEED_OD}")
     draws = TC.lhs_draws(256, TV.SEED)
     models = {k: SG.fit(float(k), "base", 1.0) for k in (10, 30)}
     rows, keepfig = [], {}
@@ -125,7 +132,7 @@ def main():
                     straight = float(np.hypot(*(np.array(sa) - np.array(sb))) * k)
                     if rc is None:
                         rows.append({"site": site, "posting_m": k, "policy": pol, "pair": n, "routed": False, "straight_m": round(straight, 1)}); continue
-                    up, contacts, length = truth_events(rc, k, z1, s1, crit)
+                    up, contacts, length = truth_events(rc, k, z1, s1, crit, args.baseline)
                     unk = float(np.isin(cls[rc[:, 0], rc[:, 1]], (2, 3, 4)).mean())
                     rows.append({"site": site, "posting_m": k, "policy": pol, "pair": n, "routed": True, "straight_m": round(straight, 1),
                                  "length_m": round(length, 1), "uphill_events": up, "face_contacts": contacts, "fails_on_truth": bool(up > 0),
