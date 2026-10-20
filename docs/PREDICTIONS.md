@@ -304,3 +304,22 @@ Design fixed now:
 | G16-2 | Area A, `original`: no parameter has a total Sobol index above 0.6 (the four parameters share the variance). | |
 | G16-3 | Area A, `widened_i0`: i0 has the largest total index, above 0.5. | |
 | G16-4 | In both range sets the sum of first order indices is above 0.7 (interactions are modest). | |
+
+
+## Stage 17: route planning policies scored against real lidar truth (written 2026-10-20, BEFORE the planner script was written or run)
+
+**SIMULATED BY ME (maps, routes, events) on PUBLISHED elevation data.** The three lidar windows of stage 12 are the ground truth; the planner sees only the 30 m or 10 m block mean surface, the three class map (original range set, 256 draws, seed 20261020) and the face probability, exactly as in stage 12.
+
+Design fixed now:
+- Policies: **naive**, least cost over the nominal model graph (the phase 1 rule, UNKNOWN and face risk ignored); **conservative**, the same graph restricted to TRAVERSABLE cells; **risk weighted**, BLOCKED excluded, every edge cost multiplied by (1 + 5 p_face) of the cell entered (the weight 5 is fixed now and not tuned).
+- Origin and destination pairs: 40 per site, seed 20261024, cells that are TRAVERSABLE on the 30 m map with 30 m slope below 5 deg, at least 1000 m apart; the same pairs (by position) are used at 10 m.
+- Truth events: each route is resampled at 1 m along its straight cell to cell segments on the one metre lidar surface; an **uphill event** is a 3 m baseline uphill grade steeper than 25.5 deg (the nominal critical climbing slope of the original model); a **face contact** is a sampled post with one metre slope of 28 deg or more. A route "fails on truth" if it has at least one uphill event.
+- Metrics per site, posting and policy: share of pairs with a route, share of routed pairs that fail on truth, mean face contacts per km, mean route length over straight distance, share of route length in UNKNOWN cells.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| R17-1 | 30 m, naive: at least 40 % of routed pairs fail on truth at Dumont. | |
+| R17-2 | 30 m, conservative: fewer failures than naive at every site, but still at least 15 % of routed pairs fail on truth at Dumont (the map's false safe rate is about a quarter). | |
+| R17-3 | 10 m, conservative: at most 10 % of routed pairs fail on truth at every site. | |
+| R17-4 | 10 m, conservative: a route is found for at least 70 % of pairs at every site. | |
+| R17-5 | Risk weighted lies between naive and conservative in failure share at 30 m at every site (ties allowed). | |
