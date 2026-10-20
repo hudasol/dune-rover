@@ -124,3 +124,22 @@ FLD-HV13-5 split into FLD-HV13-5a and FLD-HV13-5b: Split on 2026-10-18 at the au
 - MOB-058.metric: was: agreement of calculated with measured pull coefficient, Yuma sand
 - MOB-059.terrain_description: was: Yuma sand
 - MOB-062.validation_type: was: sim-vs-field
+- PLN-033.vehicle_or_wheel: was: Rocky8 research rover
+- PLN-033.terrain_description: was: Test run of 7.5 m (80 frames, ~0.1 m steps)
+- PLN-033.validation_type: was: field
+- PLN-035.passage_or_location: was: Sec. 7 Modeling Curiosity Mobility, paragraph after Fig. 18; Sec. 5
+- PLN-040.soil_parameters_reported: was: Lateral shearing deformation modulus Ky range 15 to 45 mm in model
+- PLN-051.passage_or_location: was: Conclusions of WES wheel soil interaction studies (printed pp. 21 to 22)
+- PLN-060.passage_or_location: was: Sec. 3 Overview of Analysis Method, M2020 Rover Capability paragraph (p. 3)
+- PLN-064.validation_type: was: sim-vs-field
+- PLN-064.method: was: Small wheel pressure sinkage model fitted to track sinkage and contact pressure; compared with penetrometer based Bekker model for Luna 17 and Apollo 15
+- PLN-065.terrain_description: was: Seitah region edge, Jezero crater, Mars; crossing westward over a north to south oriented sandy ripple (sol 548)
+- PLN-065.passage_or_location: was: Sec. 3 Rover Mobility, Mobility Faults paragraph; Fig. 4 caption
+- PLN-066.passage_or_location: was: Sec. 3, Mobility Faults paragraph
+- PLN-067.passage_or_location: was: Sec. 3, Mobility Faults paragraph; Figs. 28 and 32 cited for the planned drive
+- PLN-068.passage_or_location: was: Sec. 3, Nominal Drive Faults list (VOSLIP EXCESSIVE); Figs. 8 and 9
+- PLN-003.method: was: Slip ratio estimated from the width of periodic wheel lug imprint units in rear HazCam images, compared with telemetry derived slip
+- PLN-007.method: was: Measurement from rover navigation camera panorama
+- PLN-018.soil_parameters_reported: was: Sulfate rich fine grained sands (28% SO3 at sol 1870 site) mixed with basaltic sand
+- PLN-018.slope_deg: was: not reported (rover tilted 4 deg south at sol 1870 position)
+- PLN-022.metric: was: resisting force from dragged inoperative wheel, forward vs backward driving
