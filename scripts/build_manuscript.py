@@ -123,6 +123,7 @@ def build(pdf=False):
         html = os.path.join(MS, "MANUSCRIPT.html")
         BP.to_html(t, html, "Wheeled rover slip on dune sand")
         BP.html_to_pdf(html, os.path.join(MS, "MANUSCRIPT.pdf"))
+        BP.compress(os.path.join(MS, "MANUSCRIPT.pdf"))
         os.remove(html)
     return left
 
