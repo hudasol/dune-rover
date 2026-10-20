@@ -199,3 +199,4 @@ FLD-HV13-5 split into FLD-HV13-5a and FLD-HV13-5b: Split on 2026-10-18 at the au
 - TM3-067.slope_deg: was: 18
 - TM3-068.soil_parameters_reported: was: fine silica sand 0.3 to 0.6 mm; simulator terrain parameters from a sand model (values in paper table, not transcribed)
 - TM3-068.method: was: Terramechanics based simulator of the rover compared with force sensor measurements on each leg
+- ENV-004.comparability_warning: was: Legged robot with small joint motors, not a wheeled rover; ambient temperature and motor threshold value not reported; initial motor temperatures differed between runs (Fig. 5 caption). On sand, higher wheel torque would add heat.
