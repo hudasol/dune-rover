@@ -173,3 +173,29 @@ FLD-HV13-5 split into FLD-HV13-5a and FLD-HV13-5b: Split on 2026-10-18 at the au
 - DUN-026.validation_type: was: field
 - DUN-027.validation_type: was: field
 - DUN-027.value: was: 1 to 6 (printed I and 6); 3 to 180
+- TM3-006.validation_type: was: lab
+- TM3-006.terrain_description: was: Non slip hard surface (calibration run)
+- TM3-016.terrain_description: was: GRC-1 prepared to seven tamped densities (Table VI, mean G 1.86 to 5.13 kPa/mm, bulk density 1.61 to 1.71 g/cm3)
+- TM3-020.validation_type: was: simulation-only
+- TM3-021.validation_type: was: simulation-only
+- TM3-023.vehicle_or_wheel: was: LROP four wheeled test platform, dry mass 20.4 kg plus 11.3 kg payload (mass fraction 0.55), rigid smooth wheels 24.13 cm diameter x 11.43 cm wide, no grousers or lugs, no crowning
+- TM3-024.vehicle_or_wheel: was: LROP four wheeled test platform, dry mass 20.4 kg plus 11.3 kg payload (mass fraction 0.55), rigid smooth wheels 24.13 cm diameter x 11.43 cm wide, no grousers or lugs, no crowning
+- TM3-028.soil_parameters_reported: was: Table 1: sandy soil 99% sand (jar sedimentation test), bulk density 1.5 g/cm3, moisture 0%
+- TM3-028.method: was: Single wheel tester with wheel placed at prescribed sinkage (10, 20, 40% of diameter); forward speed from traces; slip from circumferential versus forward velocity
+- TM3-029.soil_parameters_reported: was: Table 1: sandy soil 99% sand (jar sedimentation test), bulk density 1.5 g/cm3, moisture 0%
+- TM3-030.soil_parameters_reported: was: Table 1: sandy soil 99% sand (jar sedimentation test), bulk density 1.5 g/cm3, moisture 0%
+- TM3-033.method: was: Preliminary passive earth pressure model (McKyes for front, Coulomb wedge for rear, PIV slip surfaces and measured stresses as inputs) compared with measured towing resistance
+- TM3-041.vehicle_or_wheel: was: Single lugged wheel test bed and the six wheeled prototype (as TM3-038)
+- TM3-055.vehicle_or_wheel: was: Boeing GM XIII wire mesh LRV wheel, 81 cm (32 in) diameter, 50 percent chevron covered, load 253 N (57 lb), WES single wheel dynamometer
+- TM3-055.method: was: Constant slip and programmed slip single wheel tests at wheel speeds 0.9 to about 3 m/s
+- TM3-056.value: was: drag versus speed similar in shape to clay (peak near 40 knots in most tests) but smaller in magnitude
+- TM3-057.method: was: Experimental climbing of the six wheel robot on the sloped test bed; performance indexes (pull, power, traction and drive efficiency) plotted against measured wheel slip ratio
+- TM3-062.passage_or_location: was: Section III.1 Experimental condition and Section IV first paragraph
+- TM3-063.validation_type: was: none
+- TM3-064.metric: was: classification accuracy of stuck state in single wheel tests (linear SVM; RBF SVM)
+- TM3-065.terrain_description: was: Sand test field (provided by ISAS/JAXA per acknowledgements); sand not further described
+- TM3-065.soil_parameters_reported: was: not reported
+- TM3-065.metric: was: classification accuracy of stuck state in rover tests (macro recall in notes)
+- TM3-067.slope_deg: was: 18
+- TM3-068.soil_parameters_reported: was: fine silica sand 0.3 to 0.6 mm; simulator terrain parameters from a sand model (values in paper table, not transcribed)
+- TM3-068.method: was: Terramechanics based simulator of the rover compared with force sensor measurements on each leg
