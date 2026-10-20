@@ -49,8 +49,8 @@ lines = ["# Verification log", "", f"Every one of the {len(current)} rows of the
          "Phase 5 (2026-10-20): the rows added by the evidence expansion of 2026-10-20 (ids PLN, TM3, MOB, SND, DUN, MAP, ENV), each checked by a fresh verifier agent against the full text (batches 15 and up)." if any(r["phase"] == 5 for r in rows) else "",
          "Two views are reported. 'ALL 170 ROWS' is the first check of the rows as extracted (FLD-HV13-5 counts with its material error). 'CURRENT TABLE' takes each row of the current table with its latest verdict (the two split rows with their phase 4 verdicts; FLD-HV13-5 is no longer in the table).",
          "Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.", ""]
-if lines[5] == "":
-    del lines[5]   # no phase 5 rows yet
+if lines[6] == "":
+    del lines[6]   # no phase 5 rows yet
 for name, n, c in out:
     lines.append(f"## {name} (n = {n})")
     lines.append(f"- correct {c['correct']}, minor {c['minor_error']}, material {c['material_error']}, unverifiable {c['unverifiable']}")
