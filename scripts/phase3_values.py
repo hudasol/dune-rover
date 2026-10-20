@@ -95,6 +95,9 @@ def values() -> dict:
         for r in _rd(os.path.join("results/model_validation", part, "nominal.csv")):
             if r["curve"] == "heverly2013_fig12_scarecrow_dumont":
                 v[f"mv_{r['family']}_dumont_nominal"] = f2(r["rmse_nominal"])
+    ho = [float(v[k]) for k in v if k.startswith("mv_") and k.endswith("_heldout")]
+    if ho:
+        v["mv_heldout_min"] = f2(min(ho)); v["mv_heldout_max"] = f2(max(ho)); v["mv_nfamilies"] = len(ho)
     pe = _js("results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/posterior_exp.json")
     if pe:
         q = pe["quantiles_5_50_95"]
