@@ -19,7 +19,7 @@ from dunerover.models import FAMILIES  # noqa: E402
 
 OUT = os.path.join(ROOT, "results", "chrono_scm")
 WHEELS = {"W1_scarecrow_like": (0.25, 0.40, 556.0), "W2_ishigami_like": (0.055, 0.064, 29.8)}
-SOILS = {"S1_toyoura_ishigami2007": "toyoura_ishigami2007", "S2_dem_calibrated_zhang2024": "dem_calibrated_zhang2024"}
+SOILS = {"S1_toyoura_ishigami2007": "fjs1_ishigami2007", "S2_dem_calibrated_zhang2024": "dem_calibrated_zhang2024"}
 
 
 def dumont(s):

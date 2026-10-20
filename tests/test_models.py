@@ -4,7 +4,7 @@ import pytest
 from dunerover.models import FAMILIES
 from dunerover.slipmodel import SlipParams, slip
 
-W1 = {"radius_m": 0.25, "width_m": 0.40, "load_N": 556.0, "soil_set": "toyoura_ishigami2007"}
+W1 = {"radius_m": 0.25, "width_m": 0.40, "load_N": 556.0, "soil_set": "fjs1_ishigami2007"}
 SL = np.arange(0.0, 30.1, 2.5)
 
 

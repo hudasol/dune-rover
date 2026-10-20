@@ -13,7 +13,7 @@ Steps for every family in dunerover.models.FAMILIES and every slip against slope
   4. two way transfer: calibrated on the Dumont curve, predict the Ishigami curves, and the reverse (where present).
 Calibration: Gaussian likelihood with per point sigma^2 = y_unc^2 + s^2, s a fitted model error (0.01 to 0.40);
 uniform priors on the family bounds (log uniform where marked).  Cheap families: affine invariant MCMC (emcee, MIT
-licence).  Bekker Wong: maximum a posteriori plus a 40 sample bootstrap over curves for intervals (MCMC too slow).
+licence).  Bekker Wong: maximum a posteriori (2 starts, 150 iterations) plus an 8 sample bootstrap over curves for intervals (MCMC too slow).
 Outputs: results/model_validation/*.csv, summary.json, posterior_exp.json, run_log.txt, figures/.
 """
 from __future__ import annotations
@@ -49,8 +49,9 @@ def load_curves(path=CURVES):
     curves = []
     for cid, rows in by.items():
         r0 = rows[0]
-        if r0["x_name"].strip().lower() != "slope" or not r0["y_name"].strip().lower().startswith("slip"):
-            continue
+        xn, yn = r0["x_name"].strip().lower(), r0["y_name"].strip().lower()
+        if "slope" not in xn or not ("slip" in yn or "slippage" in yn) or "lateral" in yn:
+            continue   # only longitudinal slip against slope (lateral slippage is a different quantity)
         scale = 0.01 if r0["y_unit"].strip().lower() in ("percent", "%") else 1.0
         x = np.array([num(r["x"]) for r in rows]); y = np.array([num(r["y"]) for r in rows]) * scale
         yu = np.array([num(r["y_unc"]) for r in rows]) * scale
@@ -60,7 +61,7 @@ def load_curves(path=CURVES):
         kind = "direct ascent" if kind.startswith("direct") else "side slope" if kind.startswith("side") else "emulated by pull" if "pull" in kind else kind
         d, w, load = num(r0["wheel_diameter_m"]), num(r0["wheel_width_m"]), num(r0["load_per_wheel_N"])
         ctx = {"radius_m": d / 2 if np.isfinite(d) else None, "width_m": w if np.isfinite(w) else None,
-               "load_N": load if np.isfinite(load) else None, "soil_set": "toyoura_ishigami2007"}
+               "load_N": load if np.isfinite(load) else None, "soil_set": "fjs1_ishigami2007"}
         curves.append({"id": cid, "source": r0["source_key"], "x": x[ok], "y": np.clip(y[ok], 0.0, 1.0), "yu": yu[ok], "kind": kind,
                        "ctx": ctx, "test_type": r0["test_type"], "comparable": r0["comparable_to_dune_sand"], "gravity": r0["gravity_g"],
                        "method": r0["method"], "vehicle": r0["vehicle"]})
@@ -103,12 +104,14 @@ def neg_log_post(vec, fam, curves):
 
 
 def fit_map(fam, curves, seed, starts=6):
+    if fam.name == "bekker_wong":
+        starts = min(starts, 2)   # the Bekker Wong solver is slow; fewer starts, fewer iterations (disclosed in the stage 15 entry)
     rng = np.random.default_rng(seed)
     b = u_bounds(fam) + [S_BOUNDS]
     x0s = [np.append(to_u(fam, fam.nominal(curves[0]["ctx"])), 0.1)] + [np.array([rng.uniform(lo, hi) for lo, hi in b]) for _ in range(starts - 1)]
     best = None
     for x0 in x0s:
-        r = minimize(neg_log_post, x0, args=(fam, curves), method="Nelder-Mead", options={"maxiter": 600 if fam.name == "bekker_wong" else 2000, "xatol": 1e-4, "fatol": 1e-6})
+        r = minimize(neg_log_post, x0, args=(fam, curves), method="Nelder-Mead", options={"maxiter": 150 if fam.name == "bekker_wong" else 2000, "xatol": 1e-4, "fatol": 1e-6})
         if best is None or r.fun < best.fun:
             best = r
     return best.x
@@ -120,9 +123,9 @@ def sample_posterior(fam, curves, seed, quick=False):
     if fam.name == "bekker_wong":
         rng = np.random.default_rng(seed + 1)
         out = [xmap]
-        for _ in range(8 if quick else 40):          # bootstrap over curves
+        for _ in range(4 if quick else 8):           # bootstrap over curves
             pick = [curves[k] for k in rng.integers(0, len(curves), len(curves))]
-            r = minimize(neg_log_post, xmap, args=(fam, pick), method="Nelder-Mead", options={"maxiter": 250})
+            r = minimize(neg_log_post, xmap, args=(fam, pick), method="Nelder-Mead", options={"maxiter": 80})
             out.append(r.x)
         return np.array(out)
     import emcee
@@ -157,7 +160,13 @@ def rmse(a, b):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--quick", action="store_true"); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--families", default=",".join(FAMILIES), help="comma separated subset; outputs get a suffix when a subset is run")
+    a = ap.parse_args()
+    fams = [FAMILIES[n] for n in a.families.split(",")]
+    global OUT
+    if len(fams) < len(FAMILIES):
+        OUT = os.path.join(OUT, "part_" + "_".join(f.name for f in fams))
     os.makedirs(os.path.join(OUT, "figures"), exist_ok=True)
     log = open(os.path.join(OUT, "run_log.txt"), "w")
     def say(m):
@@ -168,7 +177,7 @@ def main():
         say(f"  {c['id']}: {c['kind']}, {len(c['x'])} points, {c['x'].min():.1f} to {c['x'].max():.1f} deg, {c['test_type']}, comparable {c['comparable']}")
     rng = np.random.default_rng(SEED)
     nominal_rows, fit_rows, loso_rows, transfer_rows = [], [], [], []
-    for fam in FAMILIES.values():
+    for fam in fams:
         cs_all = [c for c in curves if usable(fam, c)]
         cs = [c for c in cs_all if c["method"] != "published_fit"]   # a published fit duplicates the digitised points of the same figure
         # 1. nominal (published fits included, for reference)
@@ -222,7 +231,7 @@ def main():
                 w = csv.DictWriter(fh, fieldnames=keys); w.writeheader(); w.writerows(rows)
     # verdicts against the stage 15 bar
     summ = {"bar": {"median_heldout_rmse_max": BAR_RMSE, "pooled_coverage90_min": BAR_COVER}, "families": {}}
-    for fam in FAMILIES.values():
+    for fam in fams:
         rr = [r for r in loso_rows if r["family"] == fam.name]
         if not rr:
             continue
