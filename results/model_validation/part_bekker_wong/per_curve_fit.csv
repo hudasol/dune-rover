@@ -1,0 +1,9 @@
+family,curve,source,points,rmse_fit,phi_deg,K_m,c_Pa,k_mult,s
+bekker_wong,heverly2013_fig11_dtm_marsyard_sand,heverly2013,16,0.0816,36.1858,0.0193,302.5623,0.4175,0.0613
+bekker_wong,heverly2013_fig11_scarecrow_marsyard_sand,heverly2013,10,0.0711,29.7057,0.0127,805.2999,1.0005,0.0614
+bekker_wong,heverly2013_fig12_scarecrow_dumont,heverly2013,20,0.0777,36.0156,0.0251,330.1273,0.7175,0.0714
+bekker_wong,inotsume2016_fig3_9_scarab_direct_ascent,inotsume2016,4,0.0619,33.7407,0.0366,590.7832,1.0029,0.0624
+bekker_wong,inotsume2016_figB10_eldorado_0grousers,inotsume2016,5,0.1065,27.0415,0.0094,690.2378,1.0014,0.1252
+bekker_wong,inotsume2016_figB10_eldorado_12grousers_15mm,inotsume2016,6,0.0814,41.5446,0.0186,1173.5405,1.0,0.0801
+bekker_wong,inotsume2016_figB10_eldorado_24grousers_15mm,inotsume2016,5,0.0695,44.9372,0.0167,394.4724,1.0049,0.0681
+bekker_wong,inotsume2016_figB10_eldorado_24grousers_5mm,inotsume2016,6,0.0857,38.9436,0.0192,714.79,0.9996,0.0846
