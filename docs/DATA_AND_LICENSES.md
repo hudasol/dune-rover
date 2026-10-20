@@ -57,7 +57,7 @@ Not open or not found: Pleiades Neo (commercial), airborne LiDAR or drone DEMs o
 
 **Published papers supplied by the author (2026-10-13)** and read for numbers: Heverly et al. 2013, Ishigami et al. 2007 and 2009 (Journal of Field Robotics, Wiley), Yu et al. 2024 and Takehana et al. 2025 (Journal of Terramechanics, Elsevier). They remain under their publishers' terms; the PDFs are not committed and no figure or passage is reproduced beyond short attributed numbers in `research/evidence.csv`. The Dumont Dunes cubic coefficients (FLD-HV13-1) are used as published numbers in `scripts/anchor_comparisons.py` and `src/dunerover/fieldanalysis.py` (synthetic truth `dumont`).
 
-Project Chrono (BSD 3-clause, verified from its LICENSE file) was reviewed in the literature step but is **not** used by this repository's code.
+Project Chrono (BSD 3-clause, verified from its LICENSE file) was reviewed in the literature step; from 2026-10-20 it is used by `scripts/chrono_wheel_slope.py` (stage 14, see below).
 
 ## Datasets mentioned in the literature review
 
@@ -68,3 +68,16 @@ RELLIS-3D (CC BY-NC-SA 3.0), TAIL (GPLv3), TartanDrive (MIT shown on the reposit
 **All rights reserved (decided by the author, 2026-10-12):** the repository is public for reading and review. Code, documents, tables and figures may not be used, modified, distributed or sold without prior written permission (`LICENSE`, `LICENSE-DOCS.md`); anyone wishing to do so should contact the author first. Third party material keeps its own terms: the GLO-30 notice above applies to anything derived from the elevation data, and quotations and numbers in the evidence table remain the property of their sources. Source PDFs and raw downloads are not distributed (`scripts/check_repo_hygiene.py` fails the CI job if they are committed). An earlier commit (ed7eedb, 2026-10-12) carried a proposed MIT licence, which was replaced by the all rights reserved notice the same day (commit cb3370c); the history was left as it is.
 
 No new dataset or library was added for the 2026-10-18 work; it used the environment recorded above. The original phase 1 and phase 2 runs were made in an earlier environment (Python 3.13.16 is recorded in their summaries); the 2026-10-18 runs used Python 3.13.0 with numpy 2.4.2 and scipy 1.17.0. An independent rerun of the original phase 2 in the 2026-10-18 environment reproduced the committed class shares byte for byte (second review, `docs/REVIEW_2026-10-18.md`).
+
+## Added 2026-10-20
+
+| Data or tool | Licence as read | Retrieved | Use |
+|---|---|---|---|
+| USGS 3DEP one metre DEM tiles USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24, USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20, USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24 (and x57y395, downloaded, not used) | public domain ("All 3DEP products are public domain", TNM Access API product description) | 2026-10-20 from https://prd-tnm.s3.amazonaws.com via https://tnmaccess.nationalmap.gov/api/v1/products | stages 12, 13 and 17; not committed (`data/raw/lidar/`, git ignored); SHA-256 in `results/terrain_validation/summary.json` |
+| ERA5 hourly 10 m wind through the Open-Meteo archive API (https://archive-api.open-meteo.com), 2015 to 2024 | Open-Meteo API data CC BY 4.0 (its licence page, read 2026-10-20), weather reanalysis from the Copernicus Climate Change Service under the Copernicus licence; attribution: Weather data by Open-Meteo.com, ERA5 by ECMWF for C3S | 2026-10-20 | stage 13; raw responses not committed (`data/raw/wind/`, git ignored) |
+| Project Chrono, pychrono 9.0.1 (conda package from the projectchrono channel) | BSD 3-Clause (package metadata, `conda-meta`) | 2026-10-20 | stage 14 single wheel simulation, run in a separate environment; not distributed |
+| micromamba 2.9.0 | BSD 3-Clause (project licence, not re read on this machine) | 2026-10-20 from GitHub releases | installing pychrono only |
+| emcee 3.1.6 | MIT (package metadata) | 2026-10-20 | MCMC calibration in `scripts/model_validation.py` (stage 15) |
+| pyproj 3.8.0 | licence field empty in package metadata; not used by repository code | 2026-10-20 | one off conversion of the lidar window centres to latitude and longitude, written into `scripts/wind_face_direction.py` |
+
+New papers read for evidence rows and curves in phase 3 are listed with their licences in `research/phase3/*_references.csv`. The PDFs are kept in `research/sources/phase3/` (git ignored) and are not distributed.
