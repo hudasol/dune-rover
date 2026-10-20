@@ -288,3 +288,19 @@ Design fixed now:
 | P14-5 | W1 S1 against the Dumont cubic over 4 to 21 deg: root mean square difference above 0.15. | |
 | P14-6 | Halving the SCM grid (0.01 m) and lowering the speed to 0.05 m/s each change W1 S1 slip by less than 0.05 at 5, 15 and 25 deg. | |
 | P14-7 | W1 S1 against the nominal original slip model: within 0.15 at every slope from 5 to 15 deg. | |
+
+
+## Stage 16: question 8 (widened range without immobile draws) and global sensitivity of the map (written 2026-10-20, BEFORE either run)
+
+**SIMULATED BY ME, simulation only, model assumption dependent.** Huda answered yes to question 8 for this session.
+
+Design fixed now:
+- Question 8: `threeclass.lhs_draws(..., reject_immobile=True)` draws 3 n Latin hypercube points from the same seed and keeps the first n that can move on level ground (slip on level ground at or below i_max); the default is unchanged. Phase 2 is re run for `widened_i0_fr` with `--reject-immobile` (output `results/subgrid_widened_i0_fr_mobile/`), same seeds. The power study with widened truths (the second half of question 8) is not run in this session.
+- Global sensitivity: `scripts/sobol_map.py`. Output per draw: share of area A cells at 30 m with at least 4 of 8 passable headings. Saltelli scheme, Jansen estimators, N = 256, 200 bootstrap resamples, range sets `original` and `widened_i0` (and the posterior range set of stage 15 if it exists by then).
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| G16-1 | `widened_i0_fr` without immobile draws: UNKNOWN at 30 m lies between 34 % and 70 % in area A, between 39 % and 75 % in B and between 11 % and 50 % in C (above `widened_i0`, far below the 90 % of stage 9). | |
+| G16-2 | Area A, `original`: no parameter has a total Sobol index above 0.6 (the four parameters share the variance). | |
+| G16-3 | Area A, `widened_i0`: i0 has the largest total index, above 0.5. | |
+| G16-4 | In both range sets the sum of first order indices is above 0.7 (interactions are modest). | |

@@ -55,3 +55,13 @@ def test_mc_is_reproducible_and_steep_cell_blocked():
     assert np.array_equal(q1, q2)
     assert q1[10, 14] <= TC.Q_LO or q1[10, 14] < 0.5     # on the 40 degree ramp few headings pass
     assert q1[10, 3] >= 0.95                              # flat ground passes
+
+
+def test_reject_immobile_keeps_default_and_drops_immobile_draws():
+    import numpy as np
+    from dunerover.slipmodel import use_range_set
+    assert TC.lhs_draws(16, 5) == TC.lhs_draws(16, 5, reject_immobile=False)
+    with use_range_set("widened_i0_fr"):
+        d = TC.lhs_draws(64, 20261014, reject_immobile=True)
+    assert len(d) == 64
+    assert all(p.f_r / p.mu_max <= 1.0 - np.exp(-p.i_max / p.i0) for p in d)
