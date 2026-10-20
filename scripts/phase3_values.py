@@ -110,7 +110,7 @@ def values() -> dict:
             v[f"post_{k}"] = f"{q[k][1]:.2f} ({q[k][0]:.2f} to {q[k][2]:.2f})"
         v["post_ncurves"] = len(pe["curves"])
     # stage 16: question 8, Sobol; stage 15 posterior map
-    for d, key in (("subgrid_widened_i0_fr_mobile", "q8"), ("subgrid_posterior_2026_10_20", "post"), ("subgrid", "orig"), ("subgrid_widened_i0", "wi0"), ("subgrid_widened_i0_fr", "wfr")):
+    for d, key in (("subgrid_posterior_2026_10_20_mobile_posthoc", "postm"), ("subgrid_widened_i0_fr_mobile", "q8"), ("subgrid_posterior_2026_10_20", "post"), ("subgrid", "orig"), ("subgrid_widened_i0", "wi0"), ("subgrid_widened_i0_fr", "wfr")):
         for r in _rd(f"results/{d}/class_shares.csv"):
             if r["block"] == "1":
                 v[f"{key}_unk_{r['area'][0]}"] = pct(r["UNKNOWN (total)"])
