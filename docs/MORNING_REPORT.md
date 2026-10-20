@@ -134,3 +134,61 @@ Copied from `docs/QUESTIONS_FOR_HUDA.md`. Questions 1 to 4 and 6 were answered o
 3. Read report sections 8.4, 8.7, 8.8, 8.9 and the end of section 9, `docs/REVIEW_2026-10-18.md` and `docs/EXECUTIVE_BRIEF.md`.
 4. Photograph the Wong chapter 2 dry sand table with title and page visible and send it in a message.
 5. First field pilot as in `docs/NEXT_STEPS.md` section 5.
+
+
+# Morning report, 2026-10-20 (work from 12:17 to about 14:10 AST)
+
+All workstreams W0 to W9 are done except the discrete element check (blocked by run time) and the field data (not possible without Huda). Every main test was pre registered before its run (stages 12 to 18 in `docs/PREDICTIONS.md`); post hoc analyses are labelled. Labels: PUBLISHED, SIMULATED BY ME, PLANNED. Nothing was sent to anyone, and no agreement exists with anyone.
+
+**CI:** red twice, each for about a minute: 144796e (a predictions commit without the regenerated report, fixed by 658e4d7) and 382dc39 (tests still pinned the old row count of 171, fixed by 4cc3810). The local gate now checks the committed tree in a clean worktree, including the manuscript. CI passes on the latest commit.
+
+## What changed
+
+- **Evidence base (W1):** five topic agents extracted 324 rows from 103 newly used sources under a written brief; 13 fresh verifier agents re checked every row against its full text; 323 merged, 1 dropped as unverifiable. The table now has **494 rows from 174 sources**. Search protocol and flow: `docs/SEARCH_PROTOCOL.md` (229 logged searches). Blinded 20 row sheet for your own check: `research/spot_check_inter_rater.md`.
+- **Curves (W2):** 26 published curves (235 points) from 7 sources digitised reproducibly with uncertainty, 9 published soil parameter sets (`docs/DATA_CATALOG.md`).
+- **Model families (W3):** four families behind one interface (`src/dunerover/models/`), calibrated with MCMC or a bootstrap and validated leave one study out; posterior range set; question 8; Sobol indices.
+- **Independent simulation (W4):** Project Chrono single wheel sweep with published wheels and soils. Discrete element check not run (1860 spheres at more than 60 ms per step on two cores).
+- **Real terrain (W5):** USGS one metre lidar of Dumont, White Sands and Kelso degraded to 5, 10 and 30 m; slip face direction against ERA5 wind at six sites.
+- **Planning and field rule (W6):** three planner policies against lidar truth; three alternative field rules evaluated as options; wheeled, tracked and legged rows compared (published only).
+- **Writing (W7, W8):** `manuscript/MANUSCRIPT.md` and `.pdf` (14 pages, every number from files, hand typed numbers justified and checked in CI), report section 13, `docs/PROPOSAL_ROBOTICS.md`, the brief (2 pages) and EDGE proposal rewritten, `docs/COMPLETENESS.md`.
+- **Reviews (W9):** two adversarial reviews by fresh agents, 24 findings, all fixed or reasoned in `docs/REVIEW_2026-10-20.md`.
+
+## Verification of the new rows
+
+Material errors before correction: 30 of 323 (9.3 %, Wilson 95 % interval 6.6 to 12.9 %), mostly a wrong validation type, not a wrong value; any discrepancy 25.4 %. Whole current table, latest verdict per row: 38 of 494 (7.7 %). Every material error is corrected.
+
+## Prediction hits and misses (stages 12 to 18)
+
+22 hit, 19 missed. Stage 12 lidar 3 and 3; stage 13 wind 4 and 3; stage 14 Chrono 5 and 2; stage 15 models 4 and 3; stage 16 sensitivity 2 and 2; stage 17 planner 1 and 4; stage 18 rule options 3 and 2. Some hits were informed by quick checks, disclosed in each stage.
+
+## Which model families survived
+
+None. Median held out slip error (bar 0.15) and 90 % coverage: exponential 0.24 and 0.89, Mohr Coulomb 0.23 and 0.85, logistic 0.24 and 0.86, Bekker Wong 0.20 and 0.71 (on the 8 curves with wheel size and load). The empirical curve transfers as well as the lumped physics; Bekker Wong comes closest but its intervals are too narrow, and with the published Ishigami 2007 simulant set it does not reproduce that paper's own drawbar curve.
+
+## What the posterior ranges did to the map
+
+Posterior from 12 published curves: phi 36.9 (30.6 to 43.7) deg, f_r 0.13 (0.03 to 0.32), i0 0.63 (0.33 to 1.21). UNKNOWN at 30 m: 62.8 % (A), 44.3 % (B), 46.0 % (C), against 8.6, 10.9 and 2.5 % under the original assumed ranges; 25.1, 30.9 and 4.2 % if the about 5 % of draws that cannot move on level ground are rejected (post hoc). The Arabian UNKNOWN share is itself uncertain.
+
+## What the real terrain test showed
+
+The detector and map work much better at 10 m than at 30 m. At 30 m, 25.6 to 28.6 % of TRAVERSABLE cells contain a steep face and 36 to 73 % of face cells are called TRAVERSABLE; at 10 m 1.8 to 3.6 % and 7 to 20 %. Excluding slopes steeper than sand can stand leaves this unchanged. Slip faces follow the ERA5 drift direction within 45 deg at 4 of 6 sites, including Liwa (2 deg).
+
+## Simulation cross check
+
+Chrono with published soils: slip 0.21 at 12.5 deg for a Scarecrow sized wheel against about 0.49 on the Dumont curve (difference 0.35 root mean square); it differs from the Bekker Wong family with the same inputs by 0.44 to 0.75. Model form and implementation are a large source of uncertainty.
+
+## Planner result
+
+On 30 m maps no policy was safer than naive planning against lidar truth. At 10 m, on matched pairs (post hoc), the conservative policy failed less often than naive at White Sands and Kelso and refused most Dumont pairs.
+
+## Completeness
+
+5.5 out of 10 (`docs/COMPLETENESS.md`): complete as a desk study, not as an empirical study. Remaining gaps: field slip data for the project's vehicle, a 10 m or finer survey of an Arabian dune, the decision on the field rule, your spot checks, the Wong table and Wong and Reece 1967, a discrete element check, and an external human review.
+
+## Questions for Huda
+
+Question 7 (field rule, now with three evaluated options), question 5 (1 degree bins), question 9 (20 row human check) and question 10 (a 10 m survey of an Arabian dune) in `docs/QUESTIONS_FOR_HUDA.md`.
+
+## Exactly what Huda must do next
+
+Follow `docs/NEXT_STEPS.md`: the two spot checks, questions 7, 5 and 10, read the manuscript and the proposals, send the Wong table photograph, then the field pilot.
