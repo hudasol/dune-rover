@@ -8,7 +8,7 @@ Labels: **PUBLISHED** (read in a retrieved source), **SIMULATED BY ME** (output 
 
 How much does a small wheeled robot slip on a dune slope, can it be predicted, and how much of an open 30 m elevation map of UAE dunes can be trusted? No published slip against slope dataset was found for a wheeled robot on Arabian dune sand with the soil characterised; the only Arabian field item is a qualitative report of a rover getting stuck in loose sand in Oman (FLD-042). Open elevation data (Copernicus GLO-30, about 30 m) resolve the dunes but not their slip faces.
 
-## 2. What is published (PUBLISHED; 365 rows, each traced to a source passage)
+## 2. What is published (PUBLISHED; 423 rows, each traced to a source passage)
 
 - **Earth dune slope curve.** At Dumont Dunes, California, a 340 kg test rover went from below 50 % slip at 12.5 degrees to about 75 % at 16 and about 90 % at 20 degrees; no soil parameters are reported (FLD-HV13-1, FLD-HV13-2).
 - **Small rover on a sand bed.** A 13.5 kg rover traversing a 10 degree side slope of Toyoura sand showed a slip ratio of about 0.5 (TM-IS09-3).
@@ -37,7 +37,7 @@ BLOCKED stays under 0.1 % at 30 m. When the resistance range is widened as well,
 
 ## 5. Error rate of the evidence table
 
-Every row was re checked against its source by a separate agent with no access to the extraction notes. First check of the 170 rows as extracted: 9 material errors (5.3 %) and 51 with any discrepancy (30.0 %). Current table of 365 rows, latest verdict per row: 20 material (5.5 %). All are corrected. The checkers are language model agents; a human spot check by the author is planned.
+Every row was re checked against its source by a separate agent with no access to the extraction notes. First check of the 170 rows as extracted: 9 material errors (5.3 %) and 51 with any discrepancy (30.0 %). Current table of 423 rows, latest verdict per row: 34 material (8.0 %). All are corrected. The checkers are language model agents; a human spot check by the author is planned.
 
 ## 6. The first field experiment (PLANNED)
 
