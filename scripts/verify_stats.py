@@ -9,6 +9,7 @@ for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"
     for r in csv.DictReader(open(f, encoding="utf-8")):
         r["phase"] = 5 if nb >= 15 else 4 if nb >= 14 else (3 if nb >= 8 else (2 if nb >= 4 else 1)); rows.append(r)
 current = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "evidence.csv"), encoding="utf-8"))}
+rows = [r for r in rows if r["phase"] < 5 or r["id"] in current]   # phase 5 verdicts count once their rows are merged into the table
 supplied = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "phase2", "supplied_pdf_rows_2026-10-13.csv"), encoding="utf-8"))}
 latest = {}
 for r in rows:          # files are read in batch order, so the last verdict per id wins
