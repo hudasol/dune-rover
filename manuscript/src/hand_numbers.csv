@@ -1,0 +1,65 @@
+token,justification
+0,design: slope range starts at 0 deg (stage 14); 0.6 slip quoted from bw_vs_ishigami2007.csv context
+0.02,result: largest slip change in the Chrono grid and speed checks (results/chrono_scm/checks.csv: 0.003 to 0.018 rounded up)
+0.055,published wheel radius TM-IS09-2
+0.064,published wheel width TM-IS09-2
+0.15,design: validation bar fixed in stage 15
+0.2,result: approximate held out error band, from the family table (0.23 to 0.24 and Bekker Wong) rounded
+0.25,published wheel radius (Heverly 2013 FLD-HV13-5a) used in stage 14
+0.3,result: approximate held out error band upper end (family table)
+0.40,published wheel width (Heverly 2013 FLD-HV13-5a)
+0.49,published: Dumont cubic at 12.5 deg (FLD-HV13-1 coefficients, results/chrono_scm/comparison.csv)
+0.6,result: slip up to which the Bekker Wong family gives negative pull (results/model_validation/bw_vs_ishigami2007.csv)
+1,design and published: one metre lidar; 1 to 25 N measured pull (curves.csv ishigami2007_fig11)
+2,section number
+3,section number; 3 m grade baseline of stage 17
+3.1,section number
+3.2,section number
+3.3,section number
+3.4,section number
+3.5,section number
+3.6,section number
+3.7,section number
+4,design: at least four of eight headings (threeclass.PASS_HEADINGS); section number
+4.1,section number
+4.2,section number
+4.3,section number
+4.4,section number
+4.5,section number
+4.6,section number
+4.7,section number
+4.8,section number
+5,design: 5 m posting of stage 12; 5 to 95 percent
+6,six sites of stage 13; section number
+7,section number
+8,section number; eight headings
+9,section number
+10,design: 10 m posting and baseline; at least 10 square metres (stage 12)
+12.5,design: slope of comparison in stage 14
+15,published: Spirit 15 to 20 percent slip (FLD-011)
+16,published: 16 deg (FLD-012)
+17.9,published: drawbar pull error in coarse grained soils (MOB-021)
+19,published: 19 deg (FLD-011)
+20,published or design: slip ratio about 20 to 30 percentage points (PLN and MAP rows); 20 deg collapse onset of the synthetic truth; 20 rows in the human sample
+21,published: Dumont embedding above 21 deg (Heverly 2013 Sec 6.3)
+25,design: the 1 to 25 N range of Ishigami 2007 Fig 11 (curves.csv)
+25.5,model: nominal critical climbing slope of the original model (results/summary.json)
+28,design: face truth threshold (subgrid.FACE_TRUTH_DEG)
+29.8,published wheel load TM-IS09-2
+30,design: 30 m posting; 30 deg slope range end; 30 m between Spirit sites (FLD-012); 30.1 below
+30.1,published: overall prediction error 30.1 percent (MOB rows)
+40,design: 40 origin and destination pairs per site (stage 17)
+45,design: hit threshold of stage 13; published 45 to 48 deg friction (SND-023)
+48,published: 48 deg friction (SND-023)
+73,published: 73 percent deviation (MOB rows)
+80,design: at least 80 percent coverage (stage 15 bar) and 80 percent rejection (stage 18)
+90,design: 90 percent predictive interval
+94,published: 94 percent slip (FLD-025)
+95,published: 95 percent slip (FLD-012); 5 to 95 percent quantiles
+109,published: 109 percent deviation (MOB rows)
+256,design: 256 Latin hypercube draws
+340,published: 340 kg Scarecrow (Heverly 2013)
+556,design from published mass: 340 kg over six wheels (stage 14)
+2007,year in a citation
+2015,first year of the ERA5 series
+2024,last year of the ERA5 series
