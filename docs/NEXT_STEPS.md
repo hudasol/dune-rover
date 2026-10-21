@@ -2,6 +2,10 @@
 
 Only what you still have to do, in order. Commands run from the repository root in Git Bash; on Windows use `py` for `python3`.
 
+## 0. Tag version 1.0 (one command)
+
+The session could not push tags. On your computer, in the repository folder: `git pull`, check that the latest commit is the session's last one (`git log -1`) and that its CI check is green on GitHub, then run `git tag -a v1.0 -m "Version 1.0 of the dune-rover desk study (2026-10-21). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.0`.
+
 ## 1. Human checks (needed before any preprint)
 
 1. Spot check 3: for rows FLD-HV13-1, TM-IS09-3 and TM-TK5 in `research/evidence.csv`, compare value, unit, slope, validation type and page with the supplied PDFs in your local `sourced evidence` folder. Write `research/spot_check_3.md`, one line per row (id, what you checked, correct or wrong, the correction). Commit with the message `Spot check 3 of three supplementary rows`.
