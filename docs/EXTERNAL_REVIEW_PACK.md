@@ -15,7 +15,7 @@ This page is for Huda to send, if she chooses, to one outside reviewer in terram
 - Published slip against slope curves digitised with calibration files; a random third digitised a second time with the same rasters and tools (repeatability, not independent extraction).
 - Several slip model families, calibrated on some studies and tested on a held out study, against a bar fixed in advance.
 - An independent simulator (Project Chrono, Soil Contact Model), including a calibration on one published field curve; the attempted prediction of the steeper slopes was numerically unstable.
-- A slip face detector and a three class traversability map scored against one metre lidar of North American dune fields, and against ICESat-2 laser profiles over the Liwa and Rub' al Khali dunes.
+- A slip face detector and a three class traversability map scored against one metre lidar of North American dune fields, and compared with ICESat-2 laser profiles over the Liwa and Rub' al Khali dunes (not a truth there).
 - Route planning policies scored against lidar truth, and a closed loop demonstration with online slip estimation and replanning (also run as ROS 2 nodes).
 - Every test was registered before it was run (`docs/PREDICTIONS.md`); hits and misses are both recorded.
 

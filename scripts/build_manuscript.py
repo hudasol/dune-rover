@@ -91,7 +91,7 @@ def curve_and_law_sources():
     for f in ("research/phase4/curves_A_references.csv", "research/phase4/curves_B_references.csv", "research/phase4/scaling_references.csv"):
         for r in BR.rd(f):
             doi = r.get("doi", "").strip()
-            url = f"https://doi.org/{doi}" if doi and doi.lower() not in ("none", "n/a", "not found") else r["url"].strip()
+            url = f"https://doi.org/{doi}" if doi.startswith("10.") else r["url"].strip()   # a DOI field may hold a note such as "none"
             out.setdefault(url, r["citation"].strip())
     return out
 
