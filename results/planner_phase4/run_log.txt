@@ -1,0 +1,20 @@
+stage 17 run 2026-10-21 04:39:04; grade baseline 3.0 m; critical uphill 25.46 deg; risk weight 5.0; OD seed 20261024
+GreatSandDunes 30 m naive: routed 40/40, fail on truth 0.925
+GreatSandDunes 30 m conservative: routed 40/40, fail on truth 0.850
+GreatSandDunes 30 m risk_weighted: routed 40/40, fail on truth 0.850
+GreatSandDunes 10 m naive: routed 40/40, fail on truth 0.875
+GreatSandDunes 10 m conservative: routed 32/40, fail on truth 0.781
+GreatSandDunes 10 m risk_weighted: routed 40/40, fail on truth 0.800
+Algodones 30 m naive: routed 40/40, fail on truth 0.450
+Algodones 30 m conservative: routed 40/40, fail on truth 0.400
+Algodones 30 m risk_weighted: routed 40/40, fail on truth 0.475
+Algodones 10 m naive: routed 40/40, fail on truth 0.400
+Algodones 10 m conservative: routed 38/40, fail on truth 0.368
+Algodones 10 m risk_weighted: routed 40/40, fail on truth 0.425
+LittleSahara 30 m naive: routed 40/40, fail on truth 0.725
+LittleSahara 30 m conservative: routed 40/40, fail on truth 0.575
+LittleSahara 30 m risk_weighted: routed 40/40, fail on truth 0.700
+LittleSahara 10 m naive: routed 40/40, fail on truth 0.550
+LittleSahara 10 m conservative: routed 32/40, fail on truth 0.625
+LittleSahara 10 m risk_weighted: routed 40/40, fail on truth 0.675
+done 2026-10-21 04:40:30

@@ -458,13 +458,13 @@ Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| L20-1 | The detector AUC at 5 m is at least 0.95 at each new site. | pending |
-| L20-2 | The detector AUC at 30 m lies between 0.60 and 0.90 at each new site. | pending |
-| L20-3 | The 30 m false safe rate (share of TRAVERSABLE cells that contain a face) lies between 15 % and 40 % at each new site. | pending |
-| L20-4 | The 30 m miss rate is at least 30 % at each new site. | pending |
-| L20-5 | The 10 m false safe rate is at most 8 % at each new site. | pending |
-| L20-6 | Great Sand Dunes has the highest 30 m false safe rate of the six fields (the three of stage 12 and the three new ones). | pending |
-| L20-7 | On 30 m maps, the conservative policy's share of routed pairs that fail on lidar truth is not lower than the naive policy's by more than 5 percentage points at two or more of the three new sites. | pending |
+| L20-1 | The detector AUC at 5 m is at least 0.95 at each new site. | HIT. AUC at 5 m: 0.983 (Great Sand Dunes), 0.987 (Algodones), 0.967 (Little Sahara) (`results/terrain_validation_phase4/metrics.csv`). |
+| L20-2 | The detector AUC at 30 m lies between 0.60 and 0.90 at each new site. | HIT. AUC at 30 m: 0.831, 0.761 and 0.637 (Little Sahara only just). |
+| L20-3 | The 30 m false safe rate (share of TRAVERSABLE cells that contain a face) lies between 15 % and 40 % at each new site. | HIT. False safe rate at 30 m: 16.3 % (Great Sand Dunes), 18.6 % (Algodones), 27.7 % (Little Sahara). |
+| L20-4 | The 30 m miss rate is at least 30 % at each new site. | HIT. Miss rate at 30 m: 43 % (Great Sand Dunes), 72 % (Algodones), 80 % (Little Sahara); at 10 m 7 %, 19 % and 33 %. |
+| L20-5 | The 10 m false safe rate is at most 8 % at each new site. | HIT. False safe rate at 10 m: 1.2 %, 1.4 % and 2.4 %. |
+| L20-6 | Great Sand Dunes has the highest 30 m false safe rate of the six fields (the three of stage 12 and the three new ones). | MISSED. Great Sand Dunes has the lowest 30 m false safe rate of the six fields (16.3 %, against 25.6 to 28.6 % at the stage 12 sites, 18.6 % at Algodones and 27.7 % at Little Sahara): its large star dunes are partly resolved at 30 m, so more of its faces fall in UNKNOWN cells (78.7 % face rate in UNKNOWN). |
+| L20-7 | On 30 m maps, the conservative policy's share of routed pairs that fail on lidar truth is not lower than the naive policy's by more than 5 percentage points at two or more of the three new sites. | MISSED (1 of 3 sites). Share of routed 30 m pairs failing on lidar truth, naive against conservative: Great Sand Dunes 92.5 % against 85.0 % (7.5 points lower), Algodones 45.0 % against 40.0 % (5.0 points, not more than 5), Little Sahara 72.5 % against 57.5 % (15.0 points lower) (`results/planner_phase4/policy_summary.csv`). On these fields the conservative policy was somewhat safer than naive at 30 m, unlike stage 17, but most routes still failed at Great Sand Dunes and Little Sahara. |
 
 
 ## Stage 23: closed loop demonstration, online slip estimation and replanning (written 2026-10-21, BEFORE the demonstration was run)
@@ -491,3 +491,5 @@ Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar
 | S24-3 | The best K is at least 0.15 m, four or more times the Toyoura laboratory value of 0.036 m. | pending |
 
 Note on stage 23 (appended after the run, no prediction edited): with the true rover itself a model (the stage 15 posterior medians), online slip estimation from odometry and 0.3 m position fixes is accurate enough to act on (median error about 0.03), and replanning on it cut entrapment on 30 m routes from 55 % to 12.5 to 30 %. This is a statement about the loop under the demonstration's assumptions, not about a real vehicle: the true slip law, the 0.05 scatter, the 0.5 trigger and the 15 m look ahead are all assumptions, and the open loop entrapment share depends directly on the assumed slip law. A ROS 2 (Jazzy, RoboStack) version of the same loop, with the map and planner, the simulated rover and the slip monitor as separate nodes talking over topics, ran once on Kelso pair 0 and gave the same outcome as the Python loop (arrived after one replan; 1585 m against 1540 m, the difference coming from the asynchronous message timing) (`results/closed_loop/ros2_smoke_test.json`).
+
+Note on stage 20 (appended after the run, no prediction edited): on six North American dune fields the pattern of stage 12 holds: the detector works at 5 and 10 m (AUC 0.91 to 0.99) and loses most of its skill at 30 m (AUC 0.64 to 0.86), and a 30 m map labels TRAVERSABLE between 43 % and 80 % of the cells that contain a steep face (stage 12: 36 to 73 %). At 10 m the miss rate is 7 to 33 %, so 10 m is much better but not safe on its own. The planner failure share uses the stage 17 definition (an uphill grade above the model's climbing limit over a 3 m baseline anywhere on the route), which is very strict on rugged fields such as Great Sand Dunes. Monahans and Coral Pink were not used, for the reasons fixed before the run.
