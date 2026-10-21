@@ -479,7 +479,7 @@ def main():
     body = body.replace("{{SECOND_PASS}}", second)
     c_tab, n_src = appendix_c(ev)
     app = ["\n---\n\n## Appendix A. Evidence table (all PUBLISHED; condensed, full fields in `research/evidence.csv`)\n",
-           f"{len(ev)} rows. Validation types: " + ", ".join(f"{k} {v}" for k, v in sorted(
+           f"{len(ev)} rows. Validation types (code in the CSV, then count): " + ", ".join(f"`{k}` {v}" for k, v in sorted(
                {t: sum(1 for r in ev if r['validation_type'] == t) for t in {r['validation_type'] for r in ev}}.items())) +
            ". Values are as printed in the source; read the comparability warning before comparing any two rows. Verification status of each row is in the CSV (column `verification`).\n",
            appendix_a(ev),

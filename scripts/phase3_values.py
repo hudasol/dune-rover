@@ -286,6 +286,12 @@ def phase4_values() -> dict:
         for r in sck:
             by.setdefault(r["slope_deg"], {})[r["check"].split(" ")[0]] = float(r["slip"])
         v["scm_chk_maxdiff"] = f2(max(max(d.values()) - min(d.values()) for d in by.values()))
+    scc = _rd("results/chrono_scm_calibration/posthoc_checks_calibration_slopes.csv")
+    if scc:
+        byc = {}
+        for r in scc:
+            byc.setdefault(r["slope_deg"], []).append(float(r["slip"]))
+        v["scm_chk_calmax"] = f2(max(max(x) - min(x) for x in byc.values()))
     ros = _js("results/closed_loop/ros2_smoke_test.json")
     if ros:
         v["ros_outcome"] = ros["outcome"]; v["ros_replans"] = ros["replans"]; v["ros_metres"] = ros["metres_driven"]
