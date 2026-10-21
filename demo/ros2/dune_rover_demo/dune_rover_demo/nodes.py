@@ -13,7 +13,9 @@ Three nodes talk only through ROS 2 topics:
 The physics, the map, the planner and the thresholds are those of demo/closed_loop.py; this package only puts them
 behind topics. Run the smoke test (one origin destination pair) with:
 
-    micromamba run -p /opt/mm/ros2 python demo/ros2/dune_rover_demo/dune_rover_demo/nodes.py --site WhiteSands --pair 0
+    micromamba run -p /opt/mm/ros2 python demo/ros2/dune_rover_demo/dune_rover_demo/nodes.py --site Kelso --pair 0
+
+The smoke test uses the 30 m map and the naive policy (posting and policy are written to the result file).
 """
 from __future__ import annotations
 import argparse, json, os, sys, time
@@ -217,7 +219,11 @@ def smoke_test(argv=None):
     t0 = time.time()
     while time.time() - t0 < a.timeout and rv.status not in ("arrived", "entrapped", "stopped (no route)"):
         ex.spin_once(timeout_sec=0.01)
+    import subprocess
+    commit = subprocess.run(["git", "-C", ROOT, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
     res = {"label": "SIMULATED BY ME: ROS 2 smoke test of the closed loop demonstration (one origin destination pair)", "site": a.site, "pair": a.pair,
+           "posting_m": K, "policy": "naive", "commit": commit,
+           "note": "the current cell comes from the noisy position fix and messages are asynchronous, so the blocked cells and distances differ slightly from demo/closed_loop.py; the random number order of the rover was aligned with the Python loop before the recorded run",
            "outcome": rv.status, "metres_driven": rv.metres, "replans": mp.replans, "slip_estimates_published": len(sm.estimates),
            "max_slip_estimate": round(max(sm.estimates), 3) if sm.estimates else None, "wall_s": round(time.time() - t0, 1),
            "ros_distro": os.environ.get("ROS_DISTRO", "jazzy (RoboStack)")}

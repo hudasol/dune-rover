@@ -2,6 +2,8 @@
 
 **Status: DRAFT, PLANNED. Nothing in this document has been flown or processed. No number in it is a measurement of the field site.** Written 2026-10-21 for the slope ladder field day (`docs/FIELD_VALIDATION_PLAN.md`, `docs/FIELD_DAY_CHECKLIST.md`). It is a research plan, not an operational approval, a safety case or legal advice.
 
+Labels (the three labels of the repository): every number quoted from a retrieved source is **PUBLISHED**; every item marked (derived) or (design, no retrieved source), and every procedure, is **PLANNED** (a design value of this protocol, not a measurement).
+
 Every recommendation is tied to a retrieved source (keys in brackets, full list in `research/phase4/protocols_references.csv`). Where a step is a design choice of this protocol and no retrieved source supports it, it is marked **(design, no retrieved source)**. Where a number is computed here rather than copied from a source, it is marked **(derived)**.
 
 ## 1. Purpose and products

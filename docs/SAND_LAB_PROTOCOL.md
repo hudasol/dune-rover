@@ -2,6 +2,8 @@
 
 **Status: DRAFT, PLANNED. No test in this document has been run. No number in it is a measurement of the field site.** Written 2026-10-21 to support section 3 of `docs/FIELD_VALIDATION_PLAN.md` and the "Sand characterisation" line of `docs/FIELD_DAY_CHECKLIST.md`.
 
+Labels (the three labels of the repository): every number quoted from a retrieved source is **PUBLISHED**; every item marked (derived) or (design, no retrieved source), and every procedure, is **PLANNED** (a design value of this protocol, not a measurement).
+
 Rules used in this draft:
 
 - Every method cites a retrieved source (keys in brackets; full list in `research/phase4/protocols_references.csv`). A step that no retrieved source supports is marked **(design, no retrieved source)**; a number computed here is marked **(derived)**.
@@ -13,7 +15,7 @@ Rules used in this draft:
 
 | Test | Where | Repeats (minimum) | Main source |
 |---|---|---|---|
-| Angle of repose, fixed funnel | field (on a board) or laboratory | 3 per site (checklist and plan); 5 recommended (section 2.4) | [kajiyama2024], [pawlowski2025] |
+| Angle of repose, fixed funnel | field (on a board) or laboratory | 3 per site (checklist and plan); 5 recommended (section 2.2) | [kajiyama2024], [pawlowski2025] |
 | Angle of repose, tilting box | laboratory or field table | 3 per site | design, no retrieved source describes it in full |
 | Bulk density, core or ring | each station, 0 to 7.6 cm | 3 per station (plan; [nrcs_ssir42] collects three cores per layer) | [nrcs_testkit], [nrcs_ssir42] |
 | Bulk density, known volume cup or excavation | each station, very loose surface sand | 3 per station | [nrcs_ssir42], [nrcs_testkit] |

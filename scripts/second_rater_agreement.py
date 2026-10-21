@@ -55,14 +55,25 @@ def main():
     if not any(s.values()) or not any(h.values()):
         lines.append("Not yet rated: the second rater's sheet or Huda's sheet is still empty.")
     else:
-        lines += ["| Pair | Rows | Raw agreement, 3 classes | Kappa, 3 classes | Raw agreement, material or not | Kappa, material or not |", "|---|---|---|---|---|---|"]
+        corrected = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "corrections.csv"), encoding="utf-8"))}
+        lines += [f"Rows corrected after the verifier's check (reported here, kept in the table): {', '.join(sorted(i for i in ids if i in corrected)) or 'none'}.", "",
+                  "| Pair | Rows | Raw agreement, 3 classes | Kappa, 3 classes (bootstrap 95 %) | Raw agreement, material or not | Kappa, material or not |", "|---|---|---|---|---|---|"]
         for name, a_, b_ in (("second rater and Huda", s, h), ("second rater and verifier", s, v), ("Huda and verifier", h, v)):
             keep = [i for i in ids if a_.get(i) in LABELS3 and b_.get(i) in LABELS3]
             a3, b3 = [a_[i] for i in keep], [b_[i] for i in keep]
             po3, k3 = cohen(a3, b3, LABELS3)
             a2, b2 = [x == "material_error" for x in a3], [x == "material_error" for x in b3]
             po2, k2 = cohen(a2, b2, (True, False))
-            lines.append(f"| {name} | {len(keep)} | {po3:.2f} | {k3:.2f} | {po2:.2f} | {k2:.2f} |")
+            import random
+            rng = random.Random(20261021); boots = []
+            for _ in range(2000):   # seeded bootstrap 95 % interval of the three class kappa
+                ix = [rng.randrange(len(keep)) for _ in keep]
+                kb = cohen([a3[i] for i in ix], [b3[i] for i in ix], LABELS3)[1]
+                if kb == kb:
+                    boots.append(kb)
+            boots.sort()
+            ci = f"{boots[int(0.025 * len(boots))]:.2f} to {boots[int(0.975 * len(boots)) - 1]:.2f}" if boots else "n/a"
+            lines.append(f"| {name} | {len(keep)} | {po3:.2f} | {k3:.2f} ({ci}) | {po2:.2f} | {k2:.2f} |")
         all3 = [[s[i], h[i], v[i]] for i in ids if s.get(i) in LABELS3 and h.get(i) in LABELS3 and v.get(i) in LABELS3]
         lines += ["", f"Fleiss' kappa, three raters, three classes: {fleiss(all3, LABELS3):.2f} on {len(all3)} rows.",
                   f"Rows rated unverifiable by the second rater: {sum(1 for i in ids if s.get(i) == 'unverifiable')}."]

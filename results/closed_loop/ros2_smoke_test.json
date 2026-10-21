@@ -2,11 +2,15 @@
  "label": "SIMULATED BY ME: ROS 2 smoke test of the closed loop demonstration (one origin destination pair)",
  "site": "Kelso",
  "pair": 0,
+ "posting_m": 30,
+ "policy": "naive",
+ "commit": "2c1d9f1",
+ "note": "the current cell comes from the noisy position fix and messages are asynchronous, so the blocked cells and distances differ slightly from demo/closed_loop.py; the random number order of the rover was aligned with the Python loop before the recorded run",
  "outcome": "arrived",
  "metres_driven": 1585,
  "replans": 1,
  "slip_estimates_published": 1565,
  "max_slip_estimate": 0.502,
- "wall_s": 6.7,
+ "wall_s": 7.1,
  "ros_distro": "jazzy"
 }

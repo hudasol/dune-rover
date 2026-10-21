@@ -168,6 +168,7 @@ def main():
     ap.add_argument("--families", default=",".join(FAMILIES), help="comma separated subset; outputs get a suffix when a subset is run")
     ap.add_argument("--extra-curves", default="", help="stage 21: an additional curve file in the same format (research/phase4/curves_new.csv)")
     ap.add_argument("--out", default="", help="output folder (default results/model_validation)")
+    ap.add_argument("--group-sources", default="", help="POST HOC (review of 2026-10-21): comma separated a=b pairs; source a is held out together with b (same test campaign)")
     a = ap.parse_args()
     fams = [{**FAMILIES, **EXTRA_FAMILIES}[n] for n in a.families.split(",")]
     global OUT
@@ -180,6 +181,10 @@ def main():
     def say(m):
         print(m, flush=True); log.write(m + "\n"); log.flush()
     curves = load_curves() + (load_curves(os.path.join(ROOT, a.extra_curves)) if a.extra_curves else [])
+    if a.group_sources:   # POST HOC: hold out test campaigns rather than publications
+        gmap = dict(x.split("=") for x in a.group_sources.split(","))
+        for c in curves:
+            c["source"] = gmap.get(c["source"], c["source"])
     say(f"stage 15 run {time.strftime('%Y-%m-%d %H:%M:%S')}; {len(curves)} slip against slope curves from {len({c['source'] for c in curves})} sources; seed {SEED}")
     for c in curves:
         say(f"  {c['id']}: {c['kind']}, {len(c['x'])} points, {c['x'].min():.1f} to {c['x'].max():.1f} deg, {c['test_type']}, comparable {c['comparable']}")
