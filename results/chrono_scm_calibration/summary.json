@@ -1,0 +1,34 @@
+{
+ "label": "SIMULATED BY ME against a PUBLISHED curve",
+ "best": {
+  "K_m": 0.08,
+  "phi_deg": 32.0,
+  "slip_5": 0.2125,
+  "slip_10": 0.3582,
+  "slip_12.5": 0.4228,
+  "rmse_cal": 0.0814
+ },
+ "rmse_prediction": 0.449,
+ "cal_slopes": [
+  5.0,
+  10.0,
+  12.5
+ ],
+ "pred_slopes": [
+  15.0,
+  17.5,
+  20.0
+ ],
+ "k_grid": [
+  0.036,
+  0.08,
+  0.15,
+  0.3,
+  0.6
+ ],
+ "phi_grid": [
+  28.0,
+  32.0,
+  37.2
+ ]
+}
