@@ -1,1 +1,2 @@
 2026-10-21T01:02Z commit a36a027; tests: 76 passed in 12.81s; generated documents identical: yes; seconds: 23; digitiser check: not possible without the source PDFs, which are not redistributed
+2026-10-21T04:23Z commit 7db304d; tests: 76 passed in 5.24s; generated documents identical: yes; ledger check: passes; seconds: 12; digitiser check: not possible without the source PDFs, which are not redistributed
