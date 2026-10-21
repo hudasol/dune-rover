@@ -286,11 +286,14 @@ def arabia(L, maps):
         dem, cm, pf = maps[a]
         # Copernicus slope along the same track, 30 m line, 1 m steps
         s = np.arange(-15.0, 15.01, 1.0)
-        az = np.radians(d["az"].values)[:, None]
-        dlat = (s[None, :] * np.cos(az)) / (dem.dy / dem.dlat)
-        dlon = (s[None, :] * np.sin(az)) / (dem.dx / dem.dlon)
-        lat, lon = d["lat"].values[:, None] + dlat, d["lon"].values[:, None] + dlon
-        zs = bilinear(dem.z, (dem.lat_top - lat) / dem.dlat, (lon - dem.lon_left) / dem.dlon)
+        zs = np.empty((len(d), len(s)), dtype=np.float64)
+        for c0 in range(0, len(d), 100000):   # in chunks, to bound memory; same values as one pass
+            sl_ = slice(c0, c0 + 100000)
+            az = np.radians(d["az"].values[sl_])[:, None]
+            dlat = (s[None, :] * np.cos(az)) / (dem.dy / dem.dlat)
+            dlon = (s[None, :] * np.sin(az)) / (dem.dx / dem.dlon)
+            lat, lon = d["lat"].values[sl_][:, None] + dlat, d["lon"].values[sl_][:, None] + dlon
+            zs[sl_] = bilinear(dem.z, (dem.lat_top - lat) / dem.dlat, (lon - dem.lon_left) / dem.dlon)
         d["cop_slope_deg"] = line_fit_slope(zs, s)
         rr = np.rint((dem.lat_top - d["lat"].values) / dem.dlat).astype(int); cc = np.rint((d["lon"].values - dem.lon_left) / dem.dlon).astype(int)
         inside = (rr >= 0) & (cc >= 0) & (rr < dem.shape[0]) & (cc < dem.shape[1])
@@ -332,7 +335,7 @@ def arabia(L, maps):
         os.makedirs(OUT, exist_ok=True)
         fs.assign(area=a, abs_slope_deg=app[face].round(2), class_original=fs["class_original"], class_posterior=fs["class_posterior_2026_10_20"])[
             ["area", "lat", "lon", "track", "x_atc", "abs_slope_deg", "corr_slope_deg", "cop_slope_deg", "class_original", "class_posterior", "face_prob"]].round(
-            {"lat": 6, "lon": 6, "corr_slope_deg": 2, "cop_slope_deg": 2, "face_prob": 4}).to_csv(os.path.join(OUT, f"face_segments_{a}_L{L}.csv"), index=False)
+            {"lat": 6, "lon": 6, "x_atc": 1, "corr_slope_deg": 2, "cop_slope_deg": 2, "face_prob": 4}).astype({"x_atc": "float64"}).to_csv(os.path.join(OUT, f"face_segments_{a}_L{L}.csv"), index=False)
         seg_all[a] = d
         def cls_share(rs, k, mask):
             return round(float(np.isin(d[f"class_{rs}"].values[mask], k).mean()), 4) if mask.sum() else float("nan")
