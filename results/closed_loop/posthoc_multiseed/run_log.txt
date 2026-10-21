@@ -1,0 +1,26 @@
+POST HOC multi seed closed loop 2026-10-21 05:28:35; seeds 5; naive policy; 30 and 10 m
+WhiteSands 30 m seed 0: open 22, retry 20, replan 18
+WhiteSands 30 m seed 1: open 22, retry 21, replan 18
+WhiteSands 30 m seed 2: open 23, retry 20, replan 14
+WhiteSands 30 m seed 3: open 18, retry 17, replan 18
+WhiteSands 30 m seed 4: open 23, retry 20, replan 18
+WhiteSands 10 m seed 0: open 11, retry 18, replan 12
+WhiteSands 10 m seed 1: open 12, retry 17, replan 14
+WhiteSands 10 m seed 2: open 7, retry 15, replan 14
+WhiteSands 10 m seed 3: open 11, retry 19, replan 15
+WhiteSands 10 m seed 4: open 10, retry 17, replan 11
+Kelso 30 m seed 0: open 23, retry 22, replan 23
+Kelso 30 m seed 1: open 20, retry 19, replan 21
+Kelso 30 m seed 2: open 22, retry 22, replan 21
+Kelso 30 m seed 3: open 22, retry 22, replan 22
+Kelso 30 m seed 4: open 23, retry 21, replan 23
+Kelso 10 m seed 0: open 6, retry 10, replan 12
+Kelso 10 m seed 1: open 5, retry 9, replan 13
+Kelso 10 m seed 2: open 7, retry 11, replan 12
+Kelso 10 m seed 3: open 8, retry 11, replan 15
+Kelso 10 m seed 4: open 4, retry 10, replan 9
+{'site': 'WhiteSands', 'posting_m': 30, 'seeds': 5, 'pairs': 40, 'entrapped_share_open': 0.54, 'entrapped_share_retry': 0.49, 'entrapped_share_replan': 0.43, 'replan_minus_retry': -0.06, 'replan_minus_retry_ci95': '-0.2050 to 0.0800', 'replan_minus_open': -0.11, 'replan_minus_open_ci95': '-0.2450 to 0.0150'}
+{'site': 'WhiteSands', 'posting_m': 10, 'seeds': 5, 'pairs': 40, 'entrapped_share_open': 0.255, 'entrapped_share_retry': 0.43, 'entrapped_share_replan': 0.33, 'replan_minus_retry': -0.1, 'replan_minus_retry_ci95': '-0.2450 to 0.0450', 'replan_minus_open': 0.075, 'replan_minus_open_ci95': '-0.0500 to 0.1850'}
+{'site': 'Kelso', 'posting_m': 30, 'seeds': 5, 'pairs': 40, 'entrapped_share_open': 0.55, 'entrapped_share_retry': 0.53, 'entrapped_share_replan': 0.55, 'replan_minus_retry': 0.02, 'replan_minus_retry_ci95': '-0.1250 to 0.1600', 'replan_minus_open': 0.0, 'replan_minus_open_ci95': '-0.1350 to 0.1300'}
+{'site': 'Kelso', 'posting_m': 10, 'seeds': 5, 'pairs': 40, 'entrapped_share_open': 0.15, 'entrapped_share_retry': 0.255, 'entrapped_share_replan': 0.305, 'replan_minus_retry': 0.05, 'replan_minus_retry_ci95': '-0.0950 to 0.2000', 'replan_minus_open': 0.155, 'replan_minus_open_ci95': '0.0550 to 0.2650'}
+done 2026-10-21 05:47:00

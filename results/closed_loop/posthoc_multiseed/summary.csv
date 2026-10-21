@@ -1,0 +1,5 @@
+site,posting_m,seeds,pairs,entrapped_share_open,entrapped_share_retry,entrapped_share_replan,replan_minus_retry,replan_minus_retry_ci95,replan_minus_open,replan_minus_open_ci95
+WhiteSands,30,5,40,0.54,0.49,0.43,-0.06,-0.2050 to 0.0800,-0.11,-0.2450 to 0.0150
+WhiteSands,10,5,40,0.255,0.43,0.33,-0.1,-0.2450 to 0.0450,0.075,-0.0500 to 0.1850
+Kelso,30,5,40,0.55,0.53,0.55,0.02,-0.1250 to 0.1600,0.0,-0.1350 to 0.1300
+Kelso,10,5,40,0.15,0.255,0.305,0.05,-0.0950 to 0.2000,0.155,0.0550 to 0.2650

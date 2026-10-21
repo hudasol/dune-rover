@@ -1,0 +1,4 @@
+area,face_crossings,isolated_share,kept_non_isolated_28_35deg,base_rate_all_segments_in_traversable,faces_in_traversable_all,ratio_to_base_all,faces_in_traversable_kept,ratio_to_base_kept
+A,14217,0.5331,2580,0.9269,0.7118,0.768,0.5209,0.562
+B,24231,0.5795,5245,0.9212,0.4682,0.508,0.2888,0.314
+C,1271,0.8017,188,0.9764,0.6711,0.687,0.4947,0.507
