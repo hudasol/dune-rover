@@ -385,6 +385,7 @@ docs/PROPOSAL_ROBOTICS.md,hand,12,12,typed in the template,docs/src/proposal_rob
 docs/PROPOSAL_ROBOTICS.md,hand,12.5,12.5,typed in the template,docs/src/proposal_robotics_template.md,,FLD-HV13-1,"PUBLISHED Dumont slope 12.5 deg, the stage 24 calibration limit (FLD-HV13-1)"
 docs/PROPOSAL_ROBOTICS.md,hand,15,15,typed in the template,docs/src/proposal_robotics_template.md,,,stage 15; stage 24 prediction slopes 15 to 20 deg
 docs/PROPOSAL_ROBOTICS.md,hand,16,16,typed in the template,docs/src/proposal_robotics_template.md,,,PLANNED weeks 12 to 16 (planning estimate)
+docs/PROPOSAL_ROBOTICS.md,hand,17.5,17.5,typed in the template,docs/src/proposal_robotics_template.md,,,design: slope of the stage 24 Chrono prediction and its post hoc checks (results/chrono_scm_calibration/posthoc_checks.csv)
 docs/PROPOSAL_ROBOTICS.md,hand,19,19,typed in the template,docs/src/proposal_robotics_template.md,,,stage 19 (docs/PREDICTIONS.md)
 docs/PROPOSAL_ROBOTICS.md,hand,20,20,typed in the template,docs/src/proposal_robotics_template.md,,,stage 20; stage 24 prediction slopes 15 to 20 deg
 docs/PROPOSAL_ROBOTICS.md,hand,21,21,typed in the template,docs/src/proposal_robotics_template.md,,,stage 21 (docs/PREDICTIONS.md)
