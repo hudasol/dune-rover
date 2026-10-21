@@ -1,6 +1,6 @@
 # Search log, protocols (phase 4, 2026-10-21)
 
-Scope: sources for two draft protocols, `research/phase4/drafts/DRONE_SURVEY_PROTOCOL.md` (drone photogrammetry of one dune with OpenDroneMap) and `research/phase4/drafts/SAND_LAB_PROTOCOL.md` (angle of repose, bulk density, moisture, sieving, direct shear). The phase 3 rules in `research/phase3/AGENT_BRIEF.md` apply: full text only, live check of every DOI or URL, free access only, files only under `research/sources/phase4/`.
+Scope: sources for two draft protocols, `docs/DRONE_SURVEY_PROTOCOL.md (written as a draft under research/phase4/drafts/ and moved there)` (drone photogrammetry of one dune with OpenDroneMap) and `docs/SAND_LAB_PROTOCOL.md` (angle of repose, bulk density, moisture, sieving, direct shear). The phase 3 rules in `research/phase3/AGENT_BRIEF.md` apply: full text only, live check of every DOI or URL, free access only, files only under `research/sources/phase4/`.
 
 Output: 24 references in `research/phase4/protocols_references.csv` (5 OpenDroneMap documentation pages, 6 open access papers for the drone protocol plus 1 official GCAA page, 2 USDA manuals, 6 ASTM summary pages, 4 open access papers and 1 thesis already in the evidence table for the sand protocol). No evidence rows were written; these sources support methods, not new findings. Downloaded files are under `research/sources/phase4/protocols/`.
 

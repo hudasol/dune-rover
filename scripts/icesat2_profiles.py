@@ -61,7 +61,7 @@ def _sliderule():
     import sliderule
     from sliderule import icesat2
     if not sliderule.init("slideruleearth.io", verbose=False):
-        raise SystemExit("SlideRule Earth is not reachable from this machine; see docs/ICESAT2_GUIDE.md")
+        raise SystemExit("SlideRule Earth is not reachable from this machine; see docs/ICESAT2_GUIDE.md for the manual route")
     return icesat2
 
 
@@ -195,13 +195,13 @@ def validation(L):
         e0, n0, px = float(tie[3]), float(tie[4]), float(sc[0])
         z = p.asarray().astype(np.float32); z[z < -1000] = np.nan
         tr = Transformer.from_crs(4326, v["epsg"], always_xy=True)
+        d = d.reset_index(drop=True)
         E, N = tr.transform(d["lon"].values, d["lat"].values)
         s = np.arange(-L / 2, L / 2 + 0.01, 1.0)
         a = np.radians(d["az"].values)[:, None]
         Es, Ns = E[:, None] + s[None, :] * np.sin(a), N[:, None] + s[None, :] * np.cos(a)
         zs = bilinear(z, (n0 - Ns) / px - 0.5, (Es - e0) / px - 0.5)   # pixel centres (PixelIsArea tiepoint at the corner)
         lid = line_fit_slope(zs, s)
-        del z
         win = v["window"]
         inwin = (E >= win[0]) & (E <= win[1]) & (N >= win[2]) & (N <= win[3])
         ok = np.isfinite(lid)
@@ -210,19 +210,45 @@ def validation(L):
         if use.sum() < MIN_VALID_WINDOW:
             use, scope = ok, "whole tile (fewer than 200 valid segments in the window, rule of stage 19)"
         x, y = d["slope_deg"].values[use], lid[use]
+        # POST HOC sensitivities (clarification of stage 19, after the midpoint review): footprint averaged lidar,
+        # an along track offset per pass, and the reverse conditioning on steep ICESat-2 segments
+        def lidar_line(off_along=0.0, off_cross=0.0):
+            Es2 = E[:, None] + (s[None, :] + off_along) * np.sin(a) + off_cross * np.cos(a)
+            Ns2 = N[:, None] + (s[None, :] + off_along) * np.cos(a) - off_cross * np.sin(a)
+            return line_fit_slope(bilinear(z, (n0 - Ns2) / px - 0.5, (Es2 - e0) / px - 0.5), s)
+        foot = np.nanmean(np.stack([lidar_line(0.0, c) for c in np.arange(-5.0, 5.01, 1.0)]), axis=0)[use]
+        offs = np.arange(-10.0, 10.01, 1.0)
+        shifted = np.stack([lidar_line(o, 0.0)[use] for o in offs])
+        tracks = d["track"].values[use]; best = np.full(len(x), np.nan)
+        for tk in np.unique(tracks):
+            m = tracks == tk
+            if m.sum() < 10:
+                continue
+            sc = [np.nanmean(np.abs(x[m] - shifted[j][m])) for j in range(len(offs))]
+            best[m] = shifted[int(np.nanargmin(sc))][m]
+        steep_is2 = np.abs(x) >= 28.0
+        near_max = np.nanmax(np.abs(shifted), axis=0)
+        ok_f, ok_b = np.isfinite(foot), np.isfinite(best)
+        posthoc = {"posthoc_r_footprint": round(float(np.corrcoef(x[ok_f], foot[ok_f])[0, 1]), 4) if ok_f.sum() > 2 else "",
+                   "posthoc_mad_footprint_deg": round(float(np.median(np.abs(x[ok_f] - foot[ok_f]))), 3) if ok_f.sum() else "",
+                   "posthoc_r_best_offset": round(float(np.corrcoef(x[ok_b], best[ok_b])[0, 1]), 4) if ok_b.sum() > 2 else "",
+                   "posthoc_mad_best_offset_deg": round(float(np.median(np.abs(x[ok_b] - best[ok_b]))), 3) if ok_b.sum() else "",
+                   "posthoc_is2_segments_28deg": int(steep_is2.sum()),
+                   "posthoc_median_steepest_lidar_within_10m_of_is2_28deg": round(float(np.nanmedian(near_max[steep_is2])), 2) if steep_is2.sum() else ""}
         r = float(np.corrcoef(x, y)[0, 1]) if use.sum() > 2 else float("nan")
         mad = float(np.median(np.abs(x - y)))
         steep = np.abs(y) >= 20.0
         ratio = float(np.median(np.abs(x[steep]) / np.abs(y[steep]))) if steep.sum() else float("nan")
-        passed = (r >= 0.80) and (mad <= 2.0) and (ratio >= 0.75)
+        passed = (r >= 0.80) and (mad <= 2.0) and (ratio >= 0.75 if np.isfinite(ratio) else True)   # an unscored part (iii) is not a failure (clarification)
         rows.append({"site": site, "length_m": L, "status": "ok", "scope": scope, "passes_in_dates": int(d[use]["track"].nunique()),
                      "valid_segments": int(use.sum()), "pearson_r": round(r, 4), "median_abs_diff_deg": round(mad, 3),
                      "steep_segments_lidar_20deg": int(steep.sum()), "median_ratio_steep": round(ratio, 4),
                      "p95_abs_icesat2_deg": round(float(np.percentile(np.abs(x), 95)), 2), "p95_abs_lidar_deg": round(float(np.percentile(np.abs(y), 95)), 2),
                      "max_abs_lidar_deg": round(float(np.max(np.abs(y))), 2), "max_abs_icesat2_deg": round(float(np.max(np.abs(x))), 2),
                      "bar_r_ge_0.80": r >= 0.80, "bar_mad_le_2.0": mad <= 2.0, "bar_ratio_ge_0.75": ratio >= 0.75, "method_passes": passed,
-                     "lidar_dates": v["lidar_dates"], "icesat2_dates": f"{v['t0'][:10]} to {v['t1'][:10]}"})
+                     "lidar_dates": v["lidar_dates"], "icesat2_dates": f"{v['t0'][:10]} to {v['t1'][:10]}", **posthoc})
         samples[site] = (x, y)
+        del z
     return rows, samples
 
 

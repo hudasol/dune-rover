@@ -8,8 +8,9 @@ wheel odometry against noisy position fixes, and replans around ground where the
 SIMULATED BY ME on PUBLISHED USGS 3DEP lidar. Nothing here is a field result; the "true" rover is itself a model:
   * true slip: the exponential slip model of src/dunerover/slipmodel.py with the stage 15 posterior medians
     (phi 36.93 deg, f_r 0.129, i0 0.627; results/model_validation/.../posterior_exp.json), evaluated on the uphill
-    grade of the lidar surface over a 3 m baseline along the direction of travel (downhill grades are treated as level,
-    ASSUMPTION), plus a run to run scatter N(0, 0.05) per metre (ASSUMPTION), clipped to 0 to 1;
+    grade of the lidar surface over a 3 m baseline along the direction of travel (grades steeper downhill than minus
+    f_r are set to minus f_r, where the traction demand is zero, ASSUMPTION; docstring corrected 2026-10-21 after the review,
+    code unchanged), plus a run to run scatter N(0, 0.05) per metre (ASSUMPTION), clipped to 0 to 1;
   * entrapment: true slip of 0.95 or more on 3 consecutive metres;
   * position fixes every true metre with independent Gaussian noise of 0.3 m per axis (ASSUMPTION, a non RTK receiver);
   * slip estimate: 1 minus the fix to fix distance over the last 10 m of travel divided by the odometry distance over

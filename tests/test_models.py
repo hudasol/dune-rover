@@ -64,8 +64,9 @@ def test_stage22_mobility_families_are_monotone_and_bounded():
 def test_stage22_bigger_number_climbs_better():
     """A wheel with a larger strength to load number (wider, bigger or lighter) slips less at the nominal parameters."""
     from dunerover.models import EXTRA_FAMILIES
-    small = {"radius_m": 0.06, "width_m": 0.01, "load_N": 4.0, "density_kg_m3": 1600.0}
-    big = {"radius_m": 0.06, "width_m": 0.06, "load_N": 4.0, "density_kg_m3": 1600.0}
+    small = {"radius_m": 0.1, "width_m": 0.05, "load_N": 20.0, "density_kg_m3": 1500.0}
+    big = {"radius_m": 0.1, "width_m": 0.2, "load_N": 20.0, "density_kg_m3": 1500.0}
     for fam in EXTRA_FAMILIES.values():
         th = fam.nominal()
-        assert fam.predict([15.0], "direct ascent", big, th)[0] <= fam.predict([15.0], "direct ascent", small, th)[0]
+        sb, ss = fam.predict([10.0], "direct ascent", big, th)[0], fam.predict([10.0], "direct ascent", small, th)[0]
+        assert 0.0 < sb < ss < 1.0, (fam.name, sb, ss)   # not saturated, and strictly ordered

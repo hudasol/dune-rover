@@ -2,6 +2,8 @@
 
 **Status: PLANNED. Draft prepared 2026-10-21 for Huda to paste into a preregistration on the Open Science Framework (osf.io) herself. Nothing has been submitted.** The sections follow the usual headings of the OSF preregistration form; check the current form when pasting, and paste each section into the matching field. Everything below repeats decisions already committed in this repository; nothing here changes them. Where a decision is still open (questions 5 and 7 in `docs/QUESTIONS_FOR_HUDA.md`), the draft says so and keeps both options, as the repository does.
 
+Labels: everything in this draft is **PLANNED**; numbers quoted from the repository's results carry their own labels in the files cited.
+
 Before submitting: fill the bracketed fields, attach `docs/predictions/slope_ladder_predictions_2026-10-12.csv` and `docs/predictions/slope_ladder_predictions_2026-10-15.csv` (the dated predictions), and cite the repository commit that holds them.
 
 ## 1. Study information

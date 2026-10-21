@@ -13,4 +13,4 @@ Steps for the second rater:
 
 Afterwards, Huda runs `python3 scripts/second_rater_agreement.py`, which writes `AGREEMENT.md` (Cohen's kappa for each pair and Fleiss' kappa for the three raters).
 
-Note: some rows were corrected after the verifier checked them; the worksheet shows each row as it is now, as for Huda's sheet.
+Note: 5 of the 20 rows were corrected after the verifier checked them (`research/corrections.csv`); the worksheet shows each row as it is now, as for Huda's sheet, so on those rows a human who finds no error may disagree with a verifier who found the error before the correction. The agreement script reports those rows separately, and with 20 rows every kappa carries a wide interval (the script gives a seeded bootstrap 95 % interval).
