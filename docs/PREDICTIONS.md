@@ -473,11 +473,11 @@ Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| C23-1 | The median absolute error of the online slip estimate against the true slip over the same 10 m is at most 0.05 at both sites. | pending |
-| C23-2 | On 30 m naive routes, replanning lowers the share of routed pairs that end entrapped by at least 5 percentage points at both sites. | pending |
-| C23-3 | In no combination of site, posting and policy does replanning raise the entrapped share. | pending |
-| C23-4 | On 30 m naive routes, the mean distance driven by runs that arrive is at most 30 % longer with replanning than without. | pending |
-| C23-5 | Open loop, at least 10 % of the routed 30 m naive pairs end entrapped at each site. | pending |
+| C23-1 | The median absolute error of the online slip estimate against the true slip over the same 10 m is at most 0.05 at both sites. | HIT. Median absolute error of the 10 m estimate after the first 20 m: 0.029 (White Sands) and 0.032 (Kelso); 90th percentile 0.077 and 0.083 (`results/closed_loop/estimator.csv`). |
+| C23-2 | On 30 m naive routes, replanning lowers the share of routed pairs that end entrapped by at least 5 percentage points at both sites. | HIT. 30 m naive routes: entrapped share 55.0 % open loop against 12.5 % with replanning at White Sands, 55.0 % against 30.0 % at Kelso (`results/closed_loop/summary.csv`). |
+| C23-3 | In no combination of site, posting and policy does replanning raise the entrapped share. | MISSED. Replanning lowered the entrapped share in 7 of 8 combinations but raised it on 10 m naive routes at Kelso, from 17.5 % to 22.5 % (2 more pairs of 40): blocking cells ahead can push a naive route onto worse ground it could not see. |
+| C23-4 | On 30 m naive routes, the mean distance driven by runs that arrive is at most 30 % longer with replanning than without. | HIT. Mean distance of runs that arrived on 30 m naive routes: 1964 m with replanning against 1927 m without (White Sands, plus 2 %) and 1735 m against 2083 m (Kelso, minus 17 %); the arriving runs are not the same pairs in the two modes. |
+| C23-5 | Open loop, at least 10 % of the routed 30 m naive pairs end entrapped at each site. | HIT. Open loop, 55.0 % of the routed 30 m naive pairs ended entrapped at both White Sands and Kelso. |
 
 
 ## Stage 24: Project Chrono SCM calibrated on the Dumont curve up to 12.5 degrees, then asked to predict 15 to 20 degrees (written 2026-10-21, BEFORE the calibration was run)
@@ -489,3 +489,5 @@ Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar
 | S24-1 | The best grid point reproduces the cubic at 5 to 12.5 deg with a root mean square error of at most 0.10. | pending |
 | S24-2 | The calibrated model's root mean square error at 15 to 20 deg is above 0.15 (it does not extrapolate). | pending |
 | S24-3 | The best K is at least 0.15 m, four or more times the Toyoura laboratory value of 0.036 m. | pending |
+
+Note on stage 23 (appended after the run, no prediction edited): with the true rover itself a model (the stage 15 posterior medians), online slip estimation from odometry and 0.3 m position fixes is accurate enough to act on (median error about 0.03), and replanning on it cut entrapment on 30 m routes from 55 % to 12.5 to 30 %. This is a statement about the loop under the demonstration's assumptions, not about a real vehicle: the true slip law, the 0.05 scatter, the 0.5 trigger and the 15 m look ahead are all assumptions, and the open loop entrapment share depends directly on the assumed slip law. A ROS 2 (Jazzy, RoboStack) version of the same loop, with the map and planner, the simulated rover and the slip monitor as separate nodes talking over topics, ran once on Kelso pair 0 and gave the same outcome as the Python loop (arrived after one replan; 1585 m against 1540 m, the difference coming from the asynchronous message timing) (`results/closed_loop/ros2_smoke_test.json`).

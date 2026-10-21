@@ -5,8 +5,9 @@ Three nodes talk only through ROS 2 topics:
                 BLOCKED 100) and a route (/plan, nav_msgs/Path) from the rover's latest pose to the goal; on
                 /blocked_cells (std_msgs/Int32MultiArray) it removes those cells from its graph and replans.
   rover_sim     drives the latest /plan over the one metre lidar surface with the slip model of demo/closed_loop.py,
-                and publishes /odom (nav_msgs/Odometry, position with 0.3 m noise per axis), /wheel_distance
-                (std_msgs/Float64, cumulative odometry) and /rover_status (std_msgs/String).
+                and publishes /odom (nav_msgs/Odometry, position with 0.3 m noise per axis; header.stamp.sec carries the
+                step number), /wheel_distance (std_msgs/Float64MultiArray [step, cumulative odometry]) and
+                /rover_status (std_msgs/String).
   slip_monitor  estimates slip from /odom and /wheel_distance over the last 10 m (/slip_estimate, std_msgs/Float64)
                 and, when the estimate reaches 0.5, publishes the cells of the next 15 m of /plan on /blocked_cells.
 The physics, the map, the planner and the thresholds are those of demo/closed_loop.py; this package only puts them
@@ -25,7 +26,7 @@ sys.path.insert(0, os.path.join(ROOT, "src")); sys.path.insert(0, os.path.join(R
 import rclpy  # noqa: E402
 from rclpy.node import Node  # noqa: E402
 from rclpy.executors import SingleThreadedExecutor  # noqa: E402
-from std_msgs.msg import Float64, String, Int32MultiArray  # noqa: E402
+from std_msgs.msg import Float64, Float64MultiArray, String, Int32MultiArray  # noqa: E402
 from nav_msgs.msg import OccupancyGrid, Path, Odometry  # noqa: E402
 from geometry_msgs.msg import PoseStamped  # noqa: E402
 
@@ -123,11 +124,11 @@ class RoverSim(Node):
         super().__init__("rover_sim")
         self.w, self.rng = w, np.random.default_rng(w.seed)
         self.sp, self.s_true, self.i, self.odo, self.run, self.status = None, None, 0, 0.0, 0, "waiting"
-        self.pub_odom = self.create_publisher(Odometry, "/odom", 10)
-        self.pub_wd = self.create_publisher(Float64, "/wheel_distance", 10)
+        self.pub_odom = self.create_publisher(Odometry, "/odom", 5000)
+        self.pub_wd = self.create_publisher(Float64MultiArray, "/wheel_distance", 5000)
         self.pub_status = self.create_publisher(String, "/rover_status", 10)
         self.create_subscription(Path, "/plan", self.on_plan, 10)
-        self.create_timer(0.002, self.step)
+        self.create_timer(0.004, self.step)
         self.metres = 0
 
     def on_plan(self, msg):
@@ -151,41 +152,50 @@ class RoverSim(Node):
             self.status = "entrapped"; self.pub_status.publish(String(data=self.status)); return
         self.odo += 1.0 / max(1.0 - st, 1e-3); self.i += 1; self.metres += 1
         y, x = self.sp[self.i]                  # one metre posts: row is y, column is x
-        o = Odometry(); o.header.frame_id = "map"
-        o.pose.pose.position.x = float(x + self.rng.normal(0, CL.GNSS_SD)); o.pose.pose.position.y = float(y + self.rng.normal(0, CL.GNSS_SD))
-        self.pub_wd.publish(Float64(data=self.odo)); self.pub_odom.publish(o)
+        nx, ny = self.rng.normal(0.0, CL.GNSS_SD, 2)   # same draw order as demo/closed_loop.py (row noise, column noise)
+        o = Odometry(); o.header.frame_id = "map"; o.header.stamp.sec = int(self.metres)
+        o.pose.pose.position.x = float(x + ny); o.pose.pose.position.y = float(y + nx)
+        self.pub_wd.publish(Float64MultiArray(data=[float(self.metres), self.odo])); self.pub_odom.publish(o)
 
 
 class SlipMonitor(Node):
     def __init__(self):
         super().__init__("slip_monitor")
-        self.fix, self.odo, self.plan_xy, self.latest = [], [], None, float("nan")
+        self.fix, self.odo, self.plan_xy, self.latest = {}, {}, None, float("nan")
         self.pub_est = self.create_publisher(Float64, "/slip_estimate", 10)
         self.pub_block = self.create_publisher(Int32MultiArray, "/blocked_cells", 10)
-        self.create_subscription(Float64, "/wheel_distance", self.on_wd, 10)
-        self.create_subscription(Odometry, "/odom", self.on_odom, 10)
+        self.create_subscription(Float64MultiArray, "/wheel_distance", self.on_wd, 5000)
+        self.create_subscription(Odometry, "/odom", self.on_odom, 5000)
         self.create_subscription(Path, "/plan", self.on_plan, 10)
         self.nc = None
         self.estimates = []
 
     def on_plan(self, msg):
         self.plan_xy = np.array([[p.pose.position.x, p.pose.position.y] for p in msg.poses]) if msg.poses else None
-        self.fix, self.odo = [], []
+        self.plan_step0 = None   # the window restarts on every new plan, as in demo/closed_loop.py
 
     def on_wd(self, msg):
-        self.odo.append(msg.data)
+        self.odo[int(msg.data[0])] = msg.data[1]
+        self.try_estimate(int(msg.data[0]))
 
     def on_odom(self, msg):
-        self.fix.append((msg.pose.pose.position.x, msg.pose.pose.position.y))
-        n = min(len(self.fix), len(self.odo))
-        if n <= CL.WINDOW:
+        self.fix[int(msg.header.stamp.sec)] = (msg.pose.pose.position.x, msg.pose.pose.position.y)
+        self.try_estimate(int(msg.header.stamp.sec))
+
+    def try_estimate(self, k):
+        if k not in self.fix or k not in self.odo:
             return
-        d = float(np.hypot(self.fix[n - 1][0] - self.fix[n - 1 - CL.WINDOW][0], self.fix[n - 1][1] - self.fix[n - 1 - CL.WINDOW][1]))
-        o = self.odo[n - 1] - self.odo[n - 1 - CL.WINDOW]
+        if self.plan_step0 is None:
+            self.plan_step0 = k - 1
+        j = k - CL.WINDOW
+        if j <= self.plan_step0 or j not in self.fix:
+            return
+        d = float(np.hypot(self.fix[k][0] - self.fix[j][0], self.fix[k][1] - self.fix[j][1]))
+        o = self.odo[k] - (self.odo[j] if j in self.odo else 0.0)
         s_hat = 1.0 - d / o
         self.pub_est.publish(Float64(data=s_hat)); self.estimates.append(s_hat)
         if s_hat >= CL.TRIGGER and self.plan_xy is not None and self.nc:
-            p = np.array(self.fix[n - 1])
+            p = np.array(self.fix[k])
             j = int(np.argmin(np.hypot(*(self.plan_xy - p).T)))
             ahead = self.plan_xy[j + 1:j + 1 + int(np.ceil(CL.LOOKAHEAD / K)) + 1]
             cells = [int((y // K) * self.nc + (x // K)) for x, y in ahead]

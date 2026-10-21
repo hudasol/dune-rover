@@ -1,0 +1,12 @@
+{
+ "label": "SIMULATED BY ME: ROS 2 smoke test of the closed loop demonstration (one origin destination pair)",
+ "site": "Kelso",
+ "pair": 0,
+ "outcome": "arrived",
+ "metres_driven": 1585,
+ "replans": 1,
+ "slip_estimates_published": 1565,
+ "max_slip_estimate": 0.502,
+ "wall_s": 6.7,
+ "ros_distro": "jazzy"
+}
