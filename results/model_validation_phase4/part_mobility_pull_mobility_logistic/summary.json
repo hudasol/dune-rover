@@ -1,0 +1,24 @@
+{
+ "bar": {
+  "median_heldout_rmse_max": 0.15,
+  "pooled_coverage90_min": 0.8
+ },
+ "families": {
+  "mobility_pull": {
+   "heldout_curves": 33,
+   "median_heldout_rmse": 0.3374,
+   "pooled_coverage90": 0.633,
+   "median_nominal_rmse": 0.3063,
+   "median_fit_rmse": 0.0455,
+   "survives": false
+  },
+  "mobility_logistic": {
+   "heldout_curves": 33,
+   "median_heldout_rmse": 0.3068,
+   "pooled_coverage90": 0.615,
+   "median_nominal_rmse": 0.2182,
+   "median_fit_rmse": 0.0238,
+   "survives": false
+  }
+ }
+}
