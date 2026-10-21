@@ -1,0 +1,27 @@
+stage 23 POST HOC variant 2026-10-21 04:49:07: fixed slip field, real position, counter carried over, at least one cell blocked; odometry noise 0.02
+WhiteSands 30 m naive open: arrived 18, entrapped 22
+WhiteSands 30 m naive retry: arrived 20, entrapped 20
+WhiteSands 30 m naive replan: arrived 23, entrapped 17
+WhiteSands 30 m conservative open: arrived 16, entrapped 24
+WhiteSands 30 m conservative retry: arrived 14, entrapped 26
+WhiteSands 30 m conservative replan: arrived 20, entrapped 20
+WhiteSands 10 m naive open: arrived 30, entrapped 10
+WhiteSands 10 m naive retry: arrived 22, entrapped 18
+WhiteSands 10 m naive replan: arrived 28, entrapped 12
+WhiteSands 10 m conservative open: arrived 31, entrapped 5, not routed 4
+WhiteSands 10 m conservative retry: arrived 27, entrapped 9, not routed 4
+WhiteSands 10 m conservative replan: arrived 29, entrapped 5, not routed 4, stopped (no route) 2
+Kelso 30 m naive open: arrived 17, entrapped 23
+Kelso 30 m naive retry: arrived 18, entrapped 22
+Kelso 30 m naive replan: arrived 20, entrapped 20
+Kelso 30 m conservative open: arrived 16, entrapped 24
+Kelso 30 m conservative retry: arrived 17, entrapped 23
+Kelso 30 m conservative replan: arrived 19, entrapped 21
+Kelso 10 m naive open: arrived 35, entrapped 5
+Kelso 10 m naive retry: arrived 31, entrapped 9
+Kelso 10 m naive replan: arrived 29, entrapped 11
+Kelso 10 m conservative open: arrived 34, entrapped 2, not routed 4
+Kelso 10 m conservative retry: arrived 31, entrapped 4, not routed 4, stopped (no route) 1
+Kelso 10 m conservative replan: arrived 29, entrapped 5, not routed 4, stopped (no route) 2
+estimator: [{"site": "WhiteSands", "median_abs_error_exact_odometry": 0.0296, "median_abs_error_odometry_noise_2pct": 0.0297, "p90_abs_error_odometry_noise_2pct": 0.078, "analytic_median_low_slip": 0.0286}, {"site": "Kelso", "median_abs_error_exact_odometry": 0.0321, "median_abs_error_odometry_noise_2pct": 0.0324, "p90_abs_error_odometry_noise_2pct": 0.0842, "analytic_median_low_slip": 0.0286}]
+done 2026-10-21 05:00:24
