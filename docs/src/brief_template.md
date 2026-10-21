@@ -20,20 +20,19 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Independent simulator.** Project Chrono with published soils gives {{VAL:ch_w1s1_125}} slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve; calibrated on that curve up to 12.5 degrees, it gave no usable prediction of 15 to 20 degrees (the run was not numerically stable there in post hoc checks).
 - **Terrain map against real lidar.** On {{VAL:lid6_nsites}} North American dune fields (USGS one metre lidar), {{VAL:lid6_fs_min_30}} to {{VAL:lid6_fs_max_30}} of the cells a 30 m three class map called TRAVERSABLE contained steep slip faces ({{VAL:lid6_fs_min_10}} to {{VAL:lid6_fs_max_10}} at 10 m).
 - **Arabian dunes from space.** {{VAL:is2_summary_line}}
-- **Closed loop.** In simulation, an online slip estimate from odometry and position fixes had a median error of about {{VAL:cl_est_WhiteSands}}, which follows from the assumed position noise. {{VAL:clm_sentence}} The true rover there is itself a model.
+- **Closed loop.** In simulation, an online slip estimate from odometry and position fixes (median error about {{VAL:cl_est_WhiteSands}}, set by the assumed position noise) and replanning on it showed no effect on entrapment distinguishable from a stop and retry control over {{VAL:clm_seeds}} slip fields (post hoc); the true rover is itself a model.
 - **Planning.** On the first three fields no policy was safer than naive planning on 30 m maps against lidar truth, and with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison); on three further fields the conservative policy was somewhat safer at 30 m, but most routes still failed at two of them.
-- **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is {{VAL:post_unk_A}} (Liwa), {{VAL:post_unk_B}} and {{VAL:post_unk_C}} (Rub' al Khali), against {{VAL:orig_unk_A}}, {{VAL:orig_unk_B}} and {{VAL:orig_unk_C}} under the original assumed ranges ({{VAL:postm_unk_A}}, {{VAL:postm_unk_B}} and {{VAL:postm_unk_C}} if draws that cannot move on level ground are rejected, post hoc).
+- **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is {{VAL:post_unk_A}} (Liwa), {{VAL:post_unk_B}} and {{VAL:post_unk_C}} (Rub' al Khali), against {{VAL:orig_unk_A}}, {{VAL:orig_unk_B}} and {{VAL:orig_unk_C}} under the original assumed ranges.
 
 ## 4. Negative results
 
 - No slip model transfers between vehicles and soils with useful accuracy; two implementations of the same Bekker and Janosi laws disagree by more than field scatter.
 - A 30 m map labels {{VAL:lid6_miss_min_30}} to {{VAL:lid6_miss_max_30}} of the cells that contain a steep face as TRAVERSABLE ({{VAL:lid6_miss_min_10}} to {{VAL:lid6_miss_max_10}} at 10 m); the slip face detector works much better at 10 m than at 30 m.
-- The granular scaling laws, in the reduced form used, made transfer between studies worse, not better.
 - The planned pass or fail rule accepts a model that collapses above 20 degrees in {{VAL:ro_current_collapse_0.03}} of synthetic replicates; stricter options reject a correct model more than half the time.
 
 ## 5. Error rate of the evidence table
 
-Every row was re checked against its full text by a separate agent. Of the {{VAL:p5_n}} rows added on 2026-10-20, {{VAL:p5_material}} had a material error before correction ({{VAL:p5_material_rate}}, Wilson 95 % interval {{VAL:p5_material_ci}}); every material error is corrected, and minor errors where the verifier gave a corrected value. The {{VAL:p6_n}} rows added on 2026-10-21 had {{VAL:p6_material}} material errors. A blinded human spot check of 20 rows, and a pack for a second human rater, are prepared.
+Every row was re checked against its full text by a separate agent. Of the {{VAL:p5_n}} rows added on 2026-10-20, {{VAL:p5_material}} had a material error before correction ({{VAL:p5_material_rate}}, Wilson 95 % interval {{VAL:p5_material_ci}}); every material error is corrected. The {{VAL:p6_n}} rows added on 2026-10-21 had {{VAL:p6_material}} material errors. A human spot check and a second rater pack are prepared.
 
 ## 6. The first field experiment (PLANNED)
 
