@@ -46,6 +46,8 @@ jobs:
           PYTHONPATH=src python scripts/build_manuscript.py --strict
           git diff --ignore-cr-at-eol --exit-code -- manuscript/MANUSCRIPT.md
           python scripts/check_manuscript_numbers.py
+      - name: Every number in the manuscript, brief and proposals is traced in the number ledger
+        run: PYTHONPATH=src python scripts/build_number_ledger.py --check
       - name: Writing rules (no dash characters, no banned names)
         run: |
           python - <<'PY'

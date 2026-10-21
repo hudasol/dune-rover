@@ -18,6 +18,7 @@ git diff --ignore-cr-at-eol --exit-code -- README.md docs/REPORT.md docs/EXECUTI
 PYTHONPATH=src python3 scripts/build_manuscript.py --strict > /dev/null
 git diff --ignore-cr-at-eol --exit-code -- manuscript/MANUSCRIPT.md || { echo "manuscript is stale: rebuild and commit it"; exit 1; }
 python3 scripts/check_manuscript_numbers.py
+PYTHONPATH=src python3 scripts/build_number_ledger.py --check
 python3 - <<'PY'
 import subprocess, sys
 bad = []
