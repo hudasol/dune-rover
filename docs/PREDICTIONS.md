@@ -478,3 +478,14 @@ Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar
 | C23-3 | In no combination of site, posting and policy does replanning raise the entrapped share. | pending |
 | C23-4 | On 30 m naive routes, the mean distance driven by runs that arrive is at most 30 % longer with replanning than without. | pending |
 | C23-5 | Open loop, at least 10 % of the routed 30 m naive pairs end entrapped at each site. | pending |
+
+
+## Stage 24: Project Chrono SCM calibrated on the Dumont curve up to 12.5 degrees, then asked to predict 15 to 20 degrees (written 2026-10-21, BEFORE the calibration was run)
+
+**SIMULATED BY ME against a PUBLISHED curve.** Design fixed now (`scripts/chrono_scm_calibration.py`): the stage 14 wheel W1 (Scarecrow like) and soil S1 with cohesion 0 Pa (ASSUMPTION for dry dune sand); a grid over the Janosi shear modulus K (0.036, 0.08, 0.15, 0.3, 0.6 m) and the friction angle (28, 32, 37.2 deg); target the published Dumont cubic (Heverly et al. 2013, Sec. 6.3) at 5, 10 and 12.5 deg (0.097, 0.318, 0.493); the grid point with the lowest root mean square error is run at 15, 17.5 and 20 deg (cubic 0.669, 0.814, 0.896).
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| S24-1 | The best grid point reproduces the cubic at 5 to 12.5 deg with a root mean square error of at most 0.10. | pending |
+| S24-2 | The calibrated model's root mean square error at 15 to 20 deg is above 0.15 (it does not extrapolate). | pending |
+| S24-3 | The best K is at least 0.15 m, four or more times the Toyoura laboratory value of 0.036 m. | pending |
