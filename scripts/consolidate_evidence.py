@@ -42,7 +42,7 @@ for f in sorted(glob.glob(os.path.join(ROOT, "research", "phase2", "supplied_pdf
         r["area"] = {"TM": "terramechanics", "FLD": "field", "SIM": "simulation", "LRN": "learning", "LEG": "legged"}[r["id"].split("-")[0]]
         rows.append(r)
 # phase 3 rows (2026-10-20): only files listed in research/phase3/MERGED.txt, so rows enter the table only once their extraction is finished
-P3_AREA = {"PLN": "field", "TM3": "terramechanics", "MOB": "mobility_models", "SND": "sand_dunes", "DUN": "sand_dunes", "MAP": "mapping", "ENV": "environment"}
+P3_AREA = {"SCL": "mobility_models", "PLN": "field", "TM3": "terramechanics", "MOB": "mobility_models", "SND": "sand_dunes", "DUN": "sand_dunes", "MAP": "mapping", "ENV": "environment"}
 manifest = os.path.join(ROOT, "research", "phase3", "MERGED.txt")
 if os.path.exists(manifest):
     for name in [l.strip() for l in open(manifest, encoding="utf-8") if l.strip() and not l.startswith("#")]:
@@ -85,7 +85,9 @@ for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"
     for v in csv.DictReader(open(f, encoding="utf-8")):
         if v["id"] in by_id:
             n = int(re.search(r"batch(\d+)", f).group(1))
-            if n >= 15:
+            if n >= 28:
+                grp, date = "phase 4 check", "2026-10-21"
+            elif n >= 15:
                 grp, date = "phase 3 check", "2026-10-20"
             elif n >= 14:
                 grp, date = "split row check", "2026-10-18"
