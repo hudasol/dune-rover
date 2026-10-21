@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build docs/REPORT.pdf and docs/EXECUTIVE_BRIEF.pdf from the markdown files (pandoc -> HTML -> headless Chromium).
+"""Build docs/REPORT.pdf, docs/EXECUTIVE_BRIEF.pdf and docs/PROPOSAL_ROBOTICS.pdf from the markdown files (pandoc -> HTML -> headless Chromium).
 Requires pandoc and Playwright with Chromium.  Appendices are printed on landscape pages."""
 import os, re, subprocess, sys, tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +28,7 @@ def html_to_pdf(html, pdf):
         pg.goto("file://" + html)
         pg.pdf(path=pdf, prefer_css_page_size=True, print_background=True, display_header_footer=True,
                header_template="<span></span>",
-               footer_template='<div style="font-size:7px;width:100%;text-align:center;color:#666">dune-rover: research, not engineering approval. Simulation results are model-assumption dependent. Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>',
+               footer_template='<div style="font-size:7px;width:100%;text-align:center;color:#666">dune-rover: research, not engineering approval. Simulation results are model assumption dependent. Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>',
                margin={"top": "16mm", "bottom": "16mm", "left": "15mm", "right": "15mm"})
         b.close()
 
@@ -48,7 +48,8 @@ def main():
     i = rep.index("## Appendix A")
     rep = rep[:i] + "::: wide\n\n" + rep[i:] + "\n\n:::\n"
     # first line is the H1 title; pandoc title metadata duplicates it, so suppress by using a short title
-    for name, text, brief in (("REPORT", rep, False), ("EXECUTIVE_BRIEF", open(os.path.join(DOCS, "EXECUTIVE_BRIEF.md"), encoding="utf-8").read(), True)):
+    for name, text, brief in (("REPORT", rep, False), ("EXECUTIVE_BRIEF", open(os.path.join(DOCS, "EXECUTIVE_BRIEF.md"), encoding="utf-8").read(), True),
+                              ("PROPOSAL_ROBOTICS", open(os.path.join(DOCS, "PROPOSAL_ROBOTICS.md"), encoding="utf-8").read(), False)):
         html = os.path.join(tempfile.gettempdir(), f"{name}.html")
         to_html(text, html, "dune-rover " + name.lower().replace("_", " "), brief)
         html_to_pdf(html, os.path.join(DOCS, f"{name}.pdf"))
