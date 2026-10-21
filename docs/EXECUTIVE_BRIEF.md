@@ -8,7 +8,7 @@ Labels: **PUBLISHED** (read in a retrieved source), **SIMULATED BY ME** (output 
 
 How much does a small wheeled robot slip on a dune slope, can it be predicted, and how fine must a terrain map be to plan on Gulf dunes? No published slip against slope dataset exists for a wheeled robot on Arabian dune sand; the only Arabian field item is a qualitative report of a rover stuck in loose sand in Oman (FLD-042). Open elevation data for the region are about 30 m.
 
-## 2. What is published (PUBLISHED; 494 verified rows from 174 sources)
+## 2. What is published (PUBLISHED; 510 verified rows from 176 sources)
 
 - **Earth dune slope curve.** At Dumont Dunes, California, a 340 kg test rover went from below 50 % slip at 12.5 degrees to about 90 % at 20 degrees, without soil parameters (FLD-HV13-1, FLD-HV13-2).
 - **Field slip is large and patchy:** Spirit 15 to 20 % at 19 degrees and 95 % at 16 degrees on look alike terrain (FLD-011, FLD-012); Perseverance above 94 % at about 20 degrees (FLD-025).

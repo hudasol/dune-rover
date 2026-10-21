@@ -12,7 +12,7 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 | Item | Label | Files |
 |---|---|---|
-| Evidence table of 494 published results from 174 sources, each re checked against its source | PUBLISHED | `research/evidence.csv`, `research/verification_log.md`, `docs/SEARCH_PROTOCOL.md` |
+| Evidence table of 510 published results from 176 sources, each re checked against its source | PUBLISHED | `research/evidence.csv`, `research/verification_log.md`, `docs/SEARCH_PROTOCOL.md` |
 | Validation of 4 slip model families on 17 digitised published curves (none passed), an independent Project Chrono simulation, and a test of the map and planner against one metre lidar of three dune fields | SIMULATED BY ME against PUBLISHED data | `results/model_validation/`, `results/chrono_scm/`, `results/terrain_validation/`, `results/planner/`, report section 13 |
 | Slope and slip traversability study on GLO-30 data for Liwa and the Rub' al Khali, with sensitivity analysis | SIMULATED BY ME | `src/dunerover/`, `results/`, report section 8 |
 | Sub grid slip face detector and three class map (TRAVERSABLE, BLOCKED, UNKNOWN) | SIMULATED BY ME; tested against synthetic truth and, on 2026-10-20, against North American lidar (works at 10 m, fails at 30 m) | `results/subgrid/`, report section 8.7 |
@@ -22,7 +22,7 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 ## 3. Validated, simulated, planned
 
-- **Checked or tested (not validated against field data):** the extraction of published numbers (current table 494 rows, 38 with a material error before correction by each row's latest verdict; every material error corrected), and the slip face detector was tested against real lidar outside Arabia (it works much better at 10 m than at 30 m). No slip model in this repository has been validated against field data, and none transferred between published studies.
+- **Checked or tested (not validated against field data):** the extraction of published numbers (current table 510 rows, 38 with a material error before correction by each row's latest verdict; every material error corrected), and the slip face detector was tested against real lidar outside Arabia (it works much better at 10 m than at 30 m). No slip model in this repository has been validated against field data, and none transferred between published studies.
 - **Simulated (simulation only, model assumption dependent):** the traversability maps and the UNKNOWN share; the comparison with the published anchors, which shows the slip model predicting too little slip on sand slopes above about 10 degrees (report section 8.8). That is a negative result for the model, stated as such.
 - **Planned:** the slope ladder (0 to 20 degrees with denser bins between 10 and 20, revised 2026-10-15) and a survey of one dune profile to test the slip face detector. Nothing has been run; the planned pass or fail rule was amended on 2026-10-18 and still calls a wrong model adequate about half the time on synthetic data; the author must decide whether to accept that before any field day (`docs/FIELD_VALIDATION_PLAN.md`, section 7).
 

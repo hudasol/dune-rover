@@ -1,10 +1,11 @@
 # Verification log
 
-Every one of the 494 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
+Every one of the 510 rows of the current evidence table has been re-checked against its source by a separate subagent that re-read the source and had no access to the extraction notes.
 Phase 1 (2026-10-11): 30 rows drawn at random (seed 20261011) from the 137 unflagged rows, plus the 7 rows the extractors flagged. Phase 2 (2026-10-12): the other 107 rows, in four batches (batches 4 to 7).
 Phase 3 (2026-10-15): the 26 rows read from the PDFs the author supplied (Yu 2024, Takehana 2025, Ishigami 2007, Ishigami 2009, Heverly 2013), in six batches (batches 8 to 13), one verifier per source block. Verifiers saw the claim fields only, not the notes or comparability warnings.
 Phase 4 (2026-10-18): FLD-HV13-5, which mixed lab and field results, was split at the author's request into FLD-HV13-5a (lab, JPL Marsyard) and FLD-HV13-5b (field, Tecopa); one fresh verifier checked both (batch 14).
 Phase 5 (2026-10-20): the rows added by the evidence expansion of 2026-10-20 (ids PLN, TM3, MOB, SND, DUN, MAP, ENV), each checked by a fresh verifier agent against the full text (batches 15 and up).
+Phase 6 (2026-10-21): the rows from the scaling law sources read on 2026-10-21 (ids SCL), each checked by a fresh verifier agent against the full text (batch 28).
 Two views are reported. 'ALL 170 ROWS' is the first check of the rows as extracted (FLD-HV13-5 counts with its material error). 'CURRENT TABLE' takes each row of the current table with its latest verdict (the two split rows with their phase 4 verdicts; FLD-HV13-5 is no longer in the table).
 Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.
 
@@ -48,10 +49,15 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - material error rate 30/323 = 9.3 % (Wilson 95 % CI 6.6 to 12.9 %)
 - any discrepancy rate 82/323 = 25.4 % (Wilson 95 % CI 20.9 to 30.4 %)
 
-## CURRENT TABLE, latest verdict per row (n = 494)
-- correct 361, minor 95, material 38, unverifiable 0
-- material error rate 38/494 = 7.7 % (Wilson 95 % CI 5.7 to 10.4 %)
-- any discrepancy rate 133/494 = 26.9 % (Wilson 95 % CI 23.2 to 31.0 %)
+## new rows of 2026-10-21 (scaling law sources), phase 6 (n = 16)
+- correct 13, minor 3, material 0, unverifiable 0
+- material error rate 0/16 = 0.0 % (exact 95 % upper bound 17.1 %)
+- any discrepancy rate 3/16 = 18.8 % (Wilson 95 % CI 6.6 to 43.0 %)
+
+## CURRENT TABLE, latest verdict per row (n = 510)
+- correct 374, minor 98, material 38, unverifiable 0
+- material error rate 38/510 = 7.5 % (Wilson 95 % CI 5.5 to 10.1 %)
+- any discrepancy rate 136/510 = 26.7 % (Wilson 95 % CI 23.0 to 30.7 %)
 
 ## CURRENT SUPPLEMENTARY ROWS, latest verdict per row (n = 27)
 - correct 12, minor 13, material 2, unverifiable 0
@@ -164,6 +170,9 @@ Definitions: material error = wrong value, unit, metric meaning, validation type
 - TM3-065 (phase 5): minor_error: Value 0.921 is right. The row says the sand is not further described, but Section 5.1 gives the field size, silica sand no.5 and depth over 15 cm; and the accuracy is the overall three class accuracy, not a stuck class accuracy.
 - TM3-067 (phase 5): minor_error: Values 0.05 (level) and 0.3 (18 deg slope) are right, but the slope field gives only 18 while the row reports the level ground value too.
 - TM3-068 (phase 5): minor_error: Values 709 N, 650 N and about 8% are right. The soil field says the simulator terrain values are in a paper table; there is no terrain parameter table (Table 3 lists bucket geometry), the paper only says the preset 'sand' model of Vortex Studio was selected and used as presented.
+- SCL-007 (phase 6): minor_error: Location: the Fig. 13 caption quoted in passage_or_location is on p. 15, not within pp. 13 to 14. All values and labels are right.
+- SCL-012 (phase 6): minor_error: Location: the sentence with omega < 30 RPM and omega/omega_o < 0.46 is in the second paragraph of the Wheel locomotion experiments subsection; the first paragraph only introduces the Fig. 2 setup. Value and labels are right.
+- SCL-014 (phase 6): minor_error: Location: paragraph 44 is on printed page 28 (page number printed at the foot of PDF p. 44), not printed p. 27. Value and labels are right.
 - FLD-039 (phase 1): minor_error: Uphill vs downhill speed observation was made for SSTB-Lite only; Scarecrow was only described as tracking up a dune (motion capture) so the row attributes the observation to both vehicles.
 - LRN-009 (phase 1): minor_error: Dataset split (9235/3958) is in Sec. 4.1 (end of testbed/dataset text, Fig 3), not Sec. 4.2 (which is feature selection).
 - TM-021 (phase 1): minor_error: Source never calls the Toyoura sand 'dry' (word not found in the text); otherwise terrain fine. Also the '85% accuracy' is not defined in the paper and matches the average of the Table 1 adjusted R-square values (about 0.85), i.e. an in-sample goodness-of-fit, not a prediction error.
