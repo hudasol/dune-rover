@@ -202,6 +202,10 @@ def phase4_values() -> dict:
                              f"on {v['mv4_bekker_wong_n']} curves.")
     else:
         v["mv4_bw_short"] = "it was not rerun to completion on the expanded set within the session (its calibration is slow)."
+    sl = _js("results/model_validation_phase4_posthoc_lab_grouped/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/summary.json")
+    if sl:
+        hl = [d["median_heldout_rmse"] for d in sl["families"].values()]
+        v["mvl_heldout_min"] = f2(min(hl)); v["mvl_heldout_max"] = f2(max(hl))
     if "mv4_bekker_wong_heldout" in v:
         v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family reached "
                                 f"{v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}.")

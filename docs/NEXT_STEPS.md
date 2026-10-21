@@ -46,8 +46,7 @@ Only what you still have to do, in order. Commands run from the repository root 
 
 1. Rerun the Bekker Wong family on the expanded curve set (stage 21 parts 3 and 4): `PYTHONPATH=src python3 scripts/model_validation.py --families bekker_wong --extra-curves research/phase4/curves_new.csv --out results/model_validation_phase4` (several hours on a laptop). Record R21-3 and R21-4 as a late run.
 2. Finish the 20 m ICESat-2 fetch for the Arabian windows and rerun `python3 scripts/icesat2_profiles.py analyse --lengths 10,20` (registered sensitivity of stage 19, not done).
-3. Repeat the leave one study out run with the Yoshida, Nakashima and Sutoh curves grouped as one laboratory (post hoc check suggested by the final review).
-4. Key hand typed numbers by sentence, not only by token, and make the ledger recompute each value from a named file and column (final review items 8 and 9).
-5. A Soil Contact Model run that stays numerically stable at 15 to 20 degrees (smaller time step, longer settling) before any statement about its extrapolation.
+3. Key hand typed numbers by sentence, not only by token, and make the ledger recompute each value from a named file and column (final review items 8 and 9).
+4. A Soil Contact Model run that stays numerically stable at 15 to 20 degrees (smaller time step, longer settling) before any statement about its extrapolation.
 
 Nothing has been sent to anyone. Do not send a proposal or the brief until you have read it and added a contact name.
