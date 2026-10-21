@@ -4,7 +4,7 @@ import csv, json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-P3 = ("PLN", "TM3", "MOB", "SND", "DUN", "MAP", "ENV")
+P3 = ("PLN", "TM3", "MOB", "SND", "DUN", "MAP", "ENV", "SCL")   # rows merged through research/phase3/MERGED.txt (SCL added 2026-10-21)
 
 
 def _p3_expected():
