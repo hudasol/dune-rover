@@ -444,3 +444,24 @@ Design fixed now: `scripts/model_validation.py --families mobility_pull,mobility
 | M22-2 | On the curves it applies to, `mobility_pull` has a median held out error at least 0.02 lower than the stage 21 `logistic_empirical` family (no covariates) on the same curves. | pending |
 | M22-3 | The pooled 90 % coverage of each new family lies between 0.60 and 0.95. | pending |
 | M22-4 | When the Watanabe 2026 study (14 curves of one wheel at seven widths, the widest range of Pi) is held out, the median held out error of each new family is above 0.15. | pending |
+
+
+## Stage 20: the stage 12 lidar test and the stage 17 planner on three more North American dune fields (written 2026-10-21, BEFORE any metric was computed on these fields)
+
+**SIMULATED BY ME (detector, map and planner) scored against PUBLISHED USGS 3DEP one metre lidar.** Availability was checked through the National Map API. Five candidate fields were downloaded; windows were chosen from 20 m slope images only (`results/terrain_validation_phase4/overview/`), as in stage 12, and are recorded in `config/lidar_sites_phase4.json`:
+- Great Sand Dunes, Colorado (lidar 2020): easting 450000 to 454000, northing 4176300 to 4180000 (UTM 13N), star and reversing dunes in the south west of the main field.
+- Algodones (Imperial) Dunes, California (lidar 2021): easting 675500 to 679500, northing 3641500 to 3646500 (UTM 11N).
+- Little Sahara, Utah (lidar 2020): easting 380000 to 382000, northing 4394000 to 4397200 (UTM 12N), avoiding rock outcrops; partly vegetated.
+Not used, with the reason fixed now: Monahans, Texas (tile x70y350, 2018): low relief vegetated hummocks with almost no slope above 10 deg at 20 m, not a bare active dune field. Coral Pink Sand Dunes, Utah: the available full tile (x34y411) covers canyon cliffs, and the dune field lies at the edge of a partial tile, so rock would dominate the truth.
+
+Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar_sites_phase4.json --out results/terrain_validation_phase4` and `scripts/planner_lidar.py --sites-file config/lidar_sites_phase4.json --out results/planner_phase4`, with the logic, seeds, truth definition (at least 10 one metre posts of 28 deg or more per cell), detector, map and policies of stages 12 and 17 unchanged. The miss rate is the share of cells that contain a face which the map labels TRAVERSABLE, as reported on 2026-10-20.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| L20-1 | The detector AUC at 5 m is at least 0.95 at each new site. | pending |
+| L20-2 | The detector AUC at 30 m lies between 0.60 and 0.90 at each new site. | pending |
+| L20-3 | The 30 m false safe rate (share of TRAVERSABLE cells that contain a face) lies between 15 % and 40 % at each new site. | pending |
+| L20-4 | The 30 m miss rate is at least 30 % at each new site. | pending |
+| L20-5 | The 10 m false safe rate is at most 8 % at each new site. | pending |
+| L20-6 | Great Sand Dunes has the highest 30 m false safe rate of the six fields (the three of stage 12 and the three new ones). | pending |
+| L20-7 | On 30 m maps, the conservative policy's share of routed pairs that fail on lidar truth is not lower than the naive policy's by more than 5 percentage points at two or more of the three new sites. | pending |

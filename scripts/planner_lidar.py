@@ -93,8 +93,14 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--baseline", type=float, default=3.0, help="grade baseline in m; 3 is the pre registered value, others are POST HOC")
+    ap.add_argument("--sites-file", default="", help="stage 20: JSON file of sites in the SITES format of terrain_validation_lidar.py")
+    ap.add_argument("--out", default="", help="output folder (default results/planner)")
     args = ap.parse_args()
     global OUT
+    if args.sites_file:
+        TV.load_sites_file(args.sites_file)
+    if args.out:
+        OUT = os.path.join(ROOT, args.out)
     if args.baseline != 3.0:
         OUT = os.path.join(OUT, f"posthoc_baseline_{args.baseline:g}m")
     os.makedirs(os.path.join(OUT, "figures"), exist_ok=True)
