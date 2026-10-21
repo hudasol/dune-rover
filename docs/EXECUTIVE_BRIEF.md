@@ -20,20 +20,19 @@ How much does a small wheeled robot slip on a dune slope, can it be predicted, a
 - **Independent simulator.** Project Chrono with published soils gives 0.21 slip at 12.5 degrees for a Scarecrow sized wheel, against about 0.49 on the Dumont curve; calibrated on that curve up to 12.5 degrees, it gave no usable prediction of 15 to 20 degrees (the run was not numerically stable there in post hoc checks).
 - **Terrain map against real lidar.** On 6 North American dune fields (USGS one metre lidar), 16.3 % to 28.6 % of the cells a 30 m three class map called TRAVERSABLE contained steep slip faces (1.2 % to 3.6 % at 10 m).
 - **Arabian dunes from space.** Over Liwa (A), the Rub' al Khali megadunes (B) and the linear dunes (C), 71 %, 47 % and 67 % of the ICESat-2 segments steeper than 28 degrees fell in cells the 30 m map calls TRAVERSABLE, against 93 %, 92 % and 98 % of all segments; keeping only steep crossings confirmed by a neighbouring segment and no steeper than 35 degrees (post hoc), 52 %, 29 % and 49 %. The ICESat-2 method failed its own validation against lidar, so these are indications, not a validation.
-- **Closed loop.** In simulation, an online slip estimate from odometry and position fixes had a median error of about 0.029, which follows from the assumed position noise. Over 5 independent slip fields and 40 pairs per site (post hoc, after two reviews), replanning on that estimate changed the entrapped share on 30 m naive routes by minus 6.0 points at White Sands (95 % interval minus 20.5 to plus 8.0) and plus 2.0 at Kelso (minus 12.5 to plus 16.0) against a control that stops and retries without replanning: no effect distinguishable from the retry control. The true rover there is itself a model.
+- **Closed loop.** In simulation, an online slip estimate from odometry and position fixes (median error about 0.029, set by the assumed position noise) and replanning on it showed no effect on entrapment distinguishable from a stop and retry control over 5 slip fields (post hoc); the true rover is itself a model.
 - **Planning.** On the first three fields no policy was safer than naive planning on 30 m maps against lidar truth, and with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route (post hoc comparison); on three further fields the conservative policy was somewhat safer at 30 m, but most routes still failed at two of them.
-- **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is 62.8 % (Liwa), 44.3 % and 46.0 % (Rub' al Khali), against 8.6 %, 10.9 % and 2.5 % under the original assumed ranges (25.1 %, 30.9 % and 4.2 % if draws that cannot move on level ground are rejected, post hoc).
+- **Arabian maps.** With slip parameters calibrated on published curves, UNKNOWN at 30 m is 62.8 % (Liwa), 44.3 % and 46.0 % (Rub' al Khali), against 8.6 %, 10.9 % and 2.5 % under the original assumed ranges.
 
 ## 4. Negative results
 
 - No slip model transfers between vehicles and soils with useful accuracy; two implementations of the same Bekker and Janosi laws disagree by more than field scatter.
 - A 30 m map labels 36 % to 80 % of the cells that contain a steep face as TRAVERSABLE (7 % to 33 % at 10 m); the slip face detector works much better at 10 m than at 30 m.
-- The granular scaling laws, in the reduced form used, made transfer between studies worse, not better.
 - The planned pass or fail rule accepts a model that collapses above 20 degrees in 53 % of synthetic replicates; stricter options reject a correct model more than half the time.
 
 ## 5. Error rate of the evidence table
 
-Every row was re checked against its full text by a separate agent. Of the 323 rows added on 2026-10-20, 30 had a material error before correction (9.3 %, Wilson 95 % interval 6.6 to 12.9 %); every material error is corrected, and minor errors where the verifier gave a corrected value. The 16 rows added on 2026-10-21 had 0 material errors. A blinded human spot check of 20 rows, and a pack for a second human rater, are prepared.
+Every row was re checked against its full text by a separate agent. Of the 323 rows added on 2026-10-20, 30 had a material error before correction (9.3 %, Wilson 95 % interval 6.6 to 12.9 %); every material error is corrected. The 16 rows added on 2026-10-21 had 0 material errors. A human spot check and a second rater pack are prepared.
 
 ## 6. The first field experiment (PLANNED)
 
