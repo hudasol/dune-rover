@@ -68,6 +68,7 @@ PRODUCERS = [
     (r"scl_|p6_|cur_material_ci", "scripts/consolidate_evidence.py; scripts/verify_stats.py", ["research/evidence.csv", "research/verification_stats.json"]),
     (r"p4_", "scripts/digitise_figures.py --phase 4", ["research/phase4/curves_new.csv"]),
     (r"redig_", "scripts/select_redigitise.py compare", ["research/phase4/redigitise_agreement.csv"]),
+    (r"mvl_", "scripts/model_validation.py --group-sources, laboratory level (post hoc)", ["results/model_validation_phase4_posthoc_lab_grouped/*/summary.json"]),
     (r"mvg_", "scripts/model_validation.py --group-sources (post hoc)", ["results/model_validation_phase4_posthoc_grouped/*/summary.json"]),
     (r"mv4_|mob_|post4_", "scripts/model_validation.py on the expanded curve set (stages 21 and 22)", ["research/phase4/curves_new.csv", "results/model_validation_phase4/*/summary.json", "results/model_validation_phase4/*/loso.csv"]),
     (r"lid4_|lid6_", "scripts/terrain_validation_lidar.py (stages 12 and 20)", ["results/terrain_validation/metrics.csv", "results/terrain_validation_phase4/metrics.csv"]),

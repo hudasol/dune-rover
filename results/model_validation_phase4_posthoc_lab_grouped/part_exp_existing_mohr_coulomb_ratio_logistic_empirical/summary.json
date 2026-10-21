@@ -1,0 +1,32 @@
+{
+ "bar": {
+  "median_heldout_rmse_max": 0.15,
+  "pooled_coverage90_min": 0.8
+ },
+ "families": {
+  "exp_existing": {
+   "heldout_curves": 49,
+   "median_heldout_rmse": 0.2186,
+   "pooled_coverage90": 0.833,
+   "median_nominal_rmse": 0.2301,
+   "median_fit_rmse": 0.0397,
+   "survives": false
+  },
+  "mohr_coulomb_ratio": {
+   "heldout_curves": 49,
+   "median_heldout_rmse": 0.1996,
+   "pooled_coverage90": 0.861,
+   "median_nominal_rmse": 0.2613,
+   "median_fit_rmse": 0.0937,
+   "survives": false
+  },
+  "logistic_empirical": {
+   "heldout_curves": 49,
+   "median_heldout_rmse": 0.205,
+   "pooled_coverage90": 0.854,
+   "median_nominal_rmse": 0.2229,
+   "median_fit_rmse": 0.0256,
+   "survives": false
+  }
+ }
+}
