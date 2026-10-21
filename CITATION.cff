@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you refer to this work, please cite it as below. All rights reserved: no licence to reuse the code, data or text is granted (see LICENSE and LICENSE-DOCS.md)."
+title: "Wheeled rover slip and traversability on dune sand: a pre registered desk study with published curves, lidar, satellite altimetry and a field kit for Gulf dunes"
+type: software
+authors:
+  - family-names: Mueen
+    given-names: Huda
+repository-code: "https://github.com/hudasol/dune-rover"
+version: "1.0"
+date-released: "2026-10-21"
+keywords:
+  - terramechanics
+  - wheeled robots
+  - slip
+  - sand dunes
+  - traversability
+  - ICESat-2
+  - lidar
+  - pre registration
