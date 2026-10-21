@@ -444,7 +444,7 @@ def main():
         for k, v in vals.items():
             t = t.replace("{{VAL:%s}}" % k, str(v))
         if "{{VAL:score_overall}}" in t:   # unweighted mean of the scores in the last column of the completeness table
-            sc = [int(m) for m in re.findall(r"\| (\d+) \|\n", t)]
+            sc = [int(m) for m in re.findall(r"\| (\d+)(?: \(\d+\))? \|\n", t)]   # the current score; a previous one may follow in brackets
             t = t.replace("{{VAL:score_overall}}", f"{sum(sc) / len(sc):.1f}")
         left = re.findall(r"\{\{[^}]*\}\}", t)
         if left:
@@ -463,6 +463,9 @@ def main():
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
     p3s = os.path.join(ROOT, "docs/src/phase3_section.md")
     body = body.replace("{{INCLUDE:phase3}}", open(p3s, encoding="utf-8").read() if os.path.exists(p3s) else "")
+    for inc in ("phase4", "icesat2"):   # 2026-10-21: section 14 and its ICESat-2 part
+        f = os.path.join(ROOT, f"docs/src/{inc}_section.md")
+        body = body.replace("{{INCLUDE:%s}}" % inc, open(f, encoding="utf-8").read() if os.path.exists(f) else "")
     an = os.path.join(ROOT, "docs/src/anchors_section.md")
     body = body.replace("{{INCLUDE:anchors}}", open(an, encoding="utf-8").read() if os.path.exists(an) else "")
     for k, v in tabs.items():
