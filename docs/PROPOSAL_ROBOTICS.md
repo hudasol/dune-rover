@@ -10,7 +10,7 @@ A small wheeled robot on a dune slope can lose most of its forward progress to s
 
 ## 2. Evidence (what the desk study established)
 
-- **Published evidence base:** 494 verified rows from 174 sources, with a measured extraction error rate (9.3 % material errors in the 323 rows added on 2026-10-20; every material error corrected) (`research/evidence.csv`, `docs/SEARCH_PROTOCOL.md`).
+- **Published evidence base:** 510 verified rows from 176 sources, with a measured extraction error rate (9.3 % material errors in the 323 rows added on 2026-10-20; every material error corrected) (`research/evidence.csv`, `docs/SEARCH_PROTOCOL.md`).
 - **Slip models do not transfer between vehicles and soils** (SIMULATED BY ME against PUBLISHED curves): calibrated on other studies, 4 model families predicted a held out study with median root mean square slip errors of 0.20 to 0.24; none met the pre registered bar of 0.15, and an empirical curve did as well as the physics.
 - **Open 30 m terrain data are not enough** (SIMULATED BY ME on PUBLISHED lidar): on three real dune fields, 25.6 % to 28.6 % of the cells a 30 m three class map called TRAVERSABLE contained steep slip faces, and 36 % to 73 % of the cells containing a face were called TRAVERSABLE; at 10 m these fell to 1.8 % to 3.6 % and 7 % to 20 %.
 - **Planning on 30 m maps was not safer than naive planning** (SIMULATED BY ME) against lidar truth; with 10 m maps a conservative policy failed less often than naive at two of three sites on the pairs it could route, and refused most pairs at the third (post hoc comparison, `docs/PREDICTIONS.md` stage 17).

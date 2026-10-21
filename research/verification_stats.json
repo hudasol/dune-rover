@@ -134,22 +134,37 @@
    0.3040361164394331
   ]
  },
+ "new rows of 2026-10-21 (scaling law sources), phase 6": {
+  "n": 16,
+  "correct": 13,
+  "minor_error": 3,
+  "material_error": 0,
+  "unverifiable": 0,
+  "material_rate": 0.0,
+  "material_wilson95": null,
+  "material_upper95_exact": 0.17074972298248092,
+  "any_rate": 0.1875,
+  "any_wilson95": [
+   0.06591478773586763,
+   0.4300935986845823
+  ]
+ },
  "CURRENT TABLE, latest verdict per row": {
-  "n": 494,
-  "correct": 361,
-  "minor_error": 95,
+  "n": 510,
+  "correct": 374,
+  "minor_error": 98,
   "material_error": 38,
   "unverifiable": 0,
-  "material_rate": 0.07692307692307693,
+  "material_rate": 0.07450980392156863,
   "material_wilson95": [
-   0.05655354128030726,
-   0.10382196771693201
+   0.054763460891096044,
+   0.10061827542608807
   ],
   "material_upper95_exact": null,
-  "any_rate": 0.2692307692307692,
+  "any_rate": 0.26666666666666666,
   "any_wilson95": [
-   0.23200688435536057,
-   0.3100161205522244
+   0.23013499030880688,
+   0.3066872521877135
   ]
  },
  "CURRENT SUPPLEMENTARY ROWS, latest verdict per row": {
