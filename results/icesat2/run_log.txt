@@ -1,0 +1,3 @@
+2026-10-21 06:13:44 +0400 analyse started; lengths [10, 20]
+2026-10-21 06:19:19 +0400 analyse started; lengths [10, 20]
+2026-10-21 06:24:21 +0400 analyse finished; method validated False; validation rows 4; Arabian rows 6
