@@ -95,3 +95,14 @@ New papers read for evidence rows in phase 3 are listed with their licences in `
 | yoshida2010 | Yoshida, workshop slides, ICRA 2010 | no licence statement found; not checked further |
 
 Short factual extracts of this kind are used with attribution; the repository's all rights reserved notice does not extend to them.
+
+## Added 2026-10-21
+
+| Item | Use | Terms (as checked) |
+|---|---|---|
+| ICESat-2 ATL03 photon data (NASA), processed on demand into ATL06 style segments by the public SlideRule Earth service | Stage 19 (`scripts/icesat2_profiles.py`); cached under `data/raw/icesat2/` (git ignored), checksums in `results/icesat2/fetch_manifest.csv` | NASA Earth science data, free and open; no login used. SlideRule Python client `sliderule` 5.6.3 (PyPI licence field: BSD-3-Clause) |
+| USGS 3DEP one metre DEM tiles of Great Sand Dunes (CO_SanLuisJuanMiguel_2020_D20), Algodones (CA_SaltonSea_EarthMRI_2021_D21) and Little Sahara (UT_StatewideCenSouth_2020_A20) | Stage 20; fetched by `scripts/fetch_lidar.sh` with SHA-256 | USGS, public domain (as the stage 12 tiles) |
+| Three further candidate tiles (Great Sand Dunes x44y418, Coral Pink x34y411, Monahans x70y350) | Downloaded to choose the windows; not used in any metric (reasons in stage 20) | USGS, public domain |
+| ROS 2 Jazzy through RoboStack (conda, free) | `demo/ros2/` smoke test | Free open source packages; licences as stated by each package (not checked individually here) |
+| DEM-Engine (`deme` on PyPI) | `notebooks/chrono_dem_gpu.ipynb` (not run here) | BSD-3-Clause (SPDX line in the DEM-Engine sources read on 2026-10-21) |
+| Digitised curves of seven new sources (`research/phase4/`) | Stages 21 and 22 | Numbers read from figures of retrieved full texts; the figures themselves are not copied into the repository; source licences in `research/phase4/curves_*_references.csv` |
