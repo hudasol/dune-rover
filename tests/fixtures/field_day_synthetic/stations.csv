@@ -1,0 +1,9 @@
+station_id,date,lat,lon,slope_deg,slope_source,slope_length_m,aspect_deg,position_on_dune,surface_notes
+S0,2000-01-01,0,0,0,synthetic,6,0,synthetic,SYNTHETIC
+S5,2000-01-01,0,0,5,synthetic,6,0,synthetic,SYNTHETIC
+S10,2000-01-01,0,0,10,synthetic,6,0,synthetic,SYNTHETIC
+S12.5,2000-01-01,0,0,12.5,synthetic,6,0,synthetic,SYNTHETIC
+S15,2000-01-01,0,0,15,synthetic,6,0,synthetic,SYNTHETIC
+S17.5,2000-01-01,0,0,17.5,synthetic,6,0,synthetic,SYNTHETIC
+S20,2000-01-01,0,0,20,synthetic,6,0,synthetic,SYNTHETIC
+S25,2000-01-01,0,0,25,synthetic,6,0,synthetic,SYNTHETIC
