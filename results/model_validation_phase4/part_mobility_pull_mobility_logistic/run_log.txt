@@ -1,0 +1,71 @@
+stage 15 run 2026-10-21 04:33:44; 53 slip against slope curves from 10 sources; seed 20261022
+  heverly2013_fig11_dtm_marsyard_sand: direct ascent, 16 points, 0.8 to 22.1 deg, constructed bed, comparable partly
+  heverly2013_fig11_scarecrow_marsyard_sand: direct ascent, 10 points, 4.6 to 17.1 deg, constructed bed, comparable partly
+  heverly2013_fig12_scarecrow_dumont: direct ascent, 20 points, 3.8 to 22.1 deg, field, comparable yes
+  inotsume2016_fig3_9_scarab_direct_ascent: direct ascent, 4 points, 13.1 to 25.3 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_0grousers: direct ascent, 5 points, 0.0 to 4.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_12grousers_15mm: direct ascent, 6 points, 0.0 to 16.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_24grousers_15mm: direct ascent, 5 points, 0.0 to 16.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_24grousers_5mm: direct ascent, 6 points, 0.0 to 12.0 deg, constructed bed, comparable partly
+  li2008_fig11a_spirit_finegrain_vo: direct ascent, 10 points, 0.9 to 18.6 deg, field, comparable partly
+  li2008_fig11a_spirit_sandsized_vo: direct ascent, 11 points, 1.3 to 20.4 deg, field, comparable partly
+  yoshida2010_slide37_d116_w100: emulated by pull, 6 points, 0.1 to 12.0 deg, lab, comparable partly
+  yoshida2010_slide37_d202_w100: emulated by pull, 9 points, 0.1 to 20.0 deg, lab, comparable partly
+  yoshida2010_slide37_d327_w100: emulated by pull, 9 points, 0.0 to 19.9 deg, lab, comparable partly
+  yoshida2010_slide39_d202_w050: emulated by pull, 7 points, 4.0 to 16.0 deg, lab, comparable partly
+  yoshida2010_slide39_d202_w150: emulated by pull, 9 points, 0.0 to 19.9 deg, lab, comparable partly
+  heverly2013_sec6_3_cubic_fit_dumont: direct ascent, 18 points, 4.0 to 21.0 deg, field, comparable yes
+  li2008_table6_spirit_finegrain_longitudinal: direct ascent, 3 points, 2.5 to 12.5 deg, field, comparable partly
+  li2008_table6_spirit_sandsized_longitudinal: direct ascent, 4 points, 2.5 to 17.5 deg, field, comparable partly
+  caruso2023_fig12a_lava_w1: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable no
+  caruso2023_fig12a_lava_w2: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable no
+  caruso2023_fig12b_eac1a_w1: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable partly
+  caruso2023_fig12b_eac1a_w2: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa10: angle of attack 10 deg to the slope base (90 is straight up), 4 points, 8.8 to 15.5 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa30: angle of attack 30 deg to the slope base (90 is straight up), 4 points, 9.8 to 15.0 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa60: angle of attack 60 deg to the slope base (90 is straight up), 4 points, 8.9 to 15.5 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa90: direct ascent, 4 points, 9.1 to 15.2 deg, constructed bed, comparable partly
+  hu2025goff_fig4b_mgru3_2021_grc1: direct ascent, 3 points, 10.0 to 25.2 deg, lab, comparable partly
+  hu2025goff_fig4b_mgru3_2022_grc1: direct ascent, 4 points, 10.0 to 30.2 deg, lab, comparable partly
+  hu2025goff_fig4b_trec_singlewheel_grc3: emulated by pull, 17 points, -1.6 to 33.5 deg, lab, comparable partly
+  nakashima2010_fig6a_ln18_lh10_w14p7: direct ascent, 4 points, 10.0 to 25.0 deg, lab, comparable partly
+  nakashima2010_fig6b_ln18_lh20_w14p7: direct ascent, 5 points, 0.0 to 25.0 deg, lab, comparable partly
+  nakashima2010_fig6c_ln36_lh10_w14p7: direct ascent, 5 points, 0.1 to 25.0 deg, lab, comparable partly
+  nakashima2010_fig7_ln18_lh20_w19p6: direct ascent, 4 points, 0.0 to 25.0 deg, lab, comparable partly
+  sutoh2012_fig5a_toyoura_lh5_lug0: direct ascent, 3 points, 8.0 to 16.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug12: direct ascent, 2 points, 8.0 to 12.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug24: direct ascent, 2 points, 12.0 to 16.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug3: direct ascent, 2 points, 8.0 to 12.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug48: direct ascent, 3 points, 8.0 to 16.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug6: direct ascent, 4 points, 8.0 to 20.0 deg, constructed bed, comparable yes
+  watanabe2026_fig10c_fjs1_b10: direct ascent, 4 points, 0.0 to 25.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b15: direct ascent, 3 points, 15.0 to 25.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b3: direct ascent, 7 points, 0.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b30: direct ascent, 2 points, 15.0 to 20.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b45: direct ascent, 3 points, 10.0 to 20.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b5: direct ascent, 4 points, 10.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b60: direct ascent, 2 points, 15.0 to 20.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b10: direct ascent, 5 points, 0.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b15: direct ascent, 5 points, 10.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b3: direct ascent, 7 points, 0.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b30: direct ascent, 4 points, 5.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b45: direct ascent, 4 points, 15.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b5: direct ascent, 5 points, 5.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b60: direct ascent, 4 points, 10.0 to 30.0 deg, constructed bed, comparable partly
+mobility_pull: nominal and per curve fits done on 33 curves
+mobility_pull: LOSO held out creager2017: creager2017_fig11_scarab_aoa90 rmse 0.342 cover 0.75
+mobility_pull: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.209 cover 0.94, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.191 cover 1.00, heverly2013_fig12_scarecrow_dumont rmse 0.219 cover 1.00
+mobility_pull: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.440 cover 0.25, inotsume2016_figB10_eldorado_0grousers rmse 0.483 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.269 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.229 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.465 cover 0.33
+mobility_pull: LOSO held out nakashima2010: nakashima2010_fig6a_ln18_lh10_w14p7 rmse 0.361 cover 0.75, nakashima2010_fig6b_ln18_lh20_w14p7 rmse 0.407 cover 0.60, nakashima2010_fig6c_ln36_lh10_w14p7 rmse 0.237 cover 1.00, nakashima2010_fig7_ln18_lh20_w19p6 rmse 0.223 cover 1.00
+mobility_pull: LOSO held out sutoh2012: sutoh2012_fig5a_toyoura_lh5_lug0 rmse 0.430 cover 0.33, sutoh2012_fig5a_toyoura_lh5_lug12 rmse 0.232 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug24 rmse 0.215 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug3 rmse 0.374 cover 0.50, sutoh2012_fig5a_toyoura_lh5_lug48 rmse 0.218 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug6 rmse 0.383 cover 0.50
+mobility_pull: LOSO held out watanabe2026: watanabe2026_fig10c_fjs1_b10 rmse 0.442 cover 0.50, watanabe2026_fig10c_fjs1_b15 rmse 0.535 cover 0.00, watanabe2026_fig10c_fjs1_b3 rmse 0.728 cover 0.00, watanabe2026_fig10c_fjs1_b30 rmse 0.304 cover 0.00, watanabe2026_fig10c_fjs1_b45 rmse 0.114 cover 1.00, watanabe2026_fig10c_fjs1_b5 rmse 0.685 cover 0.00, watanabe2026_fig10c_fjs1_b60 rmse 0.013 cover 1.00, watanabe2026_fig9c_silica_b10 rmse 0.337 cover 0.60, watanabe2026_fig9c_silica_b15 rmse 0.447 cover 0.40, watanabe2026_fig9c_silica_b3 rmse 0.679 cover 0.00, watanabe2026_fig9c_silica_b30 rmse 0.259 cover 0.75, watanabe2026_fig9c_silica_b45 rmse 0.308 cover 0.25, watanabe2026_fig9c_silica_b5 rmse 0.602 cover 0.00, watanabe2026_fig9c_silica_b60 rmse 0.277 cover 0.75
+mobility_logistic: nominal and per curve fits done on 33 curves
+mobility_logistic: LOSO held out creager2017: creager2017_fig11_scarab_aoa90 rmse 0.262 cover 0.75
+mobility_logistic: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.249 cover 1.00, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.255 cover 1.00, heverly2013_fig12_scarecrow_dumont rmse 0.229 cover 0.95
+mobility_logistic: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.413 cover 0.00, inotsume2016_figB10_eldorado_0grousers rmse 0.430 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.245 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.222 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.433 cover 0.33
+mobility_logistic: LOSO held out nakashima2010: nakashima2010_fig6a_ln18_lh10_w14p7 rmse 0.293 cover 0.50, nakashima2010_fig6b_ln18_lh20_w14p7 rmse 0.307 cover 1.00, nakashima2010_fig6c_ln36_lh10_w14p7 rmse 0.217 cover 1.00, nakashima2010_fig7_ln18_lh20_w19p6 rmse 0.193 cover 1.00
+mobility_logistic: LOSO held out sutoh2012: sutoh2012_fig5a_toyoura_lh5_lug0 rmse 0.380 cover 0.33, sutoh2012_fig5a_toyoura_lh5_lug12 rmse 0.165 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug24 rmse 0.172 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug3 rmse 0.331 cover 0.50, sutoh2012_fig5a_toyoura_lh5_lug48 rmse 0.203 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug6 rmse 0.326 cover 0.50
+mobility_logistic: LOSO held out watanabe2026: watanabe2026_fig10c_fjs1_b10 rmse 0.445 cover 0.25, watanabe2026_fig10c_fjs1_b15 rmse 0.502 cover 0.00, watanabe2026_fig10c_fjs1_b3 rmse 0.661 cover 0.00, watanabe2026_fig10c_fjs1_b30 rmse 0.322 cover 0.00, watanabe2026_fig10c_fjs1_b45 rmse 0.121 cover 1.00, watanabe2026_fig10c_fjs1_b5 rmse 0.643 cover 0.00, watanabe2026_fig10c_fjs1_b60 rmse 0.046 cover 1.00, watanabe2026_fig9c_silica_b10 rmse 0.350 cover 0.40, watanabe2026_fig9c_silica_b15 rmse 0.442 cover 0.40, watanabe2026_fig9c_silica_b3 rmse 0.615 cover 0.00, watanabe2026_fig9c_silica_b30 rmse 0.238 cover 0.50, watanabe2026_fig9c_silica_b45 rmse 0.307 cover 0.25, watanabe2026_fig9c_silica_b5 rmse 0.577 cover 0.00, watanabe2026_fig9c_silica_b60 rmse 0.236 cover 0.75
+VERDICT mobility_pull: {'heldout_curves': 33, 'median_heldout_rmse': 0.3374, 'pooled_coverage90': 0.633, 'median_nominal_rmse': 0.3063, 'median_fit_rmse': 0.0455, 'survives': False}
+VERDICT mobility_logistic: {'heldout_curves': 33, 'median_heldout_rmse': 0.3068, 'pooled_coverage90': 0.615, 'median_nominal_rmse': 0.2182, 'median_fit_rmse': 0.0238, 'survives': False}
+done 2026-10-21 04:40:36
