@@ -48,7 +48,7 @@ Durations are planning estimates (PLANNED), in weeks from the start of the proje
 | WP3 Sand tests | Grain size, density, moisture, angle of repose at every station; direct shear if a laboratory allows (`docs/SAND_LAB_PROTOCOL.md`) | 5 to 8 | WP1 | Soil sheet for every station |
 | WP4 Pilot and slope ladder | 12 pilot runs, pilot scatter, then the main ladder with predictions committed before the steep bins (`field_kit/`) | 6 to 9 | WP2, WP3 | Run sheets and scored predictions (`scripts/ingest_field_day.py`) |
 | WP5 Drone survey | Survey of the test dune at about 10 cm with ground control and check points (`docs/DRONE_SURVEY_PROTOCOL.md`); detector and map scored as in stage 20 | 6 to 9 | WP1 | Elevation model, accuracy report, map scores |
-| WP6 Closed loop trial | Route following on the surveyed dune with online slip estimation and replanning, safety driver and recovery | 10 to 12 | WP4, WP5 | Route outcomes against the simulated loop |
+| WP6 Closed loop trial | Route following on the surveyed dune with online slip estimation; replanning tested against a stop and retry control (in simulation it showed no benefit over that control); safety driver and recovery | 10 to 12 | WP4, WP5 | Estimator error on the real rover; route outcomes with and without replanning |
 | WP7 Analysis and paper | Every hit and miss recorded; manuscript revised; external review | 12 to 16 | WP4 to WP6 | Revised manuscript and dataset |
 
 ## 6. Resources the partner is asked to provide (no prices; nothing is requested from the author's own funds)
