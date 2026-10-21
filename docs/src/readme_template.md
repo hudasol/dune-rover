@@ -14,6 +14,7 @@ Research project on predicting slip, sinkage and traversability of wheeled (and 
 
 ## Headline numbers (from files)
 
+- **2026-10-21 (report section 14; every number traced in `docs/NUMBER_LEDGER.csv`):** on {{VAL:mv4_exp_existing_n}} published curves from {{VAL:mv4_nsources}} studies no slip model family passes (median held out error {{VAL:mv4_heldout_min}} to {{VAL:mv4_heldout_max}}), and families built on the granular scaling laws do worse ({{VAL:mob_heldout_min}} to {{VAL:mob_heldout_max}}); Chrono calibrated on the Dumont curve up to 12.5 degrees does not extrapolate (error {{VAL:scm_pred_rmse}}); on {{VAL:lid6_nsites}} lidar dune fields a 30 m map labels TRAVERSABLE {{VAL:lid6_miss_min_30}} to {{VAL:lid6_miss_max_30}} of face cells; over Liwa and the Rub' al Khali, {{VAL:is2_ftrav_min}} to {{VAL:is2_ftrav_max}} of steep ICESat-2 segments fall in TRAVERSABLE cells (method not validated); online slip estimation and replanning help only modestly on 30 m maps (post hoc). Field kit, preregistration draft, drone and sand protocols, and a ROS 2 demonstration are in the repository. Completeness: see `docs/COMPLETENESS.md`.
 - **2026-10-20 (SIMULATED BY ME against PUBLISHED data; report section 13, `manuscript/MANUSCRIPT.md`):** slip model families calibrated on other studies predict a held out study with median errors of {{VAL:mv_heldout_min}} to {{VAL:mv_heldout_max}} slip ({{VAL:mv_verdict_line}}; bar 0.15). Against one metre lidar of three dune fields, {{VAL:tv_fs_min_30}} to {{VAL:tv_fs_max_30}} of the cells the 30 m map calls TRAVERSABLE contain steep faces ({{VAL:tv_fs_min_10}} to {{VAL:tv_fs_max_10}} at 10 m). Completeness: `docs/COMPLETENESS.md`.
 
 - Verification: all {{VAL:ver_all_n}} evidence rows re checked against their sources. First check of the {{VAL:ver_ext_n}} rows as extracted: material errors {{VAL:ver_ext_material}} of {{VAL:ver_ext_n}} ({{VAL:ver_ext_material_rate}}), any discrepancy {{VAL:ver_ext_any}} of {{VAL:ver_ext_n}} ({{VAL:ver_ext_any_rate}}); of these, the {{VAL:ver_sup_n}} rows read from supplied PDFs had {{VAL:ver_sup_material}} material ({{VAL:ver_sup_material_rate}}, all on validation type). Current table, latest verdict per row (FLD-HV13-5 split into a lab and a field row): material {{VAL:ver_all_material}} of {{VAL:ver_all_n}} ({{VAL:ver_all_material_rate}}); current supplementary rows {{VAL:ver_cs_material}} of {{VAL:ver_cs_n}} ({{VAL:ver_cs_material_rate}}). Every material error corrected (`research/verification_log.md`).
@@ -43,6 +44,8 @@ research/evidence.csv the evidence table (one row per reported mobility result)
 research/raw/         per-topic notes and row files, data audit, morphology and UAE facts
 research/phase2/      phase 2 retrieval reports and CSVs (morphology, rover options, rows read from supplied PDFs); no PDFs committed
 research/phase3/      2026-10-20 evidence rows by topic, references with licences, search logs, digitised curves and calibrations, agent briefs
+research/phase4/      2026-10-21 curves, their redigitisation check, scaling law notes and rows, protocol sources
+field_kit/            data sheets for a field day; demo/ closed loop demonstration and its ROS 2 package; notebooks/ GPU notebook; config/ lidar sites
 manuscript/           the paper (source in manuscript/src, generated MANUSCRIPT.md and .pdf)
 src/dunerover/        simulation code (DEM, slope, slip model, graph routing, sensitivity, sub-grid detector, three class map, field analysis)
 scripts/              fetch_data.sh, consolidate_evidence.py, ingest_verification.py, verify_stats.py, build_report.py,
@@ -86,7 +89,17 @@ PYTHONPATH=src python3 -m dunerover.study_subgrid --range-set widened_i0_fr --re
 PYTHONPATH=src python3 scripts/sobol_map.py                                              # stage 16, Sobol indices
 PYTHONPATH=src python3 scripts/planner_lidar.py && python3 scripts/planner_matched_pairs.py   # stage 17
 PYTHONPATH=src python3 scripts/field_rule_options.py                                     # stage 18
+PYTHONPATH=src python3 scripts/terrain_validation_lidar.py --sites-file config/lidar_sites_phase4.json --out results/terrain_validation_phase4   # stage 20
+PYTHONPATH=src python3 scripts/planner_lidar.py --sites-file config/lidar_sites_phase4.json --out results/planner_phase4                     # stage 20
+python3 scripts/icesat2_profiles.py fetch && PYTHONPATH=src python3 scripts/icesat2_profiles.py analyse --lengths 10   # stage 19 (docs/ICESAT2_GUIDE.md)
+PYTHONPATH=src python3 scripts/model_validation.py --families exp_existing,mohr_coulomb_ratio,logistic_empirical --extra-curves research/phase4/curves_new.csv --out results/model_validation_phase4   # stage 21
+PYTHONPATH=src python3 scripts/model_validation.py --families mobility_pull,mobility_logistic --extra-curves research/phase4/curves_new.csv --out results/model_validation_phase4         # stage 22
+PYTHONPATH=src python3 demo/closed_loop.py && PYTHONPATH=src python3 demo/closed_loop_posthoc.py   # stage 23 and its post hoc variant
+/opt/mm/chrono/bin/python scripts/chrono_scm_calibration.py                              # stage 24
+PYTHONPATH=src python3 scripts/ingest_field_day.py FOLDER --label LABEL --rebuild         # after a field day (field_kit/README.md)
 PYTHONPATH=src python3 scripts/build_manuscript.py --pdf && python3 scripts/check_manuscript_numbers.py   # manuscript and its number check
+PYTHONPATH=src python3 scripts/build_number_ledger.py --check                              # every number traced (docs/NUMBER_LEDGER.csv)
+bash scripts/clean_clone_check.sh                                                          # clean clone rebuild of every generated document
 python3 scripts/consolidate_evidence.py && python3 scripts/verify_stats.py                  # evidence table and verification log from files
 python3 scripts/build_report.py  # rebuilds docs/REPORT.md, the brief and this README from docs/src, the CSVs and results
 python3 scripts/check_repo_hygiene.py --history && python3 scripts/scan_secrets.py --history

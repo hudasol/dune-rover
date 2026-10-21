@@ -36,3 +36,17 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 2026-10-20 13:40 W9 final review done: 12 findings, fixed in a1d3fc0 and recorded in docs/REVIEW_2026-10-20.md (86d0e19).
 - 2026-10-20 14:05 W5 stage 13 done: ERA5 wind for six sites (download slowed by rate limits); 4 of 6 sites within 45 deg (b73b595).
 - 2026-10-20 14:08 W7, W8 and W9 closed: manuscript committed with a CI check (b8ecce1), report and brief PDFs rebuilt (dcf7b6b), morning report section written. CI green on the latest commit.
+
+## 2026-10-21 session (W0 to W10; times Gulf Standard Time)
+
+- 03:43 W0 plan committed (5347886); gate clean at the start. No Earthdata token set; SlideRule Earth, NASA CMR and the National Map API reachable; the NSIDC download server not.
+- 03:45 Four helper agents launched (two curve agents, scaling law literature, field protocols) under a written brief (7e0863a).
+- 03:5x The SlideRule client could not connect until it was told to use the machine's proxy settings (trust_env); then the machine restarted (out of memory while a test request, four agents and other work ran together). Agents were resumed from their saved transcripts; nothing committed was lost, but the lidar tiles of White Sands and Kelso had to be fetched again (checksums matched).
+- 03:55 Stage 19 registered before any ICESat-2 data was saved (41f045d); the first push was held back by the gate because the report was stale, then pushed with its regeneration (12fc06b).
+- 04:05 to 04:21 Curves (61a0e67), field kit (a01f9fe, c31d076, b1bc6b7, a52ec0e), stages 20 to 24 registered (2b73c13, b576727, 9b987a1, 90b40af, bb2607c), SCL rows merged after verification (e81444f).
+- 04:33 to 04:51 Results of stages 23, 20, 22 and 24 (4205149, 9113adf, 910e3c2, 2c1d9f1). ROS 2 Jazzy installed through RoboStack and the smoke test run.
+- 04:5x Midpoint review: 22 findings, 6 major (the closed loop gain was a restart effect; field ingest let every run into the rule; friction angle undefined; leave one study out folds shared a campaign; the stage 19 bar mixes effects). Fixes in edba2f9, 99fe166, e46bcc1, 890eb47 and af9db10 (the stage 19 clarification was written before any Arabian segment was scored).
+- 05:14 Stage 19 results (f131cb8): the ICESat-2 method failed its lidar bar; Arabian numbers reported as indications.
+- 05:15 Report section 14, brief, proposals, completeness (5.9 of 10), manuscript and number ledger (1669230 to 5c55160).
+- 05:17 **CI red once** on 5c55160: the number ledger listed two tied typed numbers (0.2 and 0.20) in an order that depended on the Python hash seed, so CI saw it as stale. Fixed in 289e5b6 about two minutes later.
+- The Bekker Wong rerun of stage 21 is slow (its calibration uses a slip grid solver over many more curves than on 2026-10-20); it was left running in the background.
