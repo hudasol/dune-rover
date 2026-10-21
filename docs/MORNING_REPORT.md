@@ -192,3 +192,44 @@ Question 7 (field rule, now with three evaluated options), question 5 (1 degree 
 ## Exactly what Huda must do next
 
 Follow `docs/NEXT_STEPS.md`: the two spot checks, questions 7, 5 and 10, read the manuscript and the proposals, send the Wong table photograph, then the field pilot.
+
+# Morning report, 2026-10-21 (work from 03:37 to about 08:45 Gulf Standard Time)
+
+All workstreams W0 to W10 of `docs/PLAN_2026-10-21.md` were carried out; what is still missing (field data, a fine Arabian survey, the human checks, the discrete element run) is in the completeness section below. Every main test was registered in `docs/PREDICTIONS.md` (stages 19 to 24) and pushed before it ran; analyses decided after a result are labelled post hoc. Labels: PUBLISHED, SIMULATED BY ME, PLANNED. Nothing was sent to anyone, no account was opened, and no agreement exists with anyone. About 80 commits, each pushed to main after the local gate.
+
+**CI:** red once, on 5c55160, for about two minutes: the number ledger ordered two tied typed numbers (0.2 and 0.20) by the Python hash seed, so CI saw it as stale; fixed in 289e5b6. CI passes on the latest commit. **Other things that went wrong:** the machine restarted once early on (out of memory with four helper agents and a test request running together); the stage 21 Bekker Wong run was stopped by mistake after 2 of its 6 folds and restarted (it then completed at 08:16); the first reading of the ICESat-2 and closed loop results was too strong and was corrected after the final review; the 20 m ICESat-2 fetch needed a restart and the analysis a memory fix.
+
+## What changed
+
+- **Evidence (W3):** 16 scaling law rows (SCL) from the granular scaling literature, verified (no material error, 3 location labels corrected); the table has 510 rows from 176 sources.
+- **Curves (W3):** 36 further slip against slope curves from 7 new sources with calibration files; a second reading of a random third measures repeatability (largest single point difference 0.30 slip, on overlapping markers).
+- **Model families (W4, stages 21 and 22):** the stage 15 validation repeated on 49 held out curves from 10 studies, plus two families built on the scaling laws; post hoc regrouping by test campaign and by laboratory.
+- **ICESat-2 (W1, stage 19):** method checked against lidar at White Sands and Kelso, then applied to Liwa and two Rub' al Khali windows, with 20 m segments as the registered sensitivity and post hoc base rate and noise screens.
+- **More lidar fields (W2, stage 20):** Great Sand Dunes, Algodones and Little Sahara added (six fields in all), detector, map and planner unchanged.
+- **Simulation (W5, stage 24):** Chrono's Soil Contact Model calibrated on the Dumont curve up to 12.5 degrees; CPU timing of the discrete element model; a GPU notebook for a free GPU, not run.
+- **Closed loop (W7, stage 23):** online slip estimation and replanning against a modelled rover, in Python and as ROS 2 nodes (RoboStack Jazzy), with a post hoc fixed field version and a five field repeat against a retry control.
+- **Field kit (W8):** data sheets, `scripts/ingest_field_day.py` (tested on a synthetic fixture only), preregistration draft, drone survey and sand test protocols, second rater pack.
+- **Traceability and release (W6):** `docs/NUMBER_LEDGER.csv` (every number of the manuscript, brief and proposals with its producer and the SHA-256 of its inputs, checked in CI), `docs/PROVENANCE.md` with a figure, `CITATION.cff`, a clean clone rebuild check, `docs/RELEASE_NOTES_v1.md` and the tag v1.0 (annotated, on the final commit after CI passed).
+- **Writing (W9, W10):** manuscript, report section 14, brief, both proposals (readiness levels, work packages with weeks, risk register), completeness table and `docs/EXTERNAL_REVIEW_PACK.md`; a midpoint review (22 findings) and a final review (25 findings), all answered in `docs/REVIEW_2026-10-21.md`.
+
+## Prediction hits and misses (stages 19 to 24)
+
+22 hit, 10 missed, none pending. Stage 19 ICESat-2 6 and 2; stage 20 more lidar fields 5 and 2; stage 21 replication 2 and 3 (all three misses from the Bekker Wong family, which did much worse on the expanded set); stage 22 scaling law families 3 and 1; stage 23 closed loop 4 and 1 (C23-2 measured a restart effect); stage 24 Chrono calibration 2 and 1 (S24-2 a hit on a numerically unstable run). Some outcomes were informed by quick checks disclosed in each stage.
+
+## The three findings that matter most
+
+1. **No slip model transfers between studies, even with twice the curves.** On 49 held out curves from 10 studies, three families reached median held out errors of 0.20 to 0.22 slip (bar 0.15); grouping shared campaigns or one laboratory did not change this; the Bekker Wong family, the only one using wheel size and load, fell to 0.41 on its 33 curves, and the scaling law families did worse than a plain curve (0.31 to 0.34). A slip curve measured for the actual vehicle on the actual sand remains the first need.
+2. **A 30 m map misses steep faces on all six lidar fields** (36 to 80 % of face cells called TRAVERSABLE at 30 m, 7 to 33 % at 10 m); on three new fields a conservative planner was only somewhat safer than naive at 30 m. Over Arabian dunes, ICESat-2 is consistent with this but cannot confirm it: the 10 m method failed its lidar bar, about half of the steep segments are isolated (likely noise), and after a screen 29 to 52 % of the steep crossings fall in TRAVERSABLE cells against more than 90 % of all segments.
+3. **Two promising results did not survive checking.** Replanning on an online slip estimate showed no effect distinguishable from a stop and retry control over five slip fields, and the Chrono model calibrated on Dumont became numerically unstable above 12.5 degrees, so it gave no usable steep slope prediction.
+
+## Completeness
+
+5.9 out of 10 (`docs/COMPLETENESS.md`; 5.5 on 2026-10-20). Complete as a desk study; not complete as an empirical study, because no field slip data for the project's vehicle and no fine survey of an Arabian dune exist.
+
+## Questions for Huda
+
+Questions 5, 7 and 10 are still open (the defaults were kept); new questions 11 to 16 in `docs/QUESTIONS_FOR_HUDA.md` (drone permission route, preprint affiliation and licence, the friction angle used by the field model, the GPU notebook, the slip scale bound, and whether to keep the closed loop work package).
+
+## Exactly what Huda must do next
+
+Follow `docs/NEXT_STEPS.md`: (1) spot check 3 and the 20 row inter rater check; (2) answer questions 7, 13 and 15 before any field day; (3) read the manuscript, the robotics proposal and the brief; (4) start the drone permission route (question 11) or choose a site where a survey is allowed; (5) give the second rater pack to one classmate.
