@@ -1,0 +1,17 @@
+site,posting_m,policy,mode,pairs,routed,entrapped_share,arrived_share,stopped_share,mean_metres_arrived,mean_replans
+WhiteSands,30,naive,open,40,40,0.55,0.45,0.0,1927.4,0.0
+WhiteSands,30,naive,closed,40,40,0.125,0.825,0.05,1963.8,4.3
+WhiteSands,30,conservative,open,40,40,0.525,0.475,0.0,2116.6,0.0
+WhiteSands,30,conservative,closed,40,40,0.1,0.8,0.1,2163.6,5.03
+WhiteSands,10,naive,open,40,40,0.3,0.7,0.0,2015.9,0.0
+WhiteSands,10,naive,closed,40,40,0.125,0.85,0.025,2023.0,4.65
+WhiteSands,10,conservative,open,40,36,0.194,0.806,0.0,2091.6,0.0
+WhiteSands,10,conservative,closed,40,36,0.028,0.972,0.0,2152.2,4.5
+Kelso,30,naive,open,40,40,0.55,0.45,0.0,2083.1,0.0
+Kelso,30,naive,closed,40,40,0.3,0.65,0.05,1735.0,6.28
+Kelso,30,conservative,open,40,40,0.5,0.5,0.0,2089.6,0.0
+Kelso,30,conservative,closed,40,40,0.275,0.675,0.05,1791.0,6.45
+Kelso,10,naive,open,40,40,0.175,0.825,0.0,2255.2,0.0
+Kelso,10,naive,closed,40,40,0.225,0.775,0.0,2116.3,6.42
+Kelso,10,conservative,open,40,36,0.083,0.917,0.0,2360.5,0.0
+Kelso,10,conservative,closed,40,36,0.028,0.972,0.0,2333.0,7.67

@@ -1,0 +1,19 @@
+stage 23 run 2026-10-21 04:20:04; true rover SlipParams(phi_deg=36.93, f_r=0.129, i0=0.627, i_max=0.5, form='exp', cross='circle'); seed 20261023
+WhiteSands 30 m naive open: arrived 18, entrapped 22
+WhiteSands 30 m naive closed: arrived 33, entrapped 5, stopped (no route) 2
+WhiteSands 30 m conservative open: arrived 19, entrapped 21
+WhiteSands 30 m conservative closed: arrived 32, entrapped 4, stopped (no route) 4
+WhiteSands 10 m naive open: arrived 28, entrapped 12
+WhiteSands 10 m naive closed: arrived 34, entrapped 5, stopped (no route) 1
+WhiteSands 10 m conservative open: arrived 29, entrapped 7, not routed 4
+WhiteSands 10 m conservative closed: arrived 35, entrapped 1, not routed 4
+Kelso 30 m naive open: arrived 18, entrapped 22
+Kelso 30 m naive closed: arrived 26, entrapped 12, stopped (no route) 2
+Kelso 30 m conservative open: arrived 20, entrapped 20
+Kelso 30 m conservative closed: arrived 27, entrapped 11, stopped (no route) 2
+Kelso 10 m naive open: arrived 33, entrapped 7
+Kelso 10 m naive closed: arrived 31, entrapped 9
+Kelso 10 m conservative open: arrived 33, entrapped 3, not routed 4
+Kelso 10 m conservative closed: arrived 35, entrapped 1, not routed 4
+estimator: [{"site": "WhiteSands", "samples": 564690, "median_abs_error": 0.0294, "p90_abs_error": 0.077}, {"site": "Kelso", "samples": 541245, "median_abs_error": 0.0321, "p90_abs_error": 0.0833}]
+done 2026-10-21 04:25:15
