@@ -1,0 +1,94 @@
+{
+ "pdf": "research/sources/phase4/creager2017.pdf",
+ "pdf_note": "NASA NTRS PDF; Figure 11 is an embedded raster image (about 220 ppi)",
+ "page": 14,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   737,
+   1837.5
+  ],
+  "val": [
+   0,
+   16
+  ],
+  "scale": "linear",
+  "note": "vertical grid lines at slope 0 and 16 deg (grid lines every 2 deg agree, 68.8 px per deg)"
+ },
+ "y_axis": {
+  "px": [
+   2650,
+   2075.5
+  ],
+  "val": [
+   10,
+   80
+  ],
+  "scale": "linear",
+  "note": "horizontal grid lines at wheel slip 10 and 80 percent (grid lines every 10 percent agree, 8.21 px per percent)"
+ },
+ "marker": {
+  "mode": "components",
+  "crop": [
+   780,
+   1990,
+   1850,
+   2760
+  ],
+  "exclude_boxes": [
+   [
+    860,
+    2060,
+    1180,
+    2275
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "rgb": [
+      100,
+      150,
+      30
+     ],
+     "tol": 60
+    }
+   ]
+  },
+  "open_px": 11,
+  "area_px": [
+   150,
+   3000
+  ],
+  "merge_px": 10,
+  "marker_radius_px": 6
+ },
+ "meta": {
+  "source_key": "creager2017",
+  "source_title": "Effect of Angle of Attack on Slope Climbing Performance (Creager, Jones, Smith; NASA/TM 2017-219549, December 2017)",
+  "source_url": "https://ntrs.nasa.gov/citations/20180000349",
+  "evidence_row": "TM3-001 to TM3-007 (same source, other findings)",
+  "figure_or_table": "Figure 11, angle of attack 60 deg (green triangles)",
+  "page": "10 (PDF page 14)",
+  "x_name": "slope angle (actual, best fit plane of the surface point cloud)",
+  "x_unit": "deg",
+  "y_name": "rear wheel slip",
+  "y_unit": "percent",
+  "vehicle": "Scarab rover, 400 kg, four rigid wheels, active suspension not used (fixed chassis height and axle spacing), wheel speed 0.13 rad/s for 30 s",
+  "wheel_diameter_m": "0.71",
+  "wheel_width_m": "0.18",
+  "load_per_wheel_N": "981 (derived)",
+  "grousers": "none stated (rigid tires)",
+  "soil": "GRC-1 lunar simulant sand mixture, loosened (Table 1: D60 0.390 mm, specific gravity 2.583, relative density 11 percent, cohesion about 0 kPa)",
+  "grain_size_mm": "D60 0.390",
+  "bulk_density_kg_m3": "1630",
+  "friction_angle_deg": "31.5",
+  "preparation": "SLOPE laboratory tilt bed about 6 m by 4.5 m, GRC-1 23 cm deep, loosened before each test; mean cone index gradient 2.5 plus or minus 0.5 kPa/mm",
+  "test_type": "constructed bed",
+  "gravity_g": "1",
+  "slope_kind": "angle of attack 60 deg to the slope base (90 is straight up)",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "Slip of the rear wheel averaged over each 30 s run from photogrammetric wheel tracking, i = 1 minus distance travelled over (effective radius times wheel rotation) in the direction the vehicle faced; front and rear differ by less than 0.5 percent (text). x values are the actual slope angles of each run read from the figure, single runs (no repeats). The 0 deg reference test, plotted at about minus 1 percent for all four series, is left out because the four markers overlap there. Markers found automatically as connected colour components after removing the connecting lines by morphological opening. load_per_wheel_N derived here as 400 kg times 9.81 divided by 4 wheels (the text says the load was fairly even on flat ground). GRC-1 is a manufactured sand mixture with lunar strength properties, wider graded than dune sand; very large and heavy wheels.",
+  "curve_id": "creager2017_fig11_scarab_aoa60"
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "pdf": "research/sources/phase4/nakashima2010.pdf",
+ "pdf_note": "accepted manuscript from the publisher repository of the first author's institution (handle 2433/126852); vector figure",
+ "page": 15,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1044,
+   1427.5
+  ],
+  "val": [
+   10,
+   90
+  ],
+  "scale": "linear",
+  "note": "minor tick marks on the bottom frame (every 10 percent slip, 47.9 px at 300 dpi)"
+ },
+ "y_axis": {
+  "px": [
+   1411,
+   1251.5
+  ],
+  "val": [
+   10,
+   20
+  ],
+  "scale": "linear",
+  "note": "major tick marks at 10 and 20 deg on the left frame"
+ },
+ "marker": {
+  "mode": "components",
+  "crop": [
+   982,
+   1094,
+   1473,
+   1585
+  ],
+  "exclude_boxes": [
+   [
+    1221,
+    1447,
+    1473,
+    1557
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "rgb": [
+      238,
+      35,
+      41
+     ],
+     "tol": 90
+    }
+   ]
+  },
+  "open_px": 7,
+  "area_px": [
+   60,
+   1500
+  ],
+  "merge_px": 10,
+  "marker_radius_px": 8,
+  "swap_output": true,
+  "swap_note": "source plot has slip on x and slope on y; output x is slope and y is slip"
+ },
+ "meta": {
+  "source_key": "nakashima2010",
+  "source_title": "Discrete element method analysis of single wheel performance for a small lunar rover on sloped terrain (Nakashima, Fujii, Oida, Momozu, Kanamori, Aoki, Yokoyama, Shimizu, Miyasaka, Ohdoi; Journal of Terramechanics 47(5), 2010, 307 to 321)",
+  "source_url": "https://doi.org/10.1016/j.jterra.2010.04.001",
+  "evidence_row": "not in evidence.csv",
+  "page": "15 (accepted manuscript page numbering, PDF page 15)",
+  "x_name": "slope angle",
+  "x_unit": "deg",
+  "y_name": "slip",
+  "y_unit": "percent",
+  "vehicle": "single wheel dynamometer on a tilting soil bin (1.5 m by 2.0 m, simulant depth 0.1 m), aluminium lugged wheel",
+  "soil": "lunar regolith simulant FJS-1 (specific gravity 2.94, cohesion 2.55 kPa from triaxial tests, Table 2)",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "1480 (average dry bulk density from vane shear calibration at 4 cm depth; relative density 17.4 percent, loose)",
+  "friction_angle_deg": "37.2",
+  "preparation": "simulant raked by hand, moved up and down in the bin and levelled with a plate before each run; bin then tilted to the slope angle; runs repeated twice",
+  "test_type": "lab",
+  "gravity_g": "1",
+  "slope_kind": "direct ascent",
+  "comparable_to_dune_sand": "partly",
+  "wheel_diameter_m": "0.24 (rim 0.20 plus lugs, LH 20 mm, Ln 18; Sec. 4.1)",
+  "wheel_width_m": "0.100",
+  "load_per_wheel_N": "19.6",
+  "grousers": "18 lugs, 20 mm high",
+  "curve_id": "nakashima2010_fig7_ln18_lh20_w19p6",
+  "figure_or_table": "Fig. 7, experiment markers",
+  "comparability_note": "Markers found automatically as connected components of the red experiment markers after a morphological opening that removes the red dashed line; the DEM series (blue squares) and the legend are excluded. Source plot has slip on x and slope on y (swapped on output); the test design slopes were 0, 10, 15, 20 and 25 deg (Table 3) and the digitised slopes agree with them within 0.1 deg. The paper states that runs were repeated twice but does not say whether a marker is a mean. Slip i = 1 minus Vs/(rw omega) with rw taken as the outer radius including lug height (Eq. 2), so slip may be biased relative to a free rolling radius definition. The wheel load is constant at all slopes (counterweight), as stated. Wheel angular velocity in the experiments was 0.1, 0.2 or 0.3 rad/s (Table 3); which speed this curve used is not stated. FJS-1 is a crushed basaltic lunar simulant with cohesion, not quartz dune sand; slip at 1 g. The experimental points in Fig. 7 are taken by the authors from an earlier conference paper of the same test facility (their ref. 12, Wakabayashi, Kohno, Nishida 2008), which was not retrieved; wheel rim diameter 200 mm and width 100 mm are inferred from the stated base condition (Sec. 4.1) and are therefore uncertain. "
+ }
+}

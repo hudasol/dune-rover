@@ -1,0 +1,105 @@
+{
+ "pdf": "research/sources/phase4/caruso2023.pdf",
+ "pdf_note": "MDPI open access PDF; Figure 12 is an embedded raster image (600 ppi)",
+ "page": 17,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1388,
+   1714
+  ],
+  "val": [
+   0,
+   15
+  ],
+  "scale": "linear",
+  "note": "vertical grid lines at slope 0 and 15 deg, panel (b)"
+ },
+ "y_axis": {
+  "px": [
+   2574,
+   2149.5
+  ],
+  "val": [
+   0.2,
+   0.8
+  ],
+  "scale": "linear",
+  "note": "horizontal grid lines at s 0.2 and 0.8 (grid lines at 0.4, 0.6, 1.0 and the bottom frame at 0 agree, 707.5 px per unit)"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 5,
+  "identification": "manual: open markers (no fill), so each seed is the bounding box centre of the blue open circle found from its colour mask in a 32 px column at each nominal slope; where the circle and the triangle overlap, the visible arc or edges fix the box because marker size is constant (circle 33 px, triangle 35 px tall)",
+  "points": [
+   {
+    "px": [
+     1388,
+     2694.5
+    ],
+    "x_nominal": 0,
+    "x_unc_nominal": "not reported"
+   },
+   {
+    "px": [
+     1496.6,
+     2670
+    ],
+    "x_nominal": 5,
+    "x_unc_nominal": "not reported"
+   },
+   {
+    "px": [
+     1605,
+     2624.5
+    ],
+    "x_nominal": 10,
+    "x_unc_nominal": "not reported"
+   },
+   {
+    "px": [
+     1713.5,
+     2547.5
+    ],
+    "x_nominal": 15,
+    "x_unc_nominal": "not reported"
+   },
+   {
+    "px": [
+     1822,
+     2380.5
+    ],
+    "x_nominal": 20,
+    "x_unc_nominal": "not reported"
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "caruso2023",
+  "source_title": "The Archimede Rover: A Comparison between Simulations and Experiments (Caruso, Giberna, Gorner, Gallina, Seriani; Robotics 12(5), 125, 2023)",
+  "source_url": "https://doi.org/10.3390/robotics12050125",
+  "evidence_row": "SIM-030 (same source, other finding)",
+  "figure_or_table": "Figure 12(b), omega 1 = 1.2 rad/s",
+  "page": "17 of 22",
+  "x_name": "slope angle of the tilted sandbox (nominal, 5 deg steps)",
+  "x_unit": "deg",
+  "y_name": "slip s (median of all drive tests at that slope and wheel speed)",
+  "y_unit": "ratio",
+  "vehicle": "Archimede rover prototype, four independently steered and driven wheels, wheelbase 0.720 m, track 0.443 m, body 1.61 kg plus two legs of 1.58 kg (Table 1); commanded mean wheel speed 1.2 rad/s",
+  "wheel_diameter_m": "0.186",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "about 11.7 (derived)",
+  "grousers": "high grousers (height not reported)",
+  "soil": "EAC-1A lunar regolith simulant, very loose, submillimetre grains (Test Setup B)",
+  "grain_size_mm": "below 1 (submillimetre, as stated)",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "Planetary Exploration Laboratory sandbox with a tilting section, slope raised in 5 deg steps to 20 deg; drives in straight, lateral and parallel modes pooled; rover tracked by an optical tracking system",
+  "test_type": "constructed bed",
+  "gravity_g": "1",
+  "slope_kind": "direct ascent",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "Each point is the median slip of all drive tests at that slope and wheel speed, pooling straight, lateral and parallel driving modes (Sec. 3.1.2, 4.2), so not every run is a straight ascent along the fall line. The y axis is labelled s [/] (fraction) although the caption says slip percentage; values are kept as plotted. How s is computed is not written out in Sec. 4.2. Seeds are marker bounding box centres; for the triangles, if the plotting software anchors the marker at the triangle centroid instead, values would be about 0.008 lower. x is the nominal sandbox slope; the actual slope tolerance is not reported. Table 1 prints the wheel diameters as 0.170 and 0.186 with unit mm, which must be metres given the 0.720 m wheelbase; wheel width and grouser height are not reported. load_per_wheel_N derived here from Table 1 masses (1.61 + 1.58 + 1.58 = 4.77 kg) times 9.81 divided by 4 wheels; the table note says the body mass in this work differs slightly. EAC-1A is a basaltic lunar simulant, finer and more cohesive than quartz dune sand.",
+  "curve_id": "caruso2023_fig12b_eac1a_w1"
+ }
+}

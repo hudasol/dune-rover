@@ -1,0 +1,10 @@
+caruso2023, A, Caruso M., Giberna M., Gorner M., Gallina P., Seriani S. The Archimede Rover: A Comparison between Simulations and Experiments. Robotics 12(5) 125, 2023, doi 10.3390/robotics12050125
+watanabe2026, A, Watanabe, Maru, Kawaguchi, Tanaka. Effects of wheel width on running performance of four-wheeled small lunar rover. Transactions of the JSME 92(956), 2026, doi 10.1299/transjsme.25-00224
+sutoh2012, A, Sutoh M., Nagatani K., Yoshida K. Traveling performance evaluation of wheeled rover climbing various soil slopes. Proceedings of the JSME Conference on Robotics and Mechatronics 2012, 1A2-L06
+creager2017, A, Creager C. M., Jones L., Smith L. M. Effect of Angle of Attack on Slope Climbing Performance. NASA/TM 2017-219549 (NTRS 20180000349)
+cunningham2013, A, Cunningham C., Whittaker W. L., Nesnas I. A. Improving Slip Prediction on Mars Using Thermal Inertia Measurements. Robotics: Science and Systems XIII, 2017, p38
+arvidson2014, A, Arvidson R. E. et al. Terrain physical properties derived from orbital data and the first 360 sols of Mars Science Laboratory Curiosity rover observations in Gale Crater. JGR Planets 119, 2014, doi 10.1002/2013JE004605
+hu2025goff, B, Hu et al. (2025) A study demonstrating that using gravitational offset to prepare extraterrestrial mobility missions is misleading, NASA NTRS 20250001809
+nakashima2010, B, Nakashima H. et al. (2010) Discrete element method analysis of single wheel performance for a small lunar rover on sloped terrain, Journal of Terramechanics 47(5) 307 to 321, doi:10.1016/j.jterra.2010.04.001 (accepted manuscript, Kyoto repository handle 2433/126852)
+arvidson2014, A, released: Figure 16 is an all terrain Curiosity scatter (not sand) plus Scarecrow lines already in heverly2013; no curve written
+cunningham2017, A, same source as the cunningham2013 line above (RSS XIII was held in 2017); curves use the key cunningham2017

@@ -19,3 +19,6 @@ research/sources/phase3/
 # stray downloads by research agents at the repository root
 /*.pdf
 /*.txt
+
+# ICESat-2 segments fetched from SlideRule (stage 19)
+data/raw/icesat2/

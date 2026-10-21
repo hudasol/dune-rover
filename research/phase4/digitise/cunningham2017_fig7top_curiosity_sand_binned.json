@@ -1,0 +1,80 @@
+{
+ "pdf": "research/sources/phase4/cunningham2017.pdf",
+ "pdf_note": "Robotics: Science and Systems proceedings open access PDF; Figure 7 is an embedded raster image (about 171 ppi)",
+ "page": 7,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1565.5,
+   1973.5
+  ],
+  "val": [
+   -10,
+   10
+  ],
+  "scale": "linear",
+  "note": "tick marks at slope -10 and 10 deg on the bottom frame (tick at 0 agrees, 20.4 px per deg)"
+ },
+ "y_axis": {
+  "px": [
+   634.5,
+   305.5
+  ],
+  "val": [
+   -20,
+   80
+  ],
+  "scale": "linear",
+  "note": "tick marks at slip -20 and 80 percent on the left frame (ticks every 20 percent agree, 3.29 px per percent)"
+ },
+ "marker": {
+  "mode": "cloud",
+  "crop": [
+   1455,
+   243,
+   2142,
+   686
+  ],
+  "exclude_boxes": [],
+  "mask": {
+   "include": [
+    {
+     "min_saturation": 80
+    }
+   ]
+  },
+  "bin_axis": "x",
+  "bin_width": 2.0,
+  "bin_start": -16.0,
+  "min_pixels": 250,
+  "marker_radius_px": 7
+ },
+ "meta": {
+  "source_key": "cunningham2017",
+  "source_title": "Improving Slip Prediction on Mars Using Thermal Inertia Measurements (Cunningham, Whittaker, Nesnas; Robotics: Science and Systems XIII, 2017, paper 38)",
+  "source_url": "https://roboticsproceedings.org/rss13/p38.pdf",
+  "evidence_row": "PLN-052 to PLN-055; MAP-023 to MAP-025 (same source, other findings)",
+  "figure_or_table": "Figure 7, top panel (sand slip samples, coloured by THEMIS thermal inertia)",
+  "page": "7 of 10",
+  "x_name": "slope (rover tilt magnitude averaged over the drive from the IMU, positive when driving up the slope)",
+  "x_unit": "deg",
+  "y_name": "slip (mean of all wheel slips, longitudinal and lateral together, from visual odometry)",
+  "y_unit": "percent",
+  "vehicle": "MSL Curiosity rover, six wheel rocker bogie, about 3 m long",
+  "wheel_diameter_m": "0.5",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "soil": "aeolian sand and sand covered terrain classified from rover images (Hidden Valley, Moosilauke Valley, Logans Pass, Jubilee Pass, Ripple Crossing, Dingo Gap, Artists Drive), Gale crater, Mars",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "natural terrain, sols 1 to 986; visual odometry drives of 0.5 m or longer with at least four wheels on sand; 135 samples from 9 sites (Table I)",
+  "test_type": "field",
+  "gravity_g": "0.38",
+  "slope_kind": "mixed (signed, ascent and descent; heading not restricted)",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "Points are medians of coloured marker pixels in 2 deg slope bins (pixel weighted, so roughly marker weighted, overlapping markers under counted; bins with fewer than 250 marker pixels, about one or two markers, are dropped, so the isolated samples near -14, 1.8 and 16 deg are not represented); x_unc and y_unc combine reading error with half the interquartile range in the bin. The scatter is bimodal at the same slope (low and high thermal inertia sand), so bin medians hide a spread of up to about 70 percent slip; treat the curve as a summary of field scatter, not as a single soil response. Slip y = (1 minus v over vref) times 100 when driving (Eq. 5); slip and slope are magnitudes of the vector (longitudinal plus lateral), with sign set by uphill or downhill driving, so this is not pure direct ascent. The bottom panel shows the same samples coloured by GTS thermal inertia and is not digitised again. Mars gravity 0.38 g, about 900 kg rover, basaltic sand.",
+  "curve_id": "cunningham2017_fig7top_curiosity_sand_binned"
+ }
+}
