@@ -5,7 +5,7 @@ token,justification
 0.064,published wheel width TM-IS09-2
 0.2,result: approximate held out error band, from the family table (0.23 to 0.24 and Bekker Wong) rounded
 0.25,published wheel radius (Heverly 2013 FLD-HV13-5a) used in stage 14
-0.3,result: approximate held out error band upper end (family table)
+0.3,"result: approximate held out error band upper end (family table, section 4.2); design: 0.3 m position noise per axis of the closed loop (stage 23, demo/closed_loop.py)"
 0.08,result: Bekker Wong held out errors on the Heverly curves 0.08 to 0.15 (part_bekker_wong/loso.csv)
 0.56,result: upper end of Bekker Wong held out errors on the Inotsume curves (part_bekker_wong/loso.csv)
 0.23,result: logistic median held out error on the same 8 curves as Bekker Wong (computed from the two loso.csv files; recorded in docs/PREDICTIONS.md V15-4)
@@ -13,7 +13,7 @@ token,justification
 0.49,published: Dumont cubic at 12.5 deg (FLD-HV13-1 coefficients, results/chrono_scm/comparison.csv)
 0.6,result: slip up to which the Bekker Wong family gives negative pull (results/model_validation/bw_vs_ishigami2007.csv)
 1,design and published: one metre lidar; 1 to 25 N measured pull (curves.csv ishigami2007_fig11)
-2,section number
+2,"section number; design: two families built on the scaling laws (stage 22); two Scarab campaigns grouped post hoc"
 3,section number; 3 m grade baseline of stage 17
 3.1,section number
 3.2,section number
@@ -31,7 +31,7 @@ token,justification
 4.6,section number
 4.7,section number
 4.8,section number
-5,design: 5 m posting of stage 12; 5 to 95 percent
+5,"design: 5 m posting of stage 12; 5 to 95 percent quantiles; 5 m step of the ICESat-2 segments (stage 19)"
 6,six sites of stage 13; section number
 7,section number
 8,section number; eight headings
@@ -42,7 +42,7 @@ token,justification
 16,published: 16 deg (FLD-012)
 17.9,published: drawbar pull error in coarse grained soils (MOB-021)
 19,published: 19 deg (FLD-011)
-20,published or design: slip ratio about 20 to 30 percentage points (PLN and MAP rows); 20 deg collapse onset of the synthetic truth; 20 rows in the human sample
+20,"published or design: slip ratio about 20 to 30 percentage points (PLN and MAP rows); 20 deg collapse onset of the synthetic truth; 20 rows in the human sample; 20 deg end of the field slope bins; 15 to 20 deg prediction slopes of stage 24"
 21,published: Dumont embedding above 21 deg (Heverly 2013 Sec 6.3)
 25,design: the 1 to 25 N range of Ishigami 2007 Fig 11 (curves.csv)
 25.5,model: nominal critical climbing slope of the original model (results/summary.json)
@@ -50,7 +50,7 @@ token,justification
 29.8,published wheel load TM-IS09-2
 30,design: 30 m posting; 30 deg slope range end; 30 m between Spirit sites (FLD-012); 30.1 below
 30.1,published: overall prediction error 30.1 percent (MOB rows)
-40,design: 40 origin and destination pairs per site (stage 17)
+40,"design: 40 origin and destination pairs per site (stage 17); 40 deg upper end of the post hoc filter of ICESat-2 face crossings (stage 19 note)"
 45,design: hit threshold of stage 13; published 45 to 48 deg friction (SND-023)
 48,published: 48 deg friction (SND-023)
 73,published: 73 percent deviation (MOB rows)
@@ -85,3 +85,8 @@ token,justification
 2017,"year of Slonaker et al. 2017, cited by name (SCL rows)"
 2025,"year of Hu et al. 2025, cited by name (SCL rows)"
 2026,"year of Watanabe et al. 2026, cited by name (TM3-049)"
+14,"stage number (stage 14 Chrono grid and speed checks)"
+35,"design: 35 deg upper end of the post hoc noise screen of ICESat-2 face crossings (scripts/icesat2_posthoc_screen.py); near the upper end of published angles of repose of dry sand"
+2010,"year in a citation (Yoshida 2010; Nakashima 2010)"
+2012,"year in a citation (Sutoh 2012)"
+2016,"year in a citation (Inotsume 2016)"

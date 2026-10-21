@@ -51,7 +51,8 @@ def values() -> dict:
     vt = {}
     for r in ev:
         vt[r["validation_type"]] = vt.get(r["validation_type"], 0) + 1
-    v["p3_vtype_line"] = ", ".join(f"{vt[k]} {k}" for k in sorted(vt, key=lambda k: -vt[k]))
+    words = {"simulation-only": "simulation only", "sim-vs-lab": "simulation against laboratory", "sim-vs-field": "simulation against field"}
+    v["p3_vtype_line"] = ", ".join(f"{vt[k]} {words.get(k, k.replace('-', ' '))}" for k in sorted(vt, key=lambda k: -vt[k]))
     # stage 12: lidar
     for r in _rd("results/terrain_validation/metrics.csv"):
         s, k = r["site"], r["posting_m"]
@@ -169,6 +170,19 @@ def phase4_values() -> dict:
         v["redig_extra"] = sum(int(r["points_verifier"]) - int(r["matched_within_1deg"]) for r in rd)
         v["redig_med"] = f"{statistics.median(float(r['median_abs_dslip_ratio']) for r in rd):.4f}"
         v["redig_max_med"] = f"{max(float(r['median_abs_dslip_ratio']) for r in rd):.4f}"
+        mx = max(rd, key=lambda r: float(r["max_abs_dslip_ratio"]))
+        v["redig_max_pt"] = f2(mx["max_abs_dslip_ratio"]); v["redig_max_pt_curve"] = mx["curve_id"].replace("_", " ")
+    # curve counts used by the model families (from the run logs and the curve files)
+    def _loaded(d):
+        lp = os.path.join(d, "run_log.txt")
+        return [l.split(":")[0].strip() for l in open(os.path.join(ROOT, lp))] if os.path.exists(os.path.join(ROOT, lp)) else []
+    l1 = [c for c in _loaded("results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical") if c]
+    l4 = [c for c in _loaded("results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical") if c]
+    c3 = _rd("research/phase3/curves.csv")
+    if c3 and l1 and l4 and c4:
+        r1 = {r["curve_id"] for r in c3}; r2 = {r["curve_id"] for r in c4}
+        v["mvc_r1_total"] = len(r1); v["mvc_r1_loaded"] = len(r1 & set(l1)); v["mvc_r2_total"] = len(r2); v["mvc_r2_loaded"] = len(r2 & set(l4))
+        v["mvc_loaded"] = len(set(l4) & (r1 | r2))
     # stage 21: replication on the expanded curve set; stage 22: scaling law families
     for part in ("part_exp_existing_mohr_coulomb_ratio_logistic_empirical", "part_bekker_wong", "part_mobility_pull_mobility_logistic"):
         s = _js(os.path.join("results/model_validation_phase4", part, "summary.json"))
@@ -180,6 +194,14 @@ def phase4_values() -> dict:
     if sg:
         hg = [d["median_heldout_rmse"] for d in sg["families"].values()]
         v["mvg_heldout_min"] = f2(min(hg)); v["mvg_heldout_max"] = f2(max(hg))
+    bw1 = _js("results/model_validation/part_bekker_wong/summary.json")
+    if bw1:
+        v["mv_bw_ncurves"] = bw1["families"]["bekker_wong"]["heldout_curves"]
+    if "mv4_bekker_wong_heldout" in v:
+        v["mv4_bw_short"] = (f"on the expanded set it reached {v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']} "
+                             f"on {v['mv4_bekker_wong_n']} curves.")
+    else:
+        v["mv4_bw_short"] = "it was not rerun to completion on the expanded set within the session (its calibration is slow)."
     if "mv4_bekker_wong_heldout" in v:
         v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family reached "
                                 f"{v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}.")
@@ -227,6 +249,39 @@ def phase4_values() -> dict:
         v[f"clph_{r['site']}_{r['posting_m']}_{r['policy']}_{r['mode']}"] = pct(r["entrapped_share"], 1) if r["entrapped_share"] else NR
     for r in _rd("results/closed_loop/posthoc_fixed_field/estimator.csv"):
         v[f"clph_est_{r['site']}"] = f"{float(r['median_abs_error_odometry_noise_2pct']):.3f}"
+    def _pts(x):
+        s = f"{100 * float(x):+.1f}"
+        return "0.0" if s in ("+0.0", "-0.0") else s.replace("+", "plus ").replace("-", "minus ")
+    for r in _rd("results/closed_loop/posthoc_multiseed/summary.csv"):   # POST HOC after the final review: several slip fields
+        s, k = r["site"], r["posting_m"]; v["clm_seeds"] = r["seeds"]; v["clm_pairs"] = r["pairs"]
+        for m in ("open", "retry", "replan"):
+            v[f"clm_{s}_{k}_{m}"] = pct(r[f"entrapped_share_{m}"], 1)
+        for name, tag in (("replan_minus_retry", "rr"), ("replan_minus_open", "ro")):
+            lo, hi = (float(x) for x in r[name + "_ci95"].split(" to "))
+            v[f"clm_{s}_{k}_{tag}"] = _pts(r[name]); v[f"clm_{s}_{k}_{tag}_ci"] = f"{_pts(lo)} to {_pts(hi)}"
+            v[f"clm_{s}_{k}_{tag}_zero"] = "includes zero" if lo <= 0 <= hi else "excludes zero"
+    if "clm_Kelso_30_rr" in v:
+        z30 = [v[f"clm_{s}_30_rr_zero"] == "includes zero" for s in ("WhiteSands", "Kelso")]
+        if all(z30):
+            v["clm_abstract"] = ("replanning on an online slip estimate had no effect on entrapment distinguishable from a control that stops and retries "
+                                 "without replanning")
+            verdict = "no effect distinguishable from the retry control"
+        else:
+            v["clm_abstract"] = "replanning on an online slip estimate lowered entrapment against a stop and retry control at only some sites"
+            verdict = "an effect against the retry control at only some sites"
+        v["clm_sentence"] = (f"Over {v['clm_seeds']} independent slip fields and {v['clm_pairs']} pairs per site (post hoc, after two reviews), replanning on that "
+                             f"estimate changed the entrapped share on 30 m naive routes by {v['clm_WhiteSands_30_rr']} points at White Sands (95 % interval "
+                             f"{v['clm_WhiteSands_30_rr_ci']}) and {v['clm_Kelso_30_rr']} at Kelso ({v['clm_Kelso_30_rr_ci']}) against a control that stops and "
+                             f"retries without replanning: {verdict}.")
+    sck = _rd("results/chrono_scm_calibration/posthoc_checks.csv")   # POST HOC numerical checks of stage 24
+    if sck:
+        for r in sck:
+            sk = f"{float(r['slope_deg']):g}".replace(".", "p"); tag = "reg" if r["check"].startswith("registered") else ("grid" if "grid" in r["check"] else "speed")
+            v[f"scm_chk_{tag}_{sk}"] = f2(r["slip"])
+        by = {}
+        for r in sck:
+            by.setdefault(r["slope_deg"], {})[r["check"].split(" ")[0]] = float(r["slip"])
+        v["scm_chk_maxdiff"] = f2(max(max(d.values()) - min(d.values()) for d in by.values()))
     ros = _js("results/closed_loop/ros2_smoke_test.json")
     if ros:
         v["ros_outcome"] = ros["outcome"]; v["ros_replans"] = ros["replans"]; v["ros_metres"] = ros["metres_driven"]
@@ -245,6 +300,8 @@ def phase4_values() -> dict:
             v[f"is2_r_{s}_{L}"] = f2(r["pearson_r"]); v[f"is2_mad_{s}_{L}"] = f"{float(r['median_abs_diff_deg']):.1f}"
             v[f"is2_ratio_{s}_{L}"] = f2(r["median_ratio_steep"]); v[f"is2_n_{s}_{L}"] = r["valid_segments"]; v[f"is2_steep_{s}_{L}"] = r["steep_segments_lidar_20deg"]
             v[f"is2_pass_{s}_{L}"] = "passes" if r["method_passes"] == "True" else "fails"
+            v[f"is2_vpasses_{s}_{L}"] = r["passes_in_dates"]
+            v[f"is2_maxlid_{s}_{L}"] = f"{float(r['max_abs_lidar_deg']):.1f}"; v[f"is2_maxis2_{s}_{L}"] = f"{float(r['max_abs_icesat2_deg']):.1f}"
     for r in _rd("results/icesat2/arabia_metrics.csv"):
         if r.get("status") == "ok":
             a, L = r["area"], r["length_m"]
@@ -263,15 +320,31 @@ def phase4_values() -> dict:
         if r.get("status") == "ok" and r["length_m"] == "10":
             v[f"is2_ph_n28_{r['site']}"] = r.get("posthoc_is2_segments_28deg", "")
             v[f"is2_ph_near_{r['site']}"] = f"{float(r['posthoc_median_steepest_lidar_within_10m_of_is2_28deg']):.1f}" if r.get("posthoc_median_steepest_lidar_within_10m_of_is2_28deg") else NR
+    for r in _rd("results/icesat2/posthoc_screen.csv"):   # POST HOC after the final review: base rate and noise screen
+        a = r["area"]
+        v[f"is2_ps_iso_{a}"] = pct(r["isolated_share"], 0); v[f"is2_ps_kept_{a}"] = r["kept_non_isolated_28_35deg"]
+        v[f"is2_ps_trav_kept_{a}"] = pct(r["faces_in_traversable_kept"], 0)
+        v[f"is2_ps_ratio_all_{a}"] = f2(r["ratio_to_base_all"]); v[f"is2_ps_ratio_kept_{a}"] = f2(r["ratio_to_base_kept"])
+    for r in _rd("results/icesat2/posthoc_kelso_gap.csv"):
+        v["is2_kg_n"] = r["is2_segments_28deg"]; v["is2_kg_passes"] = r["passes"]
+        for k in ("median_is2_deg", "median_lidar_1m_same_line_deg", "median_lidar_30m_block_same_line_deg", "median_is2_minus_lidar30_deg", "median_lidar1_minus_lidar30_deg"):
+            v[f"is2_kg_{k.replace('median_', '').replace('_same_line', '').replace('_deg', '')}"] = f"{float(r[k]):.1f}"
     if "is2_faces_in_traversable_original_A_10" in v:
         gaps = sorted(float(v[f"is2_median_is2_minus_cop_on_faces_deg_{a}_10"]) for a in "ABC")
         v["is2_gap_min"], v["is2_gap_max"] = f"{gaps[0]:.1f}", f"{gaps[-1]:.1f}"
         ft = sorted(v[f"is2_faces_in_traversable_original_{a}_10"] for a in "ABC")
         v["is2_ftrav_min"], v["is2_ftrav_max"] = ft[0], ft[-1]
-        v["is2_summary_line"] = (f"Over Liwa and the Rub' al Khali, {v['is2_faces_in_traversable_original_A_10']}, {v['is2_faces_in_traversable_original_B_10']} and "
-                                 f"{v['is2_faces_in_traversable_original_C_10']} of the ICESat-2 segments steeper than 28 degrees fell in cells the 30 m map calls TRAVERSABLE, "
-                                 f"and 30 m slopes understated them by a median of {gaps[0]:.1f} to {gaps[-1]:.1f} degrees; "
-                                 "the ICESat-2 method failed its own validation against lidar, so these are indications, not a validation.")
+        if "is2_ps_trav_kept_A" in v:
+            v["is2_summary_line"] = (f"Over Liwa (A), the Rub' al Khali megadunes (B) and the linear dunes (C), {v['is2_faces_in_traversable_original_A_10']}, "
+                                     f"{v['is2_faces_in_traversable_original_B_10']} and {v['is2_faces_in_traversable_original_C_10']} of the ICESat-2 segments steeper than 28 degrees "
+                                     f"fell in cells the 30 m map calls TRAVERSABLE, against {v['is2_all_in_traversable_original_A_10']}, {v['is2_all_in_traversable_original_B_10']} "
+                                     f"and {v['is2_all_in_traversable_original_C_10']} of all segments; keeping only steep crossings confirmed by a neighbouring segment and no steeper "
+                                     f"than 35 degrees (post hoc), {v['is2_ps_trav_kept_A']}, {v['is2_ps_trav_kept_B']} and {v['is2_ps_trav_kept_C']}. "
+                                     "The ICESat-2 method failed its own validation against lidar, so these are indications, not a validation.")
+        else:
+            v["is2_summary_line"] = (f"Over Liwa (A), the Rub' al Khali megadunes (B) and the linear dunes (C), {v['is2_faces_in_traversable_original_A_10']}, "
+                                     f"{v['is2_faces_in_traversable_original_B_10']} and {v['is2_faces_in_traversable_original_C_10']} of the ICESat-2 segments steeper than 28 degrees "
+                                     "fell in cells the 30 m map calls TRAVERSABLE; the ICESat-2 method failed its own validation against lidar, so these are indications, not a validation.")
     return v
 
 

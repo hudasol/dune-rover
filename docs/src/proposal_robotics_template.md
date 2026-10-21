@@ -11,11 +11,11 @@ A small wheeled robot on a dune slope can lose most of its forward progress to s
 ## 2. What the desk study established
 
 - **Evidence base (PUBLISHED):** {{VAL:p3_rows_total}} verified rows from {{VAL:p3_sources_total}} sources, each re checked against the full text, with a measured extraction error rate ({{VAL:cur_material_rate}} of the current rows had a material error before correction; every one corrected).
-- **Slip models do not transfer (SIMULATED BY ME against PUBLISHED curves):** on {{VAL:mv4_exp_existing_n}} held out published curves, the best of four model families predicted a study it was not calibrated on with a median slip error of {{VAL:mv4_heldout_min}} (bar fixed in advance: 0.15). Two families built on the granular scaling laws did worse ({{VAL:mob_heldout_min}} to {{VAL:mob_heldout_max}}).
-- **A simulator calibrated on a field curve does not extrapolate (SIMULATED BY ME):** calibrated on the Dumont Dunes curve up to 12.5 degrees, Project Chrono predicted 15 to 20 degrees with an error of {{VAL:scm_pred_rmse}}.
+- **Slip models do not transfer (SIMULATED BY ME against PUBLISHED curves):** on {{VAL:mv4_exp_existing_n}} held out published curves, the best of three model families (exponential, Mohr Coulomb, logistic) predicted a study it was not calibrated on with a median slip error of {{VAL:mv4_heldout_min}} (bar fixed in advance: 0.15); a fourth, Bekker Wong, failed on the {{VAL:mv_bw_ncurves}} first round curves it applies to ({{VAL:mv_bekker_wong_heldout}}). Two families built on the granular scaling laws did worse ({{VAL:mob_heldout_min}} to {{VAL:mob_heldout_max}}).
+- **A simulator calibrated on a field curve gave no usable steep slope prediction (SIMULATED BY ME):** calibrated on the Dumont Dunes curve up to 12.5 degrees, Project Chrono's Soil Contact Model became numerically unstable at 15 to 20 degrees (post hoc grid and speed checks), so the steep slopes still need measurement.
 - **30 m terrain data are not enough (SIMULATED BY ME on PUBLISHED lidar):** on {{VAL:lid6_nsites}} dune fields, a 30 m map labelled TRAVERSABLE {{VAL:lid6_miss_min_30}} to {{VAL:lid6_miss_max_30}} of the cells that contain a steep face; at 10 m, {{VAL:lid6_miss_min_10}} to {{VAL:lid6_miss_max_10}}.
 - **Arabian dunes from space (PUBLISHED ICESat-2 data, SIMULATED BY ME scoring):** {{VAL:is2_summary_line}}
-- **A closed loop helps a little (SIMULATED BY ME, the true rover is itself a model):** online slip estimation from odometry and position fixes had a median error of about {{VAL:cl_est_WhiteSands}}, and replanning on it lowered entrapment on 30 m naive routes from {{VAL:clph_WhiteSands_30_naive_open}} to {{VAL:clph_WhiteSands_30_naive_replan}} (White Sands) and from {{VAL:clph_Kelso_30_naive_open}} to {{VAL:clph_Kelso_30_naive_replan}} (Kelso) in a post hoc test with a fixed slip field, but not on 10 m maps; the same loop runs as ROS 2 nodes.
+- **A closed loop in simulation (SIMULATED BY ME, the true rover is itself a model):** online slip estimation from odometry and position fixes had a median error of about {{VAL:cl_est_WhiteSands}}, which follows from the assumed position noise. {{VAL:clm_sentence}} The loop runs as ROS 2 nodes (one smoke test, on a pair that also arrives without replanning).
 
 ## 3. Technology readiness, stated honestly
 
@@ -24,9 +24,9 @@ The levels below use the common nine step technology readiness scale only as a s
 | Component | Readiness | Evidence |
 |---|---|---|
 | Slip model for a vehicle on Arabian sand | Concept only (level 2): no model transferred between published studies, and no Arabian measurement exists | Stages 15, 21, 22 |
-| Slip face detector and three class map | Tested in simulation against real terrain outside Arabia (level 3 to 4): works at 10 m or finer, fails at 30 m | Stages 12, 20 |
-| Map on Arabian dunes | Tested only against satellite laser profiles, with a method that did not pass its own validation bar | Stage 19 |
-| Online slip estimation and replanning | Demonstrated in simulation, including ROS 2 nodes (level 3 to 4); the true rover is a model | Stage 23 |
+| Slip face detector and three class map | Proof of concept against lidar of dune fields outside Arabia (level 3): works at 10 m or finer, fails at 30 m | Stages 12, 20 |
+| Map on Arabian dunes | Compared only with satellite laser profiles, with a method that did not pass its own validation bar and a noisy steep segment set | Stage 19 |
+| Online slip estimation and replanning | Software in simulation against a modelled rover, including ROS 2 nodes (level 2 to 3); no benefit of replanning shown against a retry control | Stage 23 |
 | Field protocol, data sheets, analysis and ingest | Written and tested on synthetic data (level 3); pass or fail rule still an open decision | `docs/FIELD_VALIDATION_PLAN.md`, `scripts/ingest_field_day.py` |
 
 ## 4. Objectives
@@ -34,7 +34,7 @@ The levels below use the common nine step technology readiness scale only as a s
 1. Measure the slip against slope curve of one small wheeled robot on one Gulf dune with the sand characterised (grain size, density, moisture, angle of repose, friction angle).
 2. Survey the test dune at 10 cm (drone photogrammetry), and score the slip face detector and the three class map on Arabian terrain at 1, 5, 10 and 30 m.
 3. Test whether a model calibrated on gentle slopes predicts the steep slopes, against predictions committed before the steep runs.
-4. Run the closed loop (online slip estimation and replanning) on the real rover on the surveyed dune, with a safety driver.
+4. Measure online slip estimation on the real rover on the surveyed dune, with a safety driver, and test whether replanning on it lowers entrapment against a control that stops and retries.
 5. Deliver a documented dataset and a manuscript revised with the field results.
 
 ## 5. Work packages
