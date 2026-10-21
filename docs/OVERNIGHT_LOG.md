@@ -53,3 +53,9 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 05:26 Final review by a fresh reviewer received: 25 findings, 7 major (stage 21 outcomes left pending; "four families" where three were run; the stage 20 planner result missing from the manuscript; the ICESat-2 reading too strong; the closed loop compared with open loop instead of the retry control; three midpoint responses claimed text that did not exist; stage 24 possibly a numerical artefact).
 - 05:26 to 05:47 Post hoc checks run for the majors: ICESat-2 base rate, noise screen and Kelso slope gap; SCM grid and speed checks at 15 to 20 degrees (the run is unstable there); the closed loop over five slip fields (no effect of replanning distinguishable from retry). The Bekker Wong rerun was stopped after 2 folds in the belief that 10 remained; it has 6 (only six studies give wheel size, width and load), so it was restarted unchanged at 05:49.
 - 05:47 Corrections and responses committed (2acf60a, bd23370, db79aea, 50ba772); gate clean.
+- 05:50 to 06:01 Post hoc laboratory level grouping of the Toyoura sand studies (verdict unchanged).
+- 06:01 to 06:24 The 20 m ICESat-2 fetch was restarted after it hit its time limit and completed; the first analysis rerun ran out of its memory limit and was fixed by sampling in chunks (10 m results identical); the registered 20 m Arabian sensitivity was reported.
+- 06:26 to 06:31 A third fresh reviewer verified the corrections: all numbers matched, 15 problems in the corrected texts (4 major), fixed by 06:39, including post hoc SCM checks at the calibration slopes.
+- 06:40 The brief was trimmed back to two pages.
+- 08:16 The restarted Bekker Wong run completed: 0.414 median held out error on 33 curves; R21-2 to R21-4 missed.
+
