@@ -209,7 +209,7 @@ All workstreams W0 to W10 of `docs/PLAN_2026-10-21.md` were carried out; what is
 - **Simulation (W5, stage 24):** Chrono's Soil Contact Model calibrated on the Dumont curve up to 12.5 degrees; CPU timing of the discrete element model; a GPU notebook for a free GPU, not run.
 - **Closed loop (W7, stage 23):** online slip estimation and replanning against a modelled rover, in Python and as ROS 2 nodes (RoboStack Jazzy), with a post hoc fixed field version and a five field repeat against a retry control.
 - **Field kit (W8):** data sheets, `scripts/ingest_field_day.py` (tested on a synthetic fixture only), preregistration draft, drone survey and sand test protocols, second rater pack.
-- **Traceability and release (W6):** `docs/NUMBER_LEDGER.csv` (every number of the manuscript, brief and proposals with its producer and the SHA-256 of its inputs, checked in CI), `docs/PROVENANCE.md` with a figure, `CITATION.cff`, a clean clone rebuild check, `docs/RELEASE_NOTES_v1.md` and the tag v1.0 (annotated, on the final commit after CI passed).
+- **Traceability and release (W6):** `docs/NUMBER_LEDGER.csv` (every number of the manuscript, brief and proposals with its producer and the SHA-256 of its inputs, checked in CI), `docs/PROVENANCE.md` with a figure, `CITATION.cff`, a clean clone rebuild check, `docs/RELEASE_NOTES_v1.md`; the annotated tag v1.0 could not be pushed from the session (the connection allows branch pushes only, and the GitHub API refused tag creation), so it is the first item of `docs/NEXT_STEPS.md`.
 - **Writing (W9, W10):** manuscript, report section 14, brief, both proposals (readiness levels, work packages with weeks, risk register), completeness table and `docs/EXTERNAL_REVIEW_PACK.md`; a midpoint review (22 findings) and a final review (25 findings), all answered in `docs/REVIEW_2026-10-21.md`.
 
 ## Prediction hits and misses (stages 19 to 24)
@@ -232,4 +232,4 @@ Questions 5, 7 and 10 are still open (the defaults were kept); new questions 11 
 
 ## Exactly what Huda must do next
 
-Follow `docs/NEXT_STEPS.md`: (1) spot check 3 and the 20 row inter rater check; (2) answer questions 7, 13 and 15 before any field day; (3) read the manuscript, the robotics proposal and the brief; (4) start the drone permission route (question 11) or choose a site where a survey is allowed; (5) give the second rater pack to one classmate.
+Follow `docs/NEXT_STEPS.md`: (0) push the v1.0 tag (one command, section 0); (1) spot check 3 and the 20 row inter rater check; (2) answer questions 7, 13 and 15 before any field day; (3) read the manuscript, the robotics proposal and the brief; (4) start the drone permission route (question 11) or choose a site where a survey is allowed; (5) give the second rater pack to one classmate.

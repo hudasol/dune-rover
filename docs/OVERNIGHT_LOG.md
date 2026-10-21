@@ -58,4 +58,4 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 06:26 to 06:31 A third fresh reviewer verified the corrections: all numbers matched, 15 problems in the corrected texts (4 major), fixed by 06:39, including post hoc SCM checks at the calibration slopes.
 - 06:40 The brief was trimmed back to two pages.
 - 08:16 The restarted Bekker Wong run completed: 0.414 median held out error on 33 curves; R21-2 to R21-4 missed.
-
+- 08:20 to 08:45 PDFs rebuilt (report under 3 MB, brief 2 pages), morning report and release notes committed, clean clone rebuild with the ledger check passed on 7db304d, CI green. Pushing the tag v1.0 was refused by the connection (HTTP 403 for tags and for the GitHub API), so tagging is left to Huda (`docs/NEXT_STEPS.md`, section 0).
