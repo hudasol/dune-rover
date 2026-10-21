@@ -1,0 +1,89 @@
+{
+ "pdf": "research/sources/phase4/sutoh2012.pdf",
+ "pdf_note": "rasterised independently by the verifier at 300 dpi",
+ "page": 3,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   600.0,
+   1029.0
+  ],
+  "val": [
+   5,
+   20
+  ],
+  "scale": "linear",
+  "note": "dotted vertical gridlines at the labelled values 5 and 20 deg (143 px per 5 deg); scanned bilevel figure"
+ },
+ "y_axis": {
+  "px": [
+   784.0,
+   481.0
+  ],
+  "val": [
+   0.2,
+   0.8
+  ],
+  "scale": "linear",
+  "note": "dotted horizontal gridlines at the labelled values 0.2 and 0.8 (505 px per unit)"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 8,
+  "identification": "manual: open upward triangles (Number of lugs: 3) in panel (a); centre = area centroid of the outer triangle outline (apex plus two thirds of the height, the gnuplot convention), height 12 px",
+  "points": [
+   {
+    "px": [
+     686.5,
+     804.3
+    ]
+   },
+   {
+    "px": [
+     800.0,
+     477.0
+    ]
+   },
+   {
+    "px": [
+     914.5,
+     446.0
+    ]
+   },
+   {
+    "px": [
+     1029.0,
+     419.0
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "sutoh2012",
+  "source_title": "Traveling performance evaluation of wheeled rover climbing various soil slopes (Sutoh, Nagatani, Yoshida; Proceedings of the 2012 JSME Conference on Robotics and Mechatronics, 1A2-L06, in Japanese)",
+  "source_url": "https://doi.org/10.1299/jsmermd.2012._1A2-L06_1",
+  "vehicle": "two wheeled test rover, mass ballasted to 4.0 kg for every wheel set, axle distance 400 mm, wheel speed 2.50 rpm",
+  "soil": "Toyoura sand (JIS R 5200), cohesionless, nearly uniform grain size",
+  "wheel_diameter_m": "not reported",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "not reported",
+  "test_type": "not reported",
+  "gravity_g": "1",
+  "slope_kind": "not reported",
+  "x_name": "slope angle (nominal, 4 deg steps)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "ratio",
+  "comparable_to_dune_sand": "not reported",
+  "curve_id": "sutoh2012_fig5a_toyoura_lh5_lug3",
+  "evidence_row": "not reported",
+  "figure_or_table": "Figure 5(a), 3 lugs, 5 mm high",
+  "page": "3 of 4",
+  "comparability_note": "Panel (a), 5 mm lugs, 3 lugs = open triangle. 8 and 12 deg: triangle fully visible. 16 deg: only the base of the triangle is visible under the filled circle of 0 lugs (base 17 px wide, same as at 12 deg); centre placed one third of the height above the base. 20 deg: only the apex is visible above the filled square of 6 lugs; centre placed two thirds of the height below the apex. These two points are inferred from partial outlines. 0, 4 and 24 deg: the triangle is hidden in marker clusters and is left out. Error bars not transcribed."
+ }
+}

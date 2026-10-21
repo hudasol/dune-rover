@@ -1,0 +1,13 @@
+curve_id,status,points_original,points_verifier,matched_within_1deg,median_abs_dx_deg,median_abs_dslip_ratio,max_abs_dslip_ratio
+caruso2023_fig12a_lava_w1,compared,5,5,5,0.012,0.0007,0.0014
+caruso2023_fig12a_lava_w2,compared,5,5,5,0.012,0.0007,0.0014
+creager2017_fig11_scarab_aoa10,compared,4,5,4,0.004,0.0004,0.0005
+creager2017_fig11_scarab_aoa30,compared,4,4,4,0.007,0.0004,0.0004
+hu2025goff_fig4b_mgru3_2022_grc1,compared,4,7,4,0.029,0.0002,0.0006
+hu2025goff_fig4b_trec_singlewheel_grc3,compared,17,17,17,0.118,0.0005,0.2995
+sutoh2012_fig5a_toyoura_lh5_lug3,compared,2,4,2,0.016,0.0039,0.0053
+sutoh2012_fig5a_toyoura_lh5_lug6,compared,4,6,4,0.005,0.0015,0.0018
+watanabe2026_fig10c_fjs1_b30,compared,2,2,2,0.0,0.0002,0.0003
+watanabe2026_fig9c_silica_b3,compared,7,7,7,0.022,0.0008,0.0018
+watanabe2026_fig9c_silica_b30,compared,4,7,4,0.028,0.0034,0.0037
+watanabe2026_fig9c_silica_b5,compared,5,7,5,0.045,0.0041,0.0115

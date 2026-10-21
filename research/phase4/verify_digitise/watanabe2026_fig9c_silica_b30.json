@@ -1,0 +1,107 @@
+{
+ "pdf": "research/sources/phase4/watanabe2026.pdf",
+ "pdf_note": "rasterised independently by the verifier at 300 dpi",
+ "page": 6,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1874.5,
+   2097.5
+  ],
+  "val": [
+   10,
+   25
+  ],
+  "scale": "linear",
+  "note": "light grey vertical gridlines at the labelled values 10 and 25 deg (14.87 px per deg)"
+ },
+ "y_axis": {
+  "px": [
+   1897.5,
+   2235.5
+  ],
+  "val": [
+   0.9,
+   0.1
+  ],
+  "scale": "linear",
+  "note": "light grey horizontal gridlines at the labelled values 0.9 and 0.1 (42.25 px per 0.1)"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 8,
+  "identification": "manual: orange plus signs (b30) in panel (c); centre = crossing of the horizontal and vertical arms",
+  "points": [
+   {
+    "px": [
+     1724.5,
+     2274.0
+    ]
+   },
+   {
+    "px": [
+     1798.5,
+     2269.5
+    ]
+   },
+   {
+    "px": [
+     1874.0,
+     2241.0
+    ]
+   },
+   {
+    "px": [
+     1948.5,
+     2184.0
+    ]
+   },
+   {
+    "px": [
+     2022.5,
+     2052.0
+    ]
+   },
+   {
+    "px": [
+     2097.5,
+     1979.5
+    ]
+   },
+   {
+    "px": [
+     2172.0,
+     1932.0
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "watanabe2026",
+  "source_title": "Effects of wheel width on running performance of four-wheeled small lunar rover (Watanabe, Maru, Kawaguchi, Tanaka; Transactions of the JSME, in Japanese, Vol. 92, No. 956, 2026)",
+  "source_url": "https://doi.org/10.1299/transjsme.25-00224",
+  "vehicle": "four wheeled small lunar rover, 3D printed ABS, 1.5 kg (ballasted to the same mass for every wheel set), wheelbase 200 mm, all wheels driven at 10 rpm",
+  "soil": "silica sand, 1 to 1 mix of No. 5 (0.3 to 0.8 mm) and No. 6 (0.2 to 0.3 mm) silica sand, about 100 mm deep",
+  "wheel_diameter_m": "not reported",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "not reported",
+  "test_type": "not reported",
+  "gravity_g": "1",
+  "slope_kind": "not reported",
+  "x_name": "slope angle (nominal set value)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "ratio",
+  "comparable_to_dune_sand": "not reported",
+  "curve_id": "watanabe2026_fig9c_silica_b30",
+  "evidence_row": "not reported",
+  "figure_or_table": "Figure 9(c)",
+  "page": "6 (Fig. 9c)",
+  "comparability_note": "Series b30 (orange plus, wheel width 30 mm). 20, 25 and 30 deg: plus fully visible. 5, 10 and 15 deg: the horizontal arm is visible below the other markers and fixes the centre. 0 deg: only the left arm tip and the lower arm tip are visible below the marker cluster; the centre is inferred from these tips and the arm length, so this point is less certain. Seven points."
+ }
+}
