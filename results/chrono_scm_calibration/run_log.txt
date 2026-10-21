@@ -1,0 +1,20 @@
+stage 24 started 2026-10-21 04:42:03; base soil S1 with cohesion 0; K grid (0.036, 0.08, 0.15, 0.3, 0.6); phi grid (28.0, 32.0, 37.2)
+K 0.036 phi 28.0: 5 deg 0.143, 10 deg 0.250, 12.5 deg 0.308; rmse 0.117
+K 0.036 phi 32.0: 5 deg 0.129, 10 deg 0.217, 12.5 deg 0.264; rmse 0.146
+K 0.036 phi 37.2: 5 deg 0.114, 10 deg 0.186, 12.5 deg 0.223; rmse 0.174
+K 0.08 phi 28.0: 5 deg 0.241, 10 deg 0.395, 12.5 deg 0.474; rmse 0.095
+K 0.08 phi 32.0: 5 deg 0.212, 10 deg 0.358, 12.5 deg 0.423; rmse 0.081
+K 0.08 phi 37.2: 5 deg 0.183, 10 deg 0.311, 12.5 deg 0.375; rmse 0.085
+K 0.15 phi 28.0: 5 deg 0.340, 10 deg 0.457, 12.5 deg 1.178; rmse 0.427
+K 0.15 phi 32.0: 5 deg 0.321, 10 deg 0.498, 12.5 deg 0.386; rmse 0.177
+K 0.15 phi 37.2: 5 deg 0.272, 10 deg 0.438, 12.5 deg 0.489; rmse 0.122
+K 0.3 phi 28.0: 5 deg 0.502, 10 deg 15.970, 12.5 deg 26.782; rmse 17.666
+K 0.3 phi 32.0: 5 deg 0.488, 10 deg 10.675, 12.5 deg 21.958; rmse 13.762
+K 0.3 phi 37.2: 5 deg 0.408, 10 deg 0.287, 12.5 deg 14.875; rmse 8.305
+K 0.6 phi 28.0: 5 deg 6.379, 10 deg 28.860, 12.5 deg 39.401; rmse 28.095
+K 0.6 phi 32.0: 5 deg 0.487, 10 deg 26.289, 12.5 deg 36.853; rmse 25.798
+K 0.6 phi 37.2: 5 deg 0.441, 10 deg 22.562, 12.5 deg 33.173; rmse 22.825
+prediction 15.0 deg: chrono 0.484 against Dumont 0.669
+prediction 17.5 deg: chrono 0.435 against Dumont 0.814
+prediction 20.0 deg: chrono 0.243 against Dumont 0.896
+best K 0.08 phi 32.0 (calibration rmse 0.081); prediction rmse 0.449; done 2026-10-21 04:50:16
