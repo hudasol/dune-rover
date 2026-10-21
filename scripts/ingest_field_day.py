@@ -13,13 +13,19 @@ What it does, in order (nothing here changes the analysis rule; it calls src/dun
  1. validates the sheets: required columns, numbers where numbers are needed, stations referenced by runs exist,
     slopes and speeds in plausible ranges; every problem is listed and the script stops on errors;
  2. fills phi_deg (and grain size, density, moisture) of a run from the station's soil tests when the run leaves it
-    empty (median of the repeats of that test at that station);
- 3. computes slip per run, the per bin means with bootstrap intervals, and the committed adequacy rule
+    empty (median of the repeats of that test at that station). The friction angle is taken, in this order, from the
+    run's own phi_deg, the station's friction_angle_deg tests, or the station's angle_of_repose_deg tests (a proxy,
+    flagged in phi_source); a run with none of these is a validation error (added 2026-10-21 after the review);
+ 3. keeps for the committed rule only the direct uphill, first pass runs of the pilot and main blocks (heading within
+    15 deg of uphill, pass number 1 or empty, block not cross slope, descent or repeated pass), as the field plan
+    defines the calibration and test sets; the other runs are summarised separately and never enter the rule
+    (selection added 2026-10-21 after the review; the rule itself is unchanged);
+ 4. computes slip per run, the per bin means with bootstrap intervals, and the committed adequacy rule
     (fieldanalysis.analyse, pilot sigma when pilot runs exist);
- 4. scores the dated predictions in docs/predictions/slope_ladder_predictions_<date>.csv: for every bin, whether
+ 5. scores the dated predictions in docs/predictions/slope_ladder_predictions_<date>.csv: for every bin, whether
     the observed mean slip lies inside the model 5 to 95 % interval and inside the planning range, and the
     difference to the published Dumont value where one exists;
- 5. writes results/field_day/<label>/ (runs_with_slip.csv, per_bin.csv, prediction_scores.csv, analysis.json,
+ 6. writes results/field_day/<label>/ (runs_with_slip.csv, per_bin.csv, prediction_scores.csv, analysis.json,
     FIELD_DAY_SUMMARY.md) and, with --rebuild, regenerates the report.
 
 The label of every output is "field measurement, one vehicle, one site" unless the folder is a synthetic test fixture,
@@ -102,12 +108,32 @@ def fill_from_soil(sheets):
     med = {}
     for r in sheets["soil"]:
         med.setdefault((r["station_id"], r["test"]), []).append(float(r["value"]))
-    filled = 0
+    filled, errors = 0, []
     for r in sheets["runs"]:
+        r["phi_source"] = "run sheet" if str(r.get("phi_deg", "")).strip() else ""
         for test, col in SOIL_TO_RUN.items():
             if col and not str(r.get(col, "")).strip() and (r.get("station_id"), test) in med:
                 r[col] = f"{np.median(med[(r['station_id'], test)]):.3f}"; filled += 1
-    return filled
+                if col == "phi_deg":
+                    r["phi_source"] = "station friction_angle_deg tests (median)"
+        if not str(r.get("phi_deg", "")).strip() and (r.get("station_id"), "angle_of_repose_deg") in med:
+            r["phi_deg"] = f"{np.median(med[(r['station_id'], 'angle_of_repose_deg')]):.3f}"; filled += 1
+            r["phi_source"] = "station angle_of_repose_deg tests (median; a proxy for the friction angle)"
+        if not str(r.get("phi_deg", "")).strip():
+            errors.append(f"run {r['run_id']}: no friction angle (phi_deg on the run, or a friction_angle_deg or angle_of_repose_deg test at its station)")
+    return filled, errors
+
+
+def is_rule_run(r):
+    """Direct uphill, first pass run of the pilot or main block: the runs the committed rule is defined on."""
+    blk = str(r.get("block", "")).strip().lower()
+    if any(w in blk for w in ("cross", "descent", "repeat")):
+        return False
+    h = str(r.get("heading_rel_uphill_deg", "")).strip()
+    if h and abs(float(h)) > 15.0:
+        return False
+    p = str(r.get("pass_number", "")).strip()
+    return not p or float(p) <= 1
 
 
 def score_predictions(per_bin, date):
@@ -162,14 +188,24 @@ def main(argv=None):
         for e in errors:
             print("ERROR:", e)
         raise SystemExit(f"{len(errors)} errors in the sheets; nothing was analysed")
-    filled = fill_from_soil(sheets)
+    filled, phi_errors = fill_from_soil(sheets)
+    if phi_errors:
+        for e in phi_errors:
+            print("ERROR:", e)
+        raise SystemExit(f"{len(phi_errors)} runs without a friction angle; nothing was analysed")
     out = os.path.join(a.out_root, a.label or os.path.basename(os.path.abspath(a.folder)))
     os.makedirs(out, exist_ok=True)
+    rule_runs = [r for r in sheets["runs"] if is_rule_run(r)]
+    other_runs = [r for r in sheets["runs"] if not is_rule_run(r)]
     runs_path = os.path.join(out, "runs_merged.csv")
-    write_csv(runs_path, sheets["runs"])
+    write_csv(runs_path, rule_runs)
     d = FA.load_runs(runs_path)
     slip = FA.observed_slip(d)
-    write_csv(os.path.join(out, "runs_with_slip.csv"), [{**r, "slip": round(float(s), 4)} for r, s in zip(sheets["runs"], slip)])
+    write_csv(os.path.join(out, "runs_with_slip.csv"), [{**r, "slip": round(float(s), 4), "in_rule": True} for r, s in zip(rule_runs, slip)])
+    if other_runs:
+        op = os.path.join(out, "other_runs_merged.csv"); write_csv(op, other_runs)
+        so = FA.observed_slip(FA.load_runs(op))
+        write_csv(os.path.join(out, "other_runs_with_slip.csv"), [{**r, "slip": round(float(s), 4), "in_rule": False} for r, s in zip(other_runs, so)])
     res = FA.analyse(d)
     per_bin = [dict(zip(("bin_deg", "n", "mean_slip", "ci95_low", "ci95_high"), b)) for b in FA.per_bin_means(d)]
     write_csv(os.path.join(out, "per_bin.csv"), per_bin)
@@ -179,7 +215,7 @@ def main(argv=None):
                "result": asdict(res)}, open(os.path.join(out, "analysis.json"), "w"), indent=1, default=str)
     inside = sum(1 for s in scores if s["inside_model_5_95"] is True)
     lines = [f"# Field day summary: {a.label or os.path.basename(os.path.abspath(a.folder))}", "", f"Label: **{label}**.", "",
-             f"Runs: {len(sheets['runs'])}; stations: {len(sheets['stations'])}; soil test repeats: {len(sheets['soil'])}; values filled from soil tests: {filled}.", "",
+             f"Runs: {len(sheets['runs'])} ({len(rule_runs)} direct uphill first pass runs in the committed rule; {len(other_runs)} cross slope, descent or repeated pass runs reported separately in other_runs_with_slip.csv); stations: {len(sheets['stations'])}; soil test repeats: {len(sheets['soil'])}; values filled from soil tests: {filled}.", "",
              f"Committed rule (src/dunerover/fieldanalysis.py): slip test {'passed' if res.slip_pass else 'not passed'}; informative: {res.informative}; tolerance {res.tol:.3f}.", "",
              f"Predictions of {a.predictions}: observed bin mean inside the model 5 to 95 % interval in {inside} of {len(scores)} bins.", "",
              "| Bin, deg | Role | Runs | Observed mean slip | Model 5 % | Model 95 % | Inside |", "|---|---|---|---|---|---|---|"]
