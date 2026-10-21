@@ -1,0 +1,92 @@
+stage 15 run 2026-10-21 04:12:51; 53 slip against slope curves from 10 sources; seed 20261022
+  heverly2013_fig11_dtm_marsyard_sand: direct ascent, 16 points, 0.8 to 22.1 deg, constructed bed, comparable partly
+  heverly2013_fig11_scarecrow_marsyard_sand: direct ascent, 10 points, 4.6 to 17.1 deg, constructed bed, comparable partly
+  heverly2013_fig12_scarecrow_dumont: direct ascent, 20 points, 3.8 to 22.1 deg, field, comparable yes
+  inotsume2016_fig3_9_scarab_direct_ascent: direct ascent, 4 points, 13.1 to 25.3 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_0grousers: direct ascent, 5 points, 0.0 to 4.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_12grousers_15mm: direct ascent, 6 points, 0.0 to 16.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_24grousers_15mm: direct ascent, 5 points, 0.0 to 16.0 deg, constructed bed, comparable partly
+  inotsume2016_figB10_eldorado_24grousers_5mm: direct ascent, 6 points, 0.0 to 12.0 deg, constructed bed, comparable partly
+  li2008_fig11a_spirit_finegrain_vo: direct ascent, 10 points, 0.9 to 18.6 deg, field, comparable partly
+  li2008_fig11a_spirit_sandsized_vo: direct ascent, 11 points, 1.3 to 20.4 deg, field, comparable partly
+  yoshida2010_slide37_d116_w100: emulated by pull, 6 points, 0.1 to 12.0 deg, lab, comparable partly
+  yoshida2010_slide37_d202_w100: emulated by pull, 9 points, 0.1 to 20.0 deg, lab, comparable partly
+  yoshida2010_slide37_d327_w100: emulated by pull, 9 points, 0.0 to 19.9 deg, lab, comparable partly
+  yoshida2010_slide39_d202_w050: emulated by pull, 7 points, 4.0 to 16.0 deg, lab, comparable partly
+  yoshida2010_slide39_d202_w150: emulated by pull, 9 points, 0.0 to 19.9 deg, lab, comparable partly
+  heverly2013_sec6_3_cubic_fit_dumont: direct ascent, 18 points, 4.0 to 21.0 deg, field, comparable yes
+  li2008_table6_spirit_finegrain_longitudinal: direct ascent, 3 points, 2.5 to 12.5 deg, field, comparable partly
+  li2008_table6_spirit_sandsized_longitudinal: direct ascent, 4 points, 2.5 to 17.5 deg, field, comparable partly
+  caruso2023_fig12a_lava_w1: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable no
+  caruso2023_fig12a_lava_w2: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable no
+  caruso2023_fig12b_eac1a_w1: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable partly
+  caruso2023_fig12b_eac1a_w2: direct ascent, 5 points, 0.0 to 20.0 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa10: angle of attack 10 deg to the slope base (90 is straight up), 4 points, 8.8 to 15.5 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa30: angle of attack 30 deg to the slope base (90 is straight up), 4 points, 9.8 to 15.0 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa60: angle of attack 60 deg to the slope base (90 is straight up), 4 points, 8.9 to 15.5 deg, constructed bed, comparable partly
+  creager2017_fig11_scarab_aoa90: direct ascent, 4 points, 9.1 to 15.2 deg, constructed bed, comparable partly
+  hu2025goff_fig4b_mgru3_2021_grc1: direct ascent, 3 points, 10.0 to 25.2 deg, lab, comparable partly
+  hu2025goff_fig4b_mgru3_2022_grc1: direct ascent, 4 points, 10.0 to 30.2 deg, lab, comparable partly
+  hu2025goff_fig4b_trec_singlewheel_grc3: emulated by pull, 17 points, -1.6 to 33.5 deg, lab, comparable partly
+  nakashima2010_fig6a_ln18_lh10_w14p7: direct ascent, 4 points, 10.0 to 25.0 deg, lab, comparable partly
+  nakashima2010_fig6b_ln18_lh20_w14p7: direct ascent, 5 points, 0.0 to 25.0 deg, lab, comparable partly
+  nakashima2010_fig6c_ln36_lh10_w14p7: direct ascent, 5 points, 0.1 to 25.0 deg, lab, comparable partly
+  nakashima2010_fig7_ln18_lh20_w19p6: direct ascent, 4 points, 0.0 to 25.0 deg, lab, comparable partly
+  sutoh2012_fig5a_toyoura_lh5_lug0: direct ascent, 3 points, 8.0 to 16.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug12: direct ascent, 2 points, 8.0 to 12.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug24: direct ascent, 2 points, 12.0 to 16.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug3: direct ascent, 2 points, 8.0 to 12.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug48: direct ascent, 3 points, 8.0 to 16.0 deg, constructed bed, comparable yes
+  sutoh2012_fig5a_toyoura_lh5_lug6: direct ascent, 4 points, 8.0 to 20.0 deg, constructed bed, comparable yes
+  watanabe2026_fig10c_fjs1_b10: direct ascent, 4 points, 0.0 to 25.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b15: direct ascent, 3 points, 15.0 to 25.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b3: direct ascent, 7 points, 0.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b30: direct ascent, 2 points, 15.0 to 20.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b45: direct ascent, 3 points, 10.0 to 20.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b5: direct ascent, 4 points, 10.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig10c_fjs1_b60: direct ascent, 2 points, 15.0 to 20.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b10: direct ascent, 5 points, 0.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b15: direct ascent, 5 points, 10.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b3: direct ascent, 7 points, 0.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b30: direct ascent, 4 points, 5.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b45: direct ascent, 4 points, 15.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b5: direct ascent, 5 points, 5.0 to 30.0 deg, constructed bed, comparable partly
+  watanabe2026_fig9c_silica_b60: direct ascent, 4 points, 10.0 to 30.0 deg, constructed bed, comparable partly
+exp_existing: nominal and per curve fits done on 49 curves
+exp_existing: LOSO held out caruso2023: caruso2023_fig12a_lava_w1 rmse 0.150 cover 1.00, caruso2023_fig12a_lava_w2 rmse 0.156 cover 1.00, caruso2023_fig12b_eac1a_w1 rmse 0.118 cover 1.00, caruso2023_fig12b_eac1a_w2 rmse 0.149 cover 1.00
+exp_existing: LOSO held out creager2017: creager2017_fig11_scarab_aoa90 rmse 0.336 cover 0.75
+exp_existing: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.246 cover 0.75, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.224 cover 0.80, heverly2013_fig12_scarecrow_dumont rmse 0.265 cover 0.65
+exp_existing: LOSO held out hu2025goff: hu2025goff_fig4b_mgru3_2021_grc1 rmse 0.142 cover 1.00, hu2025goff_fig4b_mgru3_2022_grc1 rmse 0.115 cover 1.00, hu2025goff_fig4b_trec_singlewheel_grc3 rmse 0.212 cover 0.94
+exp_existing: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.458 cover 0.00, inotsume2016_figB10_eldorado_0grousers rmse 0.443 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.240 cover 0.83, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.215 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.432 cover 0.33
+exp_existing: LOSO held out li2008: li2008_fig11a_spirit_finegrain_vo rmse 0.164 cover 1.00, li2008_fig11a_spirit_sandsized_vo rmse 0.243 cover 0.91, li2008_table6_spirit_finegrain_longitudinal rmse 0.178 cover 1.00, li2008_table6_spirit_sandsized_longitudinal rmse 0.243 cover 1.00
+exp_existing: LOSO held out nakashima2010: nakashima2010_fig6a_ln18_lh10_w14p7 rmse 0.151 cover 1.00, nakashima2010_fig6b_ln18_lh20_w14p7 rmse 0.133 cover 1.00, nakashima2010_fig6c_ln36_lh10_w14p7 rmse 0.112 cover 1.00, nakashima2010_fig7_ln18_lh20_w19p6 rmse 0.069 cover 1.00
+exp_existing: LOSO held out sutoh2012: sutoh2012_fig5a_toyoura_lh5_lug0 rmse 0.432 cover 0.33, sutoh2012_fig5a_toyoura_lh5_lug12 rmse 0.219 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug24 rmse 0.223 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug3 rmse 0.369 cover 0.50, sutoh2012_fig5a_toyoura_lh5_lug48 rmse 0.229 cover 0.67, sutoh2012_fig5a_toyoura_lh5_lug6 rmse 0.387 cover 0.25
+exp_existing: LOSO held out watanabe2026: watanabe2026_fig10c_fjs1_b10 rmse 0.245 cover 0.75, watanabe2026_fig10c_fjs1_b15 rmse 0.216 cover 1.00, watanabe2026_fig10c_fjs1_b3 rmse 0.344 cover 0.57, watanabe2026_fig10c_fjs1_b30 rmse 0.101 cover 1.00, watanabe2026_fig10c_fjs1_b45 rmse 0.067 cover 1.00, watanabe2026_fig10c_fjs1_b5 rmse 0.401 cover 0.50, watanabe2026_fig10c_fjs1_b60 rmse 0.034 cover 1.00, watanabe2026_fig9c_silica_b10 rmse 0.178 cover 1.00, watanabe2026_fig9c_silica_b15 rmse 0.192 cover 1.00, watanabe2026_fig9c_silica_b3 rmse 0.254 cover 0.86, watanabe2026_fig9c_silica_b30 rmse 0.155 cover 1.00, watanabe2026_fig9c_silica_b45 rmse 0.227 cover 1.00, watanabe2026_fig9c_silica_b5 rmse 0.287 cover 0.60, watanabe2026_fig9c_silica_b60 rmse 0.258 cover 1.00
+exp_existing: LOSO held out yoshida2010: yoshida2010_slide37_d116_w100 rmse 0.243 cover 0.83, yoshida2010_slide37_d202_w100 rmse 0.125 cover 1.00, yoshida2010_slide37_d327_w100 rmse 0.216 cover 1.00, yoshida2010_slide39_d202_w050 rmse 0.133 cover 1.00, yoshida2010_slide39_d202_w150 rmse 0.127 cover 1.00
+exp_existing posterior on 41 comparable direct ascent curves: {"phi_deg": [41.101245982788235, 44.341539514061964, 44.95878234780912], "f_r": [0.09046872909676903, 0.16673570464484014, 0.24843526617517758], "i0": [0.49742315390049757, 0.647061074738096, 0.8430589435883703], "s": [0.21170939102183248, 0.22795390966961074, 0.24843826876732605]}
+mohr_coulomb_ratio: nominal and per curve fits done on 49 curves
+mohr_coulomb_ratio: LOSO held out caruso2023: caruso2023_fig12a_lava_w1 rmse 0.160 cover 1.00, caruso2023_fig12a_lava_w2 rmse 0.158 cover 1.00, caruso2023_fig12b_eac1a_w1 rmse 0.139 cover 1.00, caruso2023_fig12b_eac1a_w2 rmse 0.174 cover 1.00
+mohr_coulomb_ratio: LOSO held out creager2017: creager2017_fig11_scarab_aoa90 rmse 0.303 cover 0.75
+mohr_coulomb_ratio: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.232 cover 0.88, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.219 cover 0.90, heverly2013_fig12_scarecrow_dumont rmse 0.246 cover 0.70
+mohr_coulomb_ratio: LOSO held out hu2025goff: hu2025goff_fig4b_mgru3_2021_grc1 rmse 0.163 cover 1.00, hu2025goff_fig4b_mgru3_2022_grc1 rmse 0.144 cover 1.00, hu2025goff_fig4b_trec_singlewheel_grc3 rmse 0.202 cover 1.00
+mohr_coulomb_ratio: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.436 cover 0.00, inotsume2016_figB10_eldorado_0grousers rmse 0.456 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.223 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.194 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.421 cover 0.33
+mohr_coulomb_ratio: LOSO held out li2008: li2008_fig11a_spirit_finegrain_vo rmse 0.171 cover 1.00, li2008_fig11a_spirit_sandsized_vo rmse 0.263 cover 0.91, li2008_table6_spirit_finegrain_longitudinal rmse 0.196 cover 1.00, li2008_table6_spirit_sandsized_longitudinal rmse 0.266 cover 0.50
+mohr_coulomb_ratio: LOSO held out nakashima2010: nakashima2010_fig6a_ln18_lh10_w14p7 rmse 0.177 cover 1.00, nakashima2010_fig6b_ln18_lh20_w14p7 rmse 0.149 cover 1.00, nakashima2010_fig6c_ln36_lh10_w14p7 rmse 0.128 cover 1.00, nakashima2010_fig7_ln18_lh20_w19p6 rmse 0.078 cover 1.00
+mohr_coulomb_ratio: LOSO held out sutoh2012: sutoh2012_fig5a_toyoura_lh5_lug0 rmse 0.404 cover 0.33, sutoh2012_fig5a_toyoura_lh5_lug12 rmse 0.195 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug24 rmse 0.194 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug3 rmse 0.349 cover 0.50, sutoh2012_fig5a_toyoura_lh5_lug48 rmse 0.208 cover 0.67, sutoh2012_fig5a_toyoura_lh5_lug6 rmse 0.357 cover 0.25
+mohr_coulomb_ratio: LOSO held out watanabe2026: watanabe2026_fig10c_fjs1_b10 rmse 0.209 cover 1.00, watanabe2026_fig10c_fjs1_b15 rmse 0.200 cover 1.00, watanabe2026_fig10c_fjs1_b3 rmse 0.317 cover 0.71, watanabe2026_fig10c_fjs1_b30 rmse 0.116 cover 1.00, watanabe2026_fig10c_fjs1_b45 rmse 0.084 cover 1.00, watanabe2026_fig10c_fjs1_b5 rmse 0.364 cover 0.75, watanabe2026_fig10c_fjs1_b60 rmse 0.039 cover 1.00, watanabe2026_fig9c_silica_b10 rmse 0.139 cover 1.00, watanabe2026_fig9c_silica_b15 rmse 0.186 cover 1.00, watanabe2026_fig9c_silica_b3 rmse 0.232 cover 0.86, watanabe2026_fig9c_silica_b30 rmse 0.123 cover 1.00, watanabe2026_fig9c_silica_b45 rmse 0.206 cover 1.00, watanabe2026_fig9c_silica_b5 rmse 0.255 cover 1.00, watanabe2026_fig9c_silica_b60 rmse 0.237 cover 1.00
+mohr_coulomb_ratio: LOSO held out yoshida2010: yoshida2010_slide37_d116_w100 rmse 0.221 cover 0.67, yoshida2010_slide37_d202_w100 rmse 0.123 cover 1.00, yoshida2010_slide37_d327_w100 rmse 0.244 cover 1.00, yoshida2010_slide39_d202_w050 rmse 0.126 cover 1.00, yoshida2010_slide39_d202_w150 rmse 0.142 cover 1.00
+logistic_empirical: nominal and per curve fits done on 49 curves
+logistic_empirical: LOSO held out caruso2023: caruso2023_fig12a_lava_w1 rmse 0.159 cover 1.00, caruso2023_fig12a_lava_w2 rmse 0.155 cover 1.00, caruso2023_fig12b_eac1a_w1 rmse 0.147 cover 1.00, caruso2023_fig12b_eac1a_w2 rmse 0.182 cover 1.00
+logistic_empirical: LOSO held out creager2017: creager2017_fig11_scarab_aoa90 rmse 0.309 cover 0.50
+logistic_empirical: LOSO held out heverly2013: heverly2013_fig11_dtm_marsyard_sand rmse 0.231 cover 0.94, heverly2013_fig11_scarecrow_marsyard_sand rmse 0.216 cover 0.90, heverly2013_fig12_scarecrow_dumont rmse 0.239 cover 0.70
+logistic_empirical: LOSO held out hu2025goff: hu2025goff_fig4b_mgru3_2021_grc1 rmse 0.154 cover 1.00, hu2025goff_fig4b_mgru3_2022_grc1 rmse 0.142 cover 1.00, hu2025goff_fig4b_trec_singlewheel_grc3 rmse 0.212 cover 1.00
+logistic_empirical: LOSO held out inotsume2016: inotsume2016_fig3_9_scarab_direct_ascent rmse 0.429 cover 0.25, inotsume2016_figB10_eldorado_0grousers rmse 0.436 cover 0.60, inotsume2016_figB10_eldorado_12grousers_15mm rmse 0.224 cover 0.67, inotsume2016_figB10_eldorado_24grousers_15mm rmse 0.201 cover 0.80, inotsume2016_figB10_eldorado_24grousers_5mm rmse 0.425 cover 0.33
+logistic_empirical: LOSO held out li2008: li2008_fig11a_spirit_finegrain_vo rmse 0.176 cover 1.00, li2008_fig11a_spirit_sandsized_vo rmse 0.271 cover 0.82, li2008_table6_spirit_finegrain_longitudinal rmse 0.200 cover 1.00, li2008_table6_spirit_sandsized_longitudinal rmse 0.272 cover 0.75
+logistic_empirical: LOSO held out nakashima2010: nakashima2010_fig6a_ln18_lh10_w14p7 rmse 0.174 cover 1.00, nakashima2010_fig6b_ln18_lh20_w14p7 rmse 0.160 cover 1.00, nakashima2010_fig6c_ln36_lh10_w14p7 rmse 0.124 cover 1.00, nakashima2010_fig7_ln18_lh20_w19p6 rmse 0.076 cover 1.00
+logistic_empirical: LOSO held out sutoh2012: sutoh2012_fig5a_toyoura_lh5_lug0 rmse 0.414 cover 0.33, sutoh2012_fig5a_toyoura_lh5_lug12 rmse 0.211 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug24 rmse 0.201 cover 0.50, sutoh2012_fig5a_toyoura_lh5_lug3 rmse 0.360 cover 0.50, sutoh2012_fig5a_toyoura_lh5_lug48 rmse 0.210 cover 1.00, sutoh2012_fig5a_toyoura_lh5_lug6 rmse 0.365 cover 0.25
+logistic_empirical: LOSO held out watanabe2026: watanabe2026_fig10c_fjs1_b10 rmse 0.225 cover 1.00, watanabe2026_fig10c_fjs1_b15 rmse 0.215 cover 1.00, watanabe2026_fig10c_fjs1_b3 rmse 0.306 cover 0.71, watanabe2026_fig10c_fjs1_b30 rmse 0.126 cover 1.00, watanabe2026_fig10c_fjs1_b45 rmse 0.077 cover 1.00, watanabe2026_fig10c_fjs1_b5 rmse 0.351 cover 0.50, watanabe2026_fig10c_fjs1_b60 rmse 0.024 cover 1.00, watanabe2026_fig9c_silica_b10 rmse 0.139 cover 1.00, watanabe2026_fig9c_silica_b15 rmse 0.182 cover 1.00, watanabe2026_fig9c_silica_b3 rmse 0.222 cover 1.00, watanabe2026_fig9c_silica_b30 rmse 0.114 cover 1.00, watanabe2026_fig9c_silica_b45 rmse 0.199 cover 1.00, watanabe2026_fig9c_silica_b5 rmse 0.250 cover 1.00, watanabe2026_fig9c_silica_b60 rmse 0.226 cover 1.00
+logistic_empirical: LOSO held out yoshida2010: yoshida2010_slide37_d116_w100 rmse 0.227 cover 0.67, yoshida2010_slide37_d202_w100 rmse 0.120 cover 1.00, yoshida2010_slide37_d327_w100 rmse 0.247 cover 1.00, yoshida2010_slide39_d202_w050 rmse 0.123 cover 1.00, yoshida2010_slide39_d202_w150 rmse 0.142 cover 1.00
+VERDICT exp_existing: {'heldout_curves': 49, 'median_heldout_rmse': 0.2165, 'pooled_coverage90': 0.84, 'median_nominal_rmse': 0.2301, 'median_fit_rmse': 0.0397, 'survives': False}
+VERDICT mohr_coulomb_ratio: {'heldout_curves': 49, 'median_heldout_rmse': 0.1996, 'pooled_coverage90': 0.861, 'median_nominal_rmse': 0.2613, 'median_fit_rmse': 0.0937, 'survives': False}
+VERDICT logistic_empirical: {'heldout_curves': 49, 'median_heldout_rmse': 0.2104, 'pooled_coverage90': 0.865, 'median_nominal_rmse': 0.2229, 'median_fit_rmse': 0.0256, 'survives': False}
+done 2026-10-21 04:33:35
