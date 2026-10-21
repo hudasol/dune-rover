@@ -4,3 +4,4 @@ mobilitymodels_rows.csv
 planetary_rows.csv
 sanddunes_rows.csv
 terramechanics3_rows.csv
+../phase4/scaling_rows.csv

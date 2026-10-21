@@ -7,7 +7,7 @@ rows = []
 for f in sorted(glob.glob(os.path.join(ROOT, "research", "verify_out_batch*.csv"))):
     nb = int(re.search(r"batch(\d+)", f).group(1))
     for r in csv.DictReader(open(f, encoding="utf-8")):
-        r["phase"] = 5 if nb >= 15 else 4 if nb >= 14 else (3 if nb >= 8 else (2 if nb >= 4 else 1)); rows.append(r)
+        r["phase"] = 6 if nb >= 28 else 5 if nb >= 15 else 4 if nb >= 14 else (3 if nb >= 8 else (2 if nb >= 4 else 1)); rows.append(r)
 current = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "evidence.csv"), encoding="utf-8"))}
 rows = [r for r in rows if r["phase"] < 5 or r["id"] in current]   # phase 5 verdicts count once their rows are merged into the table
 supplied = {r["id"] for r in csv.DictReader(open(os.path.join(ROOT, "research", "phase2", "supplied_pdf_rows_2026-10-13.csv"), encoding="utf-8"))}
@@ -32,7 +32,8 @@ grp = (("random sample, phase 1 (n=30 of 137 unflagged)", lambda r: r["phase"] =
        ("supplementary rows from supplied PDFs, phase 3", lambda r: r["phase"] == 3),
        ("ALL 170 ROWS", lambda r: r["phase"] in (1, 2, 3)),
        ("split rows, phase 4", lambda r: r["phase"] == 4),
-       ("new rows of the 2026-10-20 evidence expansion, phase 5", lambda r: r["phase"] == 5))
+       ("new rows of the 2026-10-20 evidence expansion, phase 5", lambda r: r["phase"] == 5),
+       ("new rows of 2026-10-21 (scaling law sources), phase 6", lambda r: r["phase"] == 6))
 for name, fn in grp:
     sub = [r for r in rows if fn(r)]; n = len(sub)
     cnt = {k: sum(r["overall"] == k for r in sub) for k in ("correct", "minor_error", "material_error", "unverifiable")}
@@ -50,6 +51,8 @@ lines = ["# Verification log", "", f"Every one of the {len(current)} rows of the
          "Phase 5 (2026-10-20): the rows added by the evidence expansion of 2026-10-20 (ids PLN, TM3, MOB, SND, DUN, MAP, ENV), each checked by a fresh verifier agent against the full text (batches 15 and up)." if any(r["phase"] == 5 for r in rows) else "",
          "Two views are reported. 'ALL 170 ROWS' is the first check of the rows as extracted (FLD-HV13-5 counts with its material error). 'CURRENT TABLE' takes each row of the current table with its latest verdict (the two split rows with their phase 4 verdicts; FLD-HV13-5 is no longer in the table).",
          "Definitions: material error = wrong value, unit, metric meaning, validation type, vehicle/terrain or slope; minor error = number right but a label, section reference or descriptive detail wrong.", ""]
+if any(r["phase"] == 6 for r in rows):
+    lines.insert(7, "Phase 6 (2026-10-21): the rows from the scaling law sources read on 2026-10-21 (ids SCL), each checked by a fresh verifier agent against the full text (batch 28).")
 if lines[6] == "":
     del lines[6]   # no phase 5 rows yet
 for name, n, c in out:
