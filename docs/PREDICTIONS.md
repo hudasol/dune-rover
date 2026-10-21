@@ -417,3 +417,16 @@ Design fixed now (`scripts/icesat2_profiles.py`):
 | D19-6 | Per face crossing run (consecutive segments of one beam with raw slope of 20 deg or more), the median of the steepest corrected slope lies between 28 and 35 deg in area A. | pending |
 | D19-7 | On face crossing segments, the median of (ICESat-2 slope minus Copernicus slope along the same track) is at least 10 deg in each area with at least 30 face crossings. | pending |
 | D19-8 | Over all valid segments of area A, the 95th percentile of the absolute ICESat-2 along track slope is at least 10 deg higher than the 95th percentile of the absolute Copernicus along track slope at the same segments. | pending |
+
+
+## Stage 21: replication of stage 15 on the expanded curve set (written 2026-10-21, BEFORE any model was calibrated or scored on the new curves)
+
+**SIMULATED BY ME (fits and predictions) against PUBLISHED curves.** The 36 curves added on 2026-10-21 (`research/phase4/curves_new.csv`, 7 new sources) are added to the 26 curves of stage 15. The method is unchanged (`scripts/model_validation.py`, seed 20261022, same families, same priors, same leave one study out design, same bar), run with `--extra-curves research/phase4/curves_new.csv --out results/model_validation_phase4`. By the unchanged loading rule, curves whose slope kind is not direct ascent, side slope or emulated by pull (the Scarab angle of attack curves at 10, 30 and 60 deg) are not used by the families that do not apply to them, and the Curiosity curve, whose slip mixes longitudinal and lateral slip, is excluded. Disclosure: before writing this stage I listed the new curves with the loader (ids, slope kinds, number of points and the wheel size, width and load), but no model was fitted or scored on them. A stage 15 posterior range set is not recomputed and the Arabian maps are not re run from this stage.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| R21-1 | No family passes the stage 15 bar on the expanded set. | pending |
+| R21-2 | For every family, the median held out error on the expanded set differs from its stage 15 value by less than 0.05. | pending |
+| R21-3 | The Bekker Wong family has a median held out error of at most 0.25 and pooled coverage below 0.80 on the curves with wheel size, width and load. | pending |
+| R21-4 | On the curves where it applies, the Bekker Wong family again beats the logistic family by more than 0.03 in median held out error. | pending |
+| R21-5 | The exponential family's posterior median of i0 on the comparable direct ascent curves is above 0.40 again. | pending |
