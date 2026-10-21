@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "src"))
-from dunerover.models import FAMILIES  # noqa: E402
+from dunerover.models import FAMILIES, EXTRA_FAMILIES  # noqa: E402
 
 OUT = os.path.join(ROOT, "results", "model_validation")
 CURVES = os.path.join(ROOT, "research", "phase3", "curves.csv")
@@ -60,8 +60,10 @@ def load_curves(path=CURVES):
         kind = r0["slope_kind"].strip().lower()
         kind = "direct ascent" if kind.startswith("direct") else "side slope" if kind.startswith("side") else "emulated by pull" if "pull" in kind else kind
         d, w, load = num(r0["wheel_diameter_m"]), num(r0["wheel_width_m"]), num(r0["load_per_wheel_N"])
+        rho = num(r0["bulk_density_kg_m3"].split(" ")[0]) if r0["bulk_density_kg_m3"].strip() else float("nan")
         ctx = {"radius_m": d / 2 if np.isfinite(d) else None, "width_m": w if np.isfinite(w) else None,
-               "load_N": load if np.isfinite(load) else None, "soil_set": "fjs1_ishigami2007"}
+               "load_N": load if np.isfinite(load) else None, "soil_set": "fjs1_ishigami2007",
+               "density_kg_m3": rho if np.isfinite(rho) and 800 < rho < 2500 else None}   # used only by the stage 22 families
         curves.append({"id": cid, "source": r0["source_key"], "x": x[ok], "y": np.clip(y[ok], 0.0, 1.0), "yu": yu[ok], "kind": kind,
                        "ctx": ctx, "test_type": r0["test_type"], "comparable": r0["comparable_to_dune_sand"], "gravity": r0["gravity_g"],
                        "method": r0["method"], "vehicle": r0["vehicle"]})
@@ -73,6 +75,8 @@ def usable(fam, c):
         return False
     if fam.name == "bekker_wong":
         return all(c["ctx"][k] for k in ("radius_m", "width_m", "load_N"))
+    if getattr(fam, "needs", None):   # stage 22 families
+        return all(c["ctx"].get(k) for k in fam.needs)
     return True
 
 
@@ -165,7 +169,7 @@ def main():
     ap.add_argument("--extra-curves", default="", help="stage 21: an additional curve file in the same format (research/phase4/curves_new.csv)")
     ap.add_argument("--out", default="", help="output folder (default results/model_validation)")
     a = ap.parse_args()
-    fams = [FAMILIES[n] for n in a.families.split(",")]
+    fams = [{**FAMILIES, **EXTRA_FAMILIES}[n] for n in a.families.split(",")]
     global OUT
     if a.out:
         OUT = os.path.join(ROOT, a.out)
