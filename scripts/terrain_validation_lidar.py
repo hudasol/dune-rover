@@ -47,6 +47,13 @@ PINK = {"bg": "#fffafb", "sakura": "#e8a5bb", "rose": "#c9769a", "deep": "#a8325
 CLASS_COLORS = {0: "#a9cdbd", 1: "#7a1f45", 2: "#a98fd1", 3: "#ee7aa8", 4: "#5b3a78"}
 
 
+def load_sites_file(path):
+    """Replace SITES by the sites of a JSON file (keys starting with an underscore are notes)."""
+    d = json.load(open(os.path.join(ROOT, path) if not os.path.isabs(path) else path))
+    SITES.clear()
+    SITES.update({k: (v[0], tuple(v[1]), v[2]) for k, v in d.items() if not k.startswith("_")})
+
+
 def sha256(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -76,10 +83,16 @@ def block(a, k, how="mean"):
 def main():
     import argparse
     ap = argparse.ArgumentParser()
+    ap.add_argument("--sites-file", default="", help="stage 20: JSON file of sites in the SITES format (replaces the three stage 12 sites)")
+    ap.add_argument("--out", default="", help="output folder (default results/terrain_validation)")
     ap.add_argument("--truth-max-deg", type=float, default=None,
                     help="POST HOC (after the midpoint review): count only posts between 28 deg and this angle, to exclude rock and lidar artefacts steeper than sand can stand")
     args = ap.parse_args()
     global OUT
+    if args.sites_file:
+        load_sites_file(args.sites_file)
+    if args.out:
+        OUT = os.path.join(ROOT, args.out)
     if args.truth_max_deg is not None:
         OUT = os.path.join(OUT, f"posthoc_truth_max_{args.truth_max_deg:g}deg")
     os.makedirs(os.path.join(OUT, "figures"), exist_ok=True)

@@ -1,0 +1,6 @@
+{
+ "_note": "Stage 20 (docs/PREDICTIONS.md). Windows chosen on 2026-10-21 from 20 m slope images (results/terrain_validation_phase4/overview/) before any metric was computed. Same format as SITES in scripts/terrain_validation_lidar.py: tile, window (easting min, easting max, northing min, northing max, UTM metres), description.",
+ "GreatSandDunes": ["USGS_1M_13_x45y418_CO_SanLuisJuanMiguel_2020_D20.tif", [450000, 454000, 4176300, 4180000], "Great Sand Dunes, Colorado (UTM 13N); south western part of the main dune field, star and reversing dunes; lidar 2020"],
+ "Algodones": ["USGS_1M_11_x67y365_CA_SaltonSea_EarthMRI_2021_D21.tif", [675500, 679500, 3641500, 3646500], "Algodones (Imperial) Dunes, California (UTM 11N); central dune belt; lidar 2021"],
+ "LittleSahara": ["USGS_1M_12_x38y440_UT_StatewideCenSouth_2020_A20.tif", [380000, 382000, 4394000, 4397200], "Little Sahara dune field, Utah (UTM 12N); western dune area, avoiding the rock outcrops to the north and south east; partly vegetated; lidar 2020"]
+}
