@@ -1,0 +1,11 @@
+{
+ "label": "SIMULATED BY ME: CPU cost of a reduced DEM wheel case, not a slip result",
+ "spheres": 1600,
+ "grain_radius_m": 0.01,
+ "dt_s": 0.0001,
+ "steps_done": 200,
+ "wall_s": 10.1,
+ "ms_per_step": 50.3,
+ "hours_for_one_4s_slope_run": 0.56,
+ "note": "a sand like bed would need far smaller grains (millions of particles); the GPU notebook notebooks/chrono_dem_gpu.ipynb is the route"
+}
