@@ -15,5 +15,10 @@ from .exp_model import ExpModel
 from .bekker_wong import BekkerWong
 from .baselines import MohrCoulombRatio, Logistic
 
+from .mobility import MobilityPull, MobilityLogistic
+
 FAMILIES = {f.name: f for f in (ExpModel(), BekkerWong(), MohrCoulombRatio(), Logistic())}
-__all__ = ["Family", "Param", "FAMILIES"]
+# stage 22 (2026-10-21): families that use the strength to load number of the granular scaling laws; kept apart so the
+# stage 15 runs and their output folders are unchanged
+EXTRA_FAMILIES = {f.name: f for f in (MobilityPull(), MobilityLogistic())}
+__all__ = ["Family", "Param", "FAMILIES", "EXTRA_FAMILIES"]

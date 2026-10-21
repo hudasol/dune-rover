@@ -430,3 +430,17 @@ Design fixed now (`scripts/icesat2_profiles.py`):
 | R21-3 | The Bekker Wong family has a median held out error of at most 0.25 and pooled coverage below 0.80 on the curves with wheel size, width and load. | pending |
 | R21-4 | On the curves where it applies, the Bekker Wong family again beats the logistic family by more than 0.03 in median held out error. | pending |
 | R21-5 | The exponential family's posterior median of i0 on the comparable direct ascent curves is above 0.40 again. | pending |
+
+
+## Stage 22: two model families built on the strength to load number of the granular scaling laws (written 2026-10-21, BEFORE either family was calibrated or scored on any curve)
+
+**SIMULATED BY ME (fits and predictions) against PUBLISHED curves.** The scaling law literature was read in full where possible (`research/phase4/scaling_laws_notes.md`; Zhang, Townsend and Kamrin 2020 could not be retrieved). The laws are similarity laws: they name the group Pi = rho g b r^2 / W (density, gravity, width, radius squared, load) but do not give the shape or level of a slip curve. Two families in the reduced forms of the notes are implemented in `src/dunerover/models/mobility.py`: `mobility_pull` (the slope as a drawbar demand and an exponential pull against slip curve whose limit is m0 + m1 ln Pi and whose resistance is r0 / Pi; 4 parameters) and `mobility_logistic` (a logistic in tan(slope) with midpoint a0 + a1 ln Pi; 3 parameters). The curve shapes and the log dependence are proposals of this repository, not equations of any source. Where a curve does not report bulk density, 1600 kg/m3 is used (ASSUMPTION). Disclosure: before writing this stage I listed which curves the families can use (34 curves from 6 sources with wheel radius, width and load) and their Pi values (0.05 to 1.42); no family was fitted.
+
+Design fixed now: `scripts/model_validation.py --families mobility_pull,mobility_logistic --extra-curves research/phase4/curves_new.csv --out results/model_validation_phase4`, seed 20261022, the same priors (uniform on the bounds, log uniform where marked), the same MCMC, the same leave one study out design and the same bar as stage 15 (median held out error at most 0.15 and pooled 90 % coverage at least 0.80). The run is done once; anything changed after it is post hoc.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| M22-1 | Neither new family passes the bar. | pending |
+| M22-2 | On the curves it applies to, `mobility_pull` has a median held out error at least 0.02 lower than the stage 21 `logistic_empirical` family (no covariates) on the same curves. | pending |
+| M22-3 | The pooled 90 % coverage of each new family lies between 0.60 and 0.95. | pending |
+| M22-4 | When the Watanabe 2026 study (14 curves of one wheel at seven widths, the widest range of Pi) is held out, the median held out error of each new family is above 0.15. | pending |
