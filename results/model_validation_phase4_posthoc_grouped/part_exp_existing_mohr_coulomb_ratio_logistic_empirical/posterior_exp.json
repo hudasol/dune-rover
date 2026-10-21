@@ -1,0 +1,68 @@
+{
+ "curves": [
+  "heverly2013_fig11_dtm_marsyard_sand",
+  "heverly2013_fig11_scarecrow_marsyard_sand",
+  "heverly2013_fig12_scarecrow_dumont",
+  "inotsume2016_fig3_9_scarab_direct_ascent",
+  "inotsume2016_figB10_eldorado_0grousers",
+  "inotsume2016_figB10_eldorado_12grousers_15mm",
+  "inotsume2016_figB10_eldorado_24grousers_15mm",
+  "inotsume2016_figB10_eldorado_24grousers_5mm",
+  "li2008_fig11a_spirit_finegrain_vo",
+  "li2008_fig11a_spirit_sandsized_vo",
+  "li2008_table6_spirit_finegrain_longitudinal",
+  "li2008_table6_spirit_sandsized_longitudinal",
+  "caruso2023_fig12b_eac1a_w1",
+  "caruso2023_fig12b_eac1a_w2",
+  "creager2017_fig11_scarab_aoa90",
+  "hu2025goff_fig4b_mgru3_2021_grc1",
+  "hu2025goff_fig4b_mgru3_2022_grc1",
+  "nakashima2010_fig6a_ln18_lh10_w14p7",
+  "nakashima2010_fig6b_ln18_lh20_w14p7",
+  "nakashima2010_fig6c_ln36_lh10_w14p7",
+  "nakashima2010_fig7_ln18_lh20_w19p6",
+  "sutoh2012_fig5a_toyoura_lh5_lug0",
+  "sutoh2012_fig5a_toyoura_lh5_lug12",
+  "sutoh2012_fig5a_toyoura_lh5_lug24",
+  "sutoh2012_fig5a_toyoura_lh5_lug3",
+  "sutoh2012_fig5a_toyoura_lh5_lug48",
+  "sutoh2012_fig5a_toyoura_lh5_lug6",
+  "watanabe2026_fig10c_fjs1_b10",
+  "watanabe2026_fig10c_fjs1_b15",
+  "watanabe2026_fig10c_fjs1_b3",
+  "watanabe2026_fig10c_fjs1_b30",
+  "watanabe2026_fig10c_fjs1_b45",
+  "watanabe2026_fig10c_fjs1_b5",
+  "watanabe2026_fig10c_fjs1_b60",
+  "watanabe2026_fig9c_silica_b10",
+  "watanabe2026_fig9c_silica_b15",
+  "watanabe2026_fig9c_silica_b3",
+  "watanabe2026_fig9c_silica_b30",
+  "watanabe2026_fig9c_silica_b45",
+  "watanabe2026_fig9c_silica_b5",
+  "watanabe2026_fig9c_silica_b60"
+ ],
+ "quantiles_5_50_95": {
+  "phi_deg": [
+   41.101245982788235,
+   44.341539514061964,
+   44.95878234780912
+  ],
+  "f_r": [
+   0.09046872909676903,
+   0.16673570464484014,
+   0.24843526617517758
+  ],
+  "i0": [
+   0.49742315390049757,
+   0.647061074738096,
+   0.8430589435883703
+  ],
+  "s": [
+   0.21170939102183248,
+   0.22795390966961074,
+   0.24843826876732605
+  ]
+ },
+ "samples": 1600
+}
