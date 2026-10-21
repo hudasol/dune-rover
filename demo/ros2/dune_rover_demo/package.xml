@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>dune_rover_demo</name>
+  <version>0.1.0</version>
+  <description>Closed loop demonstration for hudasol/dune-rover: three class map, planner, simulated rover on lidar terrain, online slip monitor. SIMULATED; not field software.</description>
+  <maintainer email="hudamueen2407@gmail.com">Huda Mueen</maintainer>
+  <license>All rights reserved</license>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
