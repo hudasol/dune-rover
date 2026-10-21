@@ -1,0 +1,91 @@
+{
+ "pdf": "research/sources/phase4/hu2025goff.pdf",
+ "pdf_note": "copy of the NTRS author manuscript (ntrs.nasa.gov/citations/20250001809); figure is an embedded high resolution raster",
+ "page": 10,
+ "dpi": 400,
+ "x_axis": {
+  "px": [
+   1878.5,
+   2653.5
+  ],
+  "val": [
+   0,
+   0.8
+  ],
+  "scale": "linear",
+  "note": "light grey vertical gridlines at slip 0.0 and 0.8 (193.75 px per 0.2)"
+ },
+ "y_axis": {
+  "px": [
+   939.5,
+   477.5
+  ],
+  "val": [
+   0,
+   40
+  ],
+  "scale": "linear",
+  "note": "light grey horizontal gridlines at slope 0 and 40 deg (115.5 px per 10 deg)"
+ },
+ "marker": {
+  "mode": "components",
+  "crop": [
+   1786,
+   424,
+   2844,
+   1052
+  ],
+  "exclude_boxes": [
+   [
+    1790,
+    425,
+    2435,
+    565
+   ]
+  ],
+  "mask": {
+   "include": [
+    {
+     "max_value": 100
+    }
+   ]
+  },
+  "open_px": 10,
+  "area_px": [
+   140,
+   300
+  ],
+  "merge_px": 0,
+  "marker_radius_px": 12,
+  "swap_output": true,
+  "swap_note": "source plot has slip on x and slope on y; output x is slope and y is slip"
+ },
+ "meta": {
+  "source_key": "hu2025goff",
+  "source_title": "A study demonstrating that using gravitational offset to prepare extraterrestrial mobility missions is misleading (Hu, Li, Rogg, Schepelmann, Chandler, Kamrin, Negrut; Journal of Field Robotics, 2025; author manuscript in NASA NTRS 20250001809)",
+  "source_url": "https://ntrs.nasa.gov/citations/20250001809",
+  "evidence_row": "not in evidence.csv",
+  "figure_or_table": "Fig. 4(b)",
+  "page": "10",
+  "x_name": "traction slope (arctan of drawbar pull over normal load)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "fraction",
+  "grain_size_mm": "not reported",
+  "test_type": "lab",
+  "gravity_g": "1",
+  "comparable_to_dune_sand": "partly",
+  "vehicle": "NASA Glenn TREC single wheel rig, VIPER wheel, velocity controlled (VV mode) on level simulant",
+  "wheel_diameter_m": "0.50 (radius 0.25 m, Fig. 5 table: geometry used in the SLOPE lab)",
+  "wheel_width_m": "0.20",
+  "load_per_wheel_N": "not reported in N (total load induced by a 17.5 kg mass, Sec. 3.1)",
+  "grousers": "24 grousers, 25 mm high (Fig. 5 table)",
+  "soil": "GRC-3 lunar soil simulant (NASA Glenn)",
+  "bulk_density_kg_m3": "not reported for the tests (Fig. 4a shows a GRC-3 range of about 1620 to 1840)",
+  "friction_angle_deg": "not reported for the tests (Fig. 4a shows a GRC-3 range of about 38 to 48)",
+  "preparation": "not described in this source",
+  "slope_kind": "emulated by pull",
+  "curve_id": "hu2025goff_fig4b_trec_singlewheel_grc3",
+  "comparability_note": "Markers found automatically as connected components of the black mask after a morphological opening (10 px) that removes the dashed and dotted connecting lines; the legend box is excluded and markers of the three series are told apart by component area (stars about 160 to 290 px, triangles about 340 to 390 px, circles about 600 to 650 px after opening), checked one by one on the overlay. Source plot has slip on x and slope on y; output x is slope and y is slip. Calibration on the light grey gridlines at slip 0 and 0.8 and slope 0 and 40 deg. Single wheel tests on level GRC-3 at translational speed 0.2 m/s with the angular velocity set for a prescribed slip; the plotted slope is the traction slope arctan(DBP/N) (Sec. 3.1), an emulated slope with no slope effect on normal load or soil failure. Several stars share one slip value; the source says these are repeated measurements of the same set up, so each is kept as a separate point. Load 17.5 kg times 9.81 is about 171.7 N (derived here, half of the mass is the wheel). The star at slip 0.6 and slope about 25.5 deg touches its vertical connector, so its box centre may be biased by about 3 px (0.003 slip). GRC-3 is a manufactured lunar simulant, not dune sand."
+ }
+}

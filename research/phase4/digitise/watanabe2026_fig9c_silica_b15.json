@@ -1,0 +1,124 @@
+{
+ "pdf": "research/sources/phase4/watanabe2026.pdf",
+ "pdf_note": "J-STAGE open access PDF; the figure is an embedded raster image of about 220 ppi",
+ "page": 6,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   1874,
+   2098
+  ],
+  "val": [
+   10,
+   25
+  ],
+  "scale": "linear",
+  "note": "vertical grid lines at slope 10 and 25 deg (frame at 0 and 30 deg agrees, 14.93 px per deg)"
+ },
+ "y_axis": {
+  "px": [
+   2235.5,
+   1897.5
+  ],
+  "val": [
+   0.1,
+   0.9
+  ],
+  "scale": "linear",
+  "note": "horizontal grid lines at slip ratio 0.1 and 0.9 (frame at 0 and 1 agrees, 422.5 px per unit)"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 8,
+  "refine": {
+   "include": [
+    {
+     "rgb": [
+      10,
+      155,
+      210
+     ],
+     "tol": 50
+    }
+   ],
+   "radius_px": 10,
+   "min_pixels": 6
+  },
+  "identification": "manual: one seed per nominal slope at the blue diamond marker of b15 (legend), refined to the centroid of that colour",
+  "points": [
+   {
+    "px": [
+     1873.9,
+     2237.1
+    ],
+    "x_nominal": 10,
+    "x_unc_nominal": 1,
+    "note": ""
+   },
+   {
+    "px": [
+     1948.0,
+     2188.8
+    ],
+    "x_nominal": 15,
+    "x_unc_nominal": 1,
+    "note": ""
+   },
+   {
+    "px": [
+     2022.8,
+     2087.4
+    ],
+    "x_nominal": 20,
+    "x_unc_nominal": 1,
+    "note": ""
+   },
+   {
+    "px": [
+     2097.7,
+     1967.7
+    ],
+    "x_nominal": 25,
+    "x_unc_nominal": 1,
+    "note": ""
+   },
+   {
+    "px": [
+     2172.3,
+     1938.0
+    ],
+    "x_nominal": 30,
+    "x_unc_nominal": 1,
+    "note": ""
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "watanabe2026",
+  "source_title": "Effects of wheel width on running performance of four-wheeled small lunar rover (Watanabe, Maru, Kawaguchi, Tanaka; Transactions of the JSME, in Japanese, Vol. 92, No. 956, 2026)",
+  "source_url": "https://doi.org/10.1299/transjsme.25-00224",
+  "evidence_row": "TM3-047; TM3-048; TM3-049 (same source, other findings)",
+  "figure_or_table": "Figure 9(c)",
+  "page": "6 (Fig. 9c)",
+  "x_name": "slope angle (nominal set value)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "ratio",
+  "vehicle": "four wheeled small lunar rover, 3D printed ABS, 1.5 kg (ballasted to the same mass for every wheel set), wheelbase 200 mm, all wheels driven at 10 rpm",
+  "wheel_diameter_m": "0.12 (0.14 over the lugs)",
+  "wheel_width_m": "0.015",
+  "load_per_wheel_N": "3.68 (derived)",
+  "grousers": "12 lugs, 10 mm high, 3 mm thick, equally spaced",
+  "soil": "silica sand, 1 to 1 mix of No. 5 (0.3 to 0.8 mm) and No. 6 (0.2 to 0.3 mm) silica sand, about 100 mm deep",
+  "grain_size_mm": "0.2 to 0.8",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "tilting sand box 1820 mm by 450 mm, lift table; soil tilled from depth and levelled before each run; mean of 9 inclinometer readings on the course within 1 deg of the target; vane shear torque at 20 mm depth 0.50 plus or minus 0.05 cNm",
+  "test_type": "constructed bed",
+  "gravity_g": "1",
+  "slope_kind": "direct ascent",
+  "comparable_to_dune_sand": "partly",
+  "comparability_note": "Each point is the mean of 5 runs over 700 mm (error bars 1 SD, not transcribed). Slip ratio by Eq. (1): 1 minus r omega over V when driving, with r the radius including lugs. x is the nominal slope set for the test; the text states the mean of 9 readings on the course was within 1 deg of it, so x_unc is 1 deg. y read from the marker of this wheel width, refined to the centroid of its colour; markers of the seven widths overlap at low slopes, so partly hidden markers were kept only when roughly half or more of the marker was visible, and fully hidden ones are left out (0 and 5 deg markers hidden). Partial hiding can shift a centroid by up to the marker radius, which is the stated y_unc. load_per_wheel_N derived here as 1.5 kg times 9.81 divided by 4 wheels. Very light rover (1.5 kg) with narrow 3D printed wheels; the paper scales a 5 to 10 kg lunar rover to 1/6 mass, not to Earth sand traverses.",
+  "curve_id": "watanabe2026_fig9c_silica_b15"
+ }
+}
