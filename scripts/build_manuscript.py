@@ -38,6 +38,8 @@ EXTERNAL = [
     "U.S. Geological Survey, 3D Elevation Program one metre DEM tiles USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24, USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20, USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24 (public domain), https://www.usgs.gov/3d-elevation-program, retrieved 2026-10-20.",
     "European Space Agency and Airbus, Copernicus DEM GLO-30, https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model, retrieved 2026-10-11 and 2026-10-15 (licence in docs/DATA_AND_LICENSES.md).",
     "ECMWF, ERA5 hourly reanalysis (Copernicus Climate Change Service), accessed through the Open-Meteo archive API, https://open-meteo.com (data CC BY 4.0), retrieved 2026-10-20.",
+    "U.S. Geological Survey, 3D Elevation Program one metre DEM tiles USGS_1M_13_x45y418_CO_SanLuisJuanMiguel_2020_D20, USGS_1M_11_x67y365_CA_SaltonSea_EarthMRI_2021_D21, USGS_1M_12_x38y440_UT_StatewideCenSouth_2020_A20 (public domain), https://www.usgs.gov/3d-elevation-program, retrieved 2026-10-21.",
+    "NASA, ICESat-2 ATL03 geolocated photon data, processed on demand into ATL06 style segments by the public SlideRule Earth service (Python client sliderule 5.6.3, BSD 3-Clause), https://slideruleearth.io, retrieved 2026-10-21 (docs/ICESAT2_GUIDE.md).",
     "Project Chrono, pychrono 9.0.1, https://projectchrono.org (BSD 3-Clause).",
     "emcee 3.1.6, affine invariant MCMC ensemble sampler (MIT licence).",
 ]
@@ -62,9 +64,10 @@ def t_lidar():
     rows = []
     for r in BR.rd("results/terrain_validation/metrics.csv"):
         rows.append([r["site"], r["posting_m"], f"{float(r['auc']):.2f}", f"{100*float(r['true_face_rate']):.1f} %", f"{100*float(r['mean_predicted_face_probability']):.1f} %",
-                     f"{100*float(r['share_traversable']):.1f} %", f"{100*float(r['face_rate_in_traversable']):.1f} %", f"{100*float(r['face_rate_in_unknown']):.1f} %"])
+                     f"{100*float(r['share_traversable']):.1f} %", f"{100*float(r['face_rate_in_traversable']):.1f} %", f"{100*float(r['face_rate_in_unknown']):.1f} %",
+                     f"{100*float(r['share_traversable'])*float(r['face_rate_in_traversable'])/float(r['true_face_rate']):.0f} %"])
     return ("Table 2. Slip face detector and three class map against one metre lidar truth (SIMULATED BY ME on PUBLISHED USGS 3DEP data; North American dune fields).\n\n"
-            + BR.md_table(["Site", "Posting, m", "AUC", "True face rate", "Mean predicted probability", "TRAVERSABLE share", "Faces in TRAVERSABLE", "Faces in UNKNOWN"], rows))
+            + BR.md_table(["Site", "Posting, m", "AUC", "True face rate", "Mean predicted probability", "TRAVERSABLE share", "Share of TRAVERSABLE cells with a face", "Share of UNKNOWN cells with a face", "Miss rate (face cells called TRAVERSABLE)"], rows))
 
 
 LOCO_IDS = ["MOB-043", "TM3-067", "TM3-071", "FLD-HV13-1", "FLD-025", "LEG-007", "LEG-008", "LEG-009", "LEG-013"]
@@ -79,17 +82,47 @@ def t_locomotion():
             + BR.md_table(["Row", "Vehicle", "Slope, deg", "Metric", "Value", "Validation"], rows))
 
 
+def curve_and_law_sources():
+    """Sources of the digitised curves (both rounds) and of the scaling law rows, from the curve files and the
+    reference lists written when they were retrieved (research/phase4/*_references.csv)."""
+    out = {}
+    for r in BR.rd("research/phase3/curves.csv"):
+        out.setdefault(r["source_url"].strip(), r["source_title"].strip())
+    for f in ("research/phase4/curves_A_references.csv", "research/phase4/curves_B_references.csv", "research/phase4/scaling_references.csv"):
+        for r in BR.rd(f):
+            doi = r.get("doi", "").strip()
+            url = f"https://doi.org/{doi}" if doi and doi.lower() not in ("none", "n/a", "not found") else r["url"].strip()
+            out.setdefault(url, r["citation"].strip())
+    return out
+
+
+def _same(a, b):
+    wa = {w for w in re.findall(r"[a-z]{4,}", a.lower())}; wb = {w for w in re.findall(r"[a-z]{4,}", b.lower())}
+    return bool(wa and wb) and len(wa & wb) >= 0.6 * min(len(wa), len(wb))
+
+
 def references(text, ev):
     ids = set(re.findall(r"\b(?:FLD|TM|SIM|LRN|LEG|PLN|TM3|MOB|SND|DUN|MAP|ENV)-[A-Za-z0-9]+(?:-[0-9a-z]+)?\b", text))
-    by = {}
+    by, titles = {}, {}
     for r in ev:
-        if r["id"] in ids:
-            by.setdefault((r["source_title"], r["source_url"]), []).append(r["id"])
-    out = [f"{i}. {t} {u} (rows {', '.join(sorted(v))})" for i, ((t, u), v) in enumerate(sorted(by.items()), 1)]
+        if r["id"] in ids:   # one entry per source address, so one paper recorded under two title spellings is listed once
+            url = r["source_url"].strip()
+            url = next((u for u, ts in titles.items() if any(_same(r["source_title"], x) for x in ts)), url)
+            by.setdefault(url, []).append(r["id"]); titles.setdefault(url, set()).add(r["source_title"].strip())
+    for url, title in curve_and_law_sources().items():   # skip a source already listed under another address or spelling
+        if url in by or any(_same(title, x) for v in titles.values() for x in v):
+            continue
+        by[url] = []; titles[url] = {title}
+    def label(url):
+        return sorted(titles[url])[0]
+    out = []
+    for i, url in enumerate(sorted(by, key=lambda u: label(u).lower()), 1):
+        rows = f" (rows {', '.join(sorted(by[url]))})" if by[url] else " (digitised curves or scaling law notes)"
+        out.append(f"{i}. {label(url)} {url}{rows}")
     n = len(out)
     out += [f"{n + i}. {e}" for i, e in enumerate(EXTERNAL, 1)]
     out.append("")
-    out.append("Groups of rows cited by prefix (PLN, TM3, MOB, SND, DUN, MAP, ENV rows) are listed with their sources in `research/evidence.csv` and in Appendix C of `docs/REPORT.md`.")
+    out.append("Groups of rows cited by prefix (PLN, TM3, MOB, SND, DUN, MAP, ENV, SCL rows) are listed with their sources in `research/evidence.csv` and in Appendix C of `docs/REPORT.md`.")
     return "\n".join(out)
 
 

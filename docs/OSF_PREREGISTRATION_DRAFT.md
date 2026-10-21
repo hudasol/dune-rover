@@ -20,7 +20,7 @@ Before submitting: fill the bracketed fields, attach `docs/predictions/slope_lad
 3. How much do soil state (grain size, bulk density, moisture, crust) and repeated passes change slip?
 
 **Hypotheses (directional where stated).**
-- H1: mean slip increases monotonically with slope between 0 and 20 degrees.
+- H1: slip is positively associated with slope between 0 and 20 degrees (tested as a positive rank correlation, not as strict monotonicity).
 - H2: the calibrated model meets the adequacy rule of section 5 (this is the test; it may fail, and a failure is a result).
 - H3: slip on the third pass over the same track at 10 degrees differs from first pass slip (no direction predicted).
 - The dated numerical predictions per slope bin are in the attached prediction files; they were written before any field run.
@@ -60,9 +60,9 @@ Blocks: pilot (3 runs at each of 5, 10, 15 and 20 degrees), main direct uphill b
 
 ## 5. Analysis plan
 
-**Runs that enter the rule.** Only the direct uphill, first pass runs of the pilot and main blocks (heading within 15 degrees of uphill, pass number 1) enter the calibration and the held out test. Cross slope, descent and repeated pass runs are analysed separately and never enter the rule (`scripts/ingest_field_day.py`). This is a selection of runs, as the field plan defines the sets, not a change of the rule.
+**Runs that enter the rule.** Only the direct uphill, first pass runs of the pilot and main blocks (heading within 15 degrees of uphill, pass number 1 or left empty, which the analysis reads as a first pass) enter the calibration and the held out test. Cross slope, descent and repeated pass runs are analysed separately and never enter the rule (`scripts/ingest_field_day.py`). This is a selection of runs, as the field plan defines the sets, not a change of the rule.
 
-**Friction angle used by the model.** In this order: a friction angle written on the run sheet; otherwise the median of the station's direct shear friction angles, measured on sand prepared at the field bulk density and at the lowest normal stress the laboratory can apply; otherwise the median of the station's angle of repose tests, used as a proxy and flagged as such. A run without any of these is not analysed. [Confirm or change this order before submitting.]
+**Friction angle used by the model.** In this order: a friction angle written on the run sheet; otherwise the median of the station's direct shear friction angles, measured on sand prepared at the field bulk density and at the lowest normal stress the laboratory can apply; otherwise the median of the station's angle of repose tests, used as a proxy and flagged as such. If any run lacks all three, the analysis stops and reports which runs lack a friction angle, so that nothing is analysed with a missing value. [Confirm or change this order before submitting.]
 
 **Model and calibration.** The minimal slip model of `src/dunerover/slipmodel.py`, calibrated on the 0, 5 and 10 degree runs only, with the motion resistance coefficient and the slip scale fitted within bounds (i0 up to 0.40, f_r up to 0.25) and the friction angle as above, not from the slip data. A fit that ends at a bound is reported as such. Note for reviewers: the calibration on published curves in the repository (stage 15) put the slip scale near 0.63, above the 0.40 bound, so a fit at the bound is likely; the bound is kept unchanged unless the author changes it before the field day.
 

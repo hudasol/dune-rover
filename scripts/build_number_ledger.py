@@ -63,6 +63,7 @@ PRODUCERS = [
     (r"npred|pred_stage_line", "scripts/tally_predictions.py", ["docs/PREDICTIONS.md"]),
     (r"score_overall", "scripts/build_report.py (mean of the completeness table scores)", ["docs/src/completeness_template.md"]),
     (r"build_date", "scripts/build_manuscript.py (DATE constant)", ["scripts/build_manuscript.py"]),
+    (r"is2_ps_|is2_kg_", "scripts/icesat2_posthoc_screen.py (post hoc)", ["results/icesat2/posthoc_screen.csv", "results/icesat2/posthoc_kelso_gap.csv"]),
     (r"is2_", "scripts/icesat2_profiles.py", ["results/icesat2/validation_metrics.csv", "results/icesat2/arabia_metrics.csv"]),
     (r"scl_|p6_|cur_material_ci", "scripts/consolidate_evidence.py; scripts/verify_stats.py", ["research/evidence.csv", "research/verification_stats.json"]),
     (r"p4_", "scripts/digitise_figures.py --phase 4", ["research/phase4/curves_new.csv"]),
@@ -73,6 +74,9 @@ PRODUCERS = [
     (r"pl4_", "scripts/planner_lidar.py (stage 20)", ["results/planner_phase4/policy_summary.csv"]),
     (r"clph_", "demo/closed_loop_posthoc.py (post hoc)", ["results/closed_loop/posthoc_fixed_field/summary.csv", "results/closed_loop/posthoc_fixed_field/estimator.csv"]),
     (r"cl_|ros_", "demo/closed_loop.py; demo/ros2 (stage 23)", ["results/closed_loop/summary.csv", "results/closed_loop/estimator.csv", "results/closed_loop/ros2_smoke_test.json"]),
+    (r"scm_chk_", "scripts/chrono_scm_calibration.py --checks (post hoc)", ["results/chrono_scm_calibration/posthoc_checks.csv"]),
+    (r"clm_", "demo/closed_loop_multiseed.py (post hoc)", ["results/closed_loop/posthoc_multiseed/summary.csv"]),
+    (r"mvc_", "scripts/model_validation.py (load_curves, run logs)", ["research/phase3/curves.csv", "research/phase4/curves_new.csv", "results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/run_log.txt", "results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/run_log.txt"]),
     (r"scm_", "scripts/chrono_scm_calibration.py", ["results/chrono_scm_calibration/summary.json", "results/chrono_scm_calibration/prediction.csv"]),
 ]
 TABLES = {"families": ("scripts/build_manuscript.py (t_families)", ["results/model_validation/part_*/summary.json"]),
@@ -132,11 +136,11 @@ def build():
             if key not in v and key != "score_overall":
                 problems.append(f"{doc}: placeholder {key} has no value (result not produced)")
             rows.append({"document": doc, "kind": "value", "item": key, "value": str(v.get(key, "computed at build")), "producer": script,
-                         "inputs": "; ".join(files), "input_sha256": "; ".join(sha(f)[:16] for f in files), "evidence_rows": "", "justification": ""})
+                         "inputs": "; ".join(files), "input_sha256": "; ".join(sha(f) for f in files), "evidence_rows": "", "justification": ""})
         for name in sorted(set(re.findall(r"\{\{TABLE:([^}]*)\}\}", t))):
             script, files = TABLES[name]; files = expand(files)
             rows.append({"document": doc, "kind": "table", "item": name, "value": "every number in the table", "producer": script,
-                         "inputs": "; ".join(files), "input_sha256": "; ".join(sha(f)[:16] for f in files), "evidence_rows": "", "justification": ""})
+                         "inputs": "; ".join(files), "input_sha256": "; ".join(sha(f) for f in files), "evidence_rows": "", "justification": ""})
         for rid in sorted(set(ROW_ID.findall(re.sub(r"\{\{[^}]*\}\}", "", t)))):
             r = evd.get(rid)
             if r is None:

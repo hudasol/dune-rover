@@ -12,9 +12,9 @@ This page is for Huda to send, if she chooses, to one outside reviewer in terram
 
 **What was done (desk only, no field data yet).**
 - An evidence table of published results on wheeled, tracked and legged mobility on sand, each row re checked against the full text by a separate reader, with the measured extraction error rate reported.
-- Published slip against slope curves digitised with calibration files; a random third redigitised independently.
+- Published slip against slope curves digitised with calibration files; a random third digitised a second time with the same rasters and tools (repeatability, not independent extraction).
 - Several slip model families, calibrated on some studies and tested on a held out study, against a bar fixed in advance.
-- An independent simulator (Project Chrono, Soil Contact Model), including a calibration on one published field curve and a prediction of the steeper slopes.
+- An independent simulator (Project Chrono, Soil Contact Model), including a calibration on one published field curve; the attempted prediction of the steeper slopes was numerically unstable.
 - A slip face detector and a three class traversability map scored against one metre lidar of North American dune fields, and against ICESat-2 laser profiles over the Liwa and Rub' al Khali dunes.
 - Route planning policies scored against lidar truth, and a closed loop demonstration with online slip estimation and replanning (also run as ROS 2 nodes).
 - Every test was registered before it was run (`docs/PREDICTIONS.md`); hits and misses are both recorded.
@@ -31,7 +31,7 @@ This page is for Huda to send, if she chooses, to one outside reviewer in terram
 2. Are the published curves comparable enough to pool (whole vehicles and single wheels, lunar simulants and quartz sand, real and emulated slopes)? Which would you exclude?
 3. Is the Soil Contact Model calibration on the Dumont Dunes curve set up in a way you would trust, and is the conclusion drawn from it fair?
 4. Is the lidar truth (cells with at least ten one metre posts at 28 degrees or more) a reasonable definition of a slip face cell? Would you score the map differently?
-5. Is the ICESat-2 method (along track slope of short segments, apparent slope corrected with the wind derived face direction) sound, and is its validation against lidar sufficient?
+5. Is the ICESat-2 method (along track slope of short segments, apparent slope corrected with the mean face dip direction from the 30 m surface; post hoc base rate and noise screens) sound, and is its validation against lidar sufficient?
 6. For the field experiment: are the slope bins, run counts, soil tests and the pass or fail rule appropriate? What would make you trust the result?
 7. Is any claim in the manuscript stronger than its evidence?
 8. Which journal or conference would suit this work, and what is missing for it to be accepted there?
@@ -41,7 +41,7 @@ This page is for Huda to send, if she chooses, to one outside reviewer in terram
 | Item | Status on 2026-10-21 | Who |
 |---|---|---|
 | Manuscript generated from the result files, every number traced (`docs/NUMBER_LEDGER.csv`) | Done | |
-| Every test registered before it was run; misses reported | Done | |
+| Every test registered before it was run; misses reported | Done, except stage 21 parts 3 and 4 (Bekker Wong on the expanded set) if that run is not complete | |
 | Human spot check of the evidence table (spot check 3 and the 20 row blinded check) | Not done | Huda |
 | Second human rater on the same 20 rows (`research/second_rater_pack/`) | Not done | Huda and a second rater |
 | One outside review (this pack) | Not done | Huda |
