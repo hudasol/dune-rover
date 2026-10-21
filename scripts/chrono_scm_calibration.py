@@ -66,24 +66,27 @@ def main():
     say(f"best K {best['K_m']} phi {best['phi_deg']} (calibration rmse {best['rmse_cal']:.3f}); prediction rmse {rmse_pred:.3f}; done {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 
-def checks():
-    """POST HOC (final review of 2026-10-21): numerical checks of the calibrated point at 15, 17.5 and 20 deg with a
-    finer SCM grid (0.01 m) and a lower wheel speed (0.05 m/s), as in the stage 14 checks."""
+def checks(slopes=PRED_SLOPES, out="posthoc_checks.csv"):
+    """POST HOC (final review of 2026-10-21): numerical checks of the calibrated point with a finer SCM grid (0.01 m)
+    and a lower wheel speed (0.05 m/s), as in the stage 14 checks; at 15, 17.5 and 20 deg (--checks) and, after a
+    verification of the corrections, at the calibration slopes 5, 10 and 12.5 deg (--checks-cal)."""
     best = json.load(open(os.path.join(OUT, "summary.json")))["best"]
     kphi, kc, n, _, _, _, _ = CW.SOILS["S1_toyoura_ishigami2007"]
     CW.SOILS["CAL"] = (kphi, kc, n, 0.0, best["phi_deg"], best["K_m"], "stage 24 best grid point")
     rows = []
-    for s in PRED_SLOPES:
+    for s in slopes:
         for label, kw in (("registered (grid 0.02 m, 0.2 m/s)", {}), ("grid 0.01 m", {"grid": 0.01}), ("speed 0.05 m/s", {"speed": 0.05, "t_end": 14.0})):
             r = CW.run(s, "W1_scarecrow_like", "CAL", **kw)
             rows.append({"slope_deg": s, "check": label, "slip": r["slip"], "sinkage_m": r["sinkage_m"], "wall_s": r["wall_s"]})
             print(rows[-1], flush=True)
-    with open(os.path.join(OUT, "posthoc_checks.csv"), "w", newline="") as fh:
+    with open(os.path.join(OUT, out), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
 
 
 if __name__ == "__main__":
-    if "--checks" in sys.argv:
+    if "--checks-cal" in sys.argv:
+        checks(CAL_SLOPES, "posthoc_checks_calibration_slopes.csv")
+    elif "--checks" in sys.argv:
         checks()
     else:
         main()
