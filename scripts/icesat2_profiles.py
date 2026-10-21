@@ -421,8 +421,15 @@ def write_csv(path, rows):
         w = csv.DictWriter(fh, fieldnames=keys); w.writeheader(); w.writerows(rows)
 
 
+def runlog(msg):
+    """Timestamped run log (added after the final review of 2026-10-21; earlier runs are not in it)."""
+    with open(os.path.join(OUT, "run_log.txt"), "a") as fh:
+        fh.write(f"{time.strftime('%Y-%m-%d %H:%M:%S %z')} {msg}\n")
+
+
 def analyse(lengths=(10, 20)):
     os.makedirs(OUT, exist_ok=True)
+    runlog(f"analyse started; lengths {list(lengths)}")
     val_rows, samples10 = [], {}
     for L in lengths:
         r, smp = validation(L)
@@ -451,6 +458,7 @@ def analyse(lengths=(10, 20)):
                "service": "SlideRule Earth public cluster (slideruleearth.io), atl06p", "parameters": {"srt": 0, "cnf": 4, "ats": 5.0, "cnt": 10, "lengths_steps_m": LENGTHS},
                "face_deg": FACE_DEG, "fallback_deg": FALLBACK_DEG, "face_dip_azimuth_stage13": FACE_DIP_AZ, "validation": VALIDATION, "arabia_dates": ARABIA_DATES},
               open(os.path.join(OUT, "summary.json"), "w"), indent=1, default=str)
+    runlog(f"analyse finished; method validated {method_ok}; validation rows {len(val_rows)}; Arabian rows {len(ar_rows)}")
     print("method validated:", method_ok)
     for r in val_rows + ar_rows:
         print(r)
