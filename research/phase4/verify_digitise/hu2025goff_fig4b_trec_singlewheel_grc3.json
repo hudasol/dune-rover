@@ -1,0 +1,168 @@
+{
+ "pdf": "research/sources/phase4/hu2025goff.pdf",
+ "pdf_note": "rasterised independently by the verifier at 300 dpi",
+ "page": 10,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   704.5,
+   358.0
+  ],
+  "val": [
+   0,
+   40
+  ],
+  "scale": "linear",
+  "note": "slope axis of the source plot, which is VERTICAL: pixel ROWS of the grey dashed gridlines at 0 and 40 deg (86.6 px per 10 deg)"
+ },
+ "y_axis": {
+  "px": [
+   1409.0,
+   1990.0
+  ],
+  "val": [
+   0,
+   0.8
+  ],
+  "scale": "linear",
+  "note": "slip axis of the source plot, which is HORIZONTAL: pixel COLUMNS of the grey dashed gridlines at slip 0 and 0.8"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 11,
+  "identification": "manual: black five pointed stars (TREC Nominal Tests, GRC3); seed positions read by eye, then refined by fitting the shape of an isolated star (template from the star at slip 0.2) within 4 px; centre = centre of the circumscribed circle of the star",
+  "swap_note": "the source plot has slip on x and slope on y; every point px is given as [row, column] so that the output x is slope and the output y is slip; do not use colour refinement with this ordering",
+  "points": [
+   {
+    "px": [
+     719.1,
+     1407.5
+    ]
+   },
+   {
+    "px": [
+     634.1,
+     1444.5
+    ]
+   },
+   {
+    "px": [
+     584.1,
+     1479.5
+    ]
+   },
+   {
+    "px": [
+     557.1,
+     1480.5
+    ]
+   },
+   {
+    "px": [
+     530.1,
+     1554.5
+    ]
+   },
+   {
+    "px": [
+     511.1,
+     1626.5
+    ]
+   },
+   {
+    "px": [
+     532.1,
+     1626.5
+    ]
+   },
+   {
+    "px": [
+     488.1,
+     1700.5
+    ]
+   },
+   {
+    "px": [
+     503.1,
+     1699.5
+    ]
+   },
+   {
+    "px": [
+     517.1,
+     1699.5
+    ]
+   },
+   {
+    "px": [
+     493.1,
+     1772.5
+    ]
+   },
+   {
+    "px": [
+     481.1,
+     1845.5
+    ]
+   },
+   {
+    "px": [
+     515.1,
+     1845.5
+    ]
+   },
+   {
+    "px": [
+     446.1,
+     1918.5
+    ]
+   },
+   {
+    "px": [
+     487.1,
+     1917.5
+    ]
+   },
+   {
+    "px": [
+     413.1,
+     1990.5
+    ]
+   },
+   {
+    "px": [
+     432.1,
+     1991.5
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "hu2025goff",
+  "source_title": "A study demonstrating that using gravitational offset to prepare extraterrestrial mobility missions is misleading (Hu, Li, Rogg, Schepelmann, Chandler, Kamrin, Negrut; Journal of Field Robotics, 2025; author manuscript in NASA NTRS 20250001809)",
+  "source_url": "https://ntrs.nasa.gov/citations/20250001809",
+  "vehicle": "NASA Glenn TREC single wheel rig, VIPER wheel, velocity controlled (VV mode) on level simulant",
+  "soil": "GRC-3 lunar soil simulant (NASA Glenn)",
+  "wheel_diameter_m": "not reported",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "not reported",
+  "test_type": "not reported",
+  "gravity_g": "1",
+  "slope_kind": "not reported",
+  "x_name": "traction slope (arctan of drawbar pull over normal load)",
+  "x_unit": "deg",
+  "y_name": "slip ratio",
+  "y_unit": "ratio",
+  "comparable_to_dune_sand": "not reported",
+  "curve_id": "hu2025goff_fig4b_trec_singlewheel_grc3",
+  "evidence_row": "not reported",
+  "figure_or_table": "Fig. 4(b)",
+  "page": "10",
+  "comparability_note": "Series 'TREC Nominal Tests, GRC3' (black stars, dashed line). 17 stars: at slip 0.1, 0.3, 0.6, 0.7 and 0.8 two stars share a slip value and at 0.4 three stars overlap; all are kept as separate points. Slope here is the traction slope arctan(DBP/N) on level soil (VV mode), so it is an emulated slope. Output x (slope) comes from the vertical axis."
+ }
+}

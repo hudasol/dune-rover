@@ -1,0 +1,95 @@
+{
+ "pdf": "research/sources/phase4/caruso2023.pdf",
+ "pdf_note": "rasterised independently by the verifier at 300 dpi",
+ "page": 17,
+ "dpi": 300,
+ "x_axis": {
+  "px": [
+   875.0,
+   1308.5
+  ],
+  "val": [
+   0,
+   20
+  ],
+  "scale": "linear",
+  "note": "light grey vertical gridlines at the labelled ticks 0 and 20 deg (108.4 px per 5 deg)"
+ },
+ "y_axis": {
+  "px": [
+   2574.5,
+   2291.5
+  ],
+  "val": [
+   0.2,
+   0.6
+  ],
+  "scale": "linear",
+  "note": "light grey horizontal gridlines at the labelled ticks 0.2 and 0.6"
+ },
+ "marker": {
+  "mode": "points",
+  "marker_radius_px": 17,
+  "identification": "manual: orange open triangles (omega 2 = 2.4 rad/s) in panel (a); centre of the bounding box of the triangle outline, no automatic refinement",
+  "points": [
+   {
+    "px": [
+     875.0,
+     2675.5
+    ]
+   },
+   {
+    "px": [
+     983.5,
+     2657.0
+    ]
+   },
+   {
+    "px": [
+     1092.0,
+     2602.5
+    ]
+   },
+   {
+    "px": [
+     1200.5,
+     2512.0
+    ]
+   },
+   {
+    "px": [
+     1309.5,
+     2151.0
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "source_key": "caruso2023",
+  "source_title": "The Archimede Rover: A Comparison between Simulations and Experiments (Caruso, Giberna, Gorner, Gallina, Seriani; Robotics 12(5), 125, 2023)",
+  "source_url": "https://doi.org/10.3390/robotics12050125",
+  "vehicle": "Archimede rover prototype, four independently steered and driven wheels, wheelbase 0.720 m, track 0.443 m, body 1.61 kg plus two legs of 1.58 kg (Table 1); commanded mean wheel speed 2.4 rad/s",
+  "soil": "granular lava, grain size 1 to 5 mm (Test Setup A)",
+  "wheel_diameter_m": "not reported",
+  "wheel_width_m": "not reported",
+  "load_per_wheel_N": "not reported",
+  "grousers": "not reported",
+  "grain_size_mm": "not reported",
+  "bulk_density_kg_m3": "not reported",
+  "friction_angle_deg": "not reported",
+  "preparation": "not reported",
+  "test_type": "not reported",
+  "gravity_g": "1",
+  "slope_kind": "not reported",
+  "x_name": "slope angle of the tilted sandbox (nominal, 5 deg steps)",
+  "x_unit": "deg",
+  "y_name": "slip s (median of all drive tests at that slope and wheel speed)",
+  "y_unit": "ratio",
+  "comparable_to_dune_sand": "not reported",
+  "curve_id": "caruso2023_fig12a_lava_w2",
+  "evidence_row": "not reported",
+  "figure_or_table": "Figure 12(a), omega 2 = 2.4 rad/s",
+  "page": "17 of 22",
+  "comparability_note": "Panel (a), Test Setup A. Orange open triangles = omega 2 (2.4 rad/s). Assumed the plotting software centres the triangle marker on its bounding box (MATLAB style); if the data point were the area centroid instead, every slip value would be about 0.008 lower. The 20 deg triangle touches the right frame but is complete. Five points."
+ }
+}
