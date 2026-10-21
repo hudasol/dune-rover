@@ -1,0 +1,11 @@
+stage 12 run started 2026-10-21 04:35:59; truth max None (None = registered design); numpy 2.5.3; seed 20261020; windows {"GreatSandDunes": [450000, 454000, 4176300, 4180000], "Algodones": [675500, 679500, 3641500, 3646500], "LittleSahara": [380000, 382000, 4394000, 4397200]}
+GreatSandDunes 5 m: cells 592000, face rate 0.086, mean p 0.199, AUC 0.983, TRAV 0.752 UNK 0.248 BLK 0.000, false safe 0.000, face in UNKNOWN 0.347
+GreatSandDunes 10 m: cells 148000, face rate 0.132, mean p 0.177, AUC 0.965, TRAV 0.763 UNK 0.237 BLK 0.000, false safe 0.012, face in UNKNOWN 0.518
+GreatSandDunes 30 m: cells 16359, face rate 0.296, mean p 0.142, AUC 0.831, TRAV 0.787 UNK 0.213 BLK 0.000, false safe 0.163, face in UNKNOWN 0.787
+Algodones 5 m: cells 800000, face rate 0.030, mean p 0.087, AUC 0.987, TRAV 0.885 UNK 0.115 BLK 0.000, false safe 0.000, face in UNKNOWN 0.262
+Algodones 10 m: cells 200000, face rate 0.066, mean p 0.075, AUC 0.963, TRAV 0.892 UNK 0.108 BLK 0.000, false safe 0.014, face in UNKNOWN 0.501
+Algodones 30 m: cells 22078, face rate 0.237, mean p 0.068, AUC 0.761, TRAV 0.913 UNK 0.087 BLK 0.000, false safe 0.186, face in UNKNOWN 0.779
+LittleSahara 5 m: cells 256000, face rate 0.021, mean p 0.098, AUC 0.967, TRAV 0.861 UNK 0.139 BLK 0.000, false safe 0.001, face in UNKNOWN 0.146
+LittleSahara 10 m: cells 64000, face rate 0.064, mean p 0.080, AUC 0.908, TRAV 0.882 UNK 0.118 BLK 0.000, false safe 0.024, face in UNKNOWN 0.363
+LittleSahara 30 m: cells 6996, face rate 0.307, mean p 0.089, AUC 0.637, TRAV 0.884 UNK 0.115 BLK 0.001, false safe 0.277, face in UNKNOWN 0.533
+done 2026-10-21 04:38:57

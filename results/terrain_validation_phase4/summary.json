@@ -1,0 +1,62 @@
+{
+ "label": "SIMULATED BY ME (detector and map) scored against PUBLISHED lidar elevation (USGS 3DEP, public domain)",
+ "seed": 20261020,
+ "min_posts": 10,
+ "face_truth_deg": 28.0,
+ "sites": {
+  "GreatSandDunes": {
+   "description": "Great Sand Dunes, Colorado (UTM 13N); south western part of the main dune field, star and reversing dunes; lidar 2020",
+   "file": "USGS_1M_13_x45y418_CO_SanLuisJuanMiguel_2020_D20.tif",
+   "sha256": "56e7e5f399cfcc1c2516908f730842e7d68aedfb4393974e3010b3a492d42530",
+   "window_utm": [
+    450000,
+    454000,
+    4176300,
+    4180000
+   ],
+   "shape_1m": [
+    3700,
+    4000
+   ],
+   "nodata_share": 0.0,
+   "relief_m": 245.8818359375,
+   "share_1m_posts_steeper_than_truth": 0.0785177027027027
+  },
+  "Algodones": {
+   "description": "Algodones (Imperial) Dunes, California (UTM 11N); central dune belt; lidar 2021",
+   "file": "USGS_1M_11_x67y365_CA_SaltonSea_EarthMRI_2021_D21.tif",
+   "sha256": "e6cae0c6a40555b1789d4988ba7b0bcbb7b77281199380217f7593c535b3803e",
+   "window_utm": [
+    675500,
+    679500,
+    3641500,
+    3646500
+   ],
+   "shape_1m": [
+    5000,
+    4000
+   ],
+   "nodata_share": 0.0,
+   "relief_m": 122.1922607421875,
+   "share_1m_posts_steeper_than_truth": 0.02779985
+  },
+  "LittleSahara": {
+   "description": "Little Sahara dune field, Utah (UTM 12N); western dune area, avoiding the rock outcrops to the north and south east; partly vegetated; lidar 2020",
+   "file": "USGS_1M_12_x38y440_UT_StatewideCenSouth_2020_A20.tif",
+   "sha256": "f310411a99f88467720889adb04d8ef8b5155de4e80324cd7820a59f52be0c5a",
+   "window_utm": [
+    380000,
+    382000,
+    4394000,
+    4397200
+   ],
+   "shape_1m": [
+    3200,
+    2000
+   ],
+   "nodata_share": 0.0,
+   "relief_m": 98.9588623046875,
+   "share_1m_posts_steeper_than_truth": 0.020335625
+  }
+ }
+}
