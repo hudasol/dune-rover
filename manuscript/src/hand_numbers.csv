@@ -73,3 +73,15 @@ token,justification
 75,published: Janosi K differs about 75 fold across the materials of Agarwal et al. 2019 (0.0006 to 0.045 m, TM-001 to TM-006)
 135,published: 135 percent drawbar error on a firm soil (SIM-025 to SIM-027)
 0.15,design: validation bar; result: Bekker Wong held out errors on the Heverly curves 0.08 to 0.15 (part_bekker_wong/loso.csv)
+0.5,"design: slip estimate at which the closed loop replans (stage 23, demo/closed_loop.py TRIGGER)"
+0.75,"design: stage 19 method bar, median ratio on steep segments at least 0.75 (docs/PREDICTIONS.md stage 19)"
+0.80,"design: stage 19 method bar, correlation at least 0.80 (docs/PREDICTIONS.md stage 19)"
+3.8,"section number (3.8 Closed loop demonstration)"
+3.9,"section number (3.9 Field experiment)"
+4.10,"section number (4.10 Closed loop demonstration)"
+4.9,"section number (4.9 Arabian dunes from satellite laser profiles)"
+11,"design: ICESat-2 footprint of about 11 m (stated as an approximation in the threats to validity; research/phase4 and the midpoint review)"
+17.5,"design: stage 24 prediction slope 17.5 deg (docs/PREDICTIONS.md stage 24)"
+2017,"year of Slonaker et al. 2017, cited by name (SCL rows)"
+2025,"year of Hu et al. 2025, cited by name (SCL rows)"
+2026,"year of Watanabe et al. 2026, cited by name (TM3-049)"
