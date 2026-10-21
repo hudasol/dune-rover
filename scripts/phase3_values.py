@@ -207,11 +207,12 @@ def phase4_values() -> dict:
         hl = [d["median_heldout_rmse"] for d in sl["families"].values()]
         v["mvl_heldout_min"] = f2(min(hl)); v["mvl_heldout_max"] = f2(max(hl))
     if "mv4_bekker_wong_heldout" in v:
-        v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family reached "
-                                f"{v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}.")
+        v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family did much worse than "
+                                f"in the first round: median held out error {v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}, against "
+                                f"{v.get('mob_logistic_same', 'n/a')} for the logistic family on the same curves.")
     else:
         v["mv4_bw_sentence"] = "The Bekker Wong family was not rerun to completion on the expanded set within the session (its calibration is slow), so its stage 15 result stands alone."
-    ho = [float(v[k]) for k in v if k.startswith("mv4_") and k.endswith("_heldout") and "mobility" not in k]
+    ho = [float(v[k]) for k in v if k.startswith("mv4_") and k.endswith("_heldout") and "mobility" not in k and "bekker" not in k]   # the three families run on all 49 curves
     if ho:
         v["mv4_heldout_min"] = f2(min(ho)); v["mv4_heldout_max"] = f2(max(ho))
     mob = [float(v[k]) for k in v if k.startswith("mv4_mobility") and k.endswith("_heldout")]

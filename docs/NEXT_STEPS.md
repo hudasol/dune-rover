@@ -44,8 +44,7 @@ Only what you still have to do, in order. Commands run from the repository root 
 
 ## 7. Technical items left open by the 2026-10-21 session (any helper can do these)
 
-1. Rerun the Bekker Wong family on the expanded curve set (stage 21 parts 3 and 4): `PYTHONPATH=src python3 scripts/model_validation.py --families bekker_wong --extra-curves research/phase4/curves_new.csv --out results/model_validation_phase4` (several hours on a laptop). Record R21-3 and R21-4 as a late run.
-2. Key hand typed numbers by sentence, not only by token, and make the ledger recompute each value from a named file and column (final review items 8 and 9).
-3. A Soil Contact Model run that stays numerically stable at 15 to 20 degrees (smaller time step, longer settling) before any statement about its extrapolation.
+1. Key hand typed numbers by sentence, not only by token, and make the ledger recompute each value from a named file and column (final review items 8 and 9).
+2. A Soil Contact Model run that stays numerically stable at 15 to 20 degrees (smaller time step, longer settling) before any statement about its extrapolation.
 
 Nothing has been sent to anyone. Do not send a proposal or the brief until you have read it and added a contact name.

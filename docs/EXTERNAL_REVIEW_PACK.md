@@ -41,7 +41,7 @@ This page is for Huda to send, if she chooses, to one outside reviewer in terram
 | Item | Status on 2026-10-21 | Who |
 |---|---|---|
 | Manuscript generated from the result files, every number traced (`docs/NUMBER_LEDGER.csv`) | Done | |
-| Every test registered before it was run; misses reported | Done, except stage 21 parts 3 and 4 (Bekker Wong on the expanded set) if that run is not complete | |
+| Every test registered before it was run; misses reported | Done | |
 | Human spot check of the evidence table (spot check 3 and the 20 row blinded check) | Not done | Huda |
 | Second human rater on the same 20 rows (`research/second_rater_pack/`) | Not done | Huda and a second rater |
 | One outside review (this pack) | Not done | Huda |
