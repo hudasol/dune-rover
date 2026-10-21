@@ -1,0 +1,1 @@
+run_id,station_id,date,block,slope_deg,bin_deg,slope_source,heading_rel_uphill_deg,pass_number,v_true_mps,wheel_omega_rad_s,r_eff_m,distance_true_m,distance_commanded_m,sideslip_deg,sinkage_mm_st1,sinkage_mm_st2,sinkage_mm_st3,entrapped,end_reason,phi_deg,grain_d50_mm,bulk_density_kg_m3,moisture_pct_0_2cm,crust_mm,air_temp_c,wind_mps,notes
