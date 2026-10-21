@@ -1,0 +1,3 @@
+site,median_abs_error_exact_odometry,median_abs_error_odometry_noise_2pct,p90_abs_error_odometry_noise_2pct,analytic_median_low_slip
+WhiteSands,0.0296,0.0297,0.078,0.0286
+Kelso,0.0321,0.0324,0.0842,0.0286
