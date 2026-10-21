@@ -143,6 +143,135 @@ def values() -> dict:
         tag = r["rule"].split("_")[0] if r["rule"] == "current" else r["rule"].split("_")[1]
         v[f"ro_{tag}_{r['truth']}_{r['sigma']}"] = pct(r["accepted_rate"], 0)
         v[f"ro_{tag}_{r['truth']}_rej_{r['sigma']}"] = pct(1 - float(r["accepted_rate"]), 0)
+    v.update(phase4_values())
+    return v
+
+
+def phase4_values() -> dict:
+    """Numbers of the 2026-10-21 work (stages 19 to 24 and the phase 4 evidence and curves)."""
+    v = {}
+    ev = _rd("research/evidence.csv")
+    v["scl_n"] = sum(r["id"].startswith("SCL") for r in ev)
+    st = _js("research/verification_stats.json") or {}
+    g = st.get("new rows of 2026-10-21 (scaling law sources), phase 6")
+    if g:
+        v["p6_n"] = g["n"]; v["p6_material"] = g["material_error"]; v["p6_minor"] = g["minor_error"]
+    cur = st.get("CURRENT TABLE, latest verdict per row")
+    if cur:
+        v["cur_material_ci"] = f"{100*cur['material_wilson95'][0]:.1f} to {100*cur['material_wilson95'][1]:.1f} %" if cur.get("material_wilson95") else "n/a"
+    # phase 4 curves and their independent redigitisation
+    c4 = _rd("research/phase4/curves_new.csv")
+    if c4:
+        v["p4_ncurves"] = len({r["curve_id"] for r in c4}); v["p4_npoints"] = len(c4); v["p4_nsources"] = len({r["source_key"] for r in c4})
+    rd = [r for r in _rd("research/phase4/redigitise_agreement.csv") if r["status"] == "compared"]
+    if rd:
+        v["redig_n"] = len(rd); v["redig_pts"] = sum(int(r["points_original"]) for r in rd); v["redig_matched"] = sum(int(r["matched_within_1deg"]) for r in rd)
+        v["redig_extra"] = sum(int(r["points_verifier"]) - int(r["matched_within_1deg"]) for r in rd)
+        v["redig_med"] = f"{statistics.median(float(r['median_abs_dslip_ratio']) for r in rd):.4f}"
+        v["redig_max_med"] = f"{max(float(r['median_abs_dslip_ratio']) for r in rd):.4f}"
+    # stage 21: replication on the expanded curve set; stage 22: scaling law families
+    for part in ("part_exp_existing_mohr_coulomb_ratio_logistic_empirical", "part_bekker_wong", "part_mobility_pull_mobility_logistic"):
+        s = _js(os.path.join("results/model_validation_phase4", part, "summary.json"))
+        if s:
+            for fam, d in s["families"].items():
+                v[f"mv4_{fam}_heldout"] = f2(d["median_heldout_rmse"]); v[f"mv4_{fam}_cover"] = f2(d["pooled_coverage90"])
+                v[f"mv4_{fam}_n"] = d["heldout_curves"]; v[f"mv4_{fam}_survives"] = "passes" if d["survives"] else "fails"
+    sg = _js("results/model_validation_phase4_posthoc_grouped/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/summary.json")
+    if sg:
+        hg = [d["median_heldout_rmse"] for d in sg["families"].values()]
+        v["mvg_heldout_min"] = f2(min(hg)); v["mvg_heldout_max"] = f2(max(hg))
+    if "mv4_bekker_wong_heldout" in v:
+        v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family reached "
+                                f"{v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}.")
+    else:
+        v["mv4_bw_sentence"] = "The Bekker Wong family was not rerun to completion on the expanded set within the session (its calibration is slow), so its stage 15 result stands alone."
+    ho = [float(v[k]) for k in v if k.startswith("mv4_") and k.endswith("_heldout") and "mobility" not in k]
+    if ho:
+        v["mv4_heldout_min"] = f2(min(ho)); v["mv4_heldout_max"] = f2(max(ho))
+    mob = [float(v[k]) for k in v if k.startswith("mv4_mobility") and k.endswith("_heldout")]
+    if mob:
+        v["mob_heldout_min"] = f2(min(mob)); v["mob_heldout_max"] = f2(max(mob))
+    lg = _rd("results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/loso.csv")
+    mo = _rd("results/model_validation_phase4/part_mobility_pull_mobility_logistic/loso.csv")
+    if lg:
+        v["mv4_nsources"] = len({r["held_out_source"] for r in lg if r["family"] == "exp_existing"})
+    if lg and mo:
+        ids = {r["curve"] for r in mo if r["family"] == "mobility_pull"}
+        v["mob_logistic_same"] = f2(statistics.median(float(r["rmse_heldout"]) for r in lg if r["family"] == "logistic_empirical" and r["curve"] in ids))
+    pe = _js("results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/posterior_exp.json")
+    if pe:
+        q = pe["quantiles_5_50_95"]
+        v["post4_i0"] = f"{q['i0'][1]:.2f} ({q['i0'][0]:.2f} to {q['i0'][2]:.2f})"; v["post4_ncurves"] = len(pe["curves"])
+    # stage 20: three more lidar fields, and the six fields together
+    rows4 = _rd("results/terrain_validation_phase4/metrics.csv"); rows3 = _rd("results/terrain_validation/metrics.csv")
+    def miss(r):
+        return float(r["share_traversable"]) * float(r["face_rate_in_traversable"]) / float(r["true_face_rate"])
+    for r in rows4:
+        s, k = r["site"], r["posting_m"]
+        v[f"lid4_auc_{s}_{k}"] = f2(r["auc"]); v[f"lid4_fs_{s}_{k}"] = pct(r["face_rate_in_traversable"]); v[f"lid4_miss_{s}_{k}"] = pct(miss(r), 0)
+    for k in ("5", "10", "30"):
+        for tag, rr in (("lid4", [r for r in rows4 if r["posting_m"] == k]), ("lid6", [r for r in rows3 + rows4 if r["posting_m"] == k])):
+            if rr:
+                v[f"{tag}_fs_min_{k}"] = pct(min(float(r["face_rate_in_traversable"]) for r in rr)); v[f"{tag}_fs_max_{k}"] = pct(max(float(r["face_rate_in_traversable"]) for r in rr))
+                v[f"{tag}_miss_min_{k}"] = pct(min(miss(r) for r in rr), 0); v[f"{tag}_miss_max_{k}"] = pct(max(miss(r) for r in rr), 0)
+                v[f"{tag}_auc_min_{k}"] = f2(min(float(r["auc"]) for r in rr)); v[f"{tag}_auc_max_{k}"] = f2(max(float(r["auc"]) for r in rr))
+                v[f"{tag}_nsites"] = len(rr)
+    for r in _rd("results/planner_phase4/policy_summary.csv"):
+        v[f"pl4_{r['site']}_{r['posting_m']}_{r['policy']}"] = pct(r["share_routed_failing_on_truth"], 1) if r["share_routed_failing_on_truth"] else NR
+    # stage 23: closed loop
+    for r in _rd("results/closed_loop/summary.csv"):
+        v[f"cl_{r['site']}_{r['posting_m']}_{r['policy']}_{r['mode']}"] = pct(r["entrapped_share"], 1) if r["entrapped_share"] else NR
+    for r in _rd("results/closed_loop/estimator.csv"):
+        v[f"cl_est_{r['site']}"] = f"{float(r['median_abs_error']):.3f}"
+    for r in _rd("results/closed_loop/posthoc_fixed_field/summary.csv"):   # POST HOC variant after the midpoint review
+        v[f"clph_{r['site']}_{r['posting_m']}_{r['policy']}_{r['mode']}"] = pct(r["entrapped_share"], 1) if r["entrapped_share"] else NR
+    for r in _rd("results/closed_loop/posthoc_fixed_field/estimator.csv"):
+        v[f"clph_est_{r['site']}"] = f"{float(r['median_abs_error_odometry_noise_2pct']):.3f}"
+    ros = _js("results/closed_loop/ros2_smoke_test.json")
+    if ros:
+        v["ros_outcome"] = ros["outcome"]; v["ros_replans"] = ros["replans"]; v["ros_metres"] = ros["metres_driven"]
+    # stage 24: SCM calibration
+    sc = _js("results/chrono_scm_calibration/summary.json")
+    if sc:
+        v["scm_best_K"] = f"{sc['best']['K_m']:g}"; v["scm_best_phi"] = f"{sc['best']['phi_deg']:g}"
+        v["scm_cal_rmse"] = f2(sc["best"]["rmse_cal"]); v["scm_pred_rmse"] = f2(sc["rmse_prediction"])
+    for r in _rd("results/chrono_scm_calibration/prediction.csv"):
+        sk = f"{float(r['slope_deg']):g}".replace(".", "p")
+        v[f"scm_pred_{sk}"] = f2(r["chrono_slip"]); v[f"scm_dumont_{sk}"] = f2(r["dumont_cubic"])
+    # stage 19: ICESat-2
+    for r in _rd("results/icesat2/validation_metrics.csv"):
+        if r.get("status") == "ok":
+            s, L = r["site"], r["length_m"]
+            v[f"is2_r_{s}_{L}"] = f2(r["pearson_r"]); v[f"is2_mad_{s}_{L}"] = f"{float(r['median_abs_diff_deg']):.1f}"
+            v[f"is2_ratio_{s}_{L}"] = f2(r["median_ratio_steep"]); v[f"is2_n_{s}_{L}"] = r["valid_segments"]; v[f"is2_steep_{s}_{L}"] = r["steep_segments_lidar_20deg"]
+            v[f"is2_pass_{s}_{L}"] = "passes" if r["method_passes"] == "True" else "fails"
+    for r in _rd("results/icesat2/arabia_metrics.csv"):
+        if r.get("status") == "ok":
+            a, L = r["area"], r["length_m"]
+            for k in ("valid_segments", "face_segments", "face_segments_28deg", "segments_ge_20deg", "runs_ge_20deg", "face_threshold_deg", "passes"):
+                v[f"is2_{k}_{a}_{L}"] = r[k]
+            for k in ("faces_in_traversable_original", "faces_in_unknown_original", "faces_in_traversable_posterior", "all_in_traversable_original"):
+                v[f"is2_{k}_{a}_{L}"] = pct(r[k], 0) if r[k] not in ("", "nan") else NR
+            for k in ("max_abs_slope_deg", "median_is2_minus_cop_on_faces_deg", "p95_abs_is2_deg", "p95_abs_cop_deg", "median_run_raw_max_deg", "median_run_corr_max_deg",
+                      "median_run_corr_max_dip_minus30_deg", "median_run_corr_max_dip_plus30_deg"):
+                v[f"is2_{k}_{a}_{L}"] = f"{float(r[k]):.1f}" if r[k] not in ("", "nan") else NR
+            v["is2_method"] = "validated" if r["method_validated"] == "True" else "not validated"
+            if L == "10" and r.get("posthoc_face_share_above_40deg", "") not in ("", "nan"):
+                v[f"is2_ph_above40_{a}"] = pct(r["posthoc_face_share_above_40deg"], 0)
+                v[f"is2_ph_trav2840_{a}"] = pct(r["posthoc_faces_28_40_in_traversable_original"], 0)
+    for r in _rd("results/icesat2/validation_metrics.csv"):
+        if r.get("status") == "ok" and r["length_m"] == "10":
+            v[f"is2_ph_n28_{r['site']}"] = r.get("posthoc_is2_segments_28deg", "")
+            v[f"is2_ph_near_{r['site']}"] = f"{float(r['posthoc_median_steepest_lidar_within_10m_of_is2_28deg']):.1f}" if r.get("posthoc_median_steepest_lidar_within_10m_of_is2_28deg") else NR
+    if "is2_faces_in_traversable_original_A_10" in v:
+        gaps = sorted(float(v[f"is2_median_is2_minus_cop_on_faces_deg_{a}_10"]) for a in "ABC")
+        v["is2_gap_min"], v["is2_gap_max"] = f"{gaps[0]:.1f}", f"{gaps[-1]:.1f}"
+        ft = sorted(v[f"is2_faces_in_traversable_original_{a}_10"] for a in "ABC")
+        v["is2_ftrav_min"], v["is2_ftrav_max"] = ft[0], ft[-1]
+        v["is2_summary_line"] = (f"Over Liwa and the Rub' al Khali, {v['is2_faces_in_traversable_original_A_10']}, {v['is2_faces_in_traversable_original_B_10']} and "
+                                 f"{v['is2_faces_in_traversable_original_C_10']} of the ICESat-2 segments steeper than 28 degrees fell in cells the 30 m map calls TRAVERSABLE, "
+                                 f"and 30 m slopes understated them by a median of {gaps[0]:.1f} to {gaps[-1]:.1f} degrees; "
+                                 "the ICESat-2 method failed its own validation against lidar, so these are indications, not a validation.")
     return v
 
 

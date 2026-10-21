@@ -16,7 +16,7 @@ import build_report as BR  # noqa: E402
 import phase3_values as P3  # noqa: E402
 
 MS = os.path.join(ROOT, "manuscript")
-DATE = "2026-10-20"
+DATE = "2026-10-21"
 FAM_NAMES = {"exp_existing": "Exponential (existing model)", "bekker_wong": "Bekker Wong rigid wheel", "mohr_coulomb_ratio": "Mohr Coulomb ratio",
              "logistic_empirical": "Logistic, empirical"}
 FIGS = {
@@ -27,6 +27,10 @@ FIGS = {
     "lidar": ("../results/terrain_validation/figures/fig_lidar_class_maps_30m.png",
               "Three class maps at 30 m over three real dune fields; black outlines mark cells that contain a face of 28 degrees or more in the one metre lidar. SIMULATED BY ME on PUBLISHED USGS 3DEP data."),
     "routes": ("../results/planner/figures/fig_routes_30m.png", "First six routes per policy over the 30 m three class map. SIMULATED BY ME."),
+    "icesat2": ("../results/icesat2/figures/fig_arabia_slope_distributions.png",
+                "Absolute along track slope over the three Arabian windows: ICESat-2 10 m segments (solid) against the Copernicus 30 m surface on the same tracks (dashed); the dotted line marks 28 degrees. PUBLISHED data, SIMULATED BY ME scoring; the ICESat-2 method failed its own lidar validation."),
+    "loop": ("../results/closed_loop/figures/fig_slip_estimator.png",
+             "Online slip estimate from odometry against position fixes (0.3 m noise) against the true slip over the same 10 m, in the closed loop demonstration. SIMULATED BY ME; the true rover is a model."),
     "wind": ("../results/wind_azimuth/figures/fig_face_vs_wind.png",
              "Slip face dip directions (pink) against the resultant sand drift direction from ERA5 (plum) and the mean face dip (wine)."),
 }
