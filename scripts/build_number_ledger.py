@@ -113,7 +113,7 @@ def hand_tokens(template_text):
     t = re.sub(r"(?m)^#+\s*[\d.]+\s", "# ", t)
     t = ROW_ID.sub("", t)
     t = re.sub(r"\(https?://[^)]*\)|https?://\S+", "", t)
-    return sorted(set(re.findall(r"(?<![A-Za-z_])\d+(?:\.\d+)?", t)), key=float)
+    return sorted(set(re.findall(r"(?<![A-Za-z_])\d+(?:\.\d+)?", t)), key=lambda s: (float(s), s))   # ties such as 0.2 and 0.20 ordered by text, so the ledger is deterministic
 
 
 def build():
