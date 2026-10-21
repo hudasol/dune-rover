@@ -308,6 +308,7 @@ def arabia(L, maps):
             c = np.where(dd <= 60.0, np.degrees(np.arctan(np.tan(np.radians(app)) / np.cos(np.radians(dd)))), np.nan)
             corr[shift] = c
         d["corr_slope_deg"] = corr[0.0]
+        dd0 = np.abs((down - FACE_DIP_AZ[a] + 180.0) % 360.0 - 180.0)
         thr = FACE_DEG if (app >= FACE_DEG).sum() >= MIN_FACES else FALLBACK_DEG
         face = app >= thr
         # runs of consecutive segments of one beam with raw slope of 20 deg or more
@@ -326,6 +327,12 @@ def arabia(L, maps):
             runs.append({"raw_max": float(app[seg].max()), **{f"corr_max_{int(k)}": float(np.nanmax(v[seg])) if np.isfinite(v[seg]).any() else np.nan for k, v in corr.items()}})
             i = j + 1
         runs_all[a] = runs
+        dd_runs = dd0[(app >= RUN_DEG) & (dd0 <= 60.0)]
+        fs = d[face]
+        os.makedirs(OUT, exist_ok=True)
+        fs.assign(area=a, abs_slope_deg=app[face].round(2), class_original=fs["class_original"], class_posterior=fs["class_posterior_2026_10_20"])[
+            ["area", "lat", "lon", "track", "x_atc", "abs_slope_deg", "corr_slope_deg", "cop_slope_deg", "class_original", "class_posterior", "face_prob"]].round(
+            {"lat": 6, "lon": 6, "corr_slope_deg": 2, "cop_slope_deg": 2, "face_prob": 4}).to_csv(os.path.join(OUT, f"face_segments_{a}_L{L}.csv"), index=False)
         seg_all[a] = d
         def cls_share(rs, k, mask):
             return round(float(np.isin(d[f"class_{rs}"].values[mask], k).mean()), 4) if mask.sum() else float("nan")
@@ -347,7 +354,12 @@ def arabia(L, maps):
                "median_run_corr_max_deg": round(float(np.median(cm0)), 2) if cm0 else float("nan"),
                "median_run_corr_max_dip_minus30_deg": round(float(np.nanmedian([r["corr_max_-30"] for r in runs])), 2) if runs else float("nan"),
                "median_run_corr_max_dip_plus30_deg": round(float(np.nanmedian([r["corr_max_30"] for r in runs])), 2) if runs else float("nan"),
-               "face_dip_azimuth_stage13_deg": FACE_DIP_AZ[a]}
+               "face_dip_azimuth_stage13_deg": FACE_DIP_AZ[a],
+               # POST HOC (after the first Arabian run showed segments steeper than sand can stand): quality of the face set
+               "posthoc_face_share_above_40deg": round(float((app[face] > 40.0).mean()), 4) if face.sum() else "",
+               "posthoc_faces_28_40_in_traversable_original": cls_share("original", [0], face & (app <= 40.0)),
+               "posthoc_faces_28_40_n": int((face & (app <= 40.0)).sum()),
+               "posthoc_runs_corrected_with_d_over_45deg": round(float(np.mean(dd_runs > 45.0)), 4) if len(dd_runs) else ""}
         rows.append(row)
     return rows, runs_all, seg_all
 
@@ -409,10 +421,10 @@ def write_csv(path, rows):
         w = csv.DictWriter(fh, fieldnames=keys); w.writeheader(); w.writerows(rows)
 
 
-def analyse():
+def analyse(lengths=(10, 20)):
     os.makedirs(OUT, exist_ok=True)
     val_rows, samples10 = [], {}
-    for L in (10, 20):
+    for L in lengths:
         r, smp = validation(L)
         val_rows += r
         if L == 10:
@@ -422,7 +434,7 @@ def analyse():
     method_ok = bool(ok10) and all(r["method_passes"] for r in ok10)
     maps = class_maps()
     ar_rows, runs10, seg10 = [], {}, {}
-    for L in (10, 20):
+    for L in lengths:
         r, runs, segs = arabia(L, maps)
         ar_rows += r
         if L == 10:
@@ -431,7 +443,8 @@ def analyse():
         r["method_validated"] = method_ok
     write_csv(os.path.join(OUT, "arabia_metrics.csv"), ar_rows)
     run_rows = [{"area": a, **x} for a, rr in runs10.items() for x in rr]
-    write_csv(os.path.join(OUT, "arabia_face_runs_10m.csv"), run_rows)
+    import pandas as pd
+    pd.DataFrame(run_rows).round(3).to_csv(os.path.join(OUT, "arabia_face_runs_10m.csv"), index=False)
     figures(samples10, seg10, runs10)
     write_manifest()
     json.dump({"label": "PUBLISHED data scored by code of this repository: SIMULATED BY ME", "stage": 19, "method_validated": method_ok,
@@ -454,4 +467,4 @@ if __name__ == "__main__":
     elif a.cmd == "manifest":
         write_manifest()
     else:
-        analyse()
+        analyse(tuple(int(x) for x in a.lengths.split(",")))

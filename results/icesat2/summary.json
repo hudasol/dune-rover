@@ -1,0 +1,55 @@
+{
+ "label": "PUBLISHED data scored by code of this repository: SIMULATED BY ME",
+ "stage": 19,
+ "method_validated": false,
+ "service": "SlideRule Earth public cluster (slideruleearth.io), atl06p",
+ "parameters": {
+  "srt": 0,
+  "cnf": 4,
+  "ats": 5.0,
+  "cnt": 10,
+  "lengths_steps_m": {
+   "10": 5.0,
+   "20": 10.0
+  }
+ },
+ "face_deg": 28.0,
+ "fallback_deg": 20.0,
+ "face_dip_azimuth_stage13": {
+  "A": 157.0,
+  "B": 167.8,
+  "C": 151.0
+ },
+ "validation": {
+  "WhiteSands": {
+   "tile": "USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20.tif",
+   "epsg": 32613,
+   "window": [
+    378400,
+    379900,
+    3630400,
+    3634600
+   ],
+   "t0": "2019-01-18T00:00:00Z",
+   "t1": "2021-01-19T23:59:59Z",
+   "lidar_dates": "2020-01-18 to 2020-01-19"
+  },
+  "Kelso": {
+   "tile": "USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24.tif",
+   "epsg": 32611,
+   "window": [
+    615000,
+    618600,
+    3862400,
+    3865100
+   ],
+   "t0": "2023-04-06T00:00:00Z",
+   "t1": "2026-09-06T23:59:59Z",
+   "lidar_dates": "2024-04-06 to 2025-09-06"
+  }
+ },
+ "arabia_dates": [
+  "2018-10-14T00:00:00Z",
+  "2026-10-21T23:59:59Z"
+ ]
+}
