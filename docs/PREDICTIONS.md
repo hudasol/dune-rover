@@ -465,3 +465,16 @@ Design fixed now: `scripts/terrain_validation_lidar.py --sites-file config/lidar
 | L20-5 | The 10 m false safe rate is at most 8 % at each new site. | pending |
 | L20-6 | Great Sand Dunes has the highest 30 m false safe rate of the six fields (the three of stage 12 and the three new ones). | pending |
 | L20-7 | On 30 m maps, the conservative policy's share of routed pairs that fail on lidar truth is not lower than the naive policy's by more than 5 percentage points at two or more of the three new sites. | pending |
+
+
+## Stage 23: closed loop demonstration, online slip estimation and replanning (written 2026-10-21, BEFORE the demonstration was run)
+
+**SIMULATED BY ME on PUBLISHED USGS 3DEP lidar; the "true" rover is itself a slip model, not a measured vehicle.** Design fixed now (`demo/closed_loop.py`, seed 20261023, the header of the script lists every assumption): the stage 17 origin destination pairs, maps and the naive and conservative policies at 30 m and 10 m, White Sands and Kelso only (Dumont is left out because its truth includes rock). The true slip is the exponential model with the stage 15 posterior medians evaluated on the lidar uphill grade over 3 m, plus a scatter of 0.05 per metre; entrapment is a true slip of 0.95 or more on 3 consecutive metres. Position fixes every metre with 0.3 m noise per axis; the slip estimate is 1 minus the fix to fix distance over the last 10 m divided by the odometry distance. Closed loop: at an estimate of 0.5 the cells on the next 15 m of the route are removed and the route is replanned from the current cell (at most 10 times); open loop drives the same first route without replanning. The estimator error is scored after the first 20 m of each run.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| C23-1 | The median absolute error of the online slip estimate against the true slip over the same 10 m is at most 0.05 at both sites. | pending |
+| C23-2 | On 30 m naive routes, replanning lowers the share of routed pairs that end entrapped by at least 5 percentage points at both sites. | pending |
+| C23-3 | In no combination of site, posting and policy does replanning raise the entrapped share. | pending |
+| C23-4 | On 30 m naive routes, the mean distance driven by runs that arrive is at most 30 % longer with replanning than without. | pending |
+| C23-5 | Open loop, at least 10 % of the routed 30 m naive pairs end entrapped at each site. | pending |
