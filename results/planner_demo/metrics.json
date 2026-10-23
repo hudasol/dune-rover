@@ -1,0 +1,348 @@
+{
+ "label": "SIMULATED BY ME on PUBLISHED USGS 3DEP lidar; a product demonstration, not a registered test",
+ "sites": {
+  "Kelso": {
+   "10": {
+    "gate": "DETECTOR",
+    "cells": [
+     270,
+     360
+    ],
+    "miss_rate": 0.1354,
+    "false_safe": 0.0179,
+    "face_cells": 10408,
+    "share_traversable": 0.8095,
+    "share_unknown": 0.1904,
+    "share_blocked": 0.0,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 2383.7,
+      "cells_unknown": 3,
+      "cells_face_risk": 3,
+      "max_uphill_grade_deg": 10.67,
+      "faces_crossed": 0
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 2383.7,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 8.61,
+      "faces_crossed": 0
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 2383.7,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 9.5,
+      "faces_crossed": 1
+     }
+    ]
+   },
+   "30": {
+    "gate": "COARSE",
+    "cells": [
+     90,
+     120
+    ],
+    "miss_rate": 0.7329,
+    "false_safe": 0.281,
+    "face_cells": 3669,
+    "share_traversable": 0.886,
+    "share_unknown": 0.1136,
+    "share_blocked": 0.0004,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 2383.7,
+      "cells_unknown": 1,
+      "cells_face_risk": 1,
+      "max_uphill_grade_deg": 5.68,
+      "faces_crossed": 10
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 2383.7,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 6.02,
+      "faces_crossed": 12
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 2383.7,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 5.68,
+      "faces_crossed": 12
+     }
+    ]
+   }
+  },
+  "WhiteSands": {
+   "10": {
+    "gate": "DETECTOR",
+    "cells": [
+     420,
+     150
+    ],
+    "miss_rate": 0.1983,
+    "false_safe": 0.0248,
+    "face_cells": 6789,
+    "share_traversable": 0.8599,
+    "share_unknown": 0.1401,
+    "share_blocked": 0.0001,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 3236.1,
+      "cells_unknown": 5,
+      "cells_face_risk": 5,
+      "max_uphill_grade_deg": 15.75,
+      "faces_crossed": 5
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 3236.1,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 15.82,
+      "faces_crossed": 4
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 3244.4,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 11.9,
+      "faces_crossed": 1
+     }
+    ]
+   },
+   "30": {
+    "gate": "COARSE",
+    "cells": [
+     140,
+     50
+    ],
+    "miss_rate": 0.6086,
+    "false_safe": 0.2863,
+    "face_cells": 2499,
+    "share_traversable": 0.7589,
+    "share_unknown": 0.2406,
+    "share_blocked": 0.0006,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 3236.1,
+      "cells_unknown": 23,
+      "cells_face_risk": 23,
+      "max_uphill_grade_deg": 6.72,
+      "faces_crossed": 31
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 3285.8,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 7.67,
+      "faces_crossed": 14
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 3310.7,
+      "cells_unknown": 1,
+      "cells_face_risk": 1,
+      "max_uphill_grade_deg": 6.09,
+      "faces_crossed": 17
+     }
+    ]
+   }
+  },
+  "Algodones": {
+   "10": {
+    "gate": "DETECTOR",
+    "cells": [
+     500,
+     400
+    ],
+    "miss_rate": 0.1885,
+    "false_safe": 0.014,
+    "face_cells": 13275,
+    "share_traversable": 0.8929,
+    "share_unknown": 0.1071,
+    "share_blocked": 0.0,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 3569.1,
+      "cells_unknown": 27,
+      "cells_face_risk": 27,
+      "max_uphill_grade_deg": 13.51,
+      "faces_crossed": 21
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 3738.2,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 15.52,
+      "faces_crossed": 4
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 3802.1,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 15.88,
+      "faces_crossed": 6
+     }
+    ]
+   },
+   "30": {
+    "gate": "COARSE",
+    "cells": [
+     166,
+     133
+    ],
+    "miss_rate": 0.7154,
+    "false_safe": 0.1858,
+    "face_cells": 5235,
+    "share_traversable": 0.9132,
+    "share_unknown": 0.0866,
+    "share_blocked": 0.0002,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 3569.1,
+      "cells_unknown": 3,
+      "cells_face_risk": 3,
+      "max_uphill_grade_deg": 10.32,
+      "faces_crossed": 27
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 3636.4,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 9.45,
+      "faces_crossed": 25
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 3618.8,
+      "cells_unknown": 1,
+      "cells_face_risk": 1,
+      "max_uphill_grade_deg": 9.32,
+      "faces_crossed": 26
+     }
+    ]
+   }
+  },
+  "GreatSandDunes": {
+   "10": {
+    "gate": "DETECTOR",
+    "cells": [
+     370,
+     400
+    ],
+    "miss_rate": 0.0667,
+    "false_safe": 0.0115,
+    "face_cells": 19443,
+    "share_traversable": 0.7637,
+    "share_unknown": 0.2363,
+    "share_blocked": 0.0,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 3213.4,
+      "cells_unknown": 52,
+      "cells_face_risk": 52,
+      "max_uphill_grade_deg": 24.34,
+      "faces_crossed": 19
+     },
+     {
+      "policy": "conservative",
+      "reachable": true,
+      "length_m": 4971.3,
+      "cells_unknown": 0,
+      "cells_face_risk": 0,
+      "max_uphill_grade_deg": 18.73,
+      "faces_crossed": 8
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 3454.6,
+      "cells_unknown": 13,
+      "cells_face_risk": 13,
+      "max_uphill_grade_deg": 23.0,
+      "faces_crossed": 4
+     }
+    ]
+   },
+   "30": {
+    "gate": "COARSE",
+    "cells": [
+     123,
+     133
+    ],
+    "miss_rate": 0.4332,
+    "false_safe": 0.1624,
+    "face_cells": 4831,
+    "share_traversable": 0.7878,
+    "share_unknown": 0.212,
+    "share_blocked": 0.0002,
+    "routes": [
+     {
+      "policy": "naive",
+      "reachable": true,
+      "length_m": 2989.7,
+      "cells_unknown": 16,
+      "cells_face_risk": 16,
+      "max_uphill_grade_deg": 23.56,
+      "faces_crossed": 37
+     },
+     {
+      "policy": "conservative",
+      "reachable": false,
+      "length_m": null,
+      "cells_unknown": null,
+      "cells_face_risk": null,
+      "max_uphill_grade_deg": null
+     },
+     {
+      "policy": "risk_weighted",
+      "reachable": true,
+      "length_m": 3312.8,
+      "cells_unknown": 1,
+      "cells_face_risk": 1,
+      "max_uphill_grade_deg": 18.15,
+      "faces_crossed": 28
+     }
+    ]
+   }
+  }
+ }
+}
