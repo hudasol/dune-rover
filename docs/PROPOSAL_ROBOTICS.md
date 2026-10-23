@@ -34,7 +34,7 @@ The levels below use the common nine step technology readiness scale only as a s
 | Map on Arabian dunes | Compared only with satellite laser profiles, with a method that did not pass its own validation bar and a noisy steep segment set | Stage 19 |
 | Online slip estimation and replanning | Software in simulation against a modelled rover, including ROS 2 nodes (level 2 to 3); no benefit of replanning shown against a retry control | Stage 23 |
 | Field protocol, data sheets, analysis and ingest | Written and tested on synthetic data (level 3); pass or fail rule still an open decision | `docs/FIELD_VALIDATION_PLAN.md`, `scripts/ingest_field_day.py` |
-| Dune Rover Planner (integrated tool) | Installable command line tool and Python API, tested on synthetic inputs and demonstrated on lidar outside Arabia (level 3); no vehicle calibrated yet | `docs/PLANNER.md`, `tests/test_planner.py` |
+| Dune Rover Planner (integrated tool) | Installable command line tool and Python API, tested on synthetic inputs and demonstrated on lidar outside Arabia (level 3, resting on the detector and the map); its routing did not pass its registered test at 30 m (stage 17), and no vehicle is calibrated yet | `docs/PLANNER.md`, `tests/test_planner.py` |
 
 ## 5. Objectives
 

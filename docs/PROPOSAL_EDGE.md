@@ -53,7 +53,7 @@ Success means a complete dataset and a reported comparison, not a model that pas
 
 ## 6. Readiness
 
-Using the common nine step technology readiness scale only as a shorthand (no body has assessed it): the slip model for a vehicle on Arabian sand is at concept level (2); the slip face detector and three class map are a proof of concept against lidar of dune fields outside Arabia (3); online slip estimation and replanning are software in simulation against a modelled rover, including ROS 2 nodes, with no benefit of replanning shown against a retry control (2 to 3); the field protocol and ingest are tested on synthetic data only (3). the Dune Rover Planner, which packages the map, the routes and the vehicle calibration as one tool, is tested on synthetic inputs and demonstrated on lidar outside Arabia (3). Details in `docs/PROPOSAL_ROBOTICS.md`, section 4.
+Using the common nine step technology readiness scale only as a shorthand (no body has assessed it): the slip model for a vehicle on Arabian sand is at concept level (2); the slip face detector and three class map are a proof of concept against lidar of dune fields outside Arabia (3); online slip estimation and replanning are software in simulation against a modelled rover, including ROS 2 nodes, with no benefit of replanning shown against a retry control (2 to 3); the field protocol and ingest are tested on synthetic data only (3); the Dune Rover Planner, which packages the map, the routes and the vehicle calibration as one tool, is tested on synthetic inputs and demonstrated on lidar outside Arabia (3). Details in `docs/PROPOSAL_ROBOTICS.md`, section 4.
 
 ## 7. Risks
 
