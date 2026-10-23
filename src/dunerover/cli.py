@@ -34,6 +34,8 @@ def _profile(name):
 
 
 def _load(args):
+    if not os.path.exists(args.dem):
+        raise SystemExit(f"error: no such file: {args.dem}")
     r = P.read_raster(args.dem)
     if args.window:
         x0, x1, y0, y1 = (float(v) for v in args.window.split(","))
@@ -57,6 +59,10 @@ def cmd_assess(args, with_route=False):
     from .report import write_outputs
     r = _load(args)
     a = P.assess(r, args.posting, _profile(args.vehicle), n_draws=args.draws, seed=args.seed)
+    if args.posting and abs(a.posting_m - args.posting) > 0.05 * args.posting:
+        print(f"note: the analysis posting is {a.posting_m:.3g} m (an integer multiple of the input posts), not {args.posting:g} m")
+    for w in r.warnings:
+        print("note:", w)
     routes = []
     if with_route:
         s, g = _points(args, a)
@@ -76,6 +82,8 @@ def cmd_vehicle(args):
     if args.action == "show":
         print(json.dumps(_profile(args.target).to_dict(), indent=1)); return
     from . import fieldanalysis as FA
+    if not os.path.exists(args.target):
+        raise SystemExit(f"error: no such file: {args.target}")
     d = FA.load_runs(args.target)
     prof = P.profile_from_runs(d, name=args.name)
     out = args.out or f"{args.name}.json"
@@ -148,7 +156,7 @@ def main(argv=None):
             cmd_vehicle(args)
         else:
             cmd_demo(args)
-    except ValueError as exc:
+    except (ValueError, KeyError, OSError) as exc:
         raise SystemExit(f"error: {exc}")
 
 
