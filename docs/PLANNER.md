@@ -31,7 +31,7 @@ dunerover plan DEM.tif --vehicle my-rover.json --start-rc 40,5 --goal-rc 40,180 
 
 ## 3. Inputs
 
-- **Elevation model:** a single band GeoTIFF with model pixel scale and tiepoint tags, either geographic (EPSG:4326, such as Copernicus GLO-30) or projected in metres (such as USGS 3DEP lidar in UTM or a drone survey export). No GDAL is needed.
+- **Elevation model:** a single band GeoTIFF with model pixel scale and tiepoint tags, either geographic (EPSG:4326, such as Copernicus GLO-30) or projected in metres (such as USGS 3DEP lidar in UTM or a drone survey export). No GDAL is needed. A file without GeoKeys is read as a local frame in metres (give start and goal as row and column); a projected file in units other than metres is refused.
 - **Vehicle profile:** `assumed` (the default: the assumption ranges of the study), `published-posterior` (the posterior of the slip model fitted to published curves of other vehicles; wider, and not a description of any rover in Arabia), or a JSON file from `dunerover vehicle calibrate`.
 
 ## 4. Outputs (in the `--out` folder)
@@ -48,16 +48,17 @@ dunerover plan DEM.tif --vehicle my-rover.json --start-rc 40,5 --goal-rc 40,180 
 
 - **Passable cell.** For each of `--draws` parameter sets drawn inside the vehicle profile's ranges (sets that cannot move on level ground are dropped), a cell is passable when at least four of its eight headings have slip below the planning limit under the friction circle slip model (`src/dunerover/slipmodel.py`).
 - **Classes.** TRAVERSABLE: passable in at least 95 % of the draws and slip face probability below 0.2. BLOCKED: passable in at most 5 % of the draws. UNKNOWN: everything else, split by cause.
-- **Slip faces.** At 2 m or finer input, faces are read from the input: a cell holds a face when at least 10 square metres of it are 28 degrees or steeper (the truth rule of the lidar tests). Coarser, a detector trained on synthetic dunes estimates the probability of a face hidden inside the cell.
+- **Slip faces.** At 2 m or finer input, faces are read from the input: a cell holds a face when at least 10 square metres of it are 28 degrees or steeper (the truth rule of the lidar tests); for cells smaller than 10 square metres the rule is applied over a moving footprint of 10 square metres. Coarser, a detector trained on synthetic dunes estimates the probability of a face hidden inside the cell.
 - **Resolution gate.** RESOLVED (input at 2 m or finer), DETECTOR (analysis at 10 m or finer) or COARSE (coarser than 10 m: TRAVERSABLE is not verified). The message quotes the miss rates measured on lidar dune fields from `src/dunerover/data/evidence_card.json`, which `scripts/build_evidence_card.py` builds from the result files.
-- **Policies.** naive (the slip model only), conservative (TRAVERSABLE cells only), risk weighted (avoids BLOCKED cells, cost raised by the face probability).
-- **Vehicle calibration.** `dunerover vehicle calibrate` reads runs in the format of `docs/field_log_template.csv` (or the output of `scripts/ingest_field_day.py`), fits the motion resistance f_r and slip scale i0 to the runs at 10 degrees or less without entrapment, with the friction angle from the soil tests, and takes 5 to 95 % ranges from a bootstrap over runs. The calibration bounds are the assumption ranges of the study; a value at a bound means the bound decided it.
+- **Policies.** naive (the slip model only), conservative (TRAVERSABLE cells only), risk weighted (avoids BLOCKED cells, cost raised by the face probability). The two cautious policies also never descend a grade of 28 degrees or more between cells, and every policy avoids NO DATA cells (more than half of the cell's posts void; voids are filled with the nearest valid elevation for the slope computation). A route that descends 25 degrees or more gets a warning.
+- **Vehicle calibration.** `dunerover vehicle calibrate` reads runs in the format of `docs/field_log_template.csv` (or the output of `scripts/ingest_field_day.py`), fits the motion resistance f_r and slip scale i0 to the runs at 10 degrees or less without entrapment, with the friction angle from the soil tests, and keeps the bootstrap pairs of (f_r, i0), which the planner draws jointly because the two trade off on gentle slopes. When there are at least three runs above 10 degrees, the profile reports the error of the calibrated model on them. The planning slip limit i_max stays the study's assumption range. The calibration bounds are the assumption ranges of the study; a value at a bound means the bound decided it.
 
 ## 6. What it cannot do
 
 - It does not know any real vehicle until it is given that vehicle's runs, and even then only on the sand they were made on.
 - No slip model in this repository transferred between published studies (report section 14.2), so routes near the climbing limit are guesses.
 - At 30 m it misses most slip faces; at 10 m it still misses some (report sections 13 and 14.4). Onboard sensing remains necessary for metre scale features.
+- A cautious policy is not a safe policy: in the registered test on three lidar dune fields (stage 17), no policy was reliably safer than naive on 30 m maps, and the gains at 10 m came from a post hoc comparison (report section 13).
 - It plans on a static map; online slip feedback showed no benefit over stopping and retrying in simulation (report section 14.6).
 - It has not been run on Arabian terrain with a validated survey; that is the first work package of the robotics proposal.
 
