@@ -2,9 +2,16 @@
 
 Only what you still have to do, in order. Commands run from the repository root in Git Bash; on Windows use `py` for `python3`.
 
-## 0. Tag version 1.0 (one command)
+## 0. Tag the two versions (two commands each)
 
-The session could not push tags. On your computer, in the repository folder: `git pull`, check that the latest commit is the session's last one (`git log -1`) and that its CI check is green on GitHub, then run `git tag -a v1.0 -m "Version 1.0 of the dune-rover desk study (2026-10-21). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.0`.
+The sessions could not push tags. On your computer, in the repository folder, run `git pull`, then:
+
+1. Version 1.0 (the desk study, commit 7dfcc09): `git tag -a v1.0 7dfcc09 -m "Version 1.0 of the dune-rover desk study (2026-10-21). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.0`.
+2. Version 1.1 (the Dune Rover Planner): check that the latest commit (`git log -1`) has a green CI check on GitHub, then `git tag -a v1.1 -m "Version 1.1: the Dune Rover Planner (2026-10-23). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.1`.
+
+## 0.5 Try the planner (ten minutes)
+
+`pip install ".[projected]"`, then `dunerover demo --out demo_out` and open `demo_out/30m/report.html` and `demo_out/10m/report.html`; open `demo/web/dune_rover_planner.html` in a browser. To run it on your own area, download a Copernicus GLO-30 tile (free) and follow `docs/PLANNER.md`. After the field day, `dunerover vehicle calibrate` turns the run sheet into your rover's profile.
 
 ## 1. Human checks (needed before any preprint)
 
