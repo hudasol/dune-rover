@@ -40,4 +40,4 @@ A slope ladder with one small four wheel rover (5 to 25 kg) on one dune stoss sl
 
 ## 7. The ask
 
-A supervised dune site, a small wheeled rover, RTK GNSS or a drone survey, soil tests and recovery support; work packages and fallbacks are in `docs/PROPOSAL_ROBOTICS.md` and `docs/PROPOSAL_EDGE.md`. Success means a complete dataset and an honest comparison with the committed predictions, even if the model fails.
+A supervised dune site, a small wheeled rover, RTK GNSS or a drone survey, soil tests and recovery support; work packages and fallbacks are in `docs/PROPOSAL_ROBOTICS.md` and `docs/PROPOSAL_EDGE.md`. Success means a complete dataset and an honest comparison with the committed predictions, even if the model fails. The deliverable is the Dune Rover Planner (`docs/PLANNER.md`), already working in simulation with a resolution gate, calibrated to the partner's rover and checked on a surveyed Gulf dune.
