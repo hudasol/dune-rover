@@ -76,6 +76,7 @@ PRODUCERS = [
     (r"clph_", "demo/closed_loop_posthoc.py (post hoc)", ["results/closed_loop/posthoc_fixed_field/summary.csv", "results/closed_loop/posthoc_fixed_field/estimator.csv"]),
     (r"cl_|ros_", "demo/closed_loop.py; demo/ros2 (stage 23)", ["results/closed_loop/summary.csv", "results/closed_loop/estimator.csv", "results/closed_loop/ros2_smoke_test.json"]),
     (r"scm_chk_", "scripts/chrono_scm_calibration.py --checks (post hoc)", ["results/chrono_scm_calibration/posthoc_checks.csv", "results/chrono_scm_calibration/posthoc_checks_calibration_slopes.csv"]),
+    (r"pd_", "scripts/build_web_demo.py (planner demonstration, not a registered test)", ["results/planner_demo/metrics.json"]),
     (r"clm_", "demo/closed_loop_multiseed.py (post hoc)", ["results/closed_loop/posthoc_multiseed/summary.csv"]),
     (r"mvc_", "scripts/model_validation.py (load_curves, run logs)", ["research/phase3/curves.csv", "research/phase4/curves_new.csv", "results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/run_log.txt", "results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/run_log.txt"]),
     (r"scm_", "scripts/chrono_scm_calibration.py", ["results/chrono_scm_calibration/summary.json", "results/chrono_scm_calibration/prediction.csv"]),

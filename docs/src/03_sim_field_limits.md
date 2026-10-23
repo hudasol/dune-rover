@@ -202,6 +202,8 @@ All errors were corrected through `research/corrections.csv` (old values in `res
 
 {{INCLUDE:phase4}}
 
+{{INCLUDE:planner}}
+
 ## Sources and appendices
 
 Appendix A lists every evidence row. Appendix B lists the UAE facts used. Appendix C lists the sources, one line each, with the rows that cite them. All are generated from `research/evidence.csv` and `research/raw/uae_facts.csv` by `scripts/build_report.py`.

@@ -1,0 +1,21 @@
+## 15. The Dune Rover Planner (product, 2026-10-23)
+
+> **SIMULATED BY ME.** A software tool built on the methods of sections 8 and 13 to 14. It is not field evidence, not a safety case, and not validated on any vehicle. User guide: `docs/PLANNER.md`.
+
+### 15.1 What it does
+
+The planner turns the study into a tool a robotics team can run on its own terrain. Given an elevation model as a GeoTIFF (a Copernicus GLO-30 tile, a USGS lidar tile or a drone survey) and a vehicle profile, it computes for every cell the slope, the share of slip parameter draws for which the cell is passable, the probability of a slip face hidden below the map's resolution, and the three class map (TRAVERSABLE, BLOCKED, UNKNOWN), and between two points it plans a route with each of the three policies of stage 17 (naive, conservative, risk weighted). It writes a self contained HTML report, a map figure, the class map as a GeoTIFF, the routes as GeoJSON and a summary file (`dunerover plan`, `src/dunerover/planner.py`, `src/dunerover/report.py`, `src/dunerover/cli.py`).
+
+Three features carry the findings of the study into the tool:
+
+- **Resolution gate.** Every assessment states what the map may claim. Coarser than 10 m, TRAVERSABLE is reported as not verified, with the measured miss rate: on {{VAL:lid6_nsites}} lidar dune fields a 30 m map called {{VAL:lid6_miss_min_30}} to {{VAL:lid6_miss_max_30}} of the face cells TRAVERSABLE ({{VAL:lid6_miss_min_10}} to {{VAL:lid6_miss_max_10}} at 10 m). An input at 2 m or finer resolves faces directly, with the truth rule of the lidar tests. The numbers come from an evidence card generated from the result files (`scripts/build_evidence_card.py`, checked in CI), so the tool and the documents cannot disagree.
+- **Vehicle profiles.** The tool never pretends to know the vehicle. Built in profiles are the assumption ranges of the study and the posterior from published curves of other vehicles; `dunerover vehicle calibrate` fits a profile to the vehicle's own slope runs up to 10 degrees from the field kit, with bootstrap ranges, and that is the only profile labelled MEASURED.
+- **Honest warnings.** Each route lists the UNKNOWN cells and face risk cells it crosses and flags grades close to the vehicle's climbing limit, because metre scale grades are steeper than any map shows.
+
+### 15.2 Demonstration on lidar dune fields (not a registered test)
+
+On {{VAL:pd_nsites}} North American dune fields (Kelso, White Sands, Algodones, Great Sand Dunes), the same lidar ground was assessed as a 10 m and a 30 m map and one route per field was planned with each policy (`scripts/build_web_demo.py`, `results/planner_demo/metrics.json`, interactive page `demo/web/dune_rover_planner.html`). The maps called {{VAL:pd_miss_min_30}} to {{VAL:pd_miss_max_30}} of the true face cells TRAVERSABLE at 30 m and {{VAL:pd_miss_min_10}} to {{VAL:pd_miss_max_10}} at 10 m, in line with stages 12 and 20. At 10 m, the naive routes crossed {{VAL:pd_faces_naive_10}} cells holding a true slip face, the conservative routes {{VAL:pd_faces_conservative_10}} and the risk weighted routes {{VAL:pd_faces_risk_weighted_10}}; at 30 m, {{VAL:pd_faces_naive_30}}, {{VAL:pd_faces_conservative_30}} (on the {{VAL:pd_routed_conservative_30}} fields where a conservative route existed) and {{VAL:pd_faces_risk_weighted_30}}. With one route per field this illustrates the tool; it does not measure a policy effect, and cell counts at 10 m and 30 m are not comparable because the cells differ in size.
+
+### 15.3 How it becomes a field tool
+
+The planned project (`docs/PROPOSAL_ROBOTICS.md`) closes the two gaps the tool cannot close itself: a drone survey of the test dune at about 10 cm lets the planner work in its RESOLVED mode on Arabian terrain, and the slope ladder runs give the rover its own MEASURED profile. The planner is then run on the surveyed dune with the calibrated profile, and its routes are driven with a safety driver and compared with what the rover meets.

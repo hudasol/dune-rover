@@ -385,6 +385,16 @@ def phase4_values() -> dict:
         for r in scc:
             byc.setdefault(r["slope_deg"], []).append(float(r["slip"]))
         v["scm_chk_calmax"] = f2(max(max(x) - min(x) for x in byc.values()))
+    pdm = _js("results/planner_demo/metrics.json")   # product demonstration (scripts/build_web_demo.py), not a registered test
+    if pdm:
+        sites = pdm["sites"]; v["pd_nsites"] = len(sites)
+        for k in ("10", "30"):
+            ms = [s[k]["miss_rate"] for s in sites.values()]
+            v[f"pd_miss_min_{k}"] = pct(min(ms), 0); v[f"pd_miss_max_{k}"] = pct(max(ms), 0)
+            for pol in ("naive", "conservative", "risk_weighted"):
+                rr = [r for s in sites.values() for r in s[k]["routes"] if r["policy"] == pol]
+                v[f"pd_faces_{pol}_{k}"] = sum(r.get("faces_crossed") or 0 for r in rr if r["reachable"])
+                v[f"pd_routed_{pol}_{k}"] = sum(1 for r in rr if r["reachable"])
     ros = _js("results/closed_loop/ros2_smoke_test.json")
     if ros:
         v["ros_outcome"] = ros["outcome"]; v["ros_replans"] = ros["replans"]; v["ros_metres"] = ros["metres_driven"]
