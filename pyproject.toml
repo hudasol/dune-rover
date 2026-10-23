@@ -4,16 +4,23 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dunerover"
-version = "0.1.0"
-description = "Slope-and-slip traversability study on open Copernicus DEM data (simulation only, model-assumption dependent)"
+version = "1.1.0"
+description = "Dune Rover Planner and the slope and slip traversability study behind it (simulation only, model assumption dependent)"
 requires-python = ">=3.10"
 dependencies = ["numpy", "scipy", "matplotlib", "tifffile", "imagecodecs"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+projected = ["pyproj"]
+
+[project.scripts]
+dunerover = "dunerover.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+dunerover = ["data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
