@@ -370,6 +370,7 @@ docs/PROPOSAL_ROBOTICS.md,value,mv_bekker_wong_heldout,0.20,scripts/model_valida
 docs/PROPOSAL_ROBOTICS.md,value,mv_bw_ncurves,8,scripts/model_validation.py,results/model_validation/part_bekker_wong/summary.json; results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/summary.json; results/model_validation/part_bekker_wong/nominal.csv; results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/nominal.csv,218d9185a3256a3b757ef3ee6320997f8f13eee7988fbcbb7c7fbda70c9353b6; ed1e2a09de0e35fd92f734053513fcf7df9a2550bc27aa9d59926e9a9fa5b301; 903a1ef55e0f0b9538d24b4ae623b03b511050ee63d0afa58ded3ab80e5e5814; 70de850541af6010e87fbb9fd372da4b64dfdeaf3faca20832f23d7262b66411,,
 docs/PROPOSAL_ROBOTICS.md,value,p3_rows_total,510,scripts/consolidate_evidence.py,research/evidence.csv,8831167858c8678f022c1f8aad7a106f8ce18db466de2fc7afefd6a2b1cd860d,,
 docs/PROPOSAL_ROBOTICS.md,value,p3_sources_total,176,scripts/consolidate_evidence.py,research/evidence.csv,8831167858c8678f022c1f8aad7a106f8ce18db466de2fc7afefd6a2b1cd860d,,
+docs/PROPOSAL_ROBOTICS.md,value,pd_nsites,4,"scripts/build_web_demo.py (planner demonstration, not a registered test)",results/planner_demo/metrics.json,238fab82b90c372474a9b98678587eff13034dbcb0c1176d9b3e0afed0492d90,,
 docs/PROPOSAL_ROBOTICS.md,hand,0.15,0.15,typed in the template,docs/src/proposal_robotics_template.md,,,"validation bar fixed before the stage 15 run (docs/PREDICTIONS.md, stage 15)"
 docs/PROPOSAL_ROBOTICS.md,hand,1,1,typed in the template,docs/src/proposal_robotics_template.md,,,"list numbering, ROS 2 product name, and the planning estimate of weeks 1 to 4 for WP1 (PLANNED); 1 m posting of the planned map scores"
 docs/PROPOSAL_ROBOTICS.md,hand,2,2,typed in the template,docs/src/proposal_robotics_template.md,,,"name of the satellite ICESat-2 and of ROS 2; readiness level 2 on the common nine step scale (author's statement, no assessment)"
@@ -415,6 +416,7 @@ docs/PROPOSAL_EDGE.md,evidence,FLD-HV13-2,"75 percent (approximate, text says ap
 docs/PROPOSAL_EDGE.md,hand,0,0,typed in the template,docs/src/proposal_edge_template.md,,,"PLANNED slope bins from 0 deg (docs/FIELD_VALIDATION_PLAN.md, section 4)"
 docs/PROPOSAL_EDGE.md,hand,2,2,typed in the template,docs/src/proposal_edge_template.md,,,"name of the satellite ICESat-2 and of ROS 2; readiness level 2 (author's statement, no assessment)"
 docs/PROPOSAL_EDGE.md,hand,3,3,typed in the template,docs/src/proposal_edge_template.md,,,PLANNED 3 runs per pilot bin; readiness level 3 to 4 (author's statement)
+docs/PROPOSAL_EDGE.md,hand,4,4,typed in the template,docs/src/proposal_edge_template.md,,,readiness level 3 to 4 (author's statement)
 docs/PROPOSAL_EDGE.md,hand,5,5,typed in the template,docs/src/proposal_edge_template.md,,,PLANNED pilot slope 5 deg; rover mass 5 to 25 kg (docs/FIELD_VALIDATION_PLAN.md)
 docs/PROPOSAL_EDGE.md,hand,7,7,typed in the template,docs/src/proposal_edge_template.md,,,section 7 of docs/FIELD_VALIDATION_PLAN.md and of docs/REPORT.md
 docs/PROPOSAL_EDGE.md,hand,8,8,typed in the template,docs/src/proposal_edge_template.md,,,report section 8 (8.7 and 8.8)

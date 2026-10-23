@@ -17,7 +17,13 @@ A small wheeled robot on a dune slope can lose most of its forward progress to s
 - **Arabian dunes from space (PUBLISHED ICESat-2 data, SIMULATED BY ME scoring):** Over Liwa (A), the Rub' al Khali megadunes (B) and the linear dunes (C), 71 %, 47 % and 67 % of the ICESat-2 segments steeper than 28 degrees fell in cells the 30 m map calls TRAVERSABLE, against 93 %, 92 % and 98 % of all segments; keeping only steep crossings confirmed by a neighbouring segment and no steeper than 35 degrees (post hoc), 52 %, 29 % and 49 %. The ICESat-2 method failed its own validation against lidar, so these are indications, not a validation.
 - **A closed loop in simulation (SIMULATED BY ME, the true rover is itself a model):** online slip estimation from odometry and position fixes had a median error of about 0.029, which follows from the assumed position noise. Over 5 independent slip fields and 40 pairs per site (post hoc, after two reviews), replanning on that estimate changed the entrapped share on 30 m naive routes by minus 6.0 points at White Sands (95 % interval minus 20.5 to plus 8.0) and plus 2.0 at Kelso (minus 12.5 to plus 16.0) against a control that stops and retries without replanning: no effect distinguishable from the retry control. The loop runs as ROS 2 nodes (one smoke test, on a pair that also arrives without replanning).
 
-## 3. Technology readiness, stated honestly
+## 3. The product the project builds on: the Dune Rover Planner (SIMULATED BY ME)
+
+The desk study is packaged as a working planning tool (`docs/PLANNER.md`, report section 15). From a dune elevation model and a vehicle profile it produces a slip face risk map, a three class map (TRAVERSABLE, BLOCKED, UNKNOWN), routes under three policies with their risks, a GeoTIFF class map, GeoJSON routes and an HTML report. Its resolution gate carries the main finding: ground coarser than 10 m is never reported as verified traversable, because a 30 m map called 36 % to 80 % of the face cells TRAVERSABLE on 6 lidar dune fields. Its vehicle profiles carry the second: the tool assumes nothing about the rover until it is calibrated from the rover's own slope runs (`dunerover vehicle calibrate`). An interactive demonstration on 4 lidar dune fields is in `demo/web/dune_rover_planner.html`.
+
+What the project adds is what the tool cannot produce by itself: a fine survey of an Arabian dune (WP5), so the planner runs in its resolved mode on Arabian terrain, and a measured slip curve for the rover (WP4), so its routes rest on the vehicle rather than on assumptions. The project ends with the planner calibrated to the partner's rover and checked on the partner's dune.
+
+## 4. Technology readiness, stated honestly
 
 The levels below use the common nine step technology readiness scale only as a shorthand; no assessment by any body has been made.
 
@@ -28,8 +34,9 @@ The levels below use the common nine step technology readiness scale only as a s
 | Map on Arabian dunes | Compared only with satellite laser profiles, with a method that did not pass its own validation bar and a noisy steep segment set | Stage 19 |
 | Online slip estimation and replanning | Software in simulation against a modelled rover, including ROS 2 nodes (level 2 to 3); no benefit of replanning shown against a retry control | Stage 23 |
 | Field protocol, data sheets, analysis and ingest | Written and tested on synthetic data (level 3); pass or fail rule still an open decision | `docs/FIELD_VALIDATION_PLAN.md`, `scripts/ingest_field_day.py` |
+| Dune Rover Planner (integrated tool) | Installable command line tool and Python API, tested on synthetic inputs and demonstrated on lidar outside Arabia (level 3); no vehicle calibrated yet | `docs/PLANNER.md`, `tests/test_planner.py` |
 
-## 4. Objectives
+## 5. Objectives
 
 1. Measure the slip against slope curve of one small wheeled robot on one Gulf dune with the sand characterised (grain size, density, moisture, angle of repose, friction angle).
 2. Survey the test dune at 10 cm (drone photogrammetry), and score the slip face detector and the three class map on Arabian terrain at 1, 5, 10 and 30 m.
@@ -37,7 +44,7 @@ The levels below use the common nine step technology readiness scale only as a s
 4. Measure online slip estimation on the real rover on the surveyed dune, with a safety driver, and test whether replanning on it lowers entrapment against a control that stops and retries.
 5. Deliver a documented dataset and a manuscript revised with the field results.
 
-## 5. Work packages
+## 6. Work packages
 
 Durations are planning estimates (PLANNED), in weeks from the start of the project.
 
@@ -49,9 +56,9 @@ Durations are planning estimates (PLANNED), in weeks from the start of the proje
 | WP4 Pilot and slope ladder | 12 pilot runs, pilot scatter, then the main ladder with predictions committed before the steep bins (`field_kit/`) | 6 to 9 | WP2, WP3 | Run sheets and scored predictions (`scripts/ingest_field_day.py`) |
 | WP5 Drone survey | Survey of the test dune at about 10 cm with ground control and check points (`docs/DRONE_SURVEY_PROTOCOL.md`); detector and map scored as in stage 20 | 6 to 9 | WP1 | Elevation model, accuracy report, map scores |
 | WP6 Closed loop trial | Route following on the surveyed dune with online slip estimation; replanning tested against a stop and retry control (in simulation it showed no benefit over that control); safety driver and recovery | 10 to 12 | WP4, WP5 | Estimator error on the real rover; route outcomes with and without replanning |
-| WP7 Analysis and paper | Every hit and miss recorded; manuscript revised; external review | 12 to 16 | WP4 to WP6 | Revised manuscript and dataset |
+| WP7 Analysis, paper and calibrated planner | Every hit and miss recorded; manuscript revised; external review; the planner given the rover's measured profile and run on the surveyed dune | 12 to 16 | WP4 to WP6 | Revised manuscript, dataset, and the planner calibrated to the partner's rover |
 
-## 6. Resources the partner is asked to provide (no prices; nothing is requested from the author's own funds)
+## 7. Resources the partner is asked to provide (no prices; nothing is requested from the author's own funds)
 
 | Need | Purpose |
 |---|---|
@@ -64,7 +71,7 @@ Durations are planning estimates (PLANNED), in weeks from the start of the proje
 | A recovery vehicle and an experienced sand driver | Safe recovery of the rover |
 | One outside reviewer in terramechanics or field robotics | Review of the manuscript before submission |
 
-## 7. Success and failure criteria
+## 8. Success and failure criteria
 
 | Criterion | Tied to | Counts as success | Counts as failure |
 |---|---|---|---|
@@ -75,7 +82,7 @@ Durations are planning estimates (PLANNED), in weeks from the start of the proje
 
 Success means complete data and an honest comparison, not a model that passes.
 
-## 8. Risk and safety register
+## 9. Risk and safety register
 
 | Risk | Likelihood | Impact | Mitigation | Owner |
 |---|---|---|---|---|
@@ -88,6 +95,6 @@ Success means complete data and an honest comparison, not a model that passes.
 | Single vehicle, single site | Certain | Medium | Results stated for that vehicle, wheels, sand and speed only | Author |
 | Implied endorsement | Low | High | Every document states that no agreement exists unless one is signed | Author |
 
-## 9. What this proposal does not claim
+## 10. What this proposal does not claim
 
 It does not claim a validated slip model, a traversable route, a cost or schedule beyond the planning estimates above, or any institutional support.
