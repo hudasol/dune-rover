@@ -48,6 +48,8 @@ jobs:
           python scripts/check_manuscript_numbers.py
       - name: Every number in the manuscript, brief and proposals is traced in the number ledger
         run: PYTHONPATH=src python scripts/build_number_ledger.py --check
+      - name: The planner's evidence card matches the result files
+        run: PYTHONPATH=src python scripts/build_evidence_card.py --check
       - name: Writing rules (no dash characters, no banned names)
         run: |
           python - <<'PY'
