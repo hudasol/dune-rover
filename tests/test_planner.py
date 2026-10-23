@@ -134,3 +134,74 @@ def test_generated_sentences_have_no_missing_values():
     for k, val in v.items():
         if isinstance(val, str) and ("sentence" in k or k.endswith("_line")):
             assert "n/a" not in val, k
+
+
+def test_resolved_faces_at_native_posting():
+    fine = P.raster_from_array(synthetic_dunes(n=160, posting=1.0), 1.0, "SYNTHETIC")
+    a = P.assess(fine, n_draws=16)
+    assert a.k == 1 and a.gate["status"] == "RESOLVED"
+    assert a.face_prob.mean() > 0.02                                 # the 10 square metre rule works over a footprint at 1 m
+
+
+def test_nodata_cells_are_never_routed(dunes):
+    z = dunes.z.copy(); z[:, 90:110] = np.nan                           # a void band across the whole window
+    a = P.assess(P.raster_from_array(z, 2.0, "SYNTHETIC"), 10, n_draws=16)
+    assert (a.classes == 5).any()
+    rp = P.plan(a, (5, 2), (5, a.classes.shape[1] - 3), "naive")
+    assert not rp.reachable or not (a.classes[rp.rc[:, 0], rp.rc[:, 1]] == 5).any()
+
+
+def test_cautious_policies_never_descend_a_face(dunes):
+    a = P.assess(P.coarsen_raster(dunes, 2), n_draws=16)
+    nr, nc = a.classes.shape
+    for pol in ("conservative", "risk_weighted"):
+        rp = P.plan(a, (nr // 2, 1), (nr // 2, nc - 2), pol)
+        if rp.reachable:
+            assert rp.metrics["max_downhill_grade_deg"] < P.DOWNHILL_CUT_DEG
+    naive = P.plan(a, (nr // 2, 1), (nr // 2, nc - 2), "naive")
+    if naive.metrics.get("max_downhill_grade_deg", 0) >= P.DOWNHILL_WARN_DEG:
+        assert any("descends" in w for w in naive.warnings)
+    with pytest.raises(ValueError):
+        P.plan(a, (3, 3), (3, 3), "naive")
+
+
+def test_geotiff_without_geokeys_is_local_metres(tmp_path):
+    import tifffile
+    f = tmp_path / "local.tif"
+    tifffile.imwrite(str(f), synthetic_dunes(n=60, posting=0.05).astype(np.float32),
+                     extratags=[(33550, "d", 3, (0.05, 0.05, 0.0), False), (33922, "d", 6, (0, 0, 0, 10.0, 60.0, 0), False)])
+    r = P.read_raster(str(f))
+    assert not r.geographic and r.epsg is None and abs(r.dx_m - 0.05) < 1e-9 and r.warnings
+    g = tmp_path / "feet.tif"
+    gk = (1, 1, 0, 3, 1024, 0, 1, 1, 3072, 0, 1, 2227, 3076, 0, 1, 9002)
+    tifffile.imwrite(str(g), np.zeros((10, 10), np.float32), extratags=[(33550, "d", 3, (1.0, 1.0, 0.0), False),
+                     (33922, "d", 6, (0, 0, 0, 0, 0, 0), False), (34735, "H", len(gk), gk, False)])
+    with pytest.raises(ValueError):
+        P.read_raster(str(g))
+    h = tmp_path / "plain.tif"
+    tifffile.imwrite(str(h), np.zeros((10, 10), np.float32))
+    with pytest.raises(ValueError):
+        P.read_raster(str(h))
+
+
+def test_field_profile_draws_jointly_and_reports_heldout():
+    d = FA.synthetic_runs(seed=3, design="2026-10-15")
+    prof = P.profile_from_runs(d, n_boot=40)
+    assert prof.heldout and prof.heldout["runs"] >= 3 and "ASSUMED" in prof.label
+    pairs = {tuple(p) for p in prof.pairs}
+    for p in prof.draws(32):
+        assert (round(p.f_r, 5), round(p.i0, 5)) in pairs
+
+
+def test_class_geotiff_keeps_ascii_params(tmp_path):
+    import tifffile
+    gk = (1, 1, 0, 4, 1024, 0, 1, 1, 1025, 0, 1, 1, 3072, 0, 1, 32611, 1026, 34737, 12, 0)
+    f = tmp_path / "utm.tif"
+    tifffile.imwrite(str(f), synthetic_dunes(n=90, posting=10.0).astype(np.float32),
+                     extratags=[(33550, "d", 3, (10.0, 10.0, 0.0), False), (33922, "d", 6, (0, 0, 0, 615000.0, 3865000.0, 0), False),
+                                (34735, "H", len(gk), gk, False), (34737, "s", 0, "UTM zone 11|", False)])
+    a = P.assess(P.read_raster(str(f)), n_draws=16)
+    from dunerover.report import write_class_geotiff
+    out = tmp_path / "cls.tif"; write_class_geotiff(a, str(out))
+    with tifffile.TiffFile(str(out)) as tf:
+        assert "GeoAsciiParamsTag" in tf.pages[0].tags
