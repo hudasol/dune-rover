@@ -1,0 +1,223 @@
+<title>Dune Rover Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a field instrument. Map stage on the left, a control and readout column on the right, the slip chart below. */
+:root{
+  --bg:#fdf7f9; --panel:#fbeef3; --card:#ffffff; --ink:#2b2024; --muted:#7d6470; --line:#efd7e1;
+  --sakura:#e8a5bb; --rose:#c9769a; --deep:#a8325e; --plum:#5b3a78; --sage:#5f9682;
+  --ok:#3f7d68; --warn:#b5651d; --bad:#a8325e;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1418; --panel:#271b21; --card:#2f2128; --ink:#f5e9ee; --muted:#c3a9b6; --line:#45303a;
+  --sakura:#d68aa4; --rose:#e09ab6; --deep:#f07fa8; --plum:#c3a4e8; --sage:#8cc5b0; --ok:#8cc5b0; --warn:#e7a35f; --bad:#f07fa8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1418; --panel:#271b21; --card:#2f2128; --ink:#f5e9ee; --muted:#c3a9b6; --line:#45303a;
+  --sakura:#d68aa4; --rose:#e09ab6; --deep:#f07fa8; --plum:#c3a4e8; --sage:#8cc5b0; --ok:#8cc5b0; --warn:#e7a35f; --bad:#f07fa8; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:22px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--rose)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4.4vw,44px);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:20px;margin:0;text-wrap:balance}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.label{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--plum);background:var(--panel)}
+.main{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;min-width:0}
+.mapbox{position:relative;width:100%;border-radius:10px;overflow:hidden;background:var(--panel)}
+.mapbox img,.mapbox svg{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.mapbox img.hill{image-rendering:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:13px;color:var(--muted)}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.side{display:grid;gap:14px;min-width:0}
+.ctl{display:grid;gap:8px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--plum);border-color:var(--plum);color:var(--bg)}
+.seg button:focus-visible,.chk input:focus-visible,input[type=range]:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+.chk{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.chk label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.gate{border-radius:12px;padding:12px 14px;background:var(--panel);border-left:6px solid var(--muted)}
+.gate b{font-family:var(--mono);letter-spacing:.04em}
+.gate.COARSE{border-left-color:var(--bad)} .gate.DETECTOR{border-left-color:var(--warn)} .gate.RESOLVED{border-left-color:var(--ok)}
+.gate p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stat .v{font-family:var(--mono);font-size:22px;font-variant-numeric:tabular-nums}
+.stat .k{font-size:12px;color:var(--muted)}
+.tbl{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left} th{color:var(--plum);font-weight:700}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pol{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:6px;outline:1px solid var(--line)}
+.chartcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;min-width:0}
+.chartrow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:860px){.chartrow{grid-template-columns:1fr}}
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{fill:var(--muted);font-family:var(--mono);font-size:11px}
+.readout{display:grid;gap:8px;font-size:14px}
+.readout .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.readout .row span:last-child{font-family:var(--mono);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--deep)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:860px){.facts{grid-template-columns:1fr}}
+.fact{background:var(--panel);border-radius:12px;padding:12px 14px}
+.fact .v{font-family:var(--display);font-size:24px;color:var(--deep)}
+.fact p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);max-width:90ch}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">hudasol / dune-rover · planner demo</span>
+    <h1>Dune Rover Planner</h1>
+    <p class="lede">Where can a small wheeled robot drive on dune sand, and how sure can a map be? The planner classifies every cell as traversable, blocked or unknown, plans routes three ways, and refuses to call coarse ground safe. Below, the same lidar dunes are assessed as a 10 m and a 30 m map, with the slip faces the one metre lidar shows drawn on top.</p>
+    <div><span class="label">SIMULATED BY ME on PUBLISHED USGS 3DEP lidar</span> <span class="label">not field evidence</span></div>
+  </header>
+
+  <section class="main">
+    <div class="stage">
+      <div class="mapbox" id="map" role="img" aria-label="Three class map with routes and true slip faces">
+        <img class="hill" id="lHill" alt="">
+        <img id="lCls" alt="">
+        <img id="lTruth" alt="">
+        <svg id="lRoutes" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="side">
+      <div class="ctl"><h2>Dune field</h2><div class="seg" id="siteSeg"></div></div>
+      <div class="ctl"><h2>Map resolution</h2><div class="seg" id="postSeg"></div></div>
+      <div class="ctl"><h2>Layers</h2>
+        <div class="chk">
+          <label><input type="checkbox" id="cCls" checked> classes</label>
+          <label><input type="checkbox" id="cTruth" checked> true slip faces (from the 1 m lidar)</label>
+          <label><input type="checkbox" id="cRoutes" checked> routes</label>
+        </div>
+      </div>
+      <div class="gate" id="gate"></div>
+      <div class="stats" id="stats"></div>
+      <div class="tbl"><table id="routes"></table></div>
+      <p class="note">Hidden faces crossed: route cells (at the map's own resolution) that hold at least 10 square metres of slope at 28 degrees or more in the one metre lidar.</p>
+    </div>
+  </section>
+
+  <section class="chartcard">
+    <h2>Slip against slope: what the model knows, and what a field test showed</h2>
+    <div class="chartrow">
+      <svg class="chart" id="chart" viewBox="0 0 640 350" aria-label="Slip against slope chart"></svg>
+      <div class="readout">
+        <label for="slope">Slope <b id="slopeVal"></b></label>
+        <input type="range" id="slope" min="0" max="30" step="0.5" value="15">
+        <div id="readout"></div>
+        <p class="note">Bands: 5 to 95 % of 256 parameter draws per vehicle profile. Points: the only published slip curve found on a natural Earth dune (a 340 kg Mars test rover). A small rover on Gulf sand needs its own curve; the planner calibrates a profile from slope ladder runs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="facts" id="facts"></section>
+
+  <footer>
+    Generated by <code>scripts/build_web_demo.py</code> from the repository hudasol/dune-rover (all rights reserved). Lidar: USGS 3D Elevation Program, public domain. Dumont points: Heverly et al. 2013, Journal of Field Robotics 30(6), Figure 12, digitised. The registered tests behind these maps are stages 12, 17 and 20 of <code>docs/PREDICTIONS.md</code>; this page is a demonstration of the product and its numbers differ slightly from those stages.
+  </footer>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const CLS = [["TRAVERSABLE","#a9cdbd"],["BLOCKED","#7a1f45"],["UNKNOWN (assumption)","#a98fd1"],["UNKNOWN (face risk)","#ee7aa8"],["UNKNOWN (both)","#5b3a78"]];
+const POL = {naive:["naive","#2b2024"],conservative:["conservative","#3f7d68"],risk_weighted:["risk weighted","#a8325e"]};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let state = {site:Object.keys(D.sites)[0], post:"30"};
+const $ = id => document.getElementById(id);
+const pct = x => (100*x).toFixed(x < 0.1 ? 1 : 0) + " %";
+
+function seg(el, items, key){
+  el.innerHTML = "";
+  items.forEach(([v,label]) => {
+    const b = document.createElement("button"); b.type="button"; b.textContent = label;
+    b.setAttribute("aria-pressed", String(state[key]===v));
+    b.onclick = () => { state[key]=v; render(); };
+    el.appendChild(b);
+  });
+}
+
+function render(){
+  const site = D.sites[state.site], p = site.postings[state.post];
+  seg($("siteSeg"), Object.entries(D.sites).map(([k,s]) => [k, s.title.split(",")[0]]), "site");
+  seg($("postSeg"), [["10","10 m map"],["30","30 m map"]], "post");
+  const [h,w] = p.size_m;
+  $("map").style.aspectRatio = `${w} / ${h}`;
+  $("lHill").src = p.hill; $("lCls").src = p.classes; $("lTruth").src = p.truth;
+  $("lCls").hidden = !$("cCls").checked; $("lTruth").hidden = !$("cTruth").checked;
+  const svg = $("lRoutes"); svg.setAttribute("viewBox", `0 0 ${w} ${h}`); svg.hidden = !$("cRoutes").checked;
+  const sw = Math.max(w,h)/220;
+  let s = "";
+  p.routes.forEach(r => { if(r.path){ s += `<polyline fill="none" stroke="${POL[r.policy][1]}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round" opacity=".92" points="${r.path.map(q=>q[1]+","+q[0]).join(" ")}"/>`; }});
+  [["start",p.start,"#a8325e"],["goal",p.goal,"#5b3a78"]].forEach(([n,q,c]) => { s += `<circle cx="${q[1]}" cy="${q[0]}" r="${sw*2.6}" fill="${c}" stroke="#fff" stroke-width="${sw*0.8}"><title>${n}</title></circle>`; });
+  svg.innerHTML = s;
+  $("legend").innerHTML = CLS.map(([n,c]) => `<span><i class="sw" style="background:${c}"></i>${n}</span>`).join("") +
+    `<span><i class="sw" style="background:#1a1014"></i>true slip face (1 m lidar, drawn at 5 m)</span>` +
+    Object.values(POL).map(([n,c]) => `<span><i class="pol" style="background:${c}"></i>${n} route</span>`).join("");
+  const g = $("gate"); g.className = "gate " + p.gate;
+  g.innerHTML = `<b>Resolution gate: ${p.gate}</b><p>${p.gate_message}</p>`;
+  $("stats").innerHTML = [
+    [pct(p.miss_rate), "of true face cells called TRAVERSABLE"],
+    [pct(p.false_safe), "of TRAVERSABLE cells hold a true face"],
+    [pct(p.share_unknown), "of cells UNKNOWN"],
+    [p.face_cells.toLocaleString(), "true face cells in this window"]
+  ].map(([v,k]) => `<div class="stat"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+  $("routes").innerHTML = `<tr><th>Policy</th><th>Length</th><th>UNKNOWN cells</th><th>Hidden faces crossed</th></tr>` +
+    p.routes.map(r => `<tr><td><i class="pol" style="background:${POL[r.policy][1]}"></i>${POL[r.policy][0]}</td>` +
+      (r.reachable ? `<td class="n">${(r.length_m/1000).toFixed(2)} km</td><td class="n">${r.cells_unknown}</td><td class="n">${r.faces_crossed}</td>`
+                   : `<td colspan="3">no route under this policy</td>`) + `</tr>`).join("");
+  chart();
+}
+
+function chart(){
+  const S = D.slip, el = $("chart"), W=640, H=350, L=48, R=14, T=14, B=44;
+  const x = v => L + (W-L-R)*v/30, y = v => T + (H-T-B)*(1-v);
+  const ink = css("--muted"), line = css("--line");
+  let s = "";
+  for(let v=0; v<=1.0001; v+=0.25){ s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${line}"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">${(v*100).toFixed(0)}%</text>`; }
+  for(let v=0; v<=30; v+=5){ s += `<text x="${x(v)}" y="${H-B+16}" text-anchor="middle">${v}°</text>`; }
+  s += `<text x="${(L+W-R)/2}" y="${H-2}" text-anchor="middle">slope</text>`;
+  const cols = {"assumed":css("--plum"), "published-posterior":css("--rose")};
+  Object.entries(S.profiles).forEach(([k,p]) => {
+    const up = S.slopes.map((v,i)=>`${x(v)},${y(p.p95[i])}`).join(" "), dn = S.slopes.map((v,i)=>`${x(v)},${y(p.p5[i])}`).reverse().join(" ");
+    s += `<polygon points="${up} ${dn}" fill="${cols[k]}" opacity=".18"/>`;
+    s += `<polyline fill="none" stroke="${cols[k]}" stroke-width="2.2" points="${S.slopes.map((v,i)=>`${x(v)},${y(p.p50[i])}`).join(" ")}"/>`;
+  });
+  S.dumont.points.forEach(([sx,sy,u]) => { s += `<line x1="${x(sx)}" x2="${x(sx)}" y1="${y(Math.min(1,sy+u))}" y2="${y(Math.max(0,sy-u))}" stroke="${css("--deep")}" opacity=".5"/><circle cx="${x(sx)}" cy="${y(sy)}" r="3.4" fill="${css("--deep")}"/>`; });
+  const sv = +$("slope").value;
+  s += `<line x1="${x(sv)}" x2="${x(sv)}" y1="${T}" y2="${H-B}" stroke="${css("--ink")}" stroke-dasharray="3 3" opacity=".6"/>`;
+  el.innerHTML = s;
+  $("slopeVal").textContent = sv.toFixed(1) + "°";
+  const i = S.slopes.indexOf(sv);
+  const near = S.dumont.points.filter(q => Math.abs(q[0]-sv) <= 1.0);
+  $("readout").innerHTML = Object.entries(S.profiles).map(([k,p]) =>
+      `<div class="row"><span><i class="sw" style="background:${cols[k]}"></i>${k === "assumed" ? "assumed profile" : "published posterior profile"}</span><span>${pct(p.p50[i])} (${pct(p.p5[i])} to ${pct(p.p95[i])})</span></div>`).join("") +
+    `<div class="row"><span><i class="sw" style="background:${css("--deep")}"></i>Dumont field points within 1°</span><span>${near.length ? near.map(q=>pct(q[1])).join(", ") : "none"}</span></div>`;
+}
+
+function facts(){
+  const c = D.card, l = c.lidar_tests, sm = c.slip_models;
+  $("facts").innerHTML = [
+    [`${l.by_posting_m["30"].miss_min} to ${l.by_posting_m["30"].miss_max}`, `of slip face cells a 30 m map called TRAVERSABLE on ${l.n_fields} lidar dune fields (${l.by_posting_m["10"].miss_min} to ${l.by_posting_m["10"].miss_max} at 10 m). This is the resolution gate.`],
+    [`${sm.three_families_heldout}`, `median slip error when model families calibrated on other studies predict a held out study (${sm.n_heldout_curves} curves, ${sm.n_studies} studies; bar 0.15). No model transfers.`],
+    ["field first", `The plan: a slope ladder with the real rover on Gulf sand, a 10 cm drone survey of the same dune, and the planner recalibrated from those runs.`]
+  ].map(([v,t]) => `<div class="fact"><div class="v">${v}</div><p>${t}</p></div>`).join("");
+}
+
+["cCls","cTruth","cRoutes"].forEach(id => $(id).addEventListener("change", render));
+$("slope").addEventListener("input", chart);
+facts(); render();
+</script>
