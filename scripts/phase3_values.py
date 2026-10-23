@@ -197,6 +197,98 @@ def phase4_values() -> dict:
     bw1 = _js("results/model_validation/part_bekker_wong/summary.json")
     if bw1:
         v["mv_bw_ncurves"] = bw1["families"]["bekker_wong"]["heldout_curves"]
+    ho = [float(v[k]) for k in v if k.startswith("mv_") and k.endswith("_heldout")]
+    if ho:
+        v["mv_heldout_min"] = f2(min(ho)); v["mv_heldout_max"] = f2(max(ho)); v["mv_nfamilies"] = len(ho)
+    names = {"exp_existing": "exponential", "bekker_wong": "Bekker Wong", "mohr_coulomb_ratio": "Mohr Coulomb ratio", "logistic_empirical": "logistic"}
+    fams = [k[3:-9] for k in v if k.startswith("mv_") and k.endswith("_survives")]
+    if fams:
+        v["mv_verdict_line"] = "; ".join(f"{names.get(f, f)} {v['mv_' + f + '_survives']} (held out median {v['mv_' + f + '_heldout']})" for f in fams)
+        v["score_model"] = "4" if any(v["mv_" + f + "_survives"] == "passes" for f in fams) else "3"
+    pe = _js("results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/posterior_exp.json")
+    if pe:
+        q = pe["quantiles_5_50_95"]
+        for k in ("phi_deg", "f_r", "i0", "s"):
+            v[f"post_{k}"] = f"{q[k][1]:.2f} ({q[k][0]:.2f} to {q[k][2]:.2f})"
+        v["post_ncurves"] = len(pe["curves"])
+    # stage 16: question 8, Sobol; stage 15 posterior map
+    for d, key in (("subgrid_posterior_2026_10_20_mobile_posthoc", "postm"), ("subgrid_widened_i0_fr_mobile", "q8"), ("subgrid_posterior_2026_10_20", "post"), ("subgrid", "orig"), ("subgrid_widened_i0", "wi0"), ("subgrid_widened_i0_fr", "wfr")):
+        for r in _rd(f"results/{d}/class_shares.csv"):
+            if r["block"] == "1":
+                v[f"{key}_unk_{r['area'][0]}"] = pct(r["UNKNOWN (total)"])
+    for r in _rd("results/sobol_map/sobol_indices.csv"):
+        v[f"sob_{r['range_set']}_{r['parameter']}_ST"] = f2(r["ST"])
+    # stage 17: planner
+    for r in _rd("results/planner/policy_summary.csv"):
+        v[f"pl_{r['site']}_{r['posting_m']}_{r['policy']}"] = pct(r["share_routed_failing_on_truth"], 1) if r["share_routed_failing_on_truth"] else NR
+        v[f"pl_routed_{r['site']}_{r['posting_m']}_{r['policy']}"] = pct(r["share_routed"], 0)
+        v[f"pl_fpk_{r['site']}_{r['posting_m']}_{r['policy']}"] = f"{float(r['face_contacts_per_km']):.0f}" if r["face_contacts_per_km"] else NR
+    for r in _rd("results/planner/posthoc_baseline_10m/policy_summary.csv"):
+        v[f"pl10_{r['site']}_{r['posting_m']}_{r['policy']}"] = pct(r["share_routed_failing_on_truth"], 1) if r["share_routed_failing_on_truth"] else NR
+    for r in _rd("results/planner/matched_pairs.csv"):   # POST HOC matched pairs (only pairs the conservative policy routed)
+        b = "3" if r["grade_baseline"].startswith("3") else "10"
+        for pol in ("naive", "conservative", "risk_weighted"):
+            if r[f"{pol}_fail_share"] != "":
+                v[f"pm{b}_{r['site']}_{r['posting_m']}_{pol}"] = pct(r[f"{pol}_fail_share"], 1)
+        v[f"pm_n_{r['site']}_{r['posting_m']}"] = r["pairs_routed_by_conservative"]
+    # stage 18: rule options
+    for r in _rd("results/field_kit/rule_options_2026-10-20.csv"):
+        tag = r["rule"].split("_")[0] if r["rule"] == "current" else r["rule"].split("_")[1]
+        v[f"ro_{tag}_{r['truth']}_{r['sigma']}"] = pct(r["accepted_rate"], 0)
+        v[f"ro_{tag}_{r['truth']}_rej_{r['sigma']}"] = pct(1 - float(r["accepted_rate"]), 0)
+    v.update(phase4_values())
+    return v
+
+
+def phase4_values() -> dict:
+    """Numbers of the 2026-10-21 work (stages 19 to 24 and the phase 4 evidence and curves)."""
+    v = {}
+    ev = _rd("research/evidence.csv")
+    v["scl_n"] = sum(r["id"].startswith("SCL") for r in ev)
+    st = _js("research/verification_stats.json") or {}
+    g = st.get("new rows of 2026-10-21 (scaling law sources), phase 6")
+    if g:
+        v["p6_n"] = g["n"]; v["p6_material"] = g["material_error"]; v["p6_minor"] = g["minor_error"]
+    cur = st.get("CURRENT TABLE, latest verdict per row")
+    if cur:
+        v["cur_material_ci"] = f"{100*cur['material_wilson95'][0]:.1f} to {100*cur['material_wilson95'][1]:.1f} %" if cur.get("material_wilson95") else "n/a"
+    # phase 4 curves and their independent redigitisation
+    c4 = _rd("research/phase4/curves_new.csv")
+    if c4:
+        v["p4_ncurves"] = len({r["curve_id"] for r in c4}); v["p4_npoints"] = len(c4); v["p4_nsources"] = len({r["source_key"] for r in c4})
+    rd = [r for r in _rd("research/phase4/redigitise_agreement.csv") if r["status"] == "compared"]
+    if rd:
+        v["redig_n"] = len(rd); v["redig_pts"] = sum(int(r["points_original"]) for r in rd); v["redig_matched"] = sum(int(r["matched_within_1deg"]) for r in rd)
+        v["redig_extra"] = sum(int(r["points_verifier"]) - int(r["matched_within_1deg"]) for r in rd)
+        v["redig_med"] = f"{statistics.median(float(r['median_abs_dslip_ratio']) for r in rd):.4f}"
+        v["redig_max_med"] = f"{max(float(r['median_abs_dslip_ratio']) for r in rd):.4f}"
+        mx = max(rd, key=lambda r: float(r["max_abs_dslip_ratio"]))
+        v["redig_max_pt"] = f2(mx["max_abs_dslip_ratio"]); v["redig_max_pt_curve"] = mx["curve_id"].replace("_", " ")
+    # curve counts used by the model families (from the run logs and the curve files)
+    def _loaded(d):
+        lp = os.path.join(d, "run_log.txt")
+        return [l.split(":")[0].strip() for l in open(os.path.join(ROOT, lp))] if os.path.exists(os.path.join(ROOT, lp)) else []
+    l1 = [c for c in _loaded("results/model_validation/part_exp_existing_mohr_coulomb_ratio_logistic_empirical") if c]
+    l4 = [c for c in _loaded("results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical") if c]
+    c3 = _rd("research/phase3/curves.csv")
+    if c3 and l1 and l4 and c4:
+        r1 = {r["curve_id"] for r in c3}; r2 = {r["curve_id"] for r in c4}
+        v["mvc_r1_total"] = len(r1); v["mvc_r1_loaded"] = len(r1 & set(l1)); v["mvc_r2_total"] = len(r2); v["mvc_r2_loaded"] = len(r2 & set(l4))
+        v["mvc_loaded"] = len(set(l4) & (r1 | r2))
+    # stage 21: replication on the expanded curve set; stage 22: scaling law families
+    for part in ("part_exp_existing_mohr_coulomb_ratio_logistic_empirical", "part_bekker_wong", "part_mobility_pull_mobility_logistic"):
+        s = _js(os.path.join("results/model_validation_phase4", part, "summary.json"))
+        if s:
+            for fam, d in s["families"].items():
+                v[f"mv4_{fam}_heldout"] = f2(d["median_heldout_rmse"]); v[f"mv4_{fam}_cover"] = f2(d["pooled_coverage90"])
+                v[f"mv4_{fam}_n"] = d["heldout_curves"]; v[f"mv4_{fam}_survives"] = "passes" if d["survives"] else "fails"
+    sg = _js("results/model_validation_phase4_posthoc_grouped/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/summary.json")
+    if sg:
+        hg = [d["median_heldout_rmse"] for d in sg["families"].values()]
+        v["mvg_heldout_min"] = f2(min(hg)); v["mvg_heldout_max"] = f2(max(hg))
+    bw1 = _js("results/model_validation/part_bekker_wong/summary.json")
+    if bw1:
+        v["mv_bw_ncurves"] = bw1["families"]["bekker_wong"]["heldout_curves"]
     if "mv4_bekker_wong_heldout" in v:
         v["mv4_bw_short"] = (f"on the expanded set it reached {v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']} "
                              f"on {v['mv4_bekker_wong_n']} curves.")
@@ -206,12 +298,6 @@ def phase4_values() -> dict:
     if sl:
         hl = [d["median_heldout_rmse"] for d in sl["families"].values()]
         v["mvl_heldout_min"] = f2(min(hl)); v["mvl_heldout_max"] = f2(max(hl))
-    if "mv4_bekker_wong_heldout" in v:
-        v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family did much worse than "
-                                f"in the first round: median held out error {v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}, against "
-                                f"{v.get('mob_logistic_same', 'n/a')} for the logistic family on the same curves.")
-    else:
-        v["mv4_bw_sentence"] = "The Bekker Wong family was not rerun to completion on the expanded set within the session (its calibration is slow), so its stage 15 result stands alone."
     ho = [float(v[k]) for k in v if k.startswith("mv4_") and k.endswith("_heldout") and "mobility" not in k and "bekker" not in k]   # the three families run on all 49 curves
     if ho:
         v["mv4_heldout_min"] = f2(min(ho)); v["mv4_heldout_max"] = f2(max(ho))
@@ -225,6 +311,12 @@ def phase4_values() -> dict:
     if lg and mo:
         ids = {r["curve"] for r in mo if r["family"] == "mobility_pull"}
         v["mob_logistic_same"] = f2(statistics.median(float(r["rmse_heldout"]) for r in lg if r["family"] == "logistic_empirical" and r["curve"] in ids))
+    if "mv4_bekker_wong_heldout" in v:
+        v["mv4_bw_sentence"] = (f"On the {v['mv4_bekker_wong_n']} held out curves with wheel size, width and load, the Bekker Wong family did much worse than "
+                                f"in the first round: median held out error {v['mv4_bekker_wong_heldout']} with coverage {v['mv4_bekker_wong_cover']}, against "
+                                f"{v.get('mob_logistic_same', 'n/a')} for the logistic family on the same curves.")
+    else:
+        v["mv4_bw_sentence"] = "The Bekker Wong family was not rerun to completion on the expanded set within the session (its calibration is slow), so its stage 15 result stands alone."
     pe = _js("results/model_validation_phase4/part_exp_existing_mohr_coulomb_ratio_logistic_empirical/posterior_exp.json")
     if pe:
         q = pe["quantiles_5_50_95"]
