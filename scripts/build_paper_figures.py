@@ -119,9 +119,9 @@ def fig_map(site="Kelso"):
 def fig_planning():
     rows = [r for r in read(os.path.join(PLN, "summary.csv")) if r["profile"] == "assumed"]
     cfg = [("shortest", "none", "Shortest path"), ("naive", "none", "Slip model only"),
-           ("conservative", "SLOPE-cal", "Gate: slope"), ("conservative", "DET", "Gate: detector (ours)"),
+           ("conservative", "SLOPE-cal", "Gate: slope (cal.)"), ("conservative", "DET", "Gate: detector (ours)"),
            ("conservative", "GBM", "Gate: boosting*"), ("conservative", "CNN", "Gate: network*"),
-           ("risk_weighted", "DET", "Weight: detector (ours)"), ("risk_weighted", "BICUBIC-cal", "Weight: interpolation"),
+           ("risk_weighted", "DET", "Weight: detector (ours)"), ("risk_weighted", "BICUBIC-cal", "Weight: interpolation (cal.)"),
            ("risk_weighted", "GBM", "Weight: boosting*"), ("conservative", "ORACLE", "Gate: oracle labels")]
     fig, ax = plt.subplots(figsize=(3.45, 3.0))
     metric = "mission_success"

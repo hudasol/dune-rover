@@ -104,6 +104,14 @@ def values() -> dict:
         for k in ("routed", "success_p10", "success_p100", "success_p500", "unsafe_all_pairs_p10"):
             V[f"{key}_{k}"] = pct(r[k])
         V[f"{key}_mkm"] = f"{float(r['m_on_face_per_km']):.0f}" if r["m_on_face_per_km"] != "" else "--"
+        V[f"{key}_ekm"] = f"{float(r['entries_per_km']):.1f}" if r["entries_per_km"] != "" else "--"
+    phs = read(os.path.join(PH, "summary.csv"))
+    o5 = float(next(r for r in pl if r["profile"] == "assumed" and r["hazard"] == "ORACLE-5")["routed"])
+    for i, tag in (("I10", "10"), ("I30", "30")):
+        fm = float(next(r for r in phs if r["input"] == i and r["policy"] == "conservative" and r["hazard"] == "ORACLE-ANY")["routed"])
+        V[f"ph_gap_{tag}"] = f"{100 * (o5 - fm):.0f}"
+        comp = [float(r["success_p500"]) for r in phs if r["input"] == i and r["hazard"] in ("DET", "DET-cal", "SLOPE-cal", "BICUBIC-cal", "GBM", "CNN")]
+        V[f"ph_best500_{i}"] = pct(max(comp))
     for r in read(os.path.join(PH, "clustered_differences.csv")):
         key = f"cd_{r['input']}_{r['policy']}_{r['hazard']}".replace("-", "")
         V[key] = f"{100 * float(r['difference']):+.1f}"; V[key + "_lo"] = f"{100 * float(r['lo_two_stage']):+.1f}"; V[key + "_hi"] = f"{100 * float(r['hi_two_stage']):+.1f}"
@@ -188,7 +196,8 @@ def table_planning(pl):
 
 
 PH_ROWS = [("naive", "none", "Slip model only"), ("risk_weighted", "BICUBIC-cal", "Weight: BICUBIC-cal"), ("risk_weighted", "GBM", "Weight: GBM$^{*}$"),
-           ("conservative", "ORACLE", "Gate: ORACLE (cell label)"), ("conservative", "ORACLE-ANY", "Gate: face map")]
+           ("risk_weighted", "CNN", "Weight: CNN$^{*}$"), ("conservative", "ORACLE", "Gate: ORACLE (cell label)"),
+           ("conservative", "ORACLE-ANY", "Gate: face map"), ("risk_weighted", "ORACLE-ANY", "Weight: face map")]
 
 
 def table_posthoc():
@@ -197,14 +206,18 @@ def table_posthoc():
         r = next((r for r in rows if r["input"] == i and r["policy"] == pol and r["hazard"] == hz), None)
         if r is None or r[k] == "":
             return "--"
-        return f"{float(r[k]):.0f}" if k == "m_on_face_per_km" else f"{100 * float(r[k]):.0f}"
-    lines = [r"\begin{table}[t]", r"\caption{Post hoc: mission success (\%) when only face patches of at least 10 or 500\,m$^2$ count, and metres of route on a face patch per km (E). Face map: every cell that holds a face patch post is marked.}",
-             r"\label{tab:posthoc}", r"\centering\small", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{lcccccc}", r"\toprule",
-             r" & \multicolumn{3}{c}{I10} & \multicolumn{3}{c}{I30} \\", r"Planner & S$_{10}$ & S$_{500}$ & E & S$_{10}$ & S$_{500}$ & E \\", r"\midrule"]
+        if k == "m_on_face_per_km":
+            return f"{float(r[k]):.1f}" if float(r[k]) < 1 else f"{float(r[k]):.0f}"
+        if k == "entries_per_km":
+            return f"{float(r[k]):.1f}"
+        return f"{100 * float(r[k]):.0f}"
+    lines = [r"\begin{table}[t]", r"\caption{Mission success (\%) when face patches of at least 10 or 500\,m$^2$ count (S$_{10}$; S$_{500}$, post hoc), face patches entered per km (P, registered secondary outcome) and metres of route on a face patch per km (E, post hoc). Face map (post hoc): every cell that holds a face patch post is marked; with the gate, no route can touch a face by construction.}",
+             r"\label{tab:posthoc}", r"\centering\small", r"\setlength{\tabcolsep}{2.4pt}", r"\begin{tabular}{lcccccccc}", r"\toprule",
+             r" & \multicolumn{4}{c}{I10} & \multicolumn{4}{c}{I30} \\", r"Planner & S$_{10}$ & S$_{500}$ & P & E & S$_{10}$ & S$_{500}$ & P & E \\", r"\midrule"]
     for pol, hz, lab in PH_ROWS:
         cells = []
         for i in ("I10", "I30"):
-            cells += [g(i, pol, hz, "success_p10"), g(i, pol, hz, "success_p500"), g(i, pol, hz, "m_on_face_per_km")]
+            cells += [g(i, pol, hz, "success_p10"), g(i, pol, hz, "success_p500"), g(i, pol, hz, "entries_per_km"), g(i, pol, hz, "m_on_face_per_km")]
         lines.append(f"{lab} & " + " & ".join(cells) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(lines)
