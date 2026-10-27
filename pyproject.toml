@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dunerover"
-version = "1.1.0"
+dynamic = ["version"]
 description = "Dune Rover Planner and the slope and slip traversability study behind it (simulation only, model assumption dependent)"
 requires-python = ">=3.10"
 dependencies = ["numpy", "scipy", "matplotlib", "tifffile", "imagecodecs"]
@@ -16,6 +16,9 @@ benchmark = ["scikit-learn", "pyproj", "torch"]
 
 [project.scripts]
 dunerover = "dunerover.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "dunerover.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
