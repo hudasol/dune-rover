@@ -20,6 +20,7 @@ git diff --ignore-cr-at-eol --exit-code -- manuscript/MANUSCRIPT.md || { echo "m
 python3 scripts/check_manuscript_numbers.py
 PYTHONPATH=src python3 scripts/build_number_ledger.py --check
 PYTHONPATH=src python3 scripts/build_evidence_card.py --check
+PYTHONPATH=src python3 scripts/build_paper.py --check
 python3 - <<'PY'
 import subprocess, sys
 bad = []

@@ -75,6 +75,8 @@ jobs:
         run: PYTHONPATH=src python scripts/build_number_ledger.py --check
       - name: The planner's evidence card matches the result files
         run: PYTHONPATH=src python scripts/build_evidence_card.py --check
+      - name: The conference paper source matches its template and the result files
+        run: PYTHONPATH=src python scripts/build_paper.py --check
       - name: Writing rules (no dash characters, no banned names)
         run: |
           python - <<'PY'
