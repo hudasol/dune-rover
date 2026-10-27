@@ -984,9 +984,11 @@ Six lidar windows (stages 12 and 20). Inputs: 10 m and 30 m block means of the l
 - **Planning.** Mission success (a route exists and touches no face patch) on 30 m maps: 6 % with the slip model alone, 7 % with the conservative policy and DET, at most 11 % with any computable layer, 59 % with a perfect cell label. On 10 m maps: 15 %, 24 %, 34 % (best computable layer) and 46 %. A 5 m face map: 100 %.
 - **Predictions.** Stage 25: 7 hit, 2 missed; stage 26: 5 hit, 3 missed (`docs/PREDICTIONS.md`).
 
+- **Post hoc, after a fresh review (`docs/REVIEW_2026-10-28.md`).** Marking every cell that holds a face patch post (the rule of the 5 m reference) routes 87 % of pairs at 10 m and 83 % at 30 m with no face contact, so the gap between the oracles of stage 26 came from the label rule, not from the grid. The length of route on a face patch at 30 m falls from 50 m per km with the slip model alone to 19 with the interpolation weighting. With face patches of at least 500 square metres, 30 m mission success is 34 % with the slip model alone and 47 % with the best layer; the ranking does not change.
+
 ### 16.4 Reading
 
-At 30 m the information is not in the map: no model, physical or learned, recovers enough of the face hazard to make routes safer, and the planner's resolution gate (section 15) is the right response. At 10 m all reasonable methods see most faces and the hazard layers help, but a perfect 10 m cell label still leaves about half of the routes touching a face patch. Safe routes need a face map at about 5 m, from a drone survey, or onboard sensing. The fields are North American; the outcome counts any contact with a face patch as unsafe, which is strict; the vehicle model is an assumption range.
+At 30 m the face information is not in the elevation model: no model, physical or learned, recovers enough of it to plan face free routes, though the better layers halve the exposure, and the planner's resolution gate (section 15) is the right response. At 10 m all reasonable methods see most faces and the hazard layers help. A face map made from fine data makes even a coarse planning grid safe, so what a rover needs before driving on dunes is face information from a drone survey or lidar, or onboard sensing. The fields are North American; the registered outcome counts any contact with a face patch as unsafe, which is strict; the vehicle model is an assumption range.
 
 
 ## Sources and appendices

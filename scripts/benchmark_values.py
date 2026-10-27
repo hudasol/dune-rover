@@ -50,6 +50,14 @@ def values() -> dict:
         ep = os.path.join(PLN, "endpoints.csv")
         if os.path.exists(ep):
             v["bm_pairs"] = len(_read(ep))
+    hp = os.path.join(ROOT, "results", "benchmark", "posthoc", "summary.csv")
+    if os.path.exists(hp):                       # POST HOC analyses (scripts/benchmark_posthoc.py)
+        for r in _read(hp):
+            tag = f"{r['input'].lower()}_{r['policy']}_{r['hazard'].lower().replace('-', '')}"
+            v[f"bm_ph_success_{tag}"] = f"{100 * float(r['success_p10']):.0f} %"
+            v[f"bm_ph_success500_{tag}"] = f"{100 * float(r['success_p500']):.0f} %"
+            if r["m_on_face_per_km"] != "":
+                v[f"bm_ph_mkm_{tag}"] = f"{float(r['m_on_face_per_km']):.0f}"
     return v
 
 
