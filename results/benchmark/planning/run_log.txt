@@ -1,0 +1,14 @@
+stage 26 run started 2026-10-27 23:57:30; numpy 2.5.3; seed 20261027; 100 pairs per site
+Dumont: 100 pairs from 4932 candidate cells (gentle below 20 deg); face patch posts 0.2067
+Dumont: done in 138 s
+WhiteSands: 100 pairs from 2843 candidate cells (gentle below 20 deg); face patch posts 0.0426
+WhiteSands: done in 76 s
+Kelso: 100 pairs from 1614 candidate cells (gentle below 20 deg); face patch posts 0.0500
+Kelso: done in 112 s
+GreatSandDunes: 100 pairs from 5711 candidate cells (gentle below 20 deg); face patch posts 0.0778
+GreatSandDunes: done in 157 s
+Algodones: 100 pairs from 9826 candidate cells (gentle below 20 deg); face patch posts 0.0274
+Algodones: done in 243 s
+LittleSahara: 100 pairs from 1125 candidate cells (gentle below 20 deg); face patch posts 0.0192
+LittleSahara: done in 71 s
+done 2026-10-28 00:11:26

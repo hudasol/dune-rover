@@ -1,0 +1,32 @@
+{
+ "label": "SIMULATED BY ME (maps, routes, outcomes) on PUBLISHED elevation data (USGS 3DEP lidar; Copernicus GLO-30)",
+ "stage": 26,
+ "seed": 20261027,
+ "pairs_per_site": 100,
+ "min_separation_m": 1000.0,
+ "n_boot": 2000,
+ "hazards": [
+  "DET",
+  "DET-cal",
+  "SLOPE-cal",
+  "BICUBIC-cal",
+  "GBM",
+  "CNN",
+  "ORACLE"
+ ],
+ "policies": [
+  "naive",
+  "conservative",
+  "risk_weighted",
+  "shortest"
+ ],
+ "profiles": [
+  "assumed",
+  "published-posterior"
+ ],
+ "critical_uphill_deg": {
+  "assumed": 25.46,
+  "published-posterior": 15.86
+ },
+ "finished": "2026-10-28 00:11:26"
+}

@@ -1,0 +1,157 @@
+profile,input,policy,hazard,reference,pairs,success_method,success_reference,difference,method_only,reference_only,p,p_holm,significant_holm
+assumed,I10,conservative,DET,naive,600,0.2433,0.1467,0.0967,72,14,0.0,0.0,True
+assumed,I10,conservative,DET-cal,naive,600,0.2217,0.1467,0.075,61,16,0.0,0.0,True
+assumed,I10,conservative,DET-cal,conservative DET,600,0.2217,0.2433,-0.0217,8,21,0.02412,0.16884,False
+assumed,I10,conservative,SLOPE-cal,naive,600,0.1683,0.1467,0.0217,20,7,0.01916,0.15326,False
+assumed,I10,conservative,SLOPE-cal,conservative DET,600,0.1683,0.2433,-0.075,17,62,0.0,0.0,True
+assumed,I10,conservative,BICUBIC-cal,naive,600,0.2167,0.1467,0.07,51,9,0.0,0.0,True
+assumed,I10,conservative,BICUBIC-cal,conservative DET,600,0.2167,0.2433,-0.0267,25,41,0.06402,0.38411,False
+assumed,I10,conservative,GBM,naive,600,0.245,0.1467,0.0983,70,11,0.0,0.0,True
+assumed,I10,conservative,GBM,conservative DET,600,0.245,0.2433,0.0017,44,43,1.0,1.0,False
+assumed,I10,conservative,CNN,naive,600,0.2683,0.1467,0.1217,83,10,0.0,0.0,True
+assumed,I10,conservative,CNN,conservative DET,600,0.2683,0.2433,0.025,47,32,0.11466,0.5733,False
+assumed,I10,conservative,ORACLE,naive,600,0.4583,0.1467,0.3117,189,2,0.0,0.0,True
+assumed,I10,conservative,ORACLE,conservative DET,600,0.4583,0.2433,0.215,153,24,0.0,0.0,True
+assumed,I10,risk_weighted,DET,naive,600,0.27,0.1467,0.1233,89,15,0.0,0.0,True
+assumed,I10,risk_weighted,DET-cal,naive,600,0.265,0.1467,0.1183,85,14,0.0,0.0,True
+assumed,I10,risk_weighted,DET-cal,risk_weighted DET,600,0.265,0.27,-0.005,4,7,0.54883,1.0,False
+assumed,I10,risk_weighted,SLOPE-cal,naive,600,0.1667,0.1467,0.02,33,21,0.13367,0.5733,False
+assumed,I10,risk_weighted,SLOPE-cal,risk_weighted DET,600,0.1667,0.27,-0.1033,19,81,0.0,0.0,True
+assumed,I10,risk_weighted,BICUBIC-cal,naive,600,0.3083,0.1467,0.1617,109,12,0.0,0.0,True
+assumed,I10,risk_weighted,BICUBIC-cal,risk_weighted DET,600,0.3083,0.27,0.0383,50,27,0.01167,0.10505,False
+assumed,I10,risk_weighted,GBM,naive,600,0.3383,0.1467,0.1917,128,13,0.0,0.0,True
+assumed,I10,risk_weighted,GBM,risk_weighted DET,600,0.3383,0.27,0.0683,73,32,8e-05,0.00078,True
+assumed,I10,risk_weighted,CNN,naive,600,0.2867,0.1467,0.14,97,13,0.0,0.0,True
+assumed,I10,risk_weighted,CNN,risk_weighted DET,600,0.2867,0.27,0.0167,54,44,0.36335,1.0,False
+assumed,I10,risk_weighted,ORACLE,naive,600,0.4383,0.1467,0.2917,177,2,0.0,0.0,True
+assumed,I10,risk_weighted,ORACLE,risk_weighted DET,600,0.4383,0.27,0.1683,137,36,0.0,0.0,True
+assumed,I30,conservative,DET,naive,600,0.0683,0.0617,0.0067,9,5,0.42395,1.0,False
+assumed,I30,conservative,DET-cal,naive,600,0.015,0.0617,-0.0467,4,32,0.0,4e-05,True
+assumed,I30,conservative,DET-cal,conservative DET,600,0.015,0.0683,-0.0533,0,32,0.0,0.0,True
+assumed,I30,conservative,SLOPE-cal,naive,600,0.0283,0.0617,-0.0333,6,26,0.00054,0.0091,True
+assumed,I30,conservative,SLOPE-cal,conservative DET,600,0.0283,0.0683,-0.04,5,29,4e-05,0.00073,True
+assumed,I30,conservative,BICUBIC-cal,naive,600,0.0783,0.0617,0.0167,17,7,0.06391,0.95872,False
+assumed,I30,conservative,BICUBIC-cal,conservative DET,600,0.0783,0.0683,0.01,14,8,0.28628,1.0,False
+assumed,I30,conservative,GBM,naive,600,0.0617,0.0617,0.0,14,14,1.0,1.0,False
+assumed,I30,conservative,GBM,conservative DET,600,0.0617,0.0683,-0.0067,10,14,0.54126,1.0,False
+assumed,I30,conservative,CNN,naive,600,0.0683,0.0617,0.0067,15,11,0.5572,1.0,False
+assumed,I30,conservative,CNN,conservative DET,600,0.0683,0.0683,0.0,9,9,1.0,1.0,False
+assumed,I30,conservative,ORACLE,naive,600,0.59,0.0617,0.5283,318,1,0.0,0.0,True
+assumed,I30,conservative,ORACLE,conservative DET,600,0.59,0.0683,0.5217,313,0,0.0,0.0,True
+assumed,I30,risk_weighted,DET,naive,600,0.07,0.0617,0.0083,18,13,0.47313,1.0,False
+assumed,I30,risk_weighted,DET-cal,naive,600,0.06,0.0617,-0.0017,16,17,1.0,1.0,False
+assumed,I30,risk_weighted,DET-cal,risk_weighted DET,600,0.06,0.07,-0.01,6,12,0.23788,1.0,False
+assumed,I30,risk_weighted,SLOPE-cal,naive,600,0.065,0.0617,0.0033,14,12,0.84502,1.0,False
+assumed,I30,risk_weighted,SLOPE-cal,risk_weighted DET,600,0.065,0.07,-0.005,17,20,0.74283,1.0,False
+assumed,I30,risk_weighted,BICUBIC-cal,naive,600,0.11,0.0617,0.0483,33,4,0.0,2e-05,True
+assumed,I30,risk_weighted,BICUBIC-cal,risk_weighted DET,600,0.11,0.07,0.04,33,9,0.00027,0.00489,True
+assumed,I30,risk_weighted,GBM,naive,600,0.0717,0.0617,0.01,20,14,0.39153,1.0,False
+assumed,I30,risk_weighted,GBM,risk_weighted DET,600,0.0717,0.07,0.0017,13,12,1.0,1.0,False
+assumed,I30,risk_weighted,CNN,naive,600,0.085,0.0617,0.0233,25,11,0.02882,0.46107,False
+assumed,I30,risk_weighted,CNN,risk_weighted DET,600,0.085,0.07,0.015,22,13,0.17547,1.0,False
+assumed,I30,risk_weighted,ORACLE,naive,600,0.5017,0.0617,0.44,267,3,0.0,0.0,True
+assumed,I30,risk_weighted,ORACLE,risk_weighted DET,600,0.5017,0.07,0.4317,262,3,0.0,0.0,True
+assumed,G30,conservative,DET,naive,600,0.0533,0.0483,0.005,4,1,0.375,1.0,False
+assumed,G30,conservative,DET-cal,naive,600,0.0017,0.0483,-0.0467,1,29,0.0,0.0,True
+assumed,G30,conservative,DET-cal,conservative DET,600,0.0017,0.0533,-0.0517,0,31,0.0,0.0,True
+assumed,G30,conservative,SLOPE-cal,naive,600,0.0033,0.0483,-0.045,1,28,0.0,0.0,True
+assumed,G30,conservative,SLOPE-cal,conservative DET,600,0.0033,0.0533,-0.05,1,31,0.0,0.0,True
+assumed,G30,conservative,BICUBIC-cal,naive,600,0.0217,0.0483,-0.0267,2,18,0.0004,0.00684,True
+assumed,G30,conservative,BICUBIC-cal,conservative DET,600,0.0217,0.0533,-0.0317,2,21,7e-05,0.00119,True
+assumed,G30,conservative,GBM,naive,600,0.0317,0.0483,-0.0167,9,19,0.08716,0.87159,False
+assumed,G30,conservative,GBM,conservative DET,600,0.0317,0.0533,-0.0217,5,18,0.01062,0.13809,False
+assumed,G30,conservative,CNN,naive,600,0.0283,0.0483,-0.02,9,21,0.04277,0.47051,False
+assumed,G30,conservative,CNN,conservative DET,600,0.0283,0.0533,-0.025,6,21,0.00592,0.08887,False
+assumed,G30,conservative,ORACLE,naive,600,0.57,0.0483,0.5217,313,0,0.0,0.0,True
+assumed,G30,conservative,ORACLE,conservative DET,600,0.57,0.0533,0.5167,310,0,0.0,0.0,True
+assumed,G30,risk_weighted,DET,naive,600,0.055,0.0483,0.0067,16,12,0.57159,1.0,False
+assumed,G30,risk_weighted,DET-cal,naive,600,0.0483,0.0483,0.0,11,11,1.0,1.0,False
+assumed,G30,risk_weighted,DET-cal,risk_weighted DET,600,0.0483,0.055,-0.0067,9,13,0.52347,1.0,False
+assumed,G30,risk_weighted,SLOPE-cal,naive,600,0.0483,0.0483,0.0,7,7,1.0,1.0,False
+assumed,G30,risk_weighted,SLOPE-cal,risk_weighted DET,600,0.0483,0.055,-0.0067,10,14,0.54126,1.0,False
+assumed,G30,risk_weighted,BICUBIC-cal,naive,600,0.0683,0.0483,0.02,15,3,0.00754,0.10553,False
+assumed,G30,risk_weighted,BICUBIC-cal,risk_weighted DET,600,0.0683,0.055,0.0133,17,9,0.16864,1.0,False
+assumed,G30,risk_weighted,GBM,naive,600,0.0617,0.0483,0.0133,18,10,0.18493,1.0,False
+assumed,G30,risk_weighted,GBM,risk_weighted DET,600,0.0617,0.055,0.0067,16,12,0.57159,1.0,False
+assumed,G30,risk_weighted,CNN,naive,600,0.0783,0.0483,0.03,27,9,0.00393,0.06293,False
+assumed,G30,risk_weighted,CNN,risk_weighted DET,600,0.0783,0.055,0.0233,24,10,0.02431,0.29168,False
+assumed,G30,risk_weighted,ORACLE,naive,600,0.4883,0.0483,0.44,264,0,0.0,0.0,True
+assumed,G30,risk_weighted,ORACLE,risk_weighted DET,600,0.4883,0.055,0.4333,262,2,0.0,0.0,True
+published-posterior,I10,conservative,DET,naive,600,0.1733,0.1667,0.0067,58,54,0.77696,1.0,False
+published-posterior,I10,conservative,DET-cal,naive,600,0.1683,0.1667,0.0017,56,55,1.0,1.0,False
+published-posterior,I10,conservative,DET-cal,conservative DET,600,0.1683,0.1733,-0.005,1,4,0.375,1.0,False
+published-posterior,I10,conservative,SLOPE-cal,naive,600,0.115,0.1667,-0.0517,27,58,0.00102,0.01321,True
+published-posterior,I10,conservative,SLOPE-cal,conservative DET,600,0.115,0.1733,-0.0583,6,41,0.0,0.0,True
+published-posterior,I10,conservative,BICUBIC-cal,naive,600,0.14,0.1667,-0.0267,44,60,0.14096,1.0,False
+published-posterior,I10,conservative,BICUBIC-cal,conservative DET,600,0.14,0.1733,-0.0333,9,29,0.00166,0.0199,True
+published-posterior,I10,conservative,GBM,naive,600,0.165,0.1667,-0.0017,55,56,1.0,1.0,False
+published-posterior,I10,conservative,GBM,conservative DET,600,0.165,0.1733,-0.0083,18,23,0.53271,1.0,False
+published-posterior,I10,conservative,CNN,naive,600,0.1583,0.1667,-0.0083,51,56,0.69917,1.0,False
+published-posterior,I10,conservative,CNN,conservative DET,600,0.1583,0.1733,-0.015,18,27,0.23269,1.0,False
+published-posterior,I10,conservative,ORACLE,naive,600,0.2517,0.1667,0.085,105,54,6e-05,0.00103,True
+published-posterior,I10,conservative,ORACLE,conservative DET,600,0.2517,0.1733,0.0783,61,14,0.0,0.0,True
+published-posterior,I10,risk_weighted,DET,naive,600,0.2967,0.1667,0.13,95,17,0.0,0.0,True
+published-posterior,I10,risk_weighted,DET-cal,naive,600,0.2883,0.1667,0.1217,90,17,0.0,0.0,True
+published-posterior,I10,risk_weighted,DET-cal,risk_weighted DET,600,0.2883,0.2967,-0.0083,1,6,0.125,1.0,False
+published-posterior,I10,risk_weighted,SLOPE-cal,naive,600,0.235,0.1667,0.0683,57,16,0.0,3e-05,True
+published-posterior,I10,risk_weighted,SLOPE-cal,risk_weighted DET,600,0.235,0.2967,-0.0617,28,65,0.00016,0.00224,True
+published-posterior,I10,risk_weighted,BICUBIC-cal,naive,600,0.325,0.1667,0.1583,109,14,0.0,0.0,True
+published-posterior,I10,risk_weighted,BICUBIC-cal,risk_weighted DET,600,0.325,0.2967,0.0283,51,34,0.08205,0.9026,False
+published-posterior,I10,risk_weighted,GBM,naive,600,0.3633,0.1667,0.1967,130,12,0.0,0.0,True
+published-posterior,I10,risk_weighted,GBM,risk_weighted DET,600,0.3633,0.2967,0.0667,74,34,0.00015,0.00224,True
+published-posterior,I10,risk_weighted,CNN,naive,600,0.3167,0.1667,0.15,106,16,0.0,0.0,True
+published-posterior,I10,risk_weighted,CNN,risk_weighted DET,600,0.3167,0.2967,0.02,58,46,0.28069,1.0,False
+published-posterior,I10,risk_weighted,ORACLE,naive,600,0.4817,0.1667,0.315,191,2,0.0,0.0,True
+published-posterior,I10,risk_weighted,ORACLE,risk_weighted DET,600,0.4817,0.2967,0.185,144,33,0.0,0.0,True
+published-posterior,I30,conservative,DET,naive,600,0.055,0.075,-0.02,4,16,0.01182,0.17727,False
+published-posterior,I30,conservative,DET-cal,naive,600,0.015,0.075,-0.06,1,37,0.0,0.0,True
+published-posterior,I30,conservative,DET-cal,conservative DET,600,0.015,0.055,-0.04,2,26,0.0,5e-05,True
+published-posterior,I30,conservative,SLOPE-cal,naive,600,0.0167,0.075,-0.0583,1,36,0.0,0.0,True
+published-posterior,I30,conservative,SLOPE-cal,conservative DET,600,0.0167,0.055,-0.0383,0,23,0.0,0.0,True
+published-posterior,I30,conservative,BICUBIC-cal,naive,600,0.0667,0.075,-0.0083,10,15,0.42436,1.0,False
+published-posterior,I30,conservative,BICUBIC-cal,conservative DET,600,0.0667,0.055,0.0117,10,3,0.09229,1.0,False
+published-posterior,I30,conservative,GBM,naive,600,0.0517,0.075,-0.0233,5,19,0.00661,0.10577,False
+published-posterior,I30,conservative,GBM,conservative DET,600,0.0517,0.055,-0.0033,6,8,0.79053,1.0,False
+published-posterior,I30,conservative,CNN,naive,600,0.055,0.075,-0.02,4,16,0.01182,0.17727,False
+published-posterior,I30,conservative,CNN,conservative DET,600,0.055,0.055,0.0,5,5,1.0,1.0,False
+published-posterior,I30,conservative,ORACLE,naive,600,0.1867,0.075,0.1117,75,8,0.0,0.0,True
+published-posterior,I30,conservative,ORACLE,conservative DET,600,0.1867,0.055,0.1317,80,1,0.0,0.0,True
+published-posterior,I30,risk_weighted,DET,naive,600,0.08,0.075,0.005,15,12,0.70111,1.0,False
+published-posterior,I30,risk_weighted,DET-cal,naive,600,0.065,0.075,-0.01,16,22,0.41769,1.0,False
+published-posterior,I30,risk_weighted,DET-cal,risk_weighted DET,600,0.065,0.08,-0.015,8,17,0.10775,1.0,False
+published-posterior,I30,risk_weighted,SLOPE-cal,naive,600,0.0667,0.075,-0.0083,9,14,0.40487,1.0,False
+published-posterior,I30,risk_weighted,SLOPE-cal,risk_weighted DET,600,0.0667,0.08,-0.0133,17,25,0.27996,1.0,False
+published-posterior,I30,risk_weighted,BICUBIC-cal,naive,600,0.1183,0.075,0.0433,29,3,0.0,5e-05,True
+published-posterior,I30,risk_weighted,BICUBIC-cal,risk_weighted DET,600,0.1183,0.08,0.0383,31,8,0.00029,0.005,True
+published-posterior,I30,risk_weighted,GBM,naive,600,0.0767,0.075,0.0017,14,13,1.0,1.0,False
+published-posterior,I30,risk_weighted,GBM,risk_weighted DET,600,0.0767,0.08,-0.0033,10,12,0.83181,1.0,False
+published-posterior,I30,risk_weighted,CNN,naive,600,0.0833,0.075,0.0083,17,12,0.45826,1.0,False
+published-posterior,I30,risk_weighted,CNN,risk_weighted DET,600,0.0833,0.08,0.0033,17,15,0.86005,1.0,False
+published-posterior,I30,risk_weighted,ORACLE,naive,600,0.505,0.075,0.43,260,2,0.0,0.0,True
+published-posterior,I30,risk_weighted,ORACLE,risk_weighted DET,600,0.505,0.08,0.425,258,3,0.0,0.0,True
+published-posterior,G30,conservative,DET,naive,600,0.0633,0.055,0.0083,14,9,0.40487,1.0,False
+published-posterior,G30,conservative,DET-cal,naive,600,0.0,0.055,-0.055,0,33,0.0,0.0,True
+published-posterior,G30,conservative,DET-cal,conservative DET,600,0.0,0.0633,-0.0633,0,38,0.0,0.0,True
+published-posterior,G30,conservative,SLOPE-cal,naive,600,0.0,0.055,-0.055,0,33,0.0,0.0,True
+published-posterior,G30,conservative,SLOPE-cal,conservative DET,600,0.0,0.0633,-0.0633,0,38,0.0,0.0,True
+published-posterior,G30,conservative,BICUBIC-cal,naive,600,0.03,0.055,-0.025,5,20,0.00408,0.05708,False
+published-posterior,G30,conservative,BICUBIC-cal,conservative DET,600,0.03,0.0633,-0.0333,0,20,0.0,3e-05,True
+published-posterior,G30,conservative,GBM,naive,600,0.0217,0.055,-0.0333,1,21,1e-05,0.00018,True
+published-posterior,G30,conservative,GBM,conservative DET,600,0.0217,0.0633,-0.0417,1,26,0.0,1e-05,True
+published-posterior,G30,conservative,CNN,naive,600,0.0317,0.055,-0.0233,6,20,0.00936,0.12162,False
+published-posterior,G30,conservative,CNN,conservative DET,600,0.0317,0.0633,-0.0317,6,25,0.00088,0.01317,True
+published-posterior,G30,conservative,ORACLE,naive,600,0.29,0.055,0.235,146,5,0.0,0.0,True
+published-posterior,G30,conservative,ORACLE,conservative DET,600,0.29,0.0633,0.2267,138,2,0.0,0.0,True
+published-posterior,G30,risk_weighted,DET,naive,600,0.0617,0.055,0.0067,15,11,0.5572,1.0,False
+published-posterior,G30,risk_weighted,DET-cal,naive,600,0.0483,0.055,-0.0067,10,14,0.54126,1.0,False
+published-posterior,G30,risk_weighted,DET-cal,risk_weighted DET,600,0.0483,0.0617,-0.0133,9,17,0.16864,1.0,False
+published-posterior,G30,risk_weighted,SLOPE-cal,naive,600,0.05,0.055,-0.005,8,11,0.64761,1.0,False
+published-posterior,G30,risk_weighted,SLOPE-cal,risk_weighted DET,600,0.05,0.0617,-0.0117,13,20,0.29621,1.0,False
+published-posterior,G30,risk_weighted,BICUBIC-cal,naive,600,0.0683,0.055,0.0133,14,6,0.11532,1.0,False
+published-posterior,G30,risk_weighted,BICUBIC-cal,risk_weighted DET,600,0.0683,0.0617,0.0067,20,16,0.61772,1.0,False
+published-posterior,G30,risk_weighted,GBM,naive,600,0.0683,0.055,0.0133,20,12,0.21533,1.0,False
+published-posterior,G30,risk_weighted,GBM,risk_weighted DET,600,0.0683,0.0617,0.0067,17,13,0.58466,1.0,False
+published-posterior,G30,risk_weighted,CNN,naive,600,0.08,0.055,0.025,23,8,0.01067,0.12809,False
+published-posterior,G30,risk_weighted,CNN,risk_weighted DET,600,0.08,0.0617,0.0183,21,10,0.07076,0.77831,False
+published-posterior,G30,risk_weighted,ORACLE,naive,600,0.4967,0.055,0.4417,265,0,0.0,0.0,True
+published-posterior,G30,risk_weighted,ORACLE,risk_weighted DET,600,0.4967,0.0617,0.435,262,1,0.0,0.0,True
