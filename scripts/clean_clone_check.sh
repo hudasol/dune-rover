@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Clean clone reproduction check (W6 of docs/PLAN_2026-10-21.md): clone the public repository into a temporary folder,
+# Clean clone reproduction check (W6 of docs/process/PLAN_2026-10-21.md): clone the public repository into a temporary folder,
 # run the tests, rebuild every generated document from the committed results, and report whether they match the
 # committed ones, with the time taken. The analyses that need raw downloads (lidar, ICESat-2, PDFs) are not rerun here.
 #   bash scripts/clean_clone_check.sh >> results/reproducibility/clean_clone_checks.txt

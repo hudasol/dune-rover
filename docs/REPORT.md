@@ -893,7 +893,7 @@ The published rows suggest that tracks and wheel and crawler hybrids keep moving
 
 ## 14. Completion work of 2026-10-21
 
-Every test in this section was registered in `docs/PREDICTIONS.md` (stages 19 to 24) and pushed before it was run; analyses decided after a result are labelled post hoc. The plan and its success criteria are in `docs/PLAN_2026-10-21.md`, and every number in the manuscript, the brief and the proposals is traced in `docs/NUMBER_LEDGER.csv`.
+Every test in this section was registered in `docs/PREDICTIONS.md` (stages 19 to 24) and pushed before it was run; analyses decided after a result are labelled post hoc. The plan and its success criteria are in `docs/process/PLAN_2026-10-21.md`, and every number in the manuscript, the brief and the proposals is traced in `docs/NUMBER_LEDGER.csv`.
 
 ### 14.1 Evidence and curves (PUBLISHED)
 

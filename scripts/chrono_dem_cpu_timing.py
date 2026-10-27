@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reduced particle (DEM) attempt on the CPU of this machine (W5 of docs/PLAN_2026-10-21.md): time one step of a
+"""Reduced particle (DEM) attempt on the CPU of this machine (W5 of docs/process/PLAN_2026-10-21.md): time one step of a
 single wheel on a small bed of spheres in Project Chrono (pychrono 9.0.1, ChSystemSMC) and extrapolate to one slope run.
 Hard limit: 200 steps or 5 minutes. SIMULATED BY ME; this measures cost, not slip.
 
