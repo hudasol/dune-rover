@@ -1,8 +1,14 @@
 # dune-rover
 
-Research project on predicting slip, sinkage and traversability of wheeled (and secondarily legged) robots on dry sand and dunes, with a minimal open data traversability study for Arabian dune areas. Author: Huda Mueen. Related repository, not duplicated here: [`hudasol/dhill`](https://github.com/hudasol/dhill) (heat and dust operating envelope).
+- **Problem.** Small wheeled robots that cross sand dunes plan on global 30 m elevation maps, but the main hazard, the slip face at the angle of repose, is often only metres to tens of metres long.
+- **Finding.** On six North American dune fields with one metre lidar as truth, no hazard model of a 30 m map (a synthetic trained detector, slope, roughness, interpolation, or models trained on lidar) makes planned routes meaningfully safer: mission success {{VAL:bm_success_i30_naive_none}} with the slip model alone, at most {{VAL:bm_success_i30_risk_weighted_bicubiccal}} with any of them. At 10 m the best layer reaches {{VAL:bm_success_i10_risk_weighted_gbm}}; a 5 m face map reaches {{VAL:bm_success_i5_conservative_oracle5}}. Map resolution, not the hazard model, is the limit (stages 25 and 26, `docs/PREDICTIONS.md`).
+- **Product.** The Dune Rover Planner: slip face risk, a three class map and routes from any elevation model, a resolution gate that refuses to verify ground on maps coarser than 10 m, and exports for ROS 2 Nav2, QGroundControl and Google Earth (`docs/PLANNER.md`).
+- **Ask.** A partner for a drone survey of an Arabian dune field and a slope ladder with a small rover (`docs/PARTNER_INDEX.md`).
+- **Status.** Desk study, benchmark and conference paper draft (`paper/paper.pdf`, aimed at IROS 2027, `docs/VENUES.md`) complete; no field data yet. Author: Huda Mueen. **SIMULATED BY ME on PUBLISHED data; research, not engineering approval for any real vehicle.**
 
-**Research, not engineering approval for any real vehicle.** Generated from `docs/src/readme_template.md` by `scripts/build_report.py`; numbers come from the result files.
+![Kelso Dunes: face patches in the lidar, the detector and gradient boosting on a 30 m map, and conservative routes on 30 m and 10 m maps](paper/figures/fig_map.png)
+
+Generated from `docs/src/readme_template.md` by `scripts/build_report.py`; numbers come from the result files. Related repository, not duplicated here: [`hudasol/dhill`](https://github.com/hudasol/dhill) (heat and dust operating envelope).
 
 ## What is published, what is simulated, what is planned
 
@@ -24,7 +30,7 @@ dunerover plan DEM.tif --posting 10 --start LON,LAT --goal LON,LAT --vehicle ass
 
 User guide: `docs/PLANNER.md`. Interactive demonstration on four lidar dune fields: `demo/web/dune_rover_planner.html`. Report section 15.
 
-## Headline numbers (from files)
+## Earlier headline numbers (dated, from files)
 
 - **2026-10-21 (report section 14; every number traced in `docs/NUMBER_LEDGER.csv`):** on {{VAL:mv4_exp_existing_n}} published curves from {{VAL:mv4_nsources}} studies no slip model family passes (median held out error {{VAL:mv4_heldout_min}} to {{VAL:mv4_heldout_max}}), and families built on the granular scaling laws do worse ({{VAL:mob_heldout_min}} to {{VAL:mob_heldout_max}}); Chrono calibrated on the Dumont curve up to 12.5 degrees gave no usable prediction of steeper slopes (numerically unstable there); on {{VAL:lid6_nsites}} lidar dune fields a 30 m map labels TRAVERSABLE {{VAL:lid6_miss_min_30}} to {{VAL:lid6_miss_max_30}} of face cells; over Liwa and the Rub' al Khali, {{VAL:is2_ps_trav_kept_B}} to {{VAL:is2_ps_trav_kept_A}} of screened steep ICESat-2 crossings fall in TRAVERSABLE cells, against more than 90 % of all segments (post hoc; method not validated, many steep segments are noise); in simulation, replanning on an online slip estimate shows no benefit distinguishable from a stop and retry control (post hoc). Field kit, preregistration draft, drone and sand protocols, and a ROS 2 demonstration are in the repository. Completeness: see `docs/COMPLETENESS.md`.
 - **2026-10-20 (SIMULATED BY ME against PUBLISHED data; report section 13, `manuscript/MANUSCRIPT.md`):** slip model families calibrated on other studies predict a held out study with median errors of {{VAL:mv_heldout_min}} to {{VAL:mv_heldout_max}} slip ({{VAL:mv_verdict_line}}; bar 0.15). Against one metre lidar of three dune fields, {{VAL:tv_fs_min_30}} to {{VAL:tv_fs_max_30}} of the cells the 30 m map calls TRAVERSABLE contain steep faces ({{VAL:tv_fs_min_10}} to {{VAL:tv_fs_max_10}} at 10 m). Completeness: `docs/COMPLETENESS.md`.
@@ -37,14 +43,14 @@ User guide: `docs/PLANNER.md`. Interactive demonstration on four lidar dune fiel
 
 ## Read in this order
 
-1. `docs/EXECUTIVE_BRIEF.md` (also `.pdf`): two pages.
-2. `manuscript/MANUSCRIPT.md` (also `.pdf`): the paper, with every negative result.
-3. `docs/REPORT.md` (also `.pdf`): the full review, taxonomy, gap analysis, simulation studies (sections 8, 8.7 and the published anchors in 8.8), field plan (section 9, with the 2026-10-15 revision), limitations, verification, appendices.
-4. `docs/NEXT_STEPS.md`: what the author does next: decisions, checks, then the first field experiment, and what to fetch.
-5. `docs/PREDICTIONS.md`, `docs/predictions/`: dated predictions written before runs.
-6. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/SEARCH_PROTOCOL.md`, `docs/DATA_CATALOG.md`, `docs/DATA_AND_LICENSES.md`.
+1. `paper/paper.pdf`: the conference paper (five pages): the lidar benchmark with baselines, stages 25 and 26.
+2. `docs/PLANNER.md`: the Dune Rover Planner, how to install and run it, its exports, and what it cannot do. Interactive demonstration: `demo/web/dune_rover_planner.html`.
+3. `docs/PARTNER_INDEX.md` and `docs/EXECUTIVE_BRIEF.md` (also `.pdf`): one and two pages for a partner.
+4. `docs/PREDICTIONS.md`: every prediction, written before its run, with its hit or miss.
+5. `manuscript/MANUSCRIPT.md` (also `.pdf`) and `docs/REPORT.md` (also `.pdf`): the full desk study with every negative result.
+6. `docs/NEXT_STEPS.md`: what the author does next.
 7. `docs/PROPOSAL_ROBOTICS.md` and `docs/PROPOSAL_EDGE.md`: proposals; nothing has been sent and no agreement exists.
-8. `docs/PLANNER.md`: the Dune Rover Planner, how to install and run it, and what it cannot do.
+8. `docs/GLOSSARY.md`, `docs/PROTOCOL.md`, `docs/SEARCH_PROTOCOL.md`, `docs/DATA_CATALOG.md`, `docs/DATA_AND_LICENSES.md`, `docs/REPRODUCE.md`; working records of the sessions are in `docs/process/`.
 
 ## Layout
 
@@ -94,4 +100,4 @@ Full list in `docs/DATA_AND_LICENSES.md`. Copernicus GLO-30 (the controlling Fre
 
 ## Not done
 
-DEM and RFT were reviewed, not run; Project Chrono was run for a single wheel on 2026-10-20 (report section 13.4). No field data exist. No learning model was trained. The sub grid detector was tested against one metre lidar of three North American dune fields on 2026-10-20 (it works at 10 m and fails at 30 m; report section 13.5), never against an Arabian slip face. See report sections 10 and 13.
+DEM and RFT were reviewed, not run; Project Chrono was run for a single wheel on 2026-10-20 (report section 13.4). No field data exist. Two learned baselines (gradient boosted trees and a small convolutional network) were trained leave one site out on lidar labels for the benchmark (stage 25). The sub grid detector was tested against one metre lidar of six North American dune fields (it works at 10 m and fails at 30 m, where a cubic interpolation and models trained on lidar rank faces better; stages 12, 20 and 25), never against an Arabian slip face. See report sections 10 and 13.

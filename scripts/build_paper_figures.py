@@ -64,7 +64,7 @@ def fig_auc():
         ax.spines[s].set_visible(False)
     ax.legend(loc="lower center", bbox_to_anchor=(0.4, 1.0), ncol=3, frameon=False, fontsize=6.3, handletextpad=0.2, columnspacing=0.9)
     fig.tight_layout(pad=0.3)
-    fig.savefig(os.path.join(FIG, "fig_auc.pdf"), bbox_inches="tight", pad_inches=0.02); plt.close(fig)
+    fig.savefig(os.path.join(FIG, "fig_auc.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
 def fig_map(site="Kelso"):
@@ -109,7 +109,8 @@ def fig_map(site="Kelso"):
     cb.set_label("face probability", fontsize=5.5, labelpad=1); cb.ax.tick_params(labelsize=5, length=2, pad=1)
     axes[0].plot([100, 1100], [z1.shape[0] - 120] * 2, color="white", lw=2)
     axes[0].text(600, z1.shape[0] - 200, "1 km", color="white", ha="center", fontsize=6)
-    fig.savefig(os.path.join(FIG, "fig_map.pdf"), bbox_inches="tight", pad_inches=0.02); plt.close(fig)
+    fig.savefig(os.path.join(FIG, "fig_map.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02)
+    fig.savefig(os.path.join(FIG, "fig_map.png"), dpi=170, bbox_inches="tight", pad_inches=0.02, facecolor="white"); plt.close(fig)
 
 
 def fig_planning():
@@ -141,7 +142,7 @@ def fig_planning():
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     ax.legend(loc="lower center", bbox_to_anchor=(0.4, 1.0), ncol=3, frameon=False, fontsize=6.3, handletextpad=0.2, columnspacing=0.9)
-    fig.savefig(os.path.join(FIG, "fig_planning.pdf"), bbox_inches="tight", pad_inches=0.02); plt.close(fig)
+    fig.savefig(os.path.join(FIG, "fig_planning.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
 def main():
