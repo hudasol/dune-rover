@@ -523,3 +523,60 @@ Corrections after the final review of 2026-10-21 (appended after every run of th
 - **Stage 19, amendment to item (iii) above** (after a verification of these corrections): the Kelso comparison rests on one site, 45 segments and 2 passes, and compares with lidar averaged to 30 m, not with Copernicus; with 20 m segments, which pass the lidar bar, the Liwa gap is still 26.9 deg. So selection explains most of the gap at Kelso, but the cause of the Arabian gap is not established. The 20 m bar's steep segment part rests on 1 lidar segment at White Sands and 49 at Kelso.
 - **Stage 24, checks at the calibration slopes.** **POST HOC** (`results/chrono_scm_calibration/posthoc_checks_calibration_slopes.csv`): at 5, 10 and 12.5 deg the 0.01 m grid and the 0.05 m/s wheel speed changed the slip of the calibrated point by at most 0.03, so the S24-1 fit is numerically stable; the instability starts above 12.5 deg (speed sensitive at 15 deg, unstable at 17.5 and 20 deg).
 - **Stage 21, Bekker Wong completed** (08:16): the restarted run finished; R21-1 is now scored for all four families (HIT) and R21-2, R21-3 and R21-4 are MISSED because the Bekker Wong family reached a median held out error of 0.414 (coverage 0.46) on 33 curves, against 0.216 for the logistic on the same curves (`results/model_validation_phase4/part_bekker_wong/`). With wheel size, width and load as inputs it transferred worse, not better, once the Watanabe, Nakashima and Sutoh curves were added.
+
+## Stage 25: baselines for the slip face detector on six lidar dune fields, with a real 30 m product (written 2026-10-27, BEFORE any baseline was coded or any metric of this stage computed)
+
+**SIMULATED BY ME (every detector and baseline) scored against PUBLISHED elevation data** (USGS 3DEP one metre lidar, public domain; Copernicus GLO-30, free licence with attribution). Known before writing: the stage 12 and 20 results of the detector on block mean surfaces (AUC 0.95 to 0.99 at 10 m on the first three fields, 0.64 to 0.86 at 30 m on all six). The baselines and the GLO-30 condition have never been run.
+
+Design fixed now (`scripts/benchmark_detection.py`, `src/dunerover/benchmark.py`, outputs in `results/benchmark/detection/`):
+- Sites and windows: the six windows of stages 12 and 20, unchanged.
+- Truth: the one metre Horn slope, voids filled with the nearest valid post for the slope and never counted as steep. A post is steep at 28 deg or more. Primary cell label: at least 10 steep posts inside the cell footprint (stage 12). Secondary label, reported beside it: the same count with only posts between 28 and 36 deg.
+- Inputs: **I10** and **I30**, block means of the lidar at 10 and 30 m; **G30**, Copernicus GLO-30 (tiles in `scripts/fetch_data.sh`) interpolated bilinearly at the centres of the I30 cells (UTM to longitude and latitude with pyproj; GLO-30 posts are points, top left post at the tile's northern edge). GLO-30 was acquired in 2011 to 2015 by a radar instrument and the lidar in 2018 to 2024, so G30 measures what a rover can learn today from a global product, including dune migration and sensor differences, not the detector alone.
+- Methods, one score per cell:
+  - **DET**: the product's detector (`dunerover.planner.face_detector`), trained on synthetic dunes only, unchanged.
+  - **DET-cal**: DET recalibrated by logistic regression on logit(p), fitted on the other five sites (leave one site out).
+  - **SLOPE**: the coarse Horn slope.
+  - **TRI**: terrain ruggedness index (square root of the sum of squared elevation differences to the eight neighbours), divided by the posting.
+  - **ROUGH**: root mean square residual of a least squares plane fitted to the 3 x 3 neighbourhood (roughness as in GESTALT), divided by the posting.
+  - **BICUBIC**: the coarse surface interpolated to one metre with a cubic spline (`scipy.ndimage.zoom`, order 3); score = steepest interpolated slope in the cell.
+  - **GBM**: gradient boosted trees (`sklearn` HistGradientBoostingClassifier, learning rate 0.05, 300 iterations, 31 leaves, random state 0, no tuning) on 14 features (slope, ruggedness, plane roughness over 3 x 3 and 5 x 5, profile and plan curvature, topographic position over 3 x 3, 7 x 7 and 15 x 15, relief over 3 x 3 and 7 x 7, steepest slope in the 3 x 3 neighbourhood, and the detector's convexity and slope break), trained on the lidar labels of the other five sites and the same input type (leave one site out).
+  - **CNN**: a small fully convolutional network (`torch`, CPU): two input channels (elevation minus its 7 x 7 mean, divided by the posting, and the slope), four 3 x 3 convolutions of 32 channels with dilations 1, 2, 4 and 8 and ReLU, a 1 x 1 convolution to one logit; binary cross entropy, Adam with learning rate 0.001, 1500 steps of 16 random crops (64 x 64 cells at 10 m, 32 x 32 at 30 m) with flips and quarter turns, seed 0, trained leave one site out like GBM, no tuning.
+  - SLOPE, TRI, ROUGH and BICUBIC also get a leave one site out logistic calibration (suffix -cal) so that a probability and a Brier score exist for every method.
+- Metrics per site, input and method: AUC (primary), average precision, recall at a false positive rate of 10 %, Brier score for the probabilistic versions, and at the product's threshold (probability 0.20) the miss rate and the flagged share.
+- Intervals: spatial block bootstrap with blocks of 300 x 300 m, 1000 resamples, seed 20261027; 95 % percentile intervals for each AUC and for paired AUC differences (both methods on the same resampled blocks). A method beats another at a site when the interval of the difference excludes zero. Macro means are over the six sites.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| B25-1 | On I30, GBM beats DET (paired interval excludes zero, GBM higher) at three or more of the six sites, and the macro mean AUC difference GBM minus DET lies between 0.00 and 0.12. | |
+| B25-2 | On I30, the AUC point estimate of DET is higher than that of SLOPE at four or more of the six sites. | |
+| B25-3 | On I30, no method reaches an AUC of 0.90 at more than two of the six sites. | |
+| B25-4 | On I10, DET, GBM and CNN each reach an AUC of at least 0.93 at every site. | |
+| B25-5 | On I30, the macro mean AUC of BICUBIC exceeds that of SLOPE by at most 0.02. | |
+| B25-6 | The macro mean AUC of DET on G30 is lower than on I30 by at least 0.03. | |
+| B25-7 | On G30, every method has a macro mean AUC below 0.85. | |
+| B25-8 | On I30, DET-cal has a lower Brier score than DET at five or more of the six sites. | |
+| B25-9 | On I30, the macro mean AUC of CNN lies within 0.05 of that of GBM. | |
+
+## Stage 26: the shipped planner against baseline hazard layers, scored on dune scale slip faces in the lidar (written 2026-10-27, BEFORE any route of this stage was planned or scored)
+
+**SIMULATED BY ME (maps, routes, outcomes) on PUBLISHED elevation data.** Known before writing: stages 17 and 20 (the research planner script, 40 pairs per site, the 3 m uphill rule). This stage uses the shipped product (`dunerover.planner.assess`, `policy_graph`) for every planned route and a new primary outcome defined on dune scale faces.
+
+Design fixed now (`scripts/benchmark_planning.py`, outputs in `results/benchmark/planning/`):
+- Sites, truth and inputs as in stage 25 (I10, I30, G30), plus a 5 m block mean for one reference method.
+- Truth face patches: 8 connected groups of steep one metre posts (28 deg or more) with at least 10 posts.
+- Origin and destination pairs: 100 per site, seed 20261027, drawn from the truth only and shared by every input and method: centres of I30 cells at least 3 cells from the window edge whose one metre posts are all valid and all below 20 deg (relaxed to 25 deg at a site with fewer than 200 such cells), at least 1000 m apart. At each input the endpoint is the cell that contains the point.
+- Planner: `assess` on the input surface (vehicle profile `assumed`, 128 draws, its default seed), then the product's own policies: **naive** (slip model only), **conservative** (TRAVERSABLE cells only, no descent of 28 deg or more), **risk weighted** (no BLOCKED cell, cost times 1 + 5 p, no descent of 28 deg or more). A hazard layer is swapped in by replacing the assessment's face probability with the method's probability and reclassifying with the product's own `classify` (threshold 0.20). Hazard layers: DET (the product as shipped), DET-cal, SLOPE-cal, BICUBIC-cal, GBM and CNN from stage 25, and **ORACLE**, the stage 25 truth label of the cell (a perfect detector of the registered target at that posting). Reference methods: **SHORTEST**, the 8 connected shortest grid path with no terrain information; **ORACLE-5**, the conservative policy on the 5 m surface with every 5 m cell that holds a face patch post marked as a face.
+- Scoring on the lidar: each route is the polyline through its cell centres, sampled every 0.5 m at the nearest one metre post. Primary outcome: the route is **unsafe** if any sample falls on a post of a face patch. Secondary: number of patches entered per km, uphill events (grade over a 10 m baseline above the nominal climbing limit, 25.5 deg for the assumed profile), length over straight distance, and the share of pairs with a route. **Mission success** = routed and not unsafe.
+- Statistics: pooled over the six sites for each input, policy and hazard layer; 95 % intervals by a bootstrap of pairs within sites (2000 resamples, seed 20261027); paired exact McNemar tests on mission success against naive and against DET with the same policy, Holm corrected within each input.
+- Exploratory, no prediction: the same runs with the `published-posterior` vehicle profile.
+
+| ID | Prediction made before the run (tolerance in the statement) | Outcome |
+|---|---|---|
+| P26-1 | On I30, no hazard layer with either cautious policy raises pooled mission success above naive by more than 15 points. | |
+| P26-2 | On I10, the conservative policy with DET has a pooled unsafe share at least 15 points lower than naive, significant after Holm correction. | |
+| P26-3 | On I30, the conservative policy with ORACLE has a pooled unsafe share at least 20 points lower than with DET. | |
+| P26-4 | ORACLE-5 has a pooled unsafe share of at most 5 %. | |
+| P26-5 | SHORTEST is unsafe on at least 60 % of pairs, pooled. | |
+| P26-6 | On G30, the pooled unsafe share of the conservative policy with DET is at least that on I30 minus 5 points. | |
+| P26-7 | On I30, the pooled unsafe share of the conservative policy with GBM is at most 10 points lower than with DET. | |
+| P26-8 | On I10, the mean length over straight distance of conservative routes with DET is at most 1.5. | |
