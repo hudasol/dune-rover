@@ -1,0 +1,20 @@
+\begin{table}[t]
+\caption{Methods compared. Lidar: trained on lidar labels of the other five sites. All scores are per coarse cell; methods without a probability get a leave one site out logistic calibration (suffix -cal) when one is needed.}
+\label{tab:methods}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lp{0.70\columnwidth}c@{}}
+\toprule
+Method & Score of a cell & Lidar \\
+\midrule
+DET (ours) & Logistic model on slope, convexity, slope break and local relief, trained on 60\,000 synthetic straight crested dune profiles per posting & no \\
+DET-cal & DET recalibrated by logistic regression~\cite{platt1999} & yes \\
+SLOPE & Coarse Horn slope, the input of a slope costmap & no \\
+TRI & Terrain ruggedness index~\cite{riley1999} & no \\
+ROUGH & RMS residual of a plane fitted to the $3\times3$ cells, as in GESTALT~\cite{goldberg2002} & no \\
+BICUBIC & Steepest slope after cubic spline interpolation to 1\,m & no \\
+GBM & Gradient boosted trees~\cite{ke2017,pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, DET features) & yes \\
+CNN & Fully convolutional network~\cite{paszke2019}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016} & yes \\
+\bottomrule
+\end{tabular}
+\end{table}

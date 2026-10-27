@@ -123,6 +123,22 @@ def values() -> dict:
         V[f"bic_vs_{ref}_worse"] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) < 0 for r in rr))
     for r in read(os.path.join(PH, "glo30_shift.csv")):
         V[f"shift_{r['site']}"] = f"{float(r['best_shift_m']):.0f}"
+    # observed values for the table of registered predictions
+    def aucs(i, m):
+        return {r["site"]: float(r["auc"]) for r in met if r["input"] == i and r["method"] == m and r.get("auc", "")}
+    det30, slo30 = aucs("I30", "DET"), aucs("I30", "SLOPE")
+    V["det_gt_slope_I30"] = str(sum(det30[s] > slo30[s] for s in det30))
+    V["max_sites_090_I30"] = str(max(sum(v >= 0.90 for v in aucs("I30", m).values()) for m in METHODS))
+    mean = lambda i, m: np.mean(list(aucs(i, m).values()))
+    V["det_drop_g30"] = f"{mean('I30', 'DET') - mean('G30', 'DET'):.2f}"
+    V["g30_best_mean"] = f"{max(mean('G30', m) for m in METHODS):.2f}"
+    V["cnn_minus_gbm_I30"] = f"{mean('I30', 'CNN') - mean('I30', 'GBM'):+.2f}"
+    br = lambda m: {r["site"]: float(r["brier"]) for r in met if r["input"] == "I30" and r["method"] == m}
+    V["detcal_better_sites"] = str(sum(br("DET-cal")[s] < br("DET")[s] for s in br("DET")))
+    succ = lambda i, pol, hz: float(next(r for r in pl if r["profile"] == "assumed" and r["input"] == i and r["policy"] == pol and r["hazard"] == hz)["mission_success"])
+    base = succ("I30", "naive", "none")
+    V["i30_oracle_gain"] = f"{100 * (succ('I30', 'conservative', 'ORACLE') - base):+.0f}"
+    V["i30_best_computable_gain"] = f"{100 * max(succ('I30', p, h) - base for p in ('conservative', 'risk_weighted') for h in ('DET', 'DET-cal', 'SLOPE-cal', 'BICUBIC-cal', 'GBM', 'CNN')):+.0f}"
     V["crit_assumed"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['assumed']:.1f}"
     V["crit_posterior"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['published-posterior']:.1f}"
     return V, met, pl, summ
@@ -223,13 +239,26 @@ def table_posthoc():
     return "\n".join(lines)
 
 
+def table_predictions():
+    reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
+    outcome = dict(re.findall(r"^\| ((?:B25|P26)-\d) \|[^\n]*\| (HIT|MISSED)", reg, flags=re.M))
+    lines = [r"\begin{table}[t]", r"\caption{The {{VAL:pred_n}} predictions registered before the runs (stage 25, B; stage 26, P), what was observed, and the outcome (H hit, M missed).}",
+             r"\label{tab:predictions}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2pt}", r"\begin{tabular}{@{}llll@{}}", r"\toprule",
+             r"ID & Prediction & Observed & \\", r"\midrule"]
+    for r in read(os.path.join(PAPER, "src", "predictions_short.csv")):
+        o = outcome[r["id"]]
+        lines.append(f"{r['id']} & {r['prediction']} & {r['observed']} & {'H' if o == 'HIT' else 'M'} \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(lines)
+
+
 def render(V, met, pl, summ) -> str:
     t = open(os.path.join(PAPER, "src", "paper_template.tex"), encoding="utf-8").read()
     for name in sorted(os.listdir(os.path.join(PAPER, "src"))):
         if name.startswith("text_") and name.endswith(".tex"):
             body = open(os.path.join(PAPER, "src", name), encoding="utf-8").read().strip()
             t = t.replace("{{VAL:" + name[5:-4] + "}}", body)
-    t = t.replace("{{TABLE:sites}}", table_sites(met, summ)).replace("{{TABLE:detection}}", table_detection(met)).replace("{{TABLE:planning}}", table_planning(pl)).replace("{{TABLE:posthoc}}", table_posthoc())
+    t = t.replace("{{TABLE:sites}}", table_sites(met, summ)).replace("{{TABLE:detection}}", table_detection(met)).replace("{{TABLE:planning}}", table_planning(pl)).replace("{{TABLE:posthoc}}", table_posthoc()).replace("{{TABLE:predictions}}", table_predictions()).replace("{{TABLE:methods}}", open(os.path.join(PAPER, "src", "table_methods.tex"), encoding="utf-8").read().strip())
     missing = []
 
     def sub(mo):
