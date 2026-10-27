@@ -1,0 +1,8 @@
+POST HOC run started 2026-10-28 00:30:21; numpy 2.5.3; seed 20261028
+Dumont: done in 68 s; GLO-30 best shift 0.0 m
+WhiteSands: done in 35 s; GLO-30 best shift 30.9 m
+Kelso: done in 54 s; GLO-30 best shift 0.0 m
+GreatSandDunes: done in 77 s; GLO-30 best shift 10.6 m
+Algodones: done in 114 s; GLO-30 best shift 15.0 m
+LittleSahara: done in 35 s; GLO-30 best shift 10.6 m
+done 2026-10-28 00:37:40
