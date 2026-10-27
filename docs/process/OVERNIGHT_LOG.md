@@ -59,3 +59,10 @@ One line per commit batch: time (AST, 2026-10-15 unless stated), task, state.
 - 06:40 The brief was trimmed back to two pages.
 - 08:16 The restarted Bekker Wong run completed: 0.414 median held out error on 33 curves; R21-2 to R21-4 missed.
 - 08:20 to 08:45 PDFs rebuilt (report under 3 MB, brief 2 pages), morning report and release notes committed, clean clone rebuild with the ledger check passed on 7db304d, CI green. Pushing the tag v1.0 was refused by the connection (HTTP 403 for tags and for the GitHub API), so tagging is left to Huda (`docs/NEXT_STEPS.md`, section 0).
+
+## 2026-10-27 and 28 session (times Gulf Standard Time)
+
+- 23:16 stages 25 and 26 registered and pushed; 23:22 detection run started; 23:57 detection done (7 hit, 2 missed); 23:57 to 00:11 planning run (5 hit, 3 missed).
+- In parallel: Copernicus tiles over the lidar fields, baselines and tests, planner exports, ROS 2 node (smoke test on ROS 2 Jazzy), CLI fixes, CI matrix and install job, README opener, partner index, reproduce page, process files moved to `docs/process/`.
+- 00:15 first paper build (five pages); fresh review (20 findings, weak reject); 00:29 post hoc analyses registered; 00:30 to 00:37 post hoc run; paper revised (six pages); second fresh review of the corrections (two major, one moderate, several minor); corrected.
+- Report section 16, brief, proposal, planner guide and completeness updated; PDFs rebuilt; clean clone check on a3b408a: 117 tests passed, generated documents identical, ledger passes, paper source identical.

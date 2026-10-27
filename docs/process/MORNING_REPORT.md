@@ -233,3 +233,17 @@ Questions 5, 7 and 10 are still open (the defaults were kept); new questions 11 
 ## Exactly what Huda must do next
 
 Follow `docs/NEXT_STEPS.md`: (0) push the v1.0 tag (one command, section 0); (1) spot check 3 and the 20 row inter rater check; (2) answer questions 7, 13 and 15 before any field day; (3) read the manuscript, the robotics proposal and the brief; (4) start the drone permission route (question 11) or choose a site where a survey is allowed; (5) give the second rater pack to one classmate.
+
+# Session of 2026-10-27 and 28: baselines, benchmark and conference paper
+
+**What changed.** The gaps a conference reviewer would raise first were listed in `docs/process/PLAN_2026-10-27.md` and worked through. Stages 25 (detection) and 26 (planning) were registered before any metric was computed, then run once: six baselines against the planner's detector on six lidar dune fields, with 10 m and 30 m block means and the real Copernicus GLO-30 product as inputs, and the shipped planner itself with each hazard layer swapped in on 600 origin and destination pairs. A six page conference paper (`paper/paper.pdf`) is generated from the result files, with 43 checked references. The planner gained exports for Nav2, QGroundControl and Google Earth, a ROS 2 node, command line fixes and both climbing limits in every output; CI now runs Python 3.10 to 3.13 and Windows and installs the package; the README opens with five lines and a figure; version 1.2 is prepared.
+
+**Hits and misses.** Stage 25: 7 hit, 2 missed. Stage 26: 5 hit, 3 missed. The misses that matter: the cubic interpolation, not our detector, ranks hidden faces best or tied best at 30 m; the detector stays below 0.93 AUC at Little Sahara at 10 m; its gate cut the unsafe share at 10 m by 13 points, not 15.
+
+**Main findings (SIMULATED BY ME on PUBLISHED data).** At 10 m every reasonable detector sees most faces; at 30 m none does, and no computable 30 m hazard layer plans many face free routes (mission success 6 % with the slip model alone, at most 11 %), although the better layers halve the length of route on faces. Post hoc, a hard gate on a face map made from fine data still finds face free routes for 83 % of pairs on the 30 m grid (by construction none touches a face), so what is missing is mainly face information, not planning resolution.
+
+**What went wrong.** A fresh review (weak reject) showed that the first draft's headline, "a 5 m face map is needed", rested on an oracle that differed from the 10 m and 30 m oracles in its label rule, that the registered exposure outcome was missing, and that the McNemar tests ignore clustering by site. Post hoc analyses (registered as post hoc before they ran) corrected the reading; a second fresh reviewer then found that the face map result is face free by construction and holds only with the hard gate, and that the ranking claim about patch size was false; all corrected (`docs/REVIEW_2026-10-28.md`). No script hash was recorded for the runs, so "no edit between the start of the run and its commit" cannot be proven.
+
+**Completeness.** 6.1 of 10 (5.9 before): terrain validation and robotics value rose by one point each.
+
+**What is still missing.** Field data; an Arabian survey; the human checks; a human reader of the paper; the tags v1.0, v1.1 and v1.2 (`docs/NEXT_STEPS.md`, section 0). Nothing was sent to anyone.
