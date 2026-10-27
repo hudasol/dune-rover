@@ -14,6 +14,7 @@ PYTHONPATH=src python3 scripts/build_report.py > /dev/null
 PYTHONPATH=src python3 scripts/build_manuscript.py --strict > /dev/null
 python3 scripts/digitise_figures.py --check > ../digitise.log 2>&1 || true
 PYTHONPATH=src python3 scripts/build_number_ledger.py --check > ../ledger.log 2>&1 && L=passes || L=FAILS
+PYTHONPATH=src python3 scripts/build_paper.py --check > ../paper.log 2>&1 && P=identical || P=DIFFERS
 git diff --stat > ../diff.txt
 T1=$(date +%s)
-echo "$(date -u +%Y-%m-%dT%H:%MZ) commit $C; tests: $(tail -1 ../pytest.log); generated documents identical: $([ -s ../diff.txt ] && echo NO || echo yes); ledger check: $L; seconds: $((T1-T0)); digitiser check: $(grep -q "reproduced exactly" ../digitise.log && echo reproduced || echo "not possible without the source PDFs, which are not redistributed")"
+echo "$(date -u +%Y-%m-%dT%H:%MZ) commit $C; tests: $(tail -1 ../pytest.log); generated documents identical: $([ -s ../diff.txt ] && echo NO || echo yes); ledger check: $L; paper source: $P; seconds: $((T1-T0)); digitiser check: $(grep -q "reproduced exactly" ../digitise.log && echo reproduced || echo "not possible without the source PDFs, which are not redistributed")"
