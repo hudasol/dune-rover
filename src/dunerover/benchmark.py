@@ -276,7 +276,9 @@ def sample_geographic(raster, lon: np.ndarray, lat: np.ndarray) -> np.ndarray:
     """Bilinear interpolation of a geographic raster (planner.Raster, post centres) at longitude and latitude."""
     r = (raster.y0 - np.asarray(lat)) / raster.py
     c = (np.asarray(lon) - raster.x0) / raster.px
-    return map_coordinates(raster.z, [r, c], order=1, mode="nearest")
+    inside = (r >= 0) & (r <= raster.z.shape[0] - 1) & (c >= 0) & (c <= raster.z.shape[1] - 1)
+    out = map_coordinates(raster.z, [r, c], order=1, mode="nearest")
+    return np.where(inside, out, np.nan)          # points outside the tile are voids, never clamped to its edge
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -326,7 +328,9 @@ def grid_shortest(shape, s, t):
 def score_route(rc: np.ndarray, k: int, patch: np.ndarray, z1f: np.ndarray, crit_deg: float,
                 step: float = 0.5, baseline: float = 10.0) -> dict:
     """Score a route of coarse cells (posting k m) on the one metre truth: polyline through cell centres sampled every
-    `step` m at the nearest post. unsafe = any sample on a face patch post."""
+    `step` m, each sample read at the one metre post that contains it (floor). unsafe = any sample on a face patch post.
+    A diagonal step between two cells passes through their shared corner, which belongs to a third cell; the sample
+    there is read like any other (a rover cutting the corner would cross that ground too)."""
     pts = (np.asarray(rc, float) + 0.5) * k                     # metres from the window's north west corner (row, col)
     samples = [pts[:1]]
     for a, b in zip(pts[:-1], pts[1:]):

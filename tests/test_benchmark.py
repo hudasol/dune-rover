@@ -152,3 +152,10 @@ def test_cnn_trains_and_predicts_shape():
     net = C.fit([(x, y)], crop=32, steps=3)
     p = C.predict(net, x)
     assert p.shape == (40, 40) and np.all((p >= 0) & (p <= 1))
+
+
+def test_sample_geographic_outside_tile_is_void():
+    from dunerover import planner as PL
+    r = PL.Raster(np.arange(16.0).reshape(4, 4), 10.0, 20.0, 0.1, 0.1, 4326, True, 10.0, 11.0, "fixture")
+    v = B.sample_geographic(r, np.array([10.05, 9.5]), np.array([19.95, 20.5]))
+    assert np.isfinite(v[0]) and np.isnan(v[1])
