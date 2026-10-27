@@ -20,6 +20,7 @@ token,justification
 22,"stage 22 (docs/PREDICTIONS.md)"
 23,"stage 23 (docs/PREDICTIONS.md)"
 25,"PLANNED rover mass up to 25 kg (docs/FIELD_VALIDATION_PLAN.md, section 2)"
+26,"stage number of the prediction register (docs/PREDICTIONS.md, stage 26, the planning benchmark)"
 30,"30 m posting of the open elevation data and the map tests"
 150,"PLANNED minimum wheel diameter 150 mm (docs/FIELD_VALIDATION_PLAN.md, section 2)"
 17.5,"design: slope of the stage 24 Chrono prediction and its post hoc checks (results/chrono_scm_calibration/posthoc_checks.csv)"
