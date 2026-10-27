@@ -166,6 +166,19 @@ L.~J. Sugarbaker, E.~W. Constance, H.~K. Heidemann, A.~L. Jason, V.~Lukas,
 B.~K.~P. Horn, ``Hill shading and the reflectance map,'' \emph{Proceedings of
   the {IEEE}}, vol.~69, no.~1, pp. 14--47, 1981.
 
+\bibitem{roberts2017}
+D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
+  S.~Hauenstein, J.~J. Lahoz-Monfort, B.~Schr{\"o}der, W.~Thuiller, D.~I.
+  Warton, B.~A. Wintle, F.~Hartig, and C.~F. Dormann, ``Cross-validation
+  strategies for data with temporal, spatial, hierarchical, or phylogenetic
+  structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
+
+\bibitem{platt1999}
+J.~C. Platt, ``Probabilities for {SV} machines,'' in \emph{Advances in
+  Large-Margin Classifiers}, A.~J. Smola, P.~Bartlett, B.~Sch{\"o}lkopf, and
+  D.~Schuurmans, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, MA: The
+  MIT Press, 2000, pp. 61--74.
+
 \bibitem{ke2017}
 \BIBentryALTinterwordspacing
 G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
@@ -202,19 +215,6 @@ F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated
   convolutions,'' in \emph{International Conference on Learning Representations
   ({ICLR})}, 2016. [Online]. Available: \url{https://arxiv.org/abs/1511.07122}
 \BIBentrySTDinterwordspacing
-
-\bibitem{roberts2017}
-D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
-  S.~Hauenstein, J.~J. Lahoz-Monfort, B.~Schr{\"o}der, W.~Thuiller, D.~I.
-  Warton, B.~A. Wintle, F.~Hartig, and C.~F. Dormann, ``Cross-validation
-  strategies for data with temporal, spatial, hierarchical, or phylogenetic
-  structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
-
-\bibitem{platt1999}
-J.~C. Platt, ``Probabilities for {SV} machines,'' in \emph{Advances in
-  Large-Margin Classifiers}, A.~J. Smola, P.~Bartlett, B.~Sch{\"o}lkopf, and
-  D.~Schuurmans, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, MA: The
-  MIT Press, 2000, pp. 61--74.
 
 \bibitem{dijkstra1959}
 E.~W. Dijkstra, ``A note on two problems in connexion with graphs,''
