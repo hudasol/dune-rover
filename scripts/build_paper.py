@@ -84,7 +84,8 @@ def values() -> dict:
     tests = read(os.path.join(PLN, "tests.csv"))
     for t in tests:
         key = f"{t['profile']}_{t['input']}_{t['policy']}_{t['hazard']}_vs_{t['reference'].replace(' ', '_')}".replace("-", "")
-        V[f"t_{key}_p"] = t["p_holm"]; V[f"t_{key}_diff"] = f"{100 * float(t['difference']):+.0f}"
+        q = float(t["p_holm"])
+        V[f"t_{key}_p"] = "<0.001" if q < 0.001 else f"={q:.3f}"; V[f"t_{key}_diff"] = f"{100 * float(t['difference']):+.0f}"
     V["crit_assumed"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['assumed']:.1f}"
     V["crit_posterior"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['published-posterior']:.1f}"
     return V, met, pl, summ

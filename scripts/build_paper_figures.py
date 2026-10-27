@@ -24,7 +24,7 @@ DET = os.path.join(ROOT, "results", "benchmark", "detection")
 PLN = os.path.join(ROOT, "results", "benchmark", "planning")
 INK, PEARL = "#2B2024", "#FBF3F6"
 INPUT_STYLE = {"I10": ("#7B4FA0", "o", "10 m block mean"), "I30": ("#D0336E", "s", "30 m block mean"),
-               "G30": ("#E58AAE", "^", "Copernicus GLO-30")}
+               "G30": ("#E58AAE", "^", "GLO-30 (real)")}
 METHOD_ORDER = ("DET", "SLOPE", "TRI", "ROUGH", "BICUBIC", "GBM", "CNN")
 METHOD_LABEL = {"DET": "Detector (ours)", "SLOPE": "Slope", "TRI": "Ruggedness (TRI)", "ROUGH": "Plane roughness",
                 "BICUBIC": "Cubic interpolation", "GBM": "Gradient boosting*", "CNN": "Convolutional net*"}
@@ -43,7 +43,7 @@ def read(path):
 def fig_auc():
     rows = read(os.path.join(DET, "metrics.csv"))
     methods = [m for m in METHOD_ORDER if any(r["method"] == m for r in rows)]
-    fig, ax = plt.subplots(figsize=(3.45, 2.35))
+    fig, ax = plt.subplots(figsize=(3.45, 2.5))
     for j, (inp, (col, mk, lab)) in enumerate(INPUT_STYLE.items()):
         for i, m in enumerate(methods):
             v = np.array([float(r["auc"]) for r in rows if r["input"] == inp and r["method"] == m])
@@ -62,9 +62,9 @@ def fig_auc():
     ax.grid(axis="x", color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
-    ax.legend(loc="lower left", frameon=False, fontsize=6.5, handletextpad=0.3, borderaxespad=0.2)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.4, 1.0), ncol=3, frameon=False, fontsize=6.3, handletextpad=0.2, columnspacing=0.9)
     fig.tight_layout(pad=0.3)
-    fig.savefig(os.path.join(FIG, "fig_auc.pdf")); plt.close(fig)
+    fig.savefig(os.path.join(FIG, "fig_auc.pdf"), bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
 def fig_map(site="Kelso"):
@@ -79,13 +79,13 @@ def fig_map(site="Kelso"):
     hs = hillshade(z1f, 1.0, 1.0)
     ext = [0, z1.shape[1], z1.shape[0], 0]
     pink = LinearSegmentedColormap.from_list("pk", ["#FBF3F6", "#E58AAE", "#D0336E", "#5B3A78"])
-    fig, axes = plt.subplots(1, 4, figsize=(7.1, 1.95))
+    fig, axes = plt.subplots(1, 4, figsize=(7.1, 1.75), gridspec_kw={"wspace": 0.04})
     ax = axes[0]
     ax.imshow(hs, cmap="gray", extent=ext, interpolation="nearest")
     ov = np.ma.masked_where(~patch, np.ones_like(hs))
     ax.imshow(ov, cmap=ListedColormap(["#D0336E"]), extent=ext, alpha=0.85, interpolation="nearest")
-    ax.set_title("(a) 1 m lidar, face patches", fontsize=7)
-    for ax, key, title in ((axes[1], "DET", "(b) detector, 30 m"), (axes[2], "GBM", "(c) gradient boosting, 30 m")):
+    ax.set_title("(a) lidar and face patches", fontsize=7)
+    for ax, key, title in ((axes[1], "DET", "(b) detector (ours), 30 m"), (axes[2], "GBM", "(c) gradient boosting, 30 m")):
         p = cache[f"{site}|I30|{key}"]
         ax.imshow(hs, cmap="gray", extent=ext, interpolation="nearest")
         im = ax.imshow(p, cmap=pink, vmin=0, vmax=1, extent=[0, p.shape[1] * 30, p.shape[0] * 30, 0], alpha=0.75, interpolation="nearest")
@@ -98,14 +98,15 @@ def fig_map(site="Kelso"):
             key = f"{site}|{inp}|conservative|DET|{n}"
             if key in routes:
                 rc = (routes[key] + 0.5) * k
-                ax.plot(rc[:, 1], rc[:, 0], color=col, lw=lw, label=(f"{inp[1:]} m, conservative" if n == 0 else None))
-    ax.set_title("(d) routes on 30 m and 10 m maps", fontsize=7)
-    ax.legend(loc="lower left", fontsize=5.5, frameon=True, framealpha=0.85, handlelength=1.2, borderpad=0.3)
+                ax.plot(rc[:, 1], rc[:, 0], color=col, lw=lw, label=(f"{inp[1:]} m map" if n == 0 else None))
+    ax.set_title("(d) conservative routes", fontsize=7)
+    ax.legend(loc="upper left", fontsize=5.3, frameon=True, framealpha=0.9, handlelength=1.2, borderpad=0.3, labelspacing=0.2)
     for ax in axes:
         ax.set_xticks([]); ax.set_yticks([])
         ax.set_xlim(0, z1.shape[1]); ax.set_ylim(z1.shape[0], 0)
-    cb = fig.colorbar(im, ax=axes[1:3], fraction=0.035, pad=0.02)
-    cb.set_label("face probability", fontsize=6); cb.ax.tick_params(labelsize=6)
+    cax = axes[2].inset_axes([0.55, 0.06, 0.4, 0.05])
+    cb = fig.colorbar(im, cax=cax, orientation="horizontal", ticks=[0, 0.5, 1])
+    cb.set_label("face probability", fontsize=5.5, labelpad=1); cb.ax.tick_params(labelsize=5, length=2, pad=1)
     axes[0].plot([100, 1100], [z1.shape[0] - 120] * 2, color="white", lw=2)
     axes[0].text(600, z1.shape[0] - 200, "1 km", color="white", ha="center", fontsize=6)
     fig.savefig(os.path.join(FIG, "fig_map.pdf"), bbox_inches="tight", pad_inches=0.02); plt.close(fig)
@@ -114,34 +115,33 @@ def fig_map(site="Kelso"):
 def fig_planning():
     rows = [r for r in read(os.path.join(PLN, "summary.csv")) if r["profile"] == "assumed"]
     cfg = [("shortest", "none", "Shortest path"), ("naive", "none", "Slip model only"),
-           ("conservative", "SLOPE-cal", "Slope gate"), ("conservative", "DET", "Detector gate (ours)"),
-           ("conservative", "GBM", "Boosting gate*"), ("conservative", "CNN", "Network gate*"),
-           ("risk_weighted", "DET", "Detector weighted (ours)"), ("conservative", "ORACLE", "Oracle labels gate")]
-    fig, axes = plt.subplots(1, 2, figsize=(3.45, 2.3), sharey=True)
-    for ax, metric, xl in ((axes[0], "unsafe_of_routed", "unsafe share of routes"), (axes[1], "mission_success", "mission success")):
-        for j, inp in enumerate(("I10", "I30", "G30")):
-            col, mk, lab = INPUT_STYLE[inp]
-            for i, (pol, hz, _) in enumerate(cfg):
-                r = next((r for r in rows if r["input"] == inp and r["policy"] == pol and r["hazard"] == hz), None)
-                if r is None or r.get(metric, "") == "":
-                    continue
-                y = i + (j - 1) * 0.24
-                m, lo, hi = float(r[metric]), float(r[metric + "_lo"]), float(r[metric + "_hi"])
-                ax.plot([lo, hi], [y, y], color=col, lw=0.9)
-                ax.scatter([m], [y], s=16, marker=mk, color=col, edgecolors=INK, linewidths=0.4, zorder=3,
-                           label=lab if (i == 0 and ax is axes[0]) else None)
-        ax.set_xlim(-0.02, 1.02); ax.set_xlabel(xl)
-        ax.grid(axis="x", color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
-        for s in ("top", "right"):
-            ax.spines[s].set_visible(False)
+           ("conservative", "SLOPE-cal", "Gate: slope"), ("conservative", "DET", "Gate: detector (ours)"),
+           ("conservative", "GBM", "Gate: boosting*"), ("conservative", "CNN", "Gate: network*"),
+           ("risk_weighted", "DET", "Weight: detector (ours)"), ("risk_weighted", "BICUBIC-cal", "Weight: interpolation"),
+           ("risk_weighted", "GBM", "Weight: boosting*"), ("conservative", "ORACLE", "Gate: oracle labels")]
+    fig, ax = plt.subplots(figsize=(3.45, 2.75))
+    metric = "mission_success"
+    for j, inp in enumerate(("I10", "I30", "G30")):
+        col, mk, lab = INPUT_STYLE[inp]
+        for i, (pol, hz, _) in enumerate(cfg):
+            r = next((r for r in rows if r["input"] == inp and r["policy"] == pol and r["hazard"] == hz), None)
+            if r is None or r.get(metric, "") == "":
+                continue
+            y = i + (j - 1) * 0.25
+            m, lo, hi = float(r[metric]), float(r[metric + "_lo"]), float(r[metric + "_hi"])
+            ax.plot([lo, hi], [y, y], color=col, lw=1.0)
+            ax.scatter([m], [y], s=18, marker=mk, color=col, edgecolors=INK, linewidths=0.4, zorder=3, label=lab if i == 0 else None)
     o5 = next((r for r in rows if r["policy"] == "conservative" and r["hazard"] == "ORACLE-5"), None)
-    axes[0].set_yticks(range(len(cfg))); axes[0].set_yticklabels([c[2] for c in cfg]); axes[0].invert_yaxis()
     if o5:
-        for ax, metric in ((axes[0], "unsafe_of_routed"), (axes[1], "mission_success")):
-            ax.axvline(float(o5[metric]), color="#5B3A78", lw=0.6, ls="--")
-    axes[0].legend(loc="upper center", bbox_to_anchor=(0.9, 1.2), ncol=3, frameon=False, fontsize=5.8, handletextpad=0.2, columnspacing=0.8)
-    fig.tight_layout(pad=0.3, w_pad=0.6)
-    fig.savefig(os.path.join(FIG, "fig_planning.pdf")); plt.close(fig)
+        ax.axvline(float(o5[metric]), color="#5B3A78", lw=0.7, ls="--")
+        ax.text(float(o5[metric]) - 0.01, len(cfg) - 0.6, "5 m face map", rotation=90, ha="right", va="bottom", fontsize=6, color="#5B3A78")
+    ax.set_yticks(range(len(cfg))); ax.set_yticklabels([c[2] for c in cfg]); ax.invert_yaxis()
+    ax.set_xlim(0, 1.02); ax.set_xlabel("mission success (route exists and crosses no face patch)")
+    ax.grid(axis="x", color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.4, 1.0), ncol=3, frameon=False, fontsize=6.3, handletextpad=0.2, columnspacing=0.9)
+    fig.savefig(os.path.join(FIG, "fig_planning.pdf"), bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
 def main():
