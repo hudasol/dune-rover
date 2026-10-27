@@ -968,11 +968,11 @@ The planned project (`docs/PROPOSAL_ROBOTICS.md`) closes the two gaps the tool c
 
 ## 16. Baselines and the conference benchmark (2026-10-27, stages 25 and 26)
 
-> **SIMULATED BY ME (every detector, baseline, map and route) scored against PUBLISHED elevation data** (USGS 3DEP one metre lidar; Copernicus GLO-30). Registered in `docs/PREDICTIONS.md` before any baseline was coded or any metric computed. Paper: `paper/paper.pdf`; scripts: `scripts/benchmark_detection.py`, `scripts/benchmark_planning.py`; code: `src/dunerover/benchmark.py`, `src/dunerover/benchmark_cnn.py`.
+> **SIMULATED BY ME (every detector, baseline, map and route) scored against PUBLISHED elevation data** (USGS 3DEP one metre lidar; Copernicus GLO-30). Registered in `docs/PREDICTIONS.md` before any metric was computed; the baseline code was written in the minutes that followed. Paper: `paper/paper.pdf`; scripts: `scripts/benchmark_detection.py`, `scripts/benchmark_planning.py`; code: `src/dunerover/benchmark.py`, `src/dunerover/benchmark_cnn.py`.
 
 ### 16.1 Why
 
-Sections 13 and 14 compared the detector and the planner only with variants of themselves, on block means of the lidar, and scored routes with a rule that flagged nearly every route. This section adds the methods a practitioner would use instead, a real 30 m product, a hazard outcome at dune scale, the shipped planner itself, and intervals.
+Sections 13 and 14 compared the detector and the planner only with variants of themselves, on block means of the lidar, and scored routes with a rule that flagged nearly every route. This section adds the methods a practitioner would use instead, a real 30 m product, a hazard outcome on face patches of 10 square metres or more, the shipped planner itself, and intervals.
 
 ### 16.2 Design
 
@@ -980,15 +980,15 @@ Six lidar windows (stages 12 and 20). Inputs: 10 m and 30 m block means of the l
 
 ### 16.3 Results
 
-- **Detection.** Mean AUC at 10 m: 0.95 (DET), 0.97 (cubic interpolation), 0.97 (gradient boosting), 0.97 (network). At 30 m: 0.74, 0.82, 0.81 and 0.79, with plain slope at 0.70. On GLO-30: 0.65, 0.70, 0.72 and 0.73. The detector is not the best method at any input; at 30 m the best is the interpolation, which needs no training.
+- **Detection.** Mean AUC at 10 m: 0.95 (DET), 0.97 (cubic interpolation), 0.97 (gradient boosting), 0.97 (network). At 30 m: 0.74, 0.82, 0.81 and 0.79, with plain slope at 0.70. On GLO-30: 0.65, 0.70, 0.72 and 0.73. The detector is not the best method at any input; at 30 m the interpolation, which needs no training, is best or tied best.
 - **Planning.** Mission success (a route exists and touches no face patch) on 30 m maps: 6 % with the slip model alone, 7 % with the conservative policy and DET, at most 11 % with any computable layer, 59 % with a perfect cell label. On 10 m maps: 15 %, 24 %, 34 % (best computable layer) and 46 %. A 5 m face map: 100 %.
 - **Predictions.** Stage 25: 7 hit, 2 missed; stage 26: 5 hit, 3 missed (`docs/PREDICTIONS.md`).
 
-- **Post hoc, after a fresh review (`docs/REVIEW_2026-10-28.md`).** Marking every cell that holds a face patch post (the rule of the 5 m reference) routes 87 % of pairs at 10 m and 83 % at 30 m with no face contact, so the gap between the oracles of stage 26 came from the label rule, not from the grid. The length of route on a face patch at 30 m falls from 50 m per km with the slip model alone to 19 with the interpolation weighting. With face patches of at least 500 square metres, 30 m mission success is 34 % with the slip model alone and 47 % with the best layer; the ranking does not change.
+- **Post hoc, after a fresh review (`docs/REVIEW_2026-10-28.md`).** Marking every cell that holds a face patch post (the rule of the 5 m reference), the conservative policy finds a route for 87 % of pairs at 10 m and 83 % at 30 m (none can touch a face, by construction), so most of the gap between the oracles of stage 26 came from the label rule; the coarse grid still costs some routable pairs, and with the risk weighted policy the same face map gives only 55 % at 30 m. The length of route on a face patch at 30 m falls from 50 m per km with the slip model alone to 19 with the interpolation weighting. With face patches of at least 500 square metres, 30 m mission success is 34 % with the slip model alone and 47 % with the best computable layer; the order among the better layers changes, but all stay well below the face map.
 
 ### 16.4 Reading
 
-At 30 m the face information is not in the elevation model: no model, physical or learned, recovers enough of it to plan face free routes, though the better layers halve the exposure, and the planner's resolution gate (section 15) is the right response. At 10 m all reasonable methods see most faces and the hazard layers help. A face map made from fine data makes even a coarse planning grid safe, so what a rover needs before driving on dunes is face information from a drone survey or lidar, or onboard sensing. The fields are North American; the registered outcome counts any contact with a face patch as unsafe, which is strict; the vehicle model is an assumption range.
+At 30 m the face information is not in the elevation model: no model, physical or learned, recovers enough of it to plan face free routes, though the better layers halve the exposure, and the planner's resolution gate (section 15) is the right response. At 10 m all reasonable methods see most faces and the hazard layers help. Given a face map made from fine data, a hard gate on a coarse grid still finds face free routes for most pairs, so what a rover needs before driving on dunes is mainly face information from a drone survey or lidar, or onboard sensing. The fields are North American; the registered outcome counts any contact with a face patch as unsafe, which is strict; the vehicle model is an assumption range.
 
 
 ## Sources and appendices
