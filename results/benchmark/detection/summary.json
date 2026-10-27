@@ -1,0 +1,144 @@
+{
+ "label": "SIMULATED BY ME (detectors and baselines) scored against PUBLISHED elevation (USGS 3DEP lidar, public domain; Copernicus GLO-30)",
+ "stage": 25,
+ "seed": 20261027,
+ "n_boot": 1000,
+ "block_m": 300.0,
+ "tau": 0.2,
+ "inputs": {
+  "I10": 10,
+  "I30": 30,
+  "G30": 30
+ },
+ "versions": {
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "scikit-learn": "1.9.1",
+  "torch": "2.5.1+cpu"
+ },
+ "gbm_params": {
+  "learning_rate": 0.05,
+  "max_iter": 300,
+  "max_leaf_nodes": 31,
+  "random_state": 0
+ },
+ "cnn": "registered design, benchmark_cnn.py",
+ "sites": {
+  "Dumont": {
+   "lidar_file": "USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24.tif",
+   "lidar_sha256": "92bf61b84f66b8911aa111aeea24f6b73ba374e18facf1e51ad361bbbe19c93a",
+   "window_utm": [
+    564900,
+    567900,
+    3943500,
+    3948300
+   ],
+   "epsg": 26911,
+   "shape_1m": [
+    4800,
+    3000
+   ],
+   "void_share": 0.0,
+   "glo30_file": "Copernicus_DSM_COG_10_N35_00_W117_00_DEM.tif",
+   "glo30_sha256": "fe8bccabf75fa8440f769bed7e5990fefa867240ff91664a51c7b2e60b46b999",
+   "glo30_void_share": 0.0
+  },
+  "WhiteSands": {
+   "lidar_file": "USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20.tif",
+   "lidar_sha256": "8a49fdeed74e4a9b77749e7b0641618d9d19d8dd20dfa280f7be738afd9bd9af",
+   "window_utm": [
+    378400,
+    379900,
+    3630400,
+    3634600
+   ],
+   "epsg": 26913,
+   "shape_1m": [
+    4200,
+    1500
+   ],
+   "void_share": 0.0,
+   "glo30_file": "Copernicus_DSM_COG_10_N32_00_W107_00_DEM.tif",
+   "glo30_sha256": "03d4e33f38cea565a3a011f4785b3578c3a8e9e8d537578db9b19602e1214fac",
+   "glo30_void_share": 0.0
+  },
+  "Kelso": {
+   "lidar_file": "USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24.tif",
+   "lidar_sha256": "ffb88a0dda813af158cdcff08778565fe078baa75ac616568d6c61e061479e96",
+   "window_utm": [
+    615000,
+    618600,
+    3862400,
+    3865100
+   ],
+   "epsg": 26911,
+   "shape_1m": [
+    2700,
+    3600
+   ],
+   "void_share": 0.0,
+   "glo30_file": "Copernicus_DSM_COG_10_N34_00_W116_00_DEM.tif",
+   "glo30_sha256": "d33e98701a8927cd37430841d4d2c316a65641cc6889e1c492e7b9a0f660868c",
+   "glo30_void_share": 0.0
+  },
+  "GreatSandDunes": {
+   "lidar_file": "USGS_1M_13_x45y418_CO_SanLuisJuanMiguel_2020_D20.tif",
+   "lidar_sha256": "56e7e5f399cfcc1c2516908f730842e7d68aedfb4393974e3010b3a492d42530",
+   "window_utm": [
+    450000,
+    454000,
+    4176300,
+    4180000
+   ],
+   "epsg": 26913,
+   "shape_1m": [
+    3700,
+    4000
+   ],
+   "void_share": 0.0,
+   "glo30_file": "Copernicus_DSM_COG_10_N37_00_W106_00_DEM.tif",
+   "glo30_sha256": "4108cfd7dd5c5cf2dbd5f082504eb5ed2b569679ec1a91a4b6bc679bb0723c12",
+   "glo30_void_share": 0.0
+  },
+  "Algodones": {
+   "lidar_file": "USGS_1M_11_x67y365_CA_SaltonSea_EarthMRI_2021_D21.tif",
+   "lidar_sha256": "e6cae0c6a40555b1789d4988ba7b0bcbb7b77281199380217f7593c535b3803e",
+   "window_utm": [
+    675500,
+    679500,
+    3641500,
+    3646500
+   ],
+   "epsg": 26911,
+   "shape_1m": [
+    5000,
+    4000
+   ],
+   "void_share": 0.0,
+   "glo30_file": "Copernicus_DSM_COG_10_N32_00_W116_00_DEM.tif",
+   "glo30_sha256": "3b4c358d6a307c3886edcd549378dfaada7d0734beff722048e9d9e264d46b02",
+   "glo30_void_share": 0.0
+  },
+  "LittleSahara": {
+   "lidar_file": "USGS_1M_12_x38y440_UT_StatewideCenSouth_2020_A20.tif",
+   "lidar_sha256": "f310411a99f88467720889adb04d8ef8b5155de4e80324cd7820a59f52be0c5a",
+   "window_utm": [
+    380000,
+    382000,
+    4394000,
+    4397200
+   ],
+   "epsg": 26912,
+   "shape_1m": [
+    3200,
+    2000
+   ],
+   "void_share": 0.0,
+   "glo30_file": "Copernicus_DSM_COG_10_N39_00_W113_00_DEM.tif",
+   "glo30_sha256": "ed959c9dfe4202c33bacea15a96c73ee5da8bb97925f42d350db48db01d4bdfe",
+   "glo30_void_share": 0.0
+  }
+ },
+ "finished": "2026-10-27 23:57:20"
+}

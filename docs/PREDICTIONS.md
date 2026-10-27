@@ -547,15 +547,15 @@ Design fixed now (`scripts/benchmark_detection.py`, `src/dunerover/benchmark.py`
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| B25-1 | On I30, GBM beats DET (paired interval excludes zero, GBM higher) at three or more of the six sites, and the macro mean AUC difference GBM minus DET lies between 0.00 and 0.12. | |
-| B25-2 | On I30, the AUC point estimate of DET is higher than that of SLOPE at four or more of the six sites. | |
-| B25-3 | On I30, no method reaches an AUC of 0.90 at more than two of the six sites. | |
-| B25-4 | On I10, DET, GBM and CNN each reach an AUC of at least 0.93 at every site. | |
-| B25-5 | On I30, the macro mean AUC of BICUBIC exceeds that of SLOPE by at most 0.02. | |
-| B25-6 | The macro mean AUC of DET on G30 is lower than on I30 by at least 0.03. | |
-| B25-7 | On G30, every method has a macro mean AUC below 0.85. | |
-| B25-8 | On I30, DET-cal has a lower Brier score than DET at five or more of the six sites. | |
-| B25-9 | On I30, the macro mean AUC of CNN lies within 0.05 of that of GBM. | |
+| B25-1 | On I30, GBM beats DET (paired interval excludes zero, GBM higher) at three or more of the six sites, and the macro mean AUC difference GBM minus DET lies between 0.00 and 0.12. | HIT. GBM beats DET at all six sites on I30 (paired block bootstrap interval above zero), macro mean AUC 0.806 against 0.741, difference 0.065 (`results/benchmark/detection/paired_differences.csv`, `macro.csv`). |
+| B25-2 | On I30, the AUC point estimate of DET is higher than that of SLOPE at four or more of the six sites. | HIT (4 of 6). DET above SLOPE on I30 at White Sands (0.658 against 0.584), Great Sand Dunes (0.831 against 0.708), Algodones (0.761 against 0.691) and Little Sahara (0.637 against 0.533); below at Dumont (0.860 against 0.931) and Kelso (0.700 against 0.743). |
+| B25-3 | On I30, no method reaches an AUC of 0.90 at more than two of the six sites. | HIT. On I30 only Dumont reaches 0.90 (SLOPE, TRI, ROUGH, BICUBIC, GBM and CNN 0.93 to 0.96); no method reaches 0.90 at any other site (highest: CNN 0.893 at Great Sand Dunes). |
+| B25-4 | On I10, DET, GBM and CNN each reach an AUC of at least 0.93 at every site. | MISSED. GBM (0.937 to 0.985) and CNN (0.935 to 0.982) reach 0.93 everywhere on I10, DET does not at Little Sahara (0.908; elsewhere 0.953 to 0.973). |
+| B25-5 | On I30, the macro mean AUC of BICUBIC exceeds that of SLOPE by at most 0.02. | MISSED, in the opposite direction to the prediction. BICUBIC exceeds SLOPE by 0.118 macro mean AUC on I30 (0.817 against 0.699) and is the best method on I30 by mean AUC, ahead of GBM (0.806), CNN (0.795) and DET (0.741): the steepest slope of the interpolated surface carries curvature information that the coarse slope lacks. |
+| B25-6 | The macro mean AUC of DET on G30 is lower than on I30 by at least 0.03. | HIT. Macro mean AUC of DET 0.646 on G30 against 0.741 on I30 (difference 0.095). |
+| B25-7 | On G30, every method has a macro mean AUC below 0.85. | HIT. On G30 the highest macro mean AUC is 0.727 (CNN), then GBM 0.722 and BICUBIC 0.697; at White Sands every unsupervised method is at chance (0.46 to 0.52). |
+| B25-8 | On I30, DET-cal has a lower Brier score than DET at five or more of the six sites. | HIT (6 of 6). Brier score on I30, DET-cal against DET: Dumont 0.150 against 0.217, White Sands 0.221 against 0.254, Kelso 0.195 against 0.256, Great Sand Dunes 0.138 against 0.159, Algodones 0.144 against 0.179, Little Sahara 0.206 against 0.249. |
+| B25-9 | On I30, the macro mean AUC of CNN lies within 0.05 of that of GBM. | HIT. CNN 0.795 against GBM 0.806 macro mean AUC on I30 (difference 0.011). |
 
 ## Stage 26: the shipped planner against baseline hazard layers, scored on dune scale slip faces in the lidar (written 2026-10-27, BEFORE any route of this stage was planned or scored)
 
@@ -580,3 +580,6 @@ Design fixed now (`scripts/benchmark_planning.py`, outputs in `results/benchmark
 | P26-6 | On G30, the pooled unsafe share of the conservative policy with DET is at least that on I30 minus 5 points. | |
 | P26-7 | On I30, the pooled unsafe share of the conservative policy with GBM is at most 10 points lower than with DET. | |
 | P26-8 | On I10, the mean length over straight distance of conservative routes with DET is at most 1.5. | |
+
+Note on stage 25 (appended after the run, no prediction edited): the synthetic trained detector is not the best detector. On 10 m block means every method except plane roughness separates face cells well (AUC 0.93 to 0.98), and the learned baselines and the cubic interpolation are slightly but consistently better than DET (by 0.013 to 0.018 macro AUC, significant at all six sites). On 30 m block means every method loses most of its skill; the steepest slope of a cubic interpolation of the coarse surface, a baseline with no training at all, has the highest mean AUC (0.817), the two learned models trained on lidar of the other fields come next (0.806 and 0.795), and DET (0.741) beats only the plain slope (0.699). On the real Copernicus GLO-30 product every method falls further (0.65 to 0.73) and at White Sands, an active gypsum dune field whose migration has been tracked with repeated lidar (Pedersen et al. 2015, Earth Surface Processes and Landforms 40, 925 to 941) and where the lidar is years younger than the radar acquisition, the unsupervised scores are at chance. The leave one site out recalibration (DET-cal) fixes most of the detector's underestimate of face prevalence (lower Brier score at every site), but it cannot change its ranking. Reading: at 30 m the limit is the information in the map, not the model; the detector's value, if any, is a calibrated probability with no lidar needed, not a better ranking. The run used the registered design unchanged (`results/benchmark/detection/run_log.txt`).
+

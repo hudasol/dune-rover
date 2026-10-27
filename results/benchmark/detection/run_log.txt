@@ -1,0 +1,44 @@
+stage 25 run started 2026-10-27 23:22:53; versions {'python': '3.13.16', 'numpy': '2.5.3', 'scipy': '1.18.1', 'scikit-learn': '1.9.1', 'torch': '2.5.1+cpu'}; seed 20261027; bootstrap 1000 x 300 m blocks
+Dumont: (4800, 3000) posts, voids 0.0000, GLO-30 voids 0.0000, prevalence I10 0.320 I30 0.480 (49 s)
+WhiteSands: (4200, 1500) posts, voids 0.0000, GLO-30 voids 0.0000, prevalence I10 0.108 I30 0.357 (22 s)
+Kelso: (2700, 3600) posts, voids 0.0000, GLO-30 voids 0.0000, prevalence I10 0.107 I30 0.340 (37 s)
+GreatSandDunes: (3700, 4000) posts, voids 0.0000, GLO-30 voids 0.0000, prevalence I10 0.132 I30 0.296 (36 s)
+Algodones: (5000, 4000) posts, voids 0.0000, GLO-30 voids 0.0000, prevalence I10 0.066 I30 0.237 (57 s)
+LittleSahara: (3200, 2000) posts, voids 0.0000, GLO-30 voids 0.0000, prevalence I10 0.064 I30 0.307 (32 s)
+I10 held out Dumont: GBM 12 s, CNN 210 s
+I10 held out WhiteSands: GBM 16 s, CNN 173 s
+I10 held out Kelso: GBM 12 s, CNN 161 s
+I10 held out GreatSandDunes: GBM 9 s, CNN 234 s
+I10 held out Algodones: GBM 38 s, CNN 180 s
+I10 held out LittleSahara: GBM 12 s, CNN 178 s
+I30 held out Dumont: GBM 1 s, CNN 38 s
+I30 held out WhiteSands: GBM 2 s, CNN 38 s
+I30 held out Kelso: GBM 1 s, CNN 38 s
+I30 held out GreatSandDunes: GBM 2 s, CNN 39 s
+I30 held out Algodones: GBM 2 s, CNN 39 s
+I30 held out LittleSahara: GBM 2 s, CNN 40 s
+G30 held out Dumont: GBM 1 s, CNN 38 s
+G30 held out WhiteSands: GBM 2 s, CNN 38 s
+G30 held out Kelso: GBM 2 s, CNN 38 s
+G30 held out GreatSandDunes: GBM 1 s, CNN 36 s
+G30 held out Algodones: GBM 1 s, CNN 37 s
+G30 held out LittleSahara: GBM 1 s, CNN 38 s
+Dumont I10: DET 0.973, SLOPE 0.951, TRI 0.968, ROUGH 0.897, BICUBIC 0.982, GBM 0.982, CNN 0.975
+Dumont I30: DET 0.860, SLOPE 0.931, TRI 0.951, ROUGH 0.936, BICUBIC 0.959, GBM 0.951, CNN 0.947
+Dumont G30: DET 0.818, SLOPE 0.929, TRI 0.944, ROUGH 0.924, BICUBIC 0.949, GBM 0.930, CNN 0.914
+WhiteSands I10: DET 0.966, SLOPE 0.967, TRI 0.971, ROUGH 0.866, BICUBIC 0.979, GBM 0.985, CNN 0.982
+WhiteSands I30: DET 0.658, SLOPE 0.584, TRI 0.643, ROUGH 0.628, BICUBIC 0.750, GBM 0.733, CNN 0.671
+WhiteSands G30: DET 0.497, SLOPE 0.462, TRI 0.472, ROUGH 0.516, BICUBIC 0.480, GBM 0.650, CNN 0.677
+Kelso I10: DET 0.953, SLOPE 0.916, TRI 0.936, ROUGH 0.628, BICUBIC 0.969, GBM 0.972, CNN 0.968
+Kelso I30: DET 0.700, SLOPE 0.743, TRI 0.763, ROUGH 0.711, BICUBIC 0.792, GBM 0.751, CNN 0.759
+Kelso G30: DET 0.625, SLOPE 0.733, TRI 0.736, ROUGH 0.652, BICUBIC 0.748, GBM 0.684, CNN 0.694
+GreatSandDunes I10: DET 0.965, SLOPE 0.929, TRI 0.961, ROUGH 0.613, BICUBIC 0.982, GBM 0.984, CNN 0.980
+GreatSandDunes I30: DET 0.831, SLOPE 0.708, TRI 0.807, ROUGH 0.799, BICUBIC 0.877, GBM 0.878, CNN 0.893
+GreatSandDunes G30: DET 0.681, SLOPE 0.662, TRI 0.695, ROUGH 0.660, BICUBIC 0.710, GBM 0.718, CNN 0.746
+Algodones I10: DET 0.963, SLOPE 0.920, TRI 0.952, ROUGH 0.856, BICUBIC 0.975, GBM 0.974, CNN 0.968
+Algodones I30: DET 0.761, SLOPE 0.691, TRI 0.782, ROUGH 0.807, BICUBIC 0.835, GBM 0.826, CNN 0.820
+Algodones G30: DET 0.661, SLOPE 0.638, TRI 0.705, ROUGH 0.743, BICUBIC 0.732, GBM 0.727, CNN 0.718
+LittleSahara I10: DET 0.908, SLOPE 0.880, TRI 0.912, ROUGH 0.777, BICUBIC 0.942, GBM 0.937, CNN 0.935
+LittleSahara I30: DET 0.637, SLOPE 0.533, TRI 0.634, ROUGH 0.683, BICUBIC 0.688, GBM 0.697, CNN 0.678
+LittleSahara G30: DET 0.596, SLOPE 0.489, TRI 0.535, ROUGH 0.596, BICUBIC 0.564, GBM 0.625, CNN 0.610
+done 2026-10-27 23:57:20
