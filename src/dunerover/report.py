@@ -53,10 +53,8 @@ def map_figure(a: Assessment, routes: list[RoutePlan] | None = None, path: str |
     return data
 
 
-def write_class_geotiff(a: Assessment, path: str) -> None:
-    """The class map as a uint8 GeoTIFF with the reference system of the input (when it declares one)."""
-    import tifffile
-    r = a.raster
+def _geotags(r) -> list:
+    """GeoTIFF tags that place a grid of the analysis raster r in its reference system (empty for a local frame)."""
     extratags = []
     if r.geokeys is not None or r.geographic:
         is_area = True
@@ -77,8 +75,21 @@ def write_class_geotiff(a: Assessment, path: str) -> None:
         else:   # geographic WGS84, pixel is area
             gk = (1, 1, 0, 3, 1024, 0, 1, 2, 1025, 0, 1, 1, 2048, 0, 1, 4326)
             extratags.append((34735, "H", len(gk), gk, False))
-    tifffile.imwrite(path, a.classes.astype(np.uint8), extratags=extratags, description="dunerover three class map: "
+    return extratags
+
+
+def write_class_geotiff(a: Assessment, path: str) -> None:
+    """The class map as a uint8 GeoTIFF with the reference system of the input (when it declares one)."""
+    import tifffile
+    tifffile.imwrite(path, a.classes.astype(np.uint8), extratags=_geotags(a.raster), description="dunerover three class map: "
                      + "; ".join(f"{k}={v}" for k, v in CLASS_NAMES.items()) + "; SIMULATED BY ME")
+
+
+def write_float_geotiff(a: Assessment, values: np.ndarray, path: str, what: str) -> None:
+    """A float32 layer (face probability, share of passable draws) on the analysis grid, georeferenced like the classes."""
+    import tifffile
+    tifffile.imwrite(path, np.asarray(values, dtype=np.float32), extratags=_geotags(a.raster),
+                     description=f"dunerover {what}; SIMULATED BY ME")
 
 
 def _img(data: bytes) -> str:
@@ -153,6 +164,10 @@ def write_outputs(a: Assessment, routes: list[RoutePlan], out: str, title: str =
     os.makedirs(out, exist_ok=True)
     png = map_figure(a, routes, os.path.join(out, "map.png"), title)
     write_class_geotiff(a, os.path.join(out, "classes.tif"))
+    write_float_geotiff(a, a.face_prob, os.path.join(out, "face_probability.tif"), "slip face probability (0 to 1)")
+    write_float_geotiff(a, a.q_pass, os.path.join(out, "q_pass.tif"), "share of vehicle parameter draws for which the cell is passable")
+    from . import exports as X
+    X.write_nav2_map(a, out)
     summ = a.summary()
     summ["routes"] = [{"policy": rp.policy, "reachable": rp.reachable, **rp.metrics, "warnings": rp.warnings} for rp in routes]
     with open(os.path.join(out, "summary.json"), "w", encoding="utf-8") as fh:
@@ -163,6 +178,11 @@ def write_outputs(a: Assessment, routes: list[RoutePlan], out: str, title: str =
             g = rp.geojson(a); fc["crs_note"] = g["crs_note"]; fc["features"] += g["features"]
         with open(os.path.join(out, "routes.geojson"), "w", encoding="utf-8") as fh:
             json.dump(fc, fh, indent=1)
+        if a.raster.geographic or a.raster.epsg:
+            X.write_kml(a, routes, os.path.join(out, "routes.kml"))
+            for rp in routes:
+                if rp.reachable:
+                    X.write_qgc_plan(a, rp, os.path.join(out, f"mission_{rp.policy}.plan"))
     with open(os.path.join(out, "report.html"), "w", encoding="utf-8") as fh:
         fh.write(html_report(a, routes, png, title))
     return summ

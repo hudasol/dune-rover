@@ -43,6 +43,10 @@ dunerover plan DEM.tif --vehicle my-rover.json --start-rc 40,5 --goal-rc 40,180 
 | `classes.tif` | Class map as a GeoTIFF in the reference system of the input: 0 TRAVERSABLE, 1 BLOCKED, 2 UNKNOWN (assumption sensitive), 3 UNKNOWN (slip face risk), 4 UNKNOWN (both) |
 | `routes.geojson` | One feature per policy, in WGS84 longitude and latitude when the input has a reference system, with length, UNKNOWN cells, face risk cells, steepest grade and warnings |
 | `summary.json` | Everything above as numbers, with the seed and the vehicle profile |
+| `face_probability.tif`, `q_pass.tif` | The slip face probability and the share of vehicle parameter draws for which each cell is passable, as float32 GeoTIFF layers on the same grid as `classes.tif` |
+| `nav2_map.pgm`, `nav2_map.yaml` | Occupancy map for the ROS 2 Nav2 map server (trinary mode): TRAVERSABLE free, BLOCKED and NO DATA occupied, every UNKNOWN class unknown, so the robot's own costmap decides how to treat ground the map could not verify; origin in the input's map units (a local metre frame for geographic inputs, with the corner's longitude and latitude in a comment) |
+| `routes.kml` | The routes for Google Earth or a ground station, when the input has a reference system |
+| `mission_<policy>.plan` | QGroundControl mission (waypoints for a ground rover, at most 100 per route) for ArduPilot or PX4 rovers, when the input has a reference system; every file is labelled SIMULATED BY ME and every route must be checked on the ground |
 
 ## 5. How it decides
 
@@ -64,4 +68,4 @@ dunerover plan DEM.tif --vehicle my-rover.json --start-rc 40,5 --goal-rc 40,180 
 
 ## 7. For developers
 
-Python API: `dunerover.planner` (`read_raster`, `crop_map`, `coarsen_raster`, `assess`, `plan`, `compare_policies`, `VehicleProfile`, `builtin_profile`, `profile_from_runs`) and `dunerover.report.write_outputs`. Tests: `tests/test_planner.py` (synthetic inputs only). The gate (`scripts/check_all.sh`) and CI check that the evidence card matches the result files.
+Python API: `dunerover.planner` (`read_raster`, `crop_map`, `coarsen_raster`, `assess`, `plan`, `compare_policies`, `VehicleProfile`, `builtin_profile`, `profile_from_runs`), `dunerover.report.write_outputs` and `dunerover.exports` (`write_nav2_map`, `write_kml`, `write_qgc_plan`). The benchmark baselines of stages 25 and 26 are in `dunerover.benchmark` and `dunerover.benchmark_cnn`. Tests: `tests/test_planner.py` (synthetic inputs only). The gate (`scripts/check_all.sh`) and CI check that the evidence card matches the result files.

@@ -250,3 +250,33 @@ def test_projected_raster_lonlat_round_trip_and_plan():
     g = dict(zip(("lon", "lat"), (float(v) for v in r.to_lonlat(*r.map_xy(30, 30)))))
     rp = P.plan(a, s, g, "naive")
     assert rp.reachable and rp.start_rc == (5, 5) and rp.goal_rc == (30, 30)
+
+
+def test_exports_nav2_kml_qgc_and_float_layers(tmp_path):
+    pytest.importorskip("pyproj")
+    import tifffile
+    from dunerover.report import write_outputs
+    from dunerover import exports as X
+    z = synthetic_dunes(n=60, posting=10.0)
+    r = P.Raster(z, 500000.0, 3800000.0, 10.0, 10.0, 32611, False, 10.0, 10.0, "projected fixture",
+                 (1, 1, 0, 4, 1024, 0, 1, 1, 1025, 0, 1, 1, 3072, 0, 1, 32611, 3076, 0, 1, 9001))
+    a = P.assess(r, n_draws=8)
+    routes = [P.plan(a, (30, 2), (30, 57), p) for p in ("naive", "risk_weighted")]
+    write_outputs(a, routes, str(tmp_path))
+    pgm = (tmp_path / "nav2_map.pgm").read_bytes()
+    assert pgm.startswith(b"P5\n#")
+    img = np.frombuffer(pgm[-a.classes.size:], dtype=np.uint8).reshape(a.classes.shape)
+    assert np.array_equal(img, X.occupancy(a.classes))
+    yml = (tmp_path / "nav2_map.yaml").read_text()
+    assert "mode: trinary" in yml and "resolution: 10.0000" in yml and "origin: [499995.0, 3799405.0, 0.0]" in yml
+    assert tifffile.imread(str(tmp_path / "face_probability.tif")).dtype == np.float32
+    assert "<LineString>" in (tmp_path / "routes.kml").read_text()
+    plan = json.loads((tmp_path / "mission_naive.plan").read_text())
+    assert plan["mission"]["vehicleType"] == 10 and plan["mission"]["items"][0]["command"] == 16
+    assert len(plan["mission"]["items"]) <= 100 and "SIMULATED BY ME" in plan["comment"]
+
+
+def test_nav2_occupancy_classes():
+    from dunerover import exports as X
+    c = np.array([[0, 1, 2], [3, 4, 5]])
+    assert X.occupancy(c).tolist() == [[254, 0, 205], [205, 205, 0]]
