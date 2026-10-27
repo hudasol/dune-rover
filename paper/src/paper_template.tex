@@ -1,0 +1,113 @@
+% Generated paper source: scripts/build_paper.py fills {{VAL:...}} and {{TABLE:...}} from the result files and writes
+% paper/paper.tex. Edit this template, never paper/paper.tex.
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{What a 30\,m Map Cannot See: A Lidar Benchmark of Slip Face Detection and Route Planning for Small Rovers on Sand Dunes}
+
+\author{\IEEEauthorblockN{Huda Mueen}
+\IEEEauthorblockA{Independent Researcher, United Arab Emirates\\
+hudamueen2407@gmail.com}}
+
+\maketitle
+
+\begin{abstract}
+{{VAL:abstract}}
+\end{abstract}
+
+\begin{IEEEkeywords}
+field robotics, traversability, digital elevation models, sand dunes, slip faces, path planning, benchmark
+\end{IEEEkeywords}
+
+\section{Introduction}
+Small wheeled ground robots are increasingly proposed for survey, inspection and search tasks in sand deserts, including the dune seas of the Arabian Peninsula. Before such a robot drives, its route is usually planned on a prior elevation map, and for most deserts the only map available is a global digital elevation model (DEM) with a posting of about 30\,m, such as Copernicus GLO-30~\cite{copernicusdem}. The dominant hazard for a small rover on active dunes is the slip face: the lee side of a dune held near the angle of repose of dry sand, about 30 to 34\,degrees~\cite{pye2009}, where a wheeled vehicle can neither climb nor safely descend or traverse. Slip faces are often only metres to tens of metres long, so a 30\,m cell can contain one while its mean slope is gentle.
+
+This paper asks three questions and answers them with preregistered experiments. (i) How much of the slip face hazard does a coarse DEM hide, measured against one metre airborne lidar of real dune fields? (ii) Can a detector that estimates the probability of a hidden face from coarse DEM features recover it, and how does it compare with what a practitioner would otherwise use: slope and roughness costmaps, interpolation of the coarse surface, or a model learned from lidar labels? (iii) Does any of this make planned routes safer when they are scored on the lidar itself?
+
+The contributions are: (1) a benchmark on six North American dune fields with one metre lidar truth and three coarse inputs: 10\,m and 30\,m block means of the lidar, and the real GLO-30 product, which was acquired years earlier by a different sensor; (2) a subgrid slip face detector trained only on synthetic dune profiles, compared with six baselines including gradient boosted trees and a convolutional network trained leave one site out on lidar labels; (3) an evaluation of a released planner whose hazard layer is swapped between methods, with routes scored on dune scale face patches in the lidar, and a perfect label oracle as reference; and (4) a register of predictions written before every run, so that negative results are reported as prominently as positive ones. Code, result files and the prediction register are in the repository listed at the end.
+
+\section{Related Work}
+\textit{Traversability from elevation.} Surveys of traversability analysis for ground vehicles~\cite{papadakis2013,borges2022} describe geometric methods that score slope, roughness and step height on a grid, as in the GESTALT navigation software of planetary rovers~\cite{goldberg2002}, and in grid map and costmap libraries used with ROS~\cite{fankhauser2016,macenski2020}. These methods assume that the grid resolves the hazard. Terrain ruggedness indices~\cite{riley1999} are used in geomorphometry for the same purpose. Our slope, ruggedness and roughness baselines follow these definitions on the coarse grid.
+
+\textit{Slip on sand slopes.} Wheel slip on loose sand rises steeply with slope; terramechanics models~\cite{ishigami2007} and online terrain estimation~\cite{iagnemma2004} describe it, and field data such as the Dumont Dunes traverses of the Mars Science Laboratory test rover~\cite{heverly2013} show slip reaching about 50\,\% at about 13\,degrees. Terrain adaptive navigation~\cite{helmick2009} and learned terrain classification for Mars~\cite{rothrock2016,ono2015} combine such models with maps; they rely on imagery or DEMs at metre scale.
+
+\textit{Prior and overhead maps.} Overhead data have been used as priors for ground navigation~\cite{sofman2006,silver2010}, typically from aerial imagery or lidar at metre scale. The quality of global 30\,m DEMs has been assessed against lidar and laser altimetry~\cite{guth2021}, but we are not aware of an assessment of what such a DEM hides for robot navigation on dunes, or of a benchmark that scores coarse map detectors and planners for this hazard against lidar truth.
+
+\section{Benchmark}
+\subsection{Sites and truth}
+Six windows of USGS 3DEP one metre bare earth lidar~\cite{sugarbaker2014} cover active dune fields in California, New Mexico, Colorado and Utah (Table~\ref{tab:sites}); windows were chosen from 20\,m slope images before any metric was computed. Slope is computed with the Horn operator~\cite{horn1981}. A post is \emph{steep} at 28\,degrees or more. The cell label of a coarse cell is positive when at least 10 steep posts (10\,m$^2$) fall inside its footprint; a secondary label counts only posts between 28 and 36\,degrees, to exclude rock and lidar artefacts steeper than sand can stand. For planning, a \emph{face patch} is an 8 connected group of at least 10 steep posts.
+
+{{TABLE:sites}}
+
+\subsection{Inputs}
+\textbf{I10} and \textbf{I30} are block means of the lidar at 10 and 30\,m. \textbf{G30} is Copernicus GLO-30 interpolated bilinearly at the centres of the I30 cells. GLO-30 is a surface model derived from TanDEM-X radar acquisitions between December 2010 and January 2015~\cite{copernicusdem}, while the lidar was flown later, so G30 measures what a rover can learn today from a global product, including dune migration and sensor differences.
+
+\subsection{Methods compared}
+\textbf{DET} (ours) is the subgrid detector of the released planner. It is trained once per posting on 60\,000 synthetic straight crested dune profiles (stoss slopes 6 to 20\,degrees, faces 29.5 to 32.5\,degrees, heights 5 to 120\,m) sampled as a DEM would sample them, and maps four coarse features (slope, convexity, slope break and local relief) to a face probability with a regularised logistic model. It never sees lidar. \textbf{DET-cal} recalibrates DET with a logistic fit on the other five sites. The baselines are: \textbf{SLOPE}, the coarse Horn slope, which is the input of a classical slope costmap; \textbf{TRI}, the terrain ruggedness index~\cite{riley1999}; \textbf{ROUGH}, the root mean square residual of a plane fitted to the $3\times3$ neighbourhood, as in GESTALT~\cite{goldberg2002}; \textbf{BICUBIC}, the steepest slope after interpolating the coarse surface to one metre with a cubic spline; \textbf{GBM}, gradient boosted trees~\cite{ke2017,pedregosa2011} on 14 terrain features (slope, ruggedness, roughness at two scales, profile and plan curvature, topographic position at three scales, relief at two scales, local maximum slope, and the detector's convexity and slope break); and \textbf{CNN}, a fully convolutional network~\cite{paszke2019} with four $3\times3$ convolutions dilated by 1, 2, 4 and 8~\cite{yu2016}. GBM and CNN are trained leave one site out~\cite{roberts2017} on lidar labels, so they use information DET does not have. No hyperparameter was tuned. SLOPE, TRI, ROUGH and BICUBIC receive the same leave one site out logistic calibration~\cite{platt1999} when a probability is needed.
+
+\subsection{Planner and scoring}
+The released planner assesses a DEM with a friction circle slip model whose four parameters (friction angle, motion resistance, slip scale and planning slip limit) are drawn 128 times inside an assumed range for a small wheeled robot; a cell is passable for a draw when at least four of its eight headings stay below the slip limit. A cell is TRAVERSABLE when it is passable in at least 95\,\% of draws and its face probability is below 0.20, BLOCKED when passable in at most 5\,\%, and UNKNOWN otherwise. Routes are least cost paths~\cite{dijkstra1959} on the 8 connected grid with cost equal to distance over one minus slip. The \emph{naive} policy uses the slip model only; the \emph{conservative} policy uses TRAVERSABLE cells only; the \emph{risk weighted} policy avoids BLOCKED cells and multiplies the cost of entering a cell by $1+5p$, where $p$ is its face probability. Both cautious policies refuse descents of 28\,degrees or more between cells. To compare hazard layers, the face probability of the assessment is replaced by each method's probability and the map is reclassified with the planner's own rule; \textbf{ORACLE} uses the lidar cell label itself, and \textbf{ORACLE-5} plans on a 5\,m map with every cell that holds a face patch post marked as a face.
+
+One hundred origin and destination pairs per site are drawn from the lidar only: centres of 30\,m cells whose one metre posts are all gentle, at least 1\,km apart. Every method plans between the same points. A route is the polyline through its cell centres, sampled every 0.5\,m on the lidar; it is \emph{unsafe} if any sample falls on a face patch, and a \emph{mission success} if a route exists and is not unsafe.
+
+\subsection{Statistics and preregistration}
+Areas under the ROC curve (AUC)~\cite{hanley1982} carry 95\,\% intervals from a spatial block bootstrap~\cite{kunsch1989} with 300\,m blocks and 1000 resamples; paired differences use the same resampled blocks. Route outcomes are pooled over sites with intervals from a bootstrap of pairs within sites, and paired methods are compared with exact McNemar tests~\cite{mcnemar1947} with Holm correction~\cite{holm1979}. The design, the predictions and their tolerances were committed before any baseline was coded or any metric computed (stages 25 and 26 of the register); the detector itself had been tested on block mean surfaces before (stages 12 and 20), which informed the predictions about it.
+
+\section{Results}
+\subsection{Detection}
+{{VAL:results_detection}}
+
+{{TABLE:detection}}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_auc.pdf}
+\caption{{{VAL:caption_auc}}}
+\label{fig:auc}
+\end{figure}
+
+\subsection{Planning}
+{{VAL:results_planning}}
+
+{{TABLE:planning}}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_planning.pdf}
+\caption{{{VAL:caption_planning}}}
+\label{fig:planning}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_map.pdf}
+\caption{{{VAL:caption_map}}}
+\label{fig:map}
+\end{figure*}
+
+\subsection{Preregistered predictions}
+{{VAL:results_predictions}}
+
+\section{Discussion and Limitations}
+{{VAL:discussion}}
+
+\section{Conclusion}
+{{VAL:conclusion}}
+
+\section*{Data and Code}
+USGS 3DEP lidar is in the public domain; Copernicus GLO-30 is used under its licence (produced using Copernicus WorldDEM-30 \copyright~DLR e.V. 2010-2014 and \copyright~Airbus Defence and Space GmbH 2014-2018, provided under COPERNICUS by the European Union and ESA; all rights reserved). The code, the result files, the prediction register and the scripts that regenerate every number and figure of this paper are at \url{https://github.com/hudasol/dune-rover} (stages 25 and 26).
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
