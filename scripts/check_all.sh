@@ -24,7 +24,7 @@ python3 - <<'PY'
 import subprocess, sys
 bad = []
 for f in subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split():
-    if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml")) or f == "scripts/scan_secrets.py":
+    if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml", ".tex", ".bib")) or f == "scripts/scan_secrets.py":
         continue
     t = open(f, encoding="utf-8", errors="ignore").read()
     for w in (chr(0x2014), chr(0x2013), "Stir" + "ling", "Clau" + "de"):

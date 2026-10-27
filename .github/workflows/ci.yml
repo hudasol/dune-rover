@@ -19,14 +19,39 @@ jobs:
       - name: Secrets scan (tree and full history)
         run: python scripts/scan_secrets.py --history
   tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, python: "3.10"}
+          - {os: ubuntu-latest, python: "3.12"}
+          - {os: ubuntu-latest, python: "3.13"}
+          - {os: windows-latest, python: "3.13"}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install numpy scipy matplotlib tifffile imagecodecs scikit-learn pytest
+      - name: Tests
+        shell: bash
+        run: PYTHONPATH=src python -m pytest -q tests
+  install:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - run: pip install numpy scipy matplotlib tifffile imagecodecs scikit-learn pytest
-      - run: PYTHONPATH=src python -m pytest -q tests
+          python-version: "3.13"
+      - name: Install the package with its optional projection support, as a user would
+        run: pip install ".[projected]" pytest scikit-learn
+      - name: Command line works from the installed package
+        run: |
+          dunerover --version
+          cd "$RUNNER_TEMP" && dunerover demo --out demo_out --draws 16 && test -f demo_out/10m/report.html
+      - name: Tests against the installed package (pyproj present)
+        run: python -m pytest -q tests
   generated-docs:
     runs-on: ubuntu-latest
     steps:
@@ -56,7 +81,7 @@ jobs:
           import subprocess, sys
           bad = []
           for f in subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split():
-              if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml")) or f == "scripts/scan_secrets.py":
+              if not f.endswith((".md", ".py", ".csv", ".txt", ".json", ".yml", ".tex", ".bib")) or f == "scripts/scan_secrets.py":
                   continue
               t = open(f, encoding="utf-8", errors="ignore").read()
               for w in (chr(0x2014), chr(0x2013), "Stir" + "ling", "Clau" + "de"):

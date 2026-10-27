@@ -236,3 +236,17 @@ def test_summary_shows_both_climbing_limits():
     s = P.assess(P.raster_from_array(z, 30.0), n_draws=8).summary()
     assert s["critical_uphill_deg_published_posterior"] < s["critical_uphill_deg_nominal"]
     assert s["dumont_field_curve_50pct_slip_deg_published"] == 12.6
+
+
+def test_projected_raster_lonlat_round_trip_and_plan():
+    pytest.importorskip("pyproj")
+    z = np.zeros((40, 40))
+    r = P.Raster(z, 500000.0, 3800000.0, 10.0, 10.0, 32611, False, 10.0, 10.0, "projected fixture")
+    lon, lat = r.to_lonlat(500100.0, 3799900.0)
+    x, y = r.from_lonlat(float(lon), float(lat))
+    assert x == pytest.approx(500100.0, abs=1e-3) and y == pytest.approx(3799900.0, abs=1e-3)
+    a = P.assess(r, n_draws=8)
+    s = dict(zip(("lon", "lat"), (float(v) for v in r.to_lonlat(*r.map_xy(5, 5)))))
+    g = dict(zip(("lon", "lat"), (float(v) for v in r.to_lonlat(*r.map_xy(30, 30)))))
+    rp = P.plan(a, s, g, "naive")
+    assert rp.reachable and rp.start_rc == (5, 5) and rp.goal_rc == (30, 30)
