@@ -34,7 +34,7 @@ A wheeled ground vehicle on dune sand loses traction as the slope rises, and the
 
 | Ask | Purpose | Fallback if not available |
 |---|---|---|
-| One supervised field day on a dune site that EDGE Group can access, with a named supervisor and a safety briefing | Run the pilot of the field plan (3 runs at each of 5, 10, 15 and 20 degrees) and as much of the ladder as is safe | The author runs a reduced set alone on a gentle dune with a second person and a recovery vehicle, slopes up to 10 degrees only, and reports it as incomplete |
+| One supervised field day on a dune site that EDGE Group can access, with a named supervisor and a safety briefing | Run the pilot of the field plan (3 runs at each of 5, 10, 15 and 20 degrees) and as much of the ladder as is safe | Without EDGE Group supervision, the author runs a reduced set on a gentle dune, never without a second person and a recovery vehicle, slopes up to 10 degrees only, and reports it as incomplete |
 | Loan of one small wheeled ground vehicle (5 to 25 kg, four wheels, wheel diameter at least 150 mm, known mass) for the day | The vehicle for the ladder | A low cost platform from `docs/ROVER_OPTIONS.md` (costs as retrieved there) |
 | Loan of an RTK GNSS unit, or a drone flight with photogrammetry over the test slope | Measured slope per run and a dune profile for the detector test | Smartphone inclinometer with a levelled straight edge for slope bins; detector test deferred |
 | Site access and permission, and a recovery vehicle with an experienced sand driver | Legal access and safe recovery | No run without written permission; no slope above 15 degrees without recovery support |
