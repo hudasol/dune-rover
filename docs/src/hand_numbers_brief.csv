@@ -11,6 +11,7 @@ token,justification
 19,"PUBLISHED Spirit slip at 19 deg (FLD-011)"
 20,"PUBLISHED Dumont about 90 % at 20 deg (FLD-HV13-2); Perseverance at about 20 deg (FLD-025); PLANNED bins up to 20 deg"
 25,"PLANNED rover mass up to 25 kg (docs/FIELD_VALIDATION_PLAN.md, section 2)"
+26,"stage number of the prediction register (docs/PREDICTIONS.md, stage 26, the planning benchmark); 25 in the same sentence is stage 25"
 30,"30 m posting of the open elevation data (Copernicus GLO 30) and of the map tests"
 50,"PUBLISHED Dumont below 50 % slip at 12.5 deg (FLD-HV13-1)"
 90,"PUBLISHED Dumont about 90 % slip at 20 deg (FLD-HV13-2)"
