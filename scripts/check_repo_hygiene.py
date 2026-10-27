@@ -15,6 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_LIMIT = 3_000_000
 FILE_LIMIT = 5_000_000
 PDF_ALLOW = {"docs/REPORT.pdf", "docs/EXECUTIVE_BRIEF.pdf", "docs/PROPOSAL_SEED.pdf", "docs/FIELD_DAY_CHECKLIST.pdf", "manuscript/MANUSCRIPT.pdf", "docs/PROPOSAL_ROBOTICS.pdf", "paper/paper.pdf"}
+PDF_ALLOW_DIR = "paper/figures/"   # vector figures written by scripts/build_paper_figures.py, at most 1 MB each
 RAW_EXT = (".tif", ".tiff", ".hgt", ".nc", ".h5", ".hdf", ".zip", ".tar", ".gz", ".tgz", ".7z", ".npy", ".npz", ".laz", ".las", ".mat")
 DOWNLOAD_DIRS = ("research/sources/", "research/verify_sources/", "data/raw/", "research/phase2/")
 DIR_OK = {"data/raw/MANIFEST.md"}
@@ -25,7 +26,7 @@ def check(path, size):
     low = path.lower()
     if low.endswith(".pdf"):
         if size > PDF_LIMIT: out.append(f"PDF over {PDF_LIMIT} bytes ({size})")
-        if path not in PDF_ALLOW: out.append("PDF not on the allow list (source PDFs must not be committed)")
+        if path not in PDF_ALLOW and not (path.startswith(PDF_ALLOW_DIR) and size <= 1_000_000): out.append("PDF not on the allow list (source PDFs must not be committed)")
     elif size > FILE_LIMIT and not path.startswith("results/figures/"):
         out.append(f"file over {FILE_LIMIT} bytes ({size})")
     if low.endswith(RAW_EXT): out.append("raw data format")
