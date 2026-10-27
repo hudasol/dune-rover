@@ -41,3 +41,8 @@ Questions 5, 7 and 10 are still open and the current field rule stayed in force 
 14. **Particle simulation on a free GPU.** `notebooks/chrono_dem_gpu.ipynb` is ready for a free Kaggle or Colab GPU (not run here: no GPU). If you run it, put `chrono_dem_results.csv` in `data/raw/chrono_dem/` and run `python3 scripts/ingest_chrono_dem.py`.
 15. **Calibration bound of the slip scale.** The field analysis bounds i0 at 0.40 (original range), while the published curves put it near 0.63 (stage 15). A field fit is likely to end at the bound. Keep the bound (default), or widen it with a new dated registration before the field day?
 16. **Closed loop work package.** In simulation, replanning on an online slip estimate showed no benefit that can be told apart from simply stopping and retrying (stage 23 corrections in `docs/PREDICTIONS.md`). The robotics proposal keeps WP6, now framed as measuring the online slip estimate on the real rover and testing replanning against a stop and retry control. Keep WP6 in this form (default), shorten it, or drop it so the field time goes to more slope ladder runs?
+
+## New questions, 2026-10-28
+
+17. **Reader before submission.** The conference paper (`paper/paper.pdf`) reports that this repository's own detector is not the best method and that no 30 m hazard layer makes routes meaningfully safer. Someone with robotics or remote sensing experience should check that the framing is fair before it goes to a venue. Default used: none; the paper stays a draft until you choose a reader and a venue.
+18. **Affiliation on the paper.** The paper says "Independent Researcher, United Arab Emirates", with your email. Default used: that line; change it in `paper/src/paper_template.tex` if you want another one.

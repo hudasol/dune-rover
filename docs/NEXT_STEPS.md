@@ -1,4 +1,4 @@
-# Next steps for Huda (updated 2026-10-21)
+# Next steps for Huda (updated 2026-10-28)
 
 Only what you still have to do, in order. Commands run from the repository root in Git Bash; on Windows use `py` for `python3`.
 
@@ -8,6 +8,16 @@ The sessions could not push tags. On your computer, in the repository folder, ru
 
 1. Version 1.0 (the desk study, commit 7dfcc09): `git tag -a v1.0 7dfcc09 -m "Version 1.0 of the dune-rover desk study (2026-10-21). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.0`.
 2. Version 1.1 (the Dune Rover Planner): check that the latest commit (`git log -1`) has a green CI check on GitHub, then `git tag -a v1.1 -m "Version 1.1: the Dune Rover Planner (2026-10-23). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.1`.
+
+3. Version 1.2 (the benchmark and the conference paper, 2026-10-28): check that the latest commit has a green CI check, then `git tag -a v1.2 -m "Version 1.2: baselines, benchmark and conference paper (2026-10-28). See docs/RELEASE_NOTES_v1.md."` and `git push origin v1.2`.
+
+## 0.25 The conference paper (`paper/paper.pdf`)
+
+1. Read the paper in full and mark anything you disagree with; the text is in `paper/src/`, the numbers come from the result files, and `PYTHONPATH=src python3 scripts/build_paper.py` rebuilds it (needs LaTeX with the IEEEtran class; on Windows, MiKTeX installs it automatically).
+2. Choose the venue (`docs/VENUES.md`): IROS 2027 first (deadline 1 March 2027, to confirm on the IROS 2027 site once it is up), ICAR 2027 second (21 March 2027). Do not submit the same paper to two venues at once.
+3. Decide the affiliation line (now "Independent Researcher, United Arab Emirates"), and read the venue's rules on authorship, double blind review (IROS reviews are not double blind in recent years, but check the 2027 call), and any disclosure the venue requires; add what it asks for before submitting.
+4. Ask one person with robotics or remote sensing experience to read it before submission (question 17).
+5. Submission is yours to make; nothing has been sent anywhere.
 
 ## 0.5 Try the planner (ten minutes)
 
