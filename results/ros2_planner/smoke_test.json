@@ -1,0 +1,26 @@
+{
+ "label": "SIMULATED BY ME (synthetic dune field); ROS 2 smoke test of the shipped planner behind a service",
+ "ros_distro": "jazzy",
+ "map_width": 80,
+ "map_height": 80,
+ "map_resolution_m": 10.0,
+ "occupancy_counts": {
+  "-1": 1125,
+  "0": 5271,
+  "100": 4
+ },
+ "naive_path_poses": 76,
+ "conservative_reply": {
+  "reachable": false,
+  "policy": "conservative",
+  "metrics": {
+   "straight_m": 750.0,
+   "reason": "no route through TRAVERSABLE cells without a steep descent"
+  },
+  "warnings": [
+   "Vehicle profile is an assumption, not a measurement: calibrate one from the vehicle's own slope runs."
+  ]
+ },
+ "seconds": 0.02,
+ "date": "2026-10-27 23:34:46"
+}
