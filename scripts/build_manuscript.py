@@ -137,6 +137,8 @@ def extra_values(v):
     v["mv_ncurves"] = len(cs); v["mv_nsources"] = len({c["source"] for c in cs})
     v["post_s_med"] = v.get("post_s", "n/a").split(" ")[0]
     v["build_date"] = DATE
+    import benchmark_values as BV          # 2026-10-27: stages 25 and 26 (bm_ keys)
+    v.update(BV.values())
     return v
 
 

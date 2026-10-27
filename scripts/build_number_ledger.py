@@ -31,6 +31,8 @@ DOCS = [  # generated document, template, hand numbers file
 
 # key pattern (regular expression, matched from the start of the key) -> (producing script, input files as globs)
 PRODUCERS = [
+    (r"bm_auc_|bm_miss_|bm_n_sites", "scripts/benchmark_detection.py", ["results/benchmark/detection/metrics.csv", "results/benchmark/detection/summary.json"]),
+    (r"bm_", "scripts/benchmark_planning.py", ["results/benchmark/planning/summary.csv", "results/benchmark/planning/endpoints.csv"]),
     (r"cur_material_ci", "scripts/verify_stats.py", ["research/verification_stats.json"]),
     (r"p3_|ver_p4_n", "scripts/consolidate_evidence.py", ["research/evidence.csv"]),
     (r"p5_|cur_", "scripts/verify_stats.py", ["research/verification_stats.json"]),
