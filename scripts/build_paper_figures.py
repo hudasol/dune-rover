@@ -107,8 +107,11 @@ def fig_map(site="Kelso"):
     cax = axes[2].inset_axes([0.55, 0.06, 0.4, 0.05])
     cb = fig.colorbar(im, cax=cax, orientation="horizontal", ticks=[0, 0.5, 1])
     cb.set_label("face probability", fontsize=5.5, labelpad=1); cb.ax.tick_params(labelsize=5, length=2, pad=1)
-    axes[0].plot([100, 1100], [z1.shape[0] - 120] * 2, color="white", lw=2)
-    axes[0].text(600, z1.shape[0] - 200, "1 km", color="white", ha="center", fontsize=6)
+    axes[0].plot([100, 1100], [z1.shape[0] - 120] * 2, color=INK, lw=2.2)
+    axes[0].text(600, z1.shape[0] - 230, "1 km", color=INK, ha="center", va="bottom", fontsize=6.5,
+                 bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.85))
+    axes[0].annotate("N", xy=(z1.shape[1] - 250, 150), xytext=(z1.shape[1] - 250, 650), ha="center", fontsize=6.5, color=INK,
+                     arrowprops=dict(arrowstyle="-|>", color=INK, lw=0.8), bbox=dict(boxstyle="round,pad=0.1", fc="white", ec="none", alpha=0.85))
     fig.savefig(os.path.join(FIG, "fig_map.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02)
     fig.savefig(os.path.join(FIG, "fig_map.png"), dpi=170, bbox_inches="tight", pad_inches=0.02, facecolor="white"); plt.close(fig)
 
@@ -120,7 +123,7 @@ def fig_planning():
            ("conservative", "GBM", "Gate: boosting*"), ("conservative", "CNN", "Gate: network*"),
            ("risk_weighted", "DET", "Weight: detector (ours)"), ("risk_weighted", "BICUBIC-cal", "Weight: interpolation"),
            ("risk_weighted", "GBM", "Weight: boosting*"), ("conservative", "ORACLE", "Gate: oracle labels")]
-    fig, ax = plt.subplots(figsize=(3.45, 2.75))
+    fig, ax = plt.subplots(figsize=(3.45, 3.0))
     metric = "mission_success"
     for j, inp in enumerate(("I10", "I30", "G30")):
         col, mk, lab = INPUT_STYLE[inp]
@@ -132,10 +135,18 @@ def fig_planning():
             m, lo, hi = float(r[metric]), float(r[metric + "_lo"]), float(r[metric + "_hi"])
             ax.plot([lo, hi], [y, y], color=col, lw=1.0)
             ax.scatter([m], [y], s=18, marker=mk, color=col, edgecolors=INK, linewidths=0.4, zorder=3, label=lab if i == 0 else None)
+    ph = read(os.path.join(ROOT, "results", "benchmark", "posthoc", "summary.csv"))
+    yi = len(cfg)
+    for j, inp in enumerate(("I10", "I30", "G30")):
+        col, mk, lab = INPUT_STYLE[inp]
+        r = next((r for r in ph if r["input"] == inp and r["policy"] == "conservative" and r["hazard"] == "ORACLE-ANY"), None)
+        if r:
+            ax.scatter([float(r["success_p10"])], [yi + (j - 1) * 0.25], s=18, marker=mk, facecolors="white", edgecolors=col, linewidths=1.0, zorder=3)
+    cfg = cfg + [("conservative", "ORACLE-ANY", "Gate: face map (post hoc)")]
     o5 = next((r for r in rows if r["policy"] == "conservative" and r["hazard"] == "ORACLE-5"), None)
     if o5:
         ax.axvline(float(o5[metric]), color="#5B3A78", lw=0.7, ls="--")
-        ax.text(float(o5[metric]) - 0.01, len(cfg) - 0.6, "5 m face map", rotation=90, ha="right", va="bottom", fontsize=6, color="#5B3A78")
+        ax.text(float(o5[metric]) - 0.01, 0.2, "face map on a 5 m grid", rotation=90, ha="right", va="top", fontsize=6, color="#5B3A78")
     ax.set_yticks(range(len(cfg))); ax.set_yticklabels([c[2] for c in cfg]); ax.invert_yaxis()
     ax.set_xlim(0, 1.02); ax.set_xlabel("mission success (route exists and crosses no face patch)")
     ax.grid(axis="x", color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)

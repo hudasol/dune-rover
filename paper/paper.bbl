@@ -67,6 +67,33 @@ S.~J. Riley, S.~D. DeGloria, and R.~Elliot, ``A terrain ruggedness index that
   \url{https://arc.lib.montana.edu/ojs/index.php/IJS/article/view/2914}
 \BIBentrySTDinterwordspacing
 
+\bibitem{zhang1994}
+W.~Zhang and D.~R. Montgomery, ``Digital elevation model grid size, landscape
+  representation, and hydrologic simulations,'' \emph{Water Resources
+  Research}, vol.~30, no.~4, pp. 1019--1028, 1994.
+
+\bibitem{ono2015}
+M.~Ono, T.~J. Fuchs, A.~Steffy, M.~Maimone, and J.~Yen, ``Risk-aware planetary
+  rover operation: Autonomous terrain classification and path planning,'' in
+  \emph{2015 {IEEE} Aerospace Conference}, Big Sky, MT, 2015, pp. 1--10.
+
+\bibitem{fan2021}
+D.~D. Fan, K.~Otsu, Y.~Kubo, A.~Dixit, J.~Burdick, and A.-a. Agha-mohammadi,
+  ``{STEP}: Stochastic traversability evaluation and planning for risk-aware
+  off-road navigation,'' in \emph{Robotics: Science and Systems XVII}, 2021.
+
+\bibitem{chen2016demsr}
+Z.~Chen, X.~Wang, Z.~Xu, and W.~Hou, ``Convolutional neural network based {DEM}
+  super resolution,'' in \emph{The International Archives of the
+  Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol.
+  XLI-B3, 2016, pp. 247--250.
+
+\bibitem{xu2019demsr}
+Z.~Xu, Z.~Chen, W.~Yi, Q.~Gui, W.~Hou, and M.~Ding, ``Deep gradient prior
+  network for {DEM} super-resolution: Transfer learning from image to {DEM},''
+  \emph{{ISPRS} Journal of Photogrammetry and Remote Sensing}, vol. 150, pp.
+  80--90, 2019.
+
 \bibitem{ishigami2007}
 G.~Ishigami, A.~Miwa, K.~Nagatani, and K.~Yoshida, ``Terramechanics-based model
   for steering maneuver of planetary exploration rovers on loose soil,''
@@ -83,6 +110,25 @@ M.~Heverly, J.~Matthews, J.~Lin, D.~Fuller, M.~Maimone, J.~Biesiadecki, and
   {Laboratory} rover,'' \emph{Journal of Field Robotics}, vol.~30, no.~6, pp.
   835--846, 2013.
 
+\bibitem{arvidson2010}
+R.~E. Arvidson, J.~F. Bell, P.~Bellutta, N.~A. Cabrol, J.~G. Catalano,
+  J.~Cohen, L.~S. Crumpler, D.~J. Des~Marais \emph{et~al.}, ``Spirit {Mars}
+  rover mission: Overview and selected results from the northern {Home} {Plate}
+  {Winter} {Haven} to the side of {Scamander} crater,'' \emph{Journal of
+  Geophysical Research: Planets}, vol. 115, no.~E7, 2010.
+
+\bibitem{marvi2014}
+H.~Marvi, C.~Gong, N.~Gravish, H.~Astley, M.~Travers, R.~L. Hatton, J.~R.
+  Mendelson, H.~Choset, D.~L. Hu, and D.~I. Goldman, ``Sidewinding with minimal
+  slip: Snake and robot ascent of sandy slopes,'' \emph{Science}, vol. 346, no.
+  6206, pp. 224--229, 2014.
+
+\bibitem{shrivastava2020}
+S.~Shrivastava, A.~Karsai, Y.~O. Aydin, R.~Pettinger, W.~Bluethmann, R.~O.
+  Ambrose, and D.~I. Goldman, ``Material remodeling and unconventional gaits
+  facilitate locomotion of a robophysical rover over granular terrain,''
+  \emph{Science Robotics}, vol.~5, no.~42, p. eaba3499, 2020.
+
 \bibitem{helmick2009}
 D.~Helmick, A.~Angelova, and L.~Matthies, ``Terrain adaptive navigation for
   planetary rovers,'' \emph{Journal of Field Robotics}, vol.~26, no.~4, pp.
@@ -95,11 +141,6 @@ B.~Rothrock, R.~Kennedy, C.~Cunningham, J.~Papon, M.~Heverly, and M.~Ono,
   0.4em\relax Long Beach, California: American Institute of Aeronautics and
   Astronautics, 2016.
 
-\bibitem{ono2015}
-M.~Ono, T.~J. Fuchs, A.~Steffy, M.~Maimone, and J.~Yen, ``Risk-aware planetary
-  rover operation: Autonomous terrain classification and path planning,'' in
-  \emph{2015 {IEEE} Aerospace Conference}, Big Sky, MT, 2015, pp. 1--10.
-
 \bibitem{sofman2006}
 B.~Sofman, E.~Lin, J.~A. Bagnell, J.~Cole, N.~Vandapel, and A.~Stentz,
   ``Improving robot navigation through self-supervised online learning,''
@@ -111,12 +152,10 @@ D.~Silver, J.~A. Bagnell, and A.~Stentz, ``Learning from demonstration for
   International Journal of Robotics Research}, vol.~29, no.~12, pp. 1565--1592,
   2010.
 
-\bibitem{guth2021}
-P.~L. Guth, A.~Van~Niekerk, C.~H. Grohmann, J.-P. Muller, L.~Hawker, I.~V.
-  Florinsky, D.~Gesch, H.~I. Reuter, V.~Herrera-Cruz, S.~Riazanoff,
-  C.~L{\'o}pez-V{\'a}zquez, C.~C. Carabajal, C.~Albinet, and P.~Strobl,
-  ``Digital elevation models: Terminology and definitions,'' \emph{Remote
-  Sensing}, vol.~13, no.~18, p. 3581, 2021.
+\bibitem{guth2021ranking}
+P.~L. Guth and T.~M. Geoffroy, ``{LiDAR} point cloud and {ICESat-2} evaluation
+  of 1 second global digital elevation models: {Copernicus} wins,''
+  \emph{Transactions in {GIS}}, vol.~25, no.~5, pp. 2245--2261, 2021.
 
 \bibitem{sugarbaker2014}
 L.~J. Sugarbaker, E.~W. Constance, H.~K. Heidemann, A.~L. Jason, V.~Lukas,
