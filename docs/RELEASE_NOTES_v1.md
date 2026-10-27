@@ -1,4 +1,13 @@
-# Release notes, versions 1.0 and 1.1
+# Release notes, versions 1.0, 1.1 and 1.2
+
+## Version 1.2 (2026-10-28): baselines, benchmark and conference paper
+
+- **Benchmark (SIMULATED BY ME on PUBLISHED data; stages 25 and 26 registered before any metric was computed).** The planner's slip face detector against six baselines (slope, ruggedness, plane roughness, cubic interpolation, gradient boosted trees and a small convolutional network, the last two trained leave one site out on lidar labels) on six lidar dune fields, with 10 m and 30 m block means and the real Copernicus GLO-30 product as inputs and block bootstrap intervals; the shipped planner with each hazard layer swapped in, on 600 origin and destination pairs scored on face patches in the lidar. Stage 25: 7 predictions hit, 2 missed; stage 26: 5 hit, 3 missed. At 30 m the cubic interpolation ranks faces best or tied best and the detector beats only plain slope; no computable 30 m hazard layer plans many face free routes, although the better ones halve the length of route on faces; a face map from fine data makes even a 30 m grid safe (post hoc).
+- **Conference paper.** `paper/paper.pdf` (six pages, IEEE conference format) generated from `paper/src/` and the result files by `scripts/build_paper.py`, with 43 references checked against Crossref or official pages, a fresh review with 20 findings and the response to each (`docs/REVIEW_2026-10-28.md`), and post hoc analyses decided after that review (`scripts/benchmark_posthoc.py`). Venues with deadlines read on official pages: `docs/VENUES.md`.
+- **Product.** Exports for robot software (Nav2 occupancy map, float GeoTIFF layers, KML, QGroundControl missions); a ROS 2 node that publishes the map and serves `GetPlan`; negative coordinates and `--version` on the command line; one version source; both climbing limits printed beside the Dumont field curve.
+- **Engineering.** CI on Python 3.10, 3.12 and 3.13 on Ubuntu and 3.13 on Windows, an install job with pyproj, checks of the paper source in the gate and CI.
+- **Documents.** A five line README opener with a figure, `docs/PARTNER_INDEX.md`, `docs/REPRODUCE.md`, report section 16; working logs moved to `docs/process/`.
+
 
 ## Version 1.1 (2026-10-23): the Dune Rover Planner
 

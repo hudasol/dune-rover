@@ -6,8 +6,8 @@ authors:
   - family-names: Mueen
     given-names: Huda
 repository-code: "https://github.com/hudasol/dune-rover"
-version: "1.1"
-date-released: "2026-10-23"
+version: "1.2"
+date-released: "2026-10-28"
 keywords:
   - terramechanics
   - wheeled robots
@@ -17,3 +17,5 @@ keywords:
   - ICESat-2
   - lidar
   - pre registration
+  - benchmark
+  - path planning
