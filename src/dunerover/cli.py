@@ -18,6 +18,22 @@ import argparse, json, os, sys
 import numpy as np
 
 from . import planner as P
+from . import __version__
+
+VALUE_OPTIONS = ("--start", "--goal", "--start-rc", "--goal-rc", "--window")
+
+
+def _join_negative_values(argv):
+    """argparse reads a value such as -115.7,34.9 as an option; join it to its option as --start=-115.7,34.9."""
+    out, i = [], 0
+    while i < len(argv):
+        a = argv[i]
+        if a in VALUE_OPTIONS and i + 1 < len(argv) and argv[i + 1].startswith("-") and len(argv[i + 1]) > 1 and \
+                (argv[i + 1][1].isdigit() or argv[i + 1][1] == "."):
+            out.append(f"{a}={argv[i + 1]}"); i += 2
+            continue
+        out.append(a); i += 1
+    return out
 
 
 def _pair(s, kind=float):
@@ -57,6 +73,8 @@ def _points(args, a):
 
 def cmd_assess(args, with_route=False):
     from .report import write_outputs
+    if with_route and not ((args.start and args.goal) or (args.start_rc and args.goal_rc)):
+        raise SystemExit("give --start and --goal (longitude,latitude, or map x,y without a reference system) or --start-rc and --goal-rc")
     r = _load(args)
     a = P.assess(r, args.posting, _profile(args.vehicle), n_draws=args.draws, seed=args.seed)
     if args.posting and abs(a.posting_m - args.posting) > 0.05 * args.posting:
@@ -66,16 +84,23 @@ def cmd_assess(args, with_route=False):
     routes = []
     if with_route:
         s, g = _points(args, a)
-        if s is None:
-            raise SystemExit("give --start and --goal (longitude,latitude, or map x,y without a reference system) or --start-rc and --goal-rc")
         pols = P.POLICIES if args.policy == "all" else (args.policy,)
         routes = [P.plan(a, s, g, p) for p in pols]
     summ = write_outputs(a, routes, args.out, args.title)
     print(f"{a.gate['status']}: {a.gate['message']}")
+    print(climbing_limits_line(a.profile))
     print("class shares:", ", ".join(f"{k} {100 * v:.1f} %" for k, v in summ["class_shares"].items()))
     for rp in routes:
         print(f"route {rp.policy}: " + (f"{rp.metrics['length_m']:.0f} m, {rp.metrics['cells_unknown']} UNKNOWN cells" if rp.reachable else rp.metrics["reason"]))
     print(f"outputs in {args.out}: report.html, map.png, classes.tif, summary.json" + (", routes.geojson" if routes else ""))
+
+
+def climbing_limits_line(profile) -> str:
+    """Both built in climbing limits side by side with the published field curve, so an optimistic profile is visible."""
+    post = P.builtin_profile("published-posterior").critical_uphill_deg()
+    return (f"nominal climbing limit: {profile.critical_uphill_deg():.1f} deg with the '{profile.name}' profile ({profile.label}); "
+            f"{post:.1f} deg with the published posterior; the Dumont Dunes field curve of a real rover reaches 50 % slip at "
+            f"{P.DUMONT_50PCT_SLIP_DEG:g} deg (PUBLISHED)")
 
 
 def cmd_vehicle(args):
@@ -131,6 +156,7 @@ def cmd_demo(args):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="dunerover", description="Dune Rover Planner (SIMULATION ONLY): slip face risk, three class map and routes on dune terrain")
+    ap.add_argument("--version", action="version", version=f"dunerover {__version__}")
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name in ("plan", "assess"):
         p = sub.add_parser(name)
@@ -146,7 +172,7 @@ def main(argv=None):
     v.add_argument("--name", default="field-calibrated"); v.add_argument("--out", default="")
     d = sub.add_parser("demo"); d.add_argument("--out", default="dunerover_demo"); d.add_argument("--vehicle", default="assumed")
     d.add_argument("--draws", type=int, default=128); d.add_argument("--seed", type=int, default=20261023)
-    args = ap.parse_args(argv)
+    args = ap.parse_args(_join_negative_values(list(sys.argv[1:] if argv is None else argv)))
     try:
         if args.cmd == "plan":
             cmd_assess(args, True)

@@ -5,6 +5,7 @@ import base64, html, io, json, os
 import numpy as np
 
 from .planner import Assessment, RoutePlan, CLASS_NAMES, load_evidence_card
+from . import planner as P
 from .terrain import hillshade
 
 PINK = {"bg": "#fffafb", "pearl": "#fbf3f6", "sakura": "#e8a5bb", "rose": "#c9769a", "deep": "#a8325e", "plum": "#5b3a78",
@@ -113,7 +114,9 @@ def html_report(a: Assessment, routes: list[RoutePlan], fig_png: bytes, title: s
                    f"<p class=note>Policies: naive (the slip model only), conservative (TRAVERSABLE cells only), risk weighted (avoids BLOCKED, "
                    f"cost raised by the face probability); the two cautious policies never descend a grade of 28 degrees or more. In the registered "
                    f"test on three lidar dune fields (stage 17), no policy was reliably safer than naive on 30 m maps. The nominal climbing limit of "
-                   f"this profile is {prof.critical_uphill_deg():.1f} degrees.</p>") if routes else ""
+                   f"this profile is {prof.critical_uphill_deg():.1f} degrees; with the published posterior of other vehicles it is "
+                   f"{P.builtin_profile('published-posterior').critical_uphill_deg():.1f} degrees, and the Dumont Dunes field curve of a real "
+                   f"rover reaches 50 % slip at {P.DUMONT_50PCT_SLIP_DEG:g} degrees (PUBLISHED).</p>") if routes else ""
     return f"""<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><style>
 body{{font-family:Inter,Segoe UI,Arial,sans-serif;background:{PINK['bg']};color:{PINK['ink']};margin:0;padding:24px;line-height:1.5}}

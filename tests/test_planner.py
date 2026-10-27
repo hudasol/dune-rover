@@ -205,3 +205,34 @@ def test_class_geotiff_keeps_ascii_params(tmp_path):
     out = tmp_path / "cls.tif"; write_class_geotiff(a, str(out))
     with tifffile.TiffFile(str(out)) as tf:
         assert "GeoAsciiParamsTag" in tf.pages[0].tags
+
+
+def test_cli_version_and_negative_coordinates(capsys):
+    from dunerover import cli, __version__
+    with pytest.raises(SystemExit):
+        cli.main(["--version"])
+    assert __version__ in capsys.readouterr().out
+    assert cli._join_negative_values(["plan", "x.tif", "--start", "-115.7,34.9", "--goal", "-115.6,34.9"]) == \
+        ["plan", "x.tif", "--start=-115.7,34.9", "--goal=-115.6,34.9"]
+    assert cli._join_negative_values(["plan", "--start", "--goal"]) == ["plan", "--start", "--goal"]
+
+
+def test_cli_plan_without_goal_fails_before_assessing(tmp_path):
+    from dunerover import cli
+    with pytest.raises(SystemExit) as e:
+        cli.main(["plan", str(tmp_path / "missing.tif"), "--start", "1,2"])
+    assert "give --start and --goal" in str(e.value)
+
+
+def test_version_single_source():
+    import re, dunerover
+    t = open(os.path.join(os.path.dirname(__file__), "..", "pyproject.toml")).read()
+    assert 'dynamic = ["version"]' in t and "dunerover.__version__" in t
+    assert re.fullmatch(r"\d+\.\d+\.\d+", dunerover.__version__)
+
+
+def test_summary_shows_both_climbing_limits():
+    z = np.zeros((10, 10))
+    s = P.assess(P.raster_from_array(z, 30.0), n_draws=8).summary()
+    assert s["critical_uphill_deg_published_posterior"] < s["critical_uphill_deg_nominal"]
+    assert s["dumont_field_curve_50pct_slip_deg_published"] == 12.6

@@ -43,6 +43,7 @@ RISK_W = 5.0                  # risk weighted policy: cost multiplied by 1 + RIS
 POLICIES = ("naive", "conservative", "risk_weighted")
 DOWNHILL_WARN_DEG = 25.0      # a route descending a grade this steep gets a warning (near the angle of repose of dry sand)
 DOWNHILL_CUT_DEG = 28.0       # conservative and risk weighted routes never descend a grade this steep (the face truth angle)
+DUMONT_50PCT_SLIP_DEG = 12.6  # PUBLISHED: the Dumont Dunes cubic of Heverly et al. 2013 crosses 50 % slip here (README, stage 5)
 NODATA_SHARE = 0.5            # an analysis cell with more than this share of void posts is NO DATA
 CLASS_NAMES = {0: "TRAVERSABLE", 1: "BLOCKED", 2: "UNKNOWN (assumption sensitive)", 3: "UNKNOWN (slip face risk)", 4: "UNKNOWN (both)",
                5: "NO DATA"}
@@ -395,6 +396,8 @@ class Assessment:
                 "analysis_posting_m": round(self.posting_m, 3), "block_factor": self.k, "face_source": self.face_source,
                 "resolution_gate": self.gate, "vehicle_profile": self.profile.to_dict(),
                 "critical_uphill_deg_nominal": round(self.profile.critical_uphill_deg(), 2),
+                "critical_uphill_deg_published_posterior": round(builtin_profile("published-posterior").critical_uphill_deg(), 2),
+                "dumont_field_curve_50pct_slip_deg_published": DUMONT_50PCT_SLIP_DEG,
                 "class_shares": {k: round(v, 4) for k, v in self.shares().items()},
                 "slope_deg_p95": round(float(np.nanpercentile(self.slope_deg, 95)), 2),
                 "n_parameter_draws": self.n_draws, "seed": self.seed, "face_probability_threshold": self.tau,
