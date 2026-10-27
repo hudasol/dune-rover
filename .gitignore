@@ -22,3 +22,7 @@ research/sources/phase3/
 
 # ICESat-2 segments fetched from SlideRule (stage 19)
 data/raw/icesat2/
+
+# stage 25 and 26: Copernicus tiles over the lidar fields, and the benchmark score cache (rebuilt by the scripts)
+data/raw/glo30_us/
+data/cache/
