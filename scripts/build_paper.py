@@ -86,6 +86,35 @@ def values() -> dict:
         key = f"{t['profile']}_{t['input']}_{t['policy']}_{t['hazard']}_vs_{t['reference'].replace(' ', '_')}".replace("-", "")
         q = float(t["p_holm"])
         V[f"t_{key}_p"] = "<0.001" if q < 0.001 else f"={q:.3f}"; V[f"t_{key}_diff"] = f"{100 * float(t['difference']):+.0f}"
+    # tallies of the registered predictions of stages 25 and 26, read from the register
+    reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
+    outs = re.findall(r"^\| (?:B25|P26)-\d \|[^\n]*\| (HIT|MISSED)", reg, flags=re.M)
+    V["pred_n"] = str(len(outs)); V["pred_hit"] = str(outs.count("HIT")); V["pred_missed"] = str(outs.count("MISSED"))
+    words = {5: "five", 7: "seven", 9: "nine", 12: "twelve", 17: "seventeen"}
+    for k in ("pred_n", "pred_hit", "pred_missed"):
+        V[k + "_word"] = words.get(int(V[k]), V[k])
+    g = lambda i, pol, hz, k: float(next(r for r in pl if r["profile"] == "assumed" and r["input"] == i and r["policy"] == pol and r["hazard"] == hz)[k])
+    V["i10_det_gate_cut_points"] = f"{100 * (g('I10', 'naive', 'none', 'unsafe_of_routed') - g('I10', 'conservative', 'DET', 'unsafe_of_routed')):.0f}"
+    unsup = [float(r["auc"]) for r in met if r["site"] == "WhiteSands" and r["input"] == "G30" and r["method"] in ("DET", "SLOPE", "TRI", "ROUGH", "BICUBIC")]
+    V["ws_g30_unsup_min"], V["ws_g30_unsup_max"] = f2(min(unsup)), f2(max(unsup))
+    # POST HOC analyses (scripts/benchmark_posthoc.py)
+    PH = os.path.join(ROOT, "results", "benchmark", "posthoc")
+    for r in read(os.path.join(PH, "summary.csv")):
+        key = f"ph_{r['input']}_{r['policy']}_{r['hazard']}".replace("-", "")
+        for k in ("routed", "success_p10", "success_p100", "success_p500", "unsafe_all_pairs_p10"):
+            V[f"{key}_{k}"] = pct(r[k])
+        V[f"{key}_mkm"] = f"{float(r['m_on_face_per_km']):.0f}" if r["m_on_face_per_km"] != "" else "--"
+    for r in read(os.path.join(PH, "clustered_differences.csv")):
+        key = f"cd_{r['input']}_{r['policy']}_{r['hazard']}".replace("-", "")
+        V[key] = f"{100 * float(r['difference']):+.1f}"; V[key + "_lo"] = f"{100 * float(r['lo_two_stage']):+.1f}"; V[key + "_hi"] = f"{100 * float(r['hi_two_stage']):+.1f}"
+        V[key + "_pos"] = r["sites_positive"]
+    ab = read(os.path.join(PH, "auc_bicubic.csv"))
+    for ref in ("GBM", "CNN"):
+        rr = [r for r in ab if r["input"] == "I30" and r["reference"] == ref]
+        V[f"bic_vs_{ref}_better"] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) > 0 for r in rr))
+        V[f"bic_vs_{ref}_worse"] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) < 0 for r in rr))
+    for r in read(os.path.join(PH, "glo30_shift.csv")):
+        V[f"shift_{r['site']}"] = f"{float(r['best_shift_m']):.0f}"
     V["crit_assumed"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['assumed']:.1f}"
     V["crit_posterior"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['published-posterior']:.1f}"
     return V, met, pl, summ
@@ -111,7 +140,10 @@ def table_detection(met):
     def cell(i, m, key):
         v = [float(r[key]) for r in met if r["input"] == i and r["method"] == m and r.get(key, "") != ""]
         return f"{np.mean(v):.2f}" if v else "--"
-    best = {i: max(METHODS, key=lambda m: float(cell(i, m, "auc")) if cell(i, m, "auc") != "--" else -1) for i in INPUTS}
+    def raw(i, m):
+        v = [float(r["auc"]) for r in met if r["input"] == i and r["method"] == m and r.get("auc", "") != ""]
+        return np.mean(v) if v else -1.0
+    best = {i: max(METHODS, key=lambda m: raw(i, m)) for i in INPUTS}
     lines = [r"\begin{table}[t]", r"\caption{Detection: mean over six sites of the AUC and average precision (AP); $^{*}$trained on lidar labels of the other five sites. Best AUC per input in bold.}",
              r"\label{tab:detection}", r"\centering\small", r"\setlength{\tabcolsep}{4pt}", r"\begin{tabular}{lcccccc}", r"\toprule",
              r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\",
@@ -129,8 +161,9 @@ def table_detection(met):
 
 
 PLAN_ROWS = [("shortest", "none", "Shortest path"), ("naive", "none", "Slip model only"),
-             ("conservative", "SLOPE-cal", "Gate: SLOPE"), ("conservative", "DET", "Gate: DET (ours)"), ("conservative", "DET-cal", "Gate: DET-cal"),
-             ("conservative", "GBM", "Gate: GBM$^{*}$"), ("conservative", "CNN", "Gate: CNN$^{*}$"), ("risk_weighted", "DET", "Weight: DET (ours)"),
+             ("conservative", "SLOPE-cal", "Gate: SLOPE-cal"), ("conservative", "BICUBIC-cal", "Gate: BICUBIC-cal"), ("conservative", "DET", "Gate: DET (ours)"),
+             ("conservative", "DET-cal", "Gate: DET-cal"), ("conservative", "GBM", "Gate: GBM$^{*}$"), ("conservative", "CNN", "Gate: CNN$^{*}$"),
+             ("risk_weighted", "DET", "Weight: DET (ours)"), ("risk_weighted", "BICUBIC-cal", "Weight: BICUBIC-cal"),
              ("risk_weighted", "GBM", "Weight: GBM$^{*}$"), ("conservative", "ORACLE", "Gate: ORACLE")]
 
 
@@ -154,13 +187,36 @@ def table_planning(pl):
     return "\n".join(lines)
 
 
+PH_ROWS = [("naive", "none", "Slip model only"), ("risk_weighted", "BICUBIC-cal", "Weight: BICUBIC-cal"), ("risk_weighted", "GBM", "Weight: GBM$^{*}$"),
+           ("conservative", "ORACLE", "Gate: ORACLE (cell label)"), ("conservative", "ORACLE-ANY", "Gate: face map")]
+
+
+def table_posthoc():
+    rows = read(os.path.join(ROOT, "results", "benchmark", "posthoc", "summary.csv"))
+    def g(i, pol, hz, k):
+        r = next((r for r in rows if r["input"] == i and r["policy"] == pol and r["hazard"] == hz), None)
+        if r is None or r[k] == "":
+            return "--"
+        return f"{float(r[k]):.0f}" if k == "m_on_face_per_km" else f"{100 * float(r[k]):.0f}"
+    lines = [r"\begin{table}[t]", r"\caption{Post hoc: mission success (\%) when only face patches of at least 10 or 500\,m$^2$ count, and metres of route on a face patch per km (E). Face map: every cell that holds a face patch post is marked.}",
+             r"\label{tab:posthoc}", r"\centering\small", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{lcccccc}", r"\toprule",
+             r" & \multicolumn{3}{c}{I10} & \multicolumn{3}{c}{I30} \\", r"Planner & S$_{10}$ & S$_{500}$ & E & S$_{10}$ & S$_{500}$ & E \\", r"\midrule"]
+    for pol, hz, lab in PH_ROWS:
+        cells = []
+        for i in ("I10", "I30"):
+            cells += [g(i, pol, hz, "success_p10"), g(i, pol, hz, "success_p500"), g(i, pol, hz, "m_on_face_per_km")]
+        lines.append(f"{lab} & " + " & ".join(cells) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(lines)
+
+
 def render(V, met, pl, summ) -> str:
     t = open(os.path.join(PAPER, "src", "paper_template.tex"), encoding="utf-8").read()
     for name in sorted(os.listdir(os.path.join(PAPER, "src"))):
         if name.startswith("text_") and name.endswith(".tex"):
             body = open(os.path.join(PAPER, "src", name), encoding="utf-8").read().strip()
             t = t.replace("{{VAL:" + name[5:-4] + "}}", body)
-    t = t.replace("{{TABLE:sites}}", table_sites(met, summ)).replace("{{TABLE:detection}}", table_detection(met)).replace("{{TABLE:planning}}", table_planning(pl))
+    t = t.replace("{{TABLE:sites}}", table_sites(met, summ)).replace("{{TABLE:detection}}", table_detection(met)).replace("{{TABLE:planning}}", table_planning(pl)).replace("{{TABLE:posthoc}}", table_posthoc())
     missing = []
 
     def sub(mo):
