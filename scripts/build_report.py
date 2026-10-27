@@ -463,7 +463,7 @@ def main():
     body = body.replace("{{INCLUDE:subgrid}}", open(sg, encoding="utf-8").read() if os.path.exists(sg) else "")
     p3s = os.path.join(ROOT, "docs/src/phase3_section.md")
     body = body.replace("{{INCLUDE:phase3}}", open(p3s, encoding="utf-8").read() if os.path.exists(p3s) else "")
-    for inc in ("phase4", "icesat2", "planner"):   # 2026-10-21: section 14 and its ICESat-2 part; 2026-10-23: section 15, the planner
+    for inc in ("phase4", "icesat2", "planner", "benchmark"):   # 2026-10-27: section 16, the benchmark   # 2026-10-21: section 14 and its ICESat-2 part; 2026-10-23: section 15, the planner
         f = os.path.join(ROOT, f"docs/src/{inc}_section.md")
         body = body.replace("{{INCLUDE:%s}}" % inc, open(f, encoding="utf-8").read() if os.path.exists(f) else "")
     an = os.path.join(ROOT, "docs/src/anchors_section.md")

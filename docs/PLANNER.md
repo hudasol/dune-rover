@@ -63,6 +63,7 @@ dunerover plan DEM.tif --vehicle my-rover.json --start-rc 40,5 --goal-rc 40,180 
 - No slip model in this repository transferred between published studies (report section 14.2), so routes near the climbing limit are guesses.
 - At 30 m it misses most slip faces; at 10 m it still misses some (report sections 13 and 14.4). Onboard sensing remains necessary for metre scale features.
 - A cautious policy is not a safe policy: in the registered test on three lidar dune fields (stage 17), no policy was reliably safer than naive on 30 m maps, and the gains at 10 m came from a post hoc comparison (report section 13).
+- No hazard layer helps much on a 30 m map: in the stage 25 and 26 benchmark (report section 16, `paper/paper.pdf`) mission success on six lidar dune fields stayed between 6 % and 11 % at 30 m with every hazard layer a rover could compute, including this planner's detector; on 10 m maps the detector raised it from 15 % to 24 to 27 %, gradient boosting trained on lidar to 34 %, and only a 5 m face map made every route safe. At 30 m a cubic interpolation of the map ranks hidden faces better than the planner's detector.
 - It plans on a static map; online slip feedback showed no benefit over stopping and retrying in simulation (report section 14.6).
 - It has not been run on Arabian terrain with a validated survey; that is the first work package of the robotics proposal.
 
