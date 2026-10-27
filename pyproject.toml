@@ -12,6 +12,7 @@ dependencies = ["numpy", "scipy", "matplotlib", "tifffile", "imagecodecs"]
 [project.optional-dependencies]
 dev = ["pytest"]
 projected = ["pyproj"]
+benchmark = ["scikit-learn", "pyproj", "torch"]
 
 [project.scripts]
 dunerover = "dunerover.cli:main"

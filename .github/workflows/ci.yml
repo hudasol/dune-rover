@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install numpy scipy matplotlib tifffile imagecodecs pytest
+      - run: pip install numpy scipy matplotlib tifffile imagecodecs scikit-learn pytest
       - run: PYTHONPATH=src python -m pytest -q tests
   generated-docs:
     runs-on: ubuntu-latest
