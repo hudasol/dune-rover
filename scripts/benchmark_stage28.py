@@ -417,7 +417,7 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
     radius R metres on the lidar face patches. Returns one dict per pair."""
     from scipy.ndimage import zoom
     from scipy.sparse.csgraph import dijkstra
-    from dunerover.terrain import Dem
+    from dunerover.dem import Dem
     from dunerover import traverse as TR
     f = k // 5
     zc = a.raster.z
@@ -440,8 +440,8 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
     out = []
     for n, (pa, pb) in enumerate(pairs):
         s0 = (min(int(pa[0] // 5), nr - 1), min(int(pa[1] // 5), nc - 1)); g0 = (min(int(pb[0] // 5), nr - 1), min(int(pb[1] // 5), nc - 1))
-        # crop to the pair's bounding box plus 600 m
-        m = 120
+        # crop to the pair's bounding box plus 300 m
+        m = 60
         r0, r1 = max(0, min(s0[0], g0[0]) - m), min(nr, max(s0[0], g0[0]) + m + 1)
         c0, c1 = max(0, min(s0[1], g0[1]) - m), min(nc, max(s0[1], g0[1]) + m + 1)
         sr, sc = np.divmod(src, nc); dr_, dc_ = np.divmod(dst, nc)
@@ -498,28 +498,35 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
     return out
 
 
-def part_E(n_pairs=30, inputs=("I10", "I30"), radii=None, layers=("none", "DET", "BICUBIC-cal", "GBM", "FACEMAP"), profiles=("published-posterior",), tag="E"):
+E_LAYERS = ("none", "DET", "BICUBIC-cal", "GBM", "FACEMAP")
+# amended before part E was run (register note after stage 28): 20 pairs per site; the radius and vehicle
+# sensitivities on the E1 endpoints and I30 only; crop margin 300 m
+E_CONFIGS = ([("published-posterior", inp, 20.0, e) for inp in ("I30", "I10") for e in ("E1", "E2")]
+             + [("published-posterior", "I30", R, "E1") for R in (10.0, 30.0)]
+             + [("assumed", "I30", 20.0, "E1")])
+
+
+def part_E(n_pairs=20, tag="E"):
     rows = []
     for site in SITES:
         t0 = time.time()
         T = site_truth(site)
         surf = surfaces(site, T)
         E = json.load(open(os.path.join(CDIR, f"endpoints_{site}.json")))
-        for prof_name in profiles:
-            prof = PL.builtin_profile(prof_name)
-            for inp in inputs:
+        assessed = {}
+        for prof_name, inp, R, e in E_CONFIGS:
+            if (prof_name, inp) not in assessed:
                 zc, k = surf[inp]
-                a = PL.assess(PL.raster_from_array(zc, float(k)), profile=prof, n_draws=128)
-                hz = layers_for(site, inp)
-                for lay in layers:
-                    h = np.zeros(a.classes.shape) if lay == "none" else hz[lay][:a.classes.shape[0], :a.classes.shape[1]]
-                    for R in (radii or ((20.0,) if inp == "I10" else (10.0, 20.0, 30.0))):
-                        for e in ("E1", "E2"):
-                            pairs = [(np.array(p), np.array(q)) for p, q in E[e][:n_pairs]]
-                            for r in closed_loop(a, h, k, T, pairs, R):
-                                rows.append({"site": site, "profile": prof_name, "input": inp, "layer": lay, "radius_m": R, "endpoints": e, **r})
-                    say(f"{tag} {site} {prof_name} {inp} {lay}: {time.time() - t0:.0f} s")
-        write(os.path.join(CDIR, f"routes_{tag}.csv"), rows)
+                assessed[(prof_name, inp)] = (PL.assess(PL.raster_from_array(zc, float(k)), profile=PL.builtin_profile(prof_name), n_draws=128), k)
+            a, k = assessed[(prof_name, inp)]
+            hz = layers_for(site, inp)
+            pairs = [(np.array(p), np.array(q)) for p, q in E[e][:n_pairs]]
+            for lay in E_LAYERS:
+                h = np.zeros(a.classes.shape) if lay == "none" else hz[lay][:a.classes.shape[0], :a.classes.shape[1]]
+                for r in closed_loop(a, h, k, T, pairs, R):
+                    rows.append({"site": site, "profile": prof_name, "input": inp, "layer": lay, "radius_m": R, "endpoints": e, **r})
+            say(f"{tag} {site} {prof_name} {inp} R {R:g} {e}: {time.time() - t0:.0f} s")
+        write(os.path.join(CDIR, f"routes_{tag}_{site}.csv"), [r for r in rows if r["site"] == site])
         del T
     # summary
     g = {}
