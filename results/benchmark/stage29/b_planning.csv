@@ -1,0 +1,7 @@
+input,layer,mission_success,chosen,difference,diff_lo,diff_hi
+I5,none,0.3383,,,,
+I5,BICUBIC-cal,0.8583,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000,0.52,0.31,0.7117
+I5,FACEMAP,0.9283,Dumont:100 WhiteSands:100 Kelso:100 GreatSandDunes:50 Algodones:100 LittleSahara:100,0.59,0.4683,0.7333
+I30,none,0.075,,,,
+I30,CNN-long,0.0967,Dumont:100 WhiteSands:100 Kelso:100 GreatSandDunes:100 Algodones:10 LittleSahara:100,0.0217,0.0,0.0467
+I30,SR-cal,0.1217,Dumont:100 WhiteSands:100 Kelso:100 GreatSandDunes:100 Algodones:100 LittleSahara:100,0.0467,0.02,0.075

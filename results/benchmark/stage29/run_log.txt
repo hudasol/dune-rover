@@ -47,3 +47,12 @@ part d done in 1139 s (00:29:29)
 stage 29 c on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:29:30
 stage 29 g on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:33:23
 part g done in 0 s (00:33:23)
+b GreatSandDunes I5: 354 s
+b GreatSandDunes I30: 364 s
+c Dumont I10: 699 s
+b Algodones I5: 432 s
+b Algodones I30: 444 s
+c Dumont I30: 814 s
+b LittleSahara I5: 141 s
+b LittleSahara I30: 146 s
+part b done in 975 s (00:43:49)
