@@ -159,7 +159,7 @@ def run_config(g, k, shape, pairs, T, keep=None):
     for n, (rc, (pa, pb), s, t) in enumerate(zip(rcs, pairs, S, Tg)):
         row = {"pair": n, "straight_m": round(float(np.hypot(*(pa - pb))), 1), "routed": rc is not None}
         if keep is not None:
-            row["start_ok"] = bool(keep[s]); row["goal_ok"] = bool(keep[t])
+            row["start_ok"] = bool(keep[s[0] * nc + s[1]]); row["goal_ok"] = bool(keep[t[0] * nc + t[1]])
         if rc is not None:
             row.update(score(samples(rc, k), T)); row["length_ratio"] = round(row["length_m"] / row["straight_m"], 3)
         out.append(row)
@@ -184,11 +184,11 @@ def surfaces(site, T):
     return {"I10": (B.block(T["z1f"], 10), 10), "I30": (B.block(T["z1f"], 30), 30), "G30": (c25[f"{site}|G30|z"].astype(float), 30)}
 
 
-def part_A():
+def part_A(sites=None):
     os.makedirs(CDIR, exist_ok=True)
-    rng2 = np.random.default_rng(SEED)
     stats = []
-    for site in SITES:
+    for site in (sites or SITES):
+        rng2 = np.random.default_rng([SEED, SITES.index(site)])
         t0 = time.time()
         T = site_truth(site)
         surf = surfaces(site, T)
@@ -229,7 +229,7 @@ def part_A():
         write(os.path.join(CDIR, f"routes_A_{site}.csv"), rows)
         say(f"A {site}: {len(rows)} routes in {time.time() - t0:.0f} s")
         del T
-    write(os.path.join(OUT, "D_descent_rule.csv"), stats)
+        write(os.path.join(CDIR, f"descent_rule_{site}.csv"), [x for x in stats if x["site"] == site])
 
 
 def shifted(mask, dr, dc):
@@ -241,10 +241,10 @@ def shifted(mask, dr, dc):
     return out
 
 
-def part_C():
-    rows = []
+def part_C(sites=None):
     prof = PL.builtin_profile("published-posterior")
-    for site in SITES:
+    for site in (sites or SITES):
+        rows = []
         t0 = time.time()
         T = site_truth(site)
         surf = surfaces(site, T)
@@ -275,9 +275,9 @@ def part_C():
                         pairs = [(np.array(p), np.array(q)) for p, q in E[e]]
                         for r in run_config(g, k, shape, pairs, T, keep):
                             rows.append({"site": site, "endpoints": e, "input": inp, "map": name, "policy": pol, **r})
+        write(os.path.join(CDIR, f"routes_C_{site}.csv"), rows)
         say(f"C {site}: {time.time() - t0:.0f} s")
         del T
-    write(os.path.join(CDIR, "routes_C.csv"), rows)
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -290,10 +290,7 @@ def _f(x):
 def load_routes(name):
     rows = []
     for site in SITES:
-        p = os.path.join(CDIR, f"{name}_{site}.csv") if name == "routes_A" else os.path.join(CDIR, f"{name}.csv")
-        rows += list(csv.DictReader(open(p)))
-        if name != "routes_A":
-            break
+        rows += list(csv.DictReader(open(os.path.join(CDIR, f"{name}_{site}.csv"))))
     for r in rows:
         r["routed"] = _f(r["routed"])
         r["success"] = r["routed"] and not _f(r.get("unsafe", ""))
@@ -400,7 +397,9 @@ def summary():
                 base.append({"profile": pf, "endpoints": e, "input": inp, **agg(rr)})
     write(os.path.join(OUT, "A_naive.csv"), base)
     say(f"summary A: {len(sweep)} settings, {len(held)} held out rows")
-    if os.path.exists(os.path.join(CDIR, "routes_C.csv")):
+    stats = [r for s_ in SITES for r in csv.DictReader(open(os.path.join(CDIR, f"descent_rule_{s_}.csv")))]
+    write(os.path.join(OUT, "D_descent_rule.csv"), stats)
+    if all(os.path.exists(os.path.join(CDIR, f"routes_C_{s_}.csv")) for s_ in SITES):
         rc = load_routes("routes_C")
         g = {}
         for r in rc:
@@ -506,9 +505,9 @@ E_CONFIGS = ([("published-posterior", inp, 20.0, e) for inp in ("I30", "I10") fo
              + [("assumed", "I30", 20.0, "E1")])
 
 
-def part_E(n_pairs=20, tag="E"):
+def part_E(sites=None, n_pairs=20, tag="E"):
     rows = []
-    for site in SITES:
+    for site in (sites or SITES):
         t0 = time.time()
         T = site_truth(site)
         surf = surfaces(site, T)
@@ -542,6 +541,34 @@ def part_E(n_pairs=20, tag="E"):
     write(os.path.join(OUT, f"{tag}_closed_loop.csv"), summ)
 
 
+def summary_E():
+    rows = load_routes("routes_E")
+    for r in rows:
+        r["success"] = _f(r["success"]); r["unsafe"] = _f(r["unsafe"])
+    g = {}
+    for r in rows:
+        g.setdefault((r["profile"], r["endpoints"], r["input"], r["layer"], r["radius_m"]), []).append(r)
+    summ = []
+    for k_, rr in sorted(g.items(), key=lambda x: str(x[0])):
+        reached = [float(r["length_ratio"]) for r in rr if r["status"] == "reached"]
+        summ.append(dict(zip(("profile", "endpoints", "input", "layer", "radius_m"), k_), pairs=len(rr),
+                         success=round(float(np.mean([r["success"] for r in rr])), 4), stuck=round(float(np.mean([r["status"] == "stuck" for r in rr])), 4),
+                         unsafe=round(float(np.mean([r["unsafe"] for r in rr])), 4),
+                         length_ratio_reached=round(float(np.mean(reached)), 3) if reached else "",
+                         replans=round(float(np.mean([float(r["replans"]) for r in rr])), 2)))
+    # differences against the slip only prior with the same sensing (two stage bootstrap over sites and pairs)
+    for row in summ:
+        if row["layer"] == "none":
+            continue
+        k0 = (row["profile"], row["endpoints"], row["input"], "none", row["radius_m"])
+        base = {(r["site"], r["pair"]): r["success"] for r in g.get(k0, [])}
+        cur = {(r["site"], r["pair"]): r["success"] for r in g[(row["profile"], row["endpoints"], row["input"], row["layer"], row["radius_m"])]}
+        d = [[float(cur[(s_, p)]) - float(base[(s_, p)]) for (s2, p) in cur if s2 == s_ and (s_, p) in base] for s_ in SITES]
+        lo, hi = two_stage(d)
+        row.update(diff_vs_slip_only=round(float(np.mean(sum(d, []))), 4), diff_lo=round(lo, 4), diff_hi=round(hi, 4))
+    write(os.path.join(OUT, "E_closed_loop.csv"), summ)
+
+
 def main():
     global LOG
     os.makedirs(OUT, exist_ok=True); os.makedirs(CDIR, exist_ok=True)
@@ -550,7 +577,9 @@ def main():
     say(f"stage 28 {' '.join(parts)} started {time.strftime('%Y-%m-%d %H:%M:%S')}; numpy {np.__version__}; seed {SEED}")
     for p in parts:
         t0 = time.time()
-        {"A": part_A, "C": part_C, "summary": summary, "E": part_E}[p]()
+        name, _, sites = p.partition(":")
+        fn = {"A": part_A, "C": part_C, "summary": summary, "E": part_E, "summaryE": summary_E}[name]
+        fn(sites.split(",")) if sites else fn()
         say(f"part {p} done in {time.time() - t0:.0f} s ({time.strftime('%H:%M:%S')})")
 
 
