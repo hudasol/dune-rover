@@ -631,6 +631,9 @@ def part_G(D):
             tuned, chosen = {}, {}
             t0 = time.time()
             for held in SITES:
+                ckt = os.path.join(CDIR, "chunks", f"Gt_{inp}_{held}.npz")
+                if os.path.exists(ckt):
+                    z_ = np.load(ckt); tuned[held] = z_["p"]; chosen[held] = json.loads(str(z_["chosen"])); continue
                 inner = [s for s in SITES if s != held]
                 best = None
                 for prm in grid:
@@ -648,6 +651,8 @@ def part_G(D):
                 mdl = HistGradientBoostingClassifier(**best[1]).fit(X, y)
                 tuned[held] = mdl.predict_proba(F[held].reshape(-1, F[held].shape[-1]))[:, 1].reshape(ys[held].shape)
                 chosen[held] = {k_: v_ for k_, v_ in best[1].items() if k_ != "random_state"}
+                np.savez_compressed(ckt, p=tuned[held], chosen=json.dumps(chosen[held]))
+                say(f"G {inp} tuned, held out {held}: {json.dumps(chosen[held])} ({time.time() - t0:.0f} s)")
             variants["GBM-tuned"] = tuned
             say(f"G {inp}: tuning {time.time() - t0:.0f} s; chosen {json.dumps(chosen)}")
         if inp == "I30":
