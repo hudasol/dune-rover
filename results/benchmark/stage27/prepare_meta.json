@@ -1,0 +1,224 @@
+{
+ "Dumont": {
+  "R10": {
+   "shape": [
+    686,
+    578
+   ],
+   "dx_m": 8.38,
+   "dy_m": 10.27,
+   "valid_cells": 166628,
+   "void_share": 0.0
+  },
+  "N30": {
+   "shape": [
+    229,
+    193
+   ],
+   "dx_m": 25.15,
+   "dy_m": 30.82,
+   "valid_cells": 18367,
+   "void_share": 0.0
+  },
+  "G30n": {
+   "shape": [
+    229,
+    193
+   ],
+   "dx_m": 25.15,
+   "dy_m": 30.82,
+   "valid_cells": 18367,
+   "void_share": 0.0
+  },
+  "patches": 4693,
+  "patch_posts_share": 0.2067,
+  "epsg": 26911,
+  "s2": "earth-search sentinel-2-l2a S2A_11SNV_20241220_0_L2A",
+  "naip": "planetarycomputer naip ca_m_3511622_ne_11_060_20220430, ca_m_3511622_se_11_060_20220430, ca_m_3511623_nw_11_060_20220430, ca_m_3511623_sw_11_060_20220430, ca_m_3511630_ne_11_060_20220430, ca_m_3511631_nw_11_060_20220430"
+ },
+ "WhiteSands": {
+  "R10": {
+   "shape": [
+    627,
+    395
+   ],
+   "dx_m": 8.67,
+   "dy_m": 10.27,
+   "valid_cells": 60256,
+   "void_share": 0.0
+  },
+  "N30": {
+   "shape": [
+    209,
+    132
+   ],
+   "dx_m": 26.01,
+   "dy_m": 30.81,
+   "valid_cells": 7694,
+   "void_share": 0.0
+  },
+  "G30n": {
+   "shape": [
+    209,
+    132
+   ],
+   "dx_m": 26.01,
+   "dy_m": 30.81,
+   "valid_cells": 7694,
+   "void_share": 0.0
+  },
+  "patches": 789,
+  "patch_posts_share": 0.0426,
+  "epsg": 26913,
+  "s2": "earth-search sentinel-2-l2a S2A_13SCS_20201219_1_L2A",
+  "naip": "planetarycomputer naip nm_m_3210614_ne_13_060_20220521, nm_m_3210614_nw_13_060_20220604, nm_m_3210614_se_13_060_20220521, nm_m_3210614_sw_13_060_20220604"
+ },
+ "Kelso": {
+  "R10": {
+   "shape": [
+    483,
+    646
+   ],
+   "dx_m": 8.46,
+   "dy_m": 10.27,
+   "valid_cells": 111346,
+   "void_share": 0.0
+  },
+  "N30": {
+   "shape": [
+    161,
+    215
+   ],
+   "dx_m": 25.39,
+   "dy_m": 30.82,
+   "valid_cells": 12239,
+   "void_share": 0.0
+  },
+  "G30n": {
+   "shape": [
+    161,
+    215
+   ],
+   "dx_m": 25.39,
+   "dy_m": 30.82,
+   "valid_cells": 12239,
+   "void_share": 0.0
+  },
+  "patches": 2184,
+  "patch_posts_share": 0.05,
+  "epsg": 26911,
+  "s2": "earth-search sentinel-2-l2a S2A_11SPU_20241220_0_L2A",
+  "naip": "planetarycomputer naip ca_m_3411502_se_11_060_20220429, ca_m_3411503_sw_11_060_20220429"
+ },
+ "GreatSandDunes": {
+  "R10": {
+   "shape": [
+    578,
+    709
+   ],
+   "dx_m": 8.16,
+   "dy_m": 10.28,
+   "valid_cells": 175892,
+   "void_share": 0.0
+  },
+  "N30": {
+   "shape": [
+    193,
+    236
+   ],
+   "dx_m": 24.48,
+   "dy_m": 30.83,
+   "valid_cells": 19392,
+   "void_share": 0.0
+  },
+  "G30n": {
+   "shape": [
+    193,
+    236
+   ],
+   "dx_m": 24.48,
+   "dy_m": 30.83,
+   "valid_cells": 19392,
+   "void_share": 0.0
+  },
+  "patches": 2065,
+  "patch_posts_share": 0.0778,
+  "epsg": 26913,
+  "s2": "earth-search sentinel-2-l2a S2B_13SDB_20201224_1_L2A",
+  "naip": "planetarycomputer naip co_m_3710512_se_13_030_20231013_20240104, co_m_3710512_sw_13_030_20231013_20240104, co_m_3710520_ne_13_030_20231013_20240104, co_m_3710520_nw_13_030_20231013_20240104"
+ },
+ "Algodones": {
+  "R10": {
+   "shape": [
+    710,
+    688
+   ],
+   "dx_m": 8.66,
+   "dy_m": 10.27,
+   "valid_cells": 200340,
+   "void_share": 0.0
+  },
+  "N30": {
+   "shape": [
+    237,
+    229
+   ],
+   "dx_m": 25.98,
+   "dy_m": 30.81,
+   "valid_cells": 24743,
+   "void_share": 0.0
+  },
+  "G30n": {
+   "shape": [
+    237,
+    229
+   ],
+   "dx_m": 25.98,
+   "dy_m": 30.81,
+   "valid_cells": 24743,
+   "void_share": 0.0
+  },
+  "patches": 3131,
+  "patch_posts_share": 0.0274,
+  "epsg": 26911,
+  "s2": "earth-search sentinel-2-l2a S2A_11SPS_20211226_0_L2A",
+  "naip": "planetarycomputer naip ca_m_3211507_ne_11_060_20220530, ca_m_3211507_se_11_060_20220530, ca_m_3211508_nw_11_060_20220530, ca_m_3211508_sw_11_060_20220530"
+ },
+ "LittleSahara": {
+  "R10": {
+   "shape": [
+    530,
+    474
+   ],
+   "dx_m": 7.94,
+   "dy_m": 10.28,
+   "valid_cells": 77969,
+   "void_share": 0.0
+  },
+  "N30": {
+   "shape": [
+    177,
+    158
+   ],
+   "dx_m": 23.82,
+   "dy_m": 30.84,
+   "valid_cells": 8565,
+   "void_share": 0.0
+  },
+  "G30n": {
+   "shape": [
+    177,
+    158
+   ],
+   "dx_m": 23.82,
+   "dy_m": 30.84,
+   "valid_cells": 8565,
+   "void_share": 0.0
+  },
+  "patches": 1776,
+  "patch_posts_share": 0.0192,
+  "epsg": 26912,
+  "s2": "earth-search sentinel-2-l2a S2A_12TUK_20201221_1_L2A",
+  "naip": "planetarycomputer naip ut_m_3911221_ne_12_060_20211021, ut_m_3911221_se_12_060_20211021, ut_m_3911222_nw_12_060_20211021, ut_m_3911222_sw_12_060_20211021"
+ }
+}
