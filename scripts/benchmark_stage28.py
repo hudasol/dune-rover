@@ -538,22 +538,10 @@ def part_E(sites=None, n_pairs=20, tag="E"):
             say(f"{tag} {site} {prof_name} {inp} R {R:g} {e}: {time.time() - t0:.0f} s")
         write(os.path.join(CDIR, f"routes_{tag}_{site}.csv"), [r for r in rows if r["site"] == site])
         del T
-    # summary
-    g = {}
-    for r in rows:
-        g.setdefault((r["profile"], r["endpoints"], r["input"], r["layer"], r["radius_m"]), []).append(r)
-    summ = []
-    for k_, rr in sorted(g.items(), key=lambda x: str(x[0])):
-        summ.append(dict(zip(("profile", "endpoints", "input", "layer", "radius_m"), k_), pairs=len(rr),
-                         success=round(np.mean([r["success"] for r in rr]), 4), stuck=round(np.mean([r["status"] == "stuck" for r in rr]), 4),
-                         unsafe=round(np.mean([r["unsafe"] for r in rr]), 4),
-                         length_ratio_reached=round(float(np.mean([r["length_ratio"] for r in rr if r["status"] == "reached"] or [np.nan])), 3),
-                         replans=round(float(np.mean([r["replans"] for r in rr])), 2)))
-    write(os.path.join(OUT, f"{tag}_closed_loop.csv"), summ)
 
 
 def summary_E():
-    rows = load_routes("routes_E")
+    rows = [r for s_ in SITES for r in csv.DictReader(open(os.path.join(CDIR, f"routes_E_{s_}.csv")))]
     for r in rows:
         r["success"] = _f(r["success"]); r["unsafe"] = _f(r["unsafe"])
     g = {}
