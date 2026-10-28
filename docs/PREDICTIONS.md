@@ -617,21 +617,21 @@ Design fixed now (`scripts/benchmark_stage27.py`, `src/dunerover/benchmark.py`, 
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| D27-1 | On I30 against L-ANY, BICUBIC has the highest or tied highest macro mean AUC among DET, SLOPE, TRI, ROUGH, BICUBIC, GBM and CNN (tied: within 0.01). | |
-| D27-2 | On I30, the macro mean AUC against L-ANY is lower than against L-CELL for at least five of the seven stage 25 methods. | |
-| D27-3 | I10 to 30 (maximum of the 10 m scores) beats the same method on I30 against L-ANY by at least 0.05 macro mean AUC for BICUBIC and GBM. | |
-| D27-4 | Resolution sweep: the macro mean AUC of BICUBIC and GBM falls monotonically from 2 to 60 m (one inversion of at most 0.01 allowed per method). | |
-| D27-5 | Resolution sweep: at 2 m, SLOPE reaches a macro mean AUC of at least 0.95; at 60 m, no method exceeds 0.80. | |
-| D27-6 | Scaling: pooled patch recall of GBM is at least 0.8 for L/d of 2 or more and at most 0.5 for L/d below 0.5, at every posting where both bins hold at least 50 patches. | |
-| D27-7 | R10: the macro mean AUC of BICUBIC on R10 is within 0.05 of that on I10. | |
-| D27-8 | N30: the macro mean AUC of the best method on N30 is at most that on G30n plus 0.02. | |
-| D27-9 | G30n: the macro mean AUC of BICUBIC on G30n is at least that on G30 (stage 25 interpolation, L-ANY) minus 0.01. | |
-| D27-10 | Imagery: on I30, DEM+S2 beats GBM by at least 0.02 macro mean AUC. | |
-| D27-11 | Imagery: on I30, IMG-NAIP alone reaches a macro mean AUC of at least 0.75. | |
+| D27-1 | On I30 against L-ANY, BICUBIC has the highest or tied highest macro mean AUC among DET, SLOPE, TRI, ROUGH, BICUBIC, GBM and CNN (tied: within 0.01). | HIT. On I30 against L-ANY interpolation has the highest macro mean AUC of the seven (0.817; GBM 0.810, CNN 0.800, ROUGH 0.770, TRI 0.764, DET 0.740, SLOPE 0.689; `results/benchmark/stage27/A_macro.csv`). Part G later found a network trained four times longer at 0.838, which is not one of the seven. |
+| D27-2 | On I30, the macro mean AUC against L-ANY is lower than against L-CELL for at least five of the seven stage 25 methods. | MISSED. Lower against L-ANY for 3 of 7 methods (DET 0.740 against 0.741, SLOPE 0.689 against 0.699, BICUBIC 0.8165 against 0.8167) and higher for TRI, ROUGH, GBM and CNN; every difference is 0.01 or less, so the label change hardly matters on I30. |
+| D27-3 | I10 to 30 (maximum of the 10 m scores) beats the same method on I30 against L-ANY by at least 0.05 macro mean AUC for BICUBIC and GBM. | HIT. The maximum of the nine 10 m scores, scored on I30 L-ANY, beats the 30 m surface by 0.141 for BICUBIC (0.957 against 0.817) and 0.149 for GBM (0.959 against 0.810). |
+| D27-4 | Resolution sweep: the macro mean AUC of BICUBIC and GBM falls monotonically from 2 to 60 m (one inversion of at most 0.01 allowed per method). | HIT. BICUBIC 0.999, 0.993, 0.968, 0.934, 0.895, 0.817 and 0.693 and GBM 0.999, 0.992, 0.968, 0.935, 0.895, 0.810 and 0.673 at 2, 5, 10, 15, 20, 30 and 60 m, with no inversion (`results/benchmark/stage27/C_macro.csv`). |
+| D27-5 | Resolution sweep: at 2 m, SLOPE reaches a macro mean AUC of at least 0.95; at 60 m, no method exceeds 0.80. | HIT. SLOPE reaches 0.996 at 2 m; at 60 m the best method is BICUBIC at 0.693. |
+| D27-6 | Scaling: pooled patch recall of GBM is at least 0.8 for L/d of 2 or more and at most 0.5 for L/d below 0.5, at every posting where both bins hold at least 50 patches. | MISSED. For L/d below 0.5 the recall of GBM is 0.87 at 10 m, 0.76 at 15 m, 0.68 at 20 m, 0.60 at 30 m and 0.46 at 60 m (above 0.5 except at 60 m), and for L/d of 2 or more it is at least 0.91 from 10 to 30 m but 0.79 at 60 m (`results/benchmark/stage27/C_scaling_by_site.csv`). Short faces are found more often than predicted, because a cell flagged for a neighbouring face often holds a short one too. |
+| D27-7 | R10: the macro mean AUC of BICUBIC on R10 is within 0.05 of that on I10. | HIT. BICUBIC on R10 0.959 against 0.968 on I10 (`D_macro.csv`, `A_macro.csv`). |
+| D27-8 | N30: the macro mean AUC of the best method on N30 is at most that on G30n plus 0.02. | HIT. Best on N30 0.629 (GBM) against best on G30n 0.723 (GBM). |
+| D27-9 | G30n: the macro mean AUC of BICUBIC on G30n is at least that on G30 (stage 25 interpolation, L-ANY) minus 0.01. | HIT. BICUBIC on G30n 0.699 against 0.696 on G30 interpolated to the lidar grid. |
+| D27-10 | Imagery: on I30, DEM+S2 beats GBM by at least 0.02 macro mean AUC. | HIT. DEM+S2 0.854 against GBM 0.810 on I30 (plus 0.045; `E_macro.csv`). |
+| D27-11 | Imagery: on I30, IMG-NAIP alone reaches a macro mean AUC of at least 0.75. | MISSED. IMG-NAIP alone reaches 0.665 on I30 (Sentinel-2 alone 0.744). |
 | D27-12 | Super resolution: on I30, SR is within 0.03 of BICUBIC in macro mean AUC. | |
-| D27-13 | GBM+ beats GBM on I30 by at least 0.01 macro mean AUC (the curvature explanation of the interpolation result). | |
-| D27-14 | GBM-tuned is within 0.01 of GBM in macro mean AUC on both I10 and I30. | |
-| D27-15 | ASPECT beats SLOPE on I30 (point estimate of AUC) at four or more of the six sites. | |
+| D27-13 | GBM+ beats GBM on I30 by at least 0.01 macro mean AUC (the curvature explanation of the interpolation result). | HIT. GBM+ 0.829 against GBM 0.810 on I30 (plus 0.020; `G_macro.csv`); on I10 0.974 against 0.968. |
+| D27-14 | GBM-tuned is within 0.01 of GBM in macro mean AUC on both I10 and I30. | HIT. GBM-tuned 0.968 against 0.968 on I10 and 0.811 against 0.810 on I30. |
+| D27-15 | ASPECT beats SLOPE on I30 (point estimate of AUC) at four or more of the six sites. | MISSED. ASPECT is below SLOPE at all six sites on I30 (macro mean 0.608 against 0.689; `H_metrics.csv`). |
 | D27-16 | The correlogram range of L-ANY is below 300 m at four or more of the six sites. | |
 
 ## Stage 28: planning comparisons at every operating point, degraded face maps and a closed loop with local sensing (written 2026-10-28, BEFORE any route of this stage was planned or scored)
@@ -651,14 +651,14 @@ Design fixed now (`scripts/benchmark_stage28.py`, outputs in `results/benchmark/
 
 | ID | Prediction made before the run (tolerance in the statement) | Outcome |
 |---|---|---|
-| P28-1 | On I30 (E1, posterior profile), the best computable layer at its held out operating point raises mission success over naive by at most 10 points. | |
-| P28-2 | On I10 (E1, posterior profile), the best computable layer at its held out operating point raises mission success over naive by at least 10 points. | |
-| P28-3 | On I30 with the conservative policy, a FACEMAP shifted by 30 m gives mission success at least 30 points below the undegraded FACEMAP. | |
-| P28-4 | On I30 with the conservative policy, the FACEMAP from a simulated 2 m survey gives mission success within 10 points of the undegraded FACEMAP, and the one from a 5 m survey at least 10 points below it. | |
-| P28-5 | Naive mission success on I30 is lower with E2 endpoints than with E1 endpoints. | |
-| P28-6 | Footprint scoring raises the unsafe share of routed pairs of naive on I30 by at most 5 points. | |
-| P28-7 | The descent rule removes less than 1 % of graph edges on the 30 m grid at every site. | |
-| P28-8 | For GBM with the conservative policy on I30 at tau 0.2, at least half of the unrouted pairs are endpoint refusals (start, goal or both). | |
+| P28-1 | On I30 (E1, posterior profile), the best computable layer at its held out operating point raises mission success over naive by at most 10 points. | HIT. On I30 (E1, posterior) the best computable layers at their held out operating points add 5.2 points (DEM+S2, 12.7 % against 7.5 %, two stage interval 1.3 to 9.3) and 5.0 points (BICUBIC-cal, 12.5 %, interval 1.8 to 8.5) (`results/benchmark/stage28/A_held_out.csv`). |
+| P28-2 | On I10 (E1, posterior profile), the best computable layer at its held out operating point raises mission success over naive by at least 10 points. | HIT. On I10 the best computable layer, BICUBIC-cal, reaches 64.0 % against 16.7 % for naive (plus 47.3 points, interval 27.7 to 64.2, positive at all six sites). |
+| P28-3 | On I30 with the conservative policy, a FACEMAP shifted by 30 m gives mission success at least 30 points below the undegraded FACEMAP. | MISSED. With the conservative policy on I30 (E1) the face map gives 15.5 % and the face map shifted by 30 m 6.3 %, 9 points lower, because with the posterior vehicle the gate routes few pairs even with a perfect face map; with the weight policy (w = 5) the drop is 44 points (54.5 % to 10.6 %; `C_degraded.csv`). |
+| P28-4 | On I30 with the conservative policy, the FACEMAP from a simulated 2 m survey gives mission success within 10 points of the undegraded FACEMAP, and the one from a 5 m survey at least 10 points below it. | MISSED. Conservative on I30 (E1): the 2 m survey map gives 11.8 % against 15.5 % for the face map (within 10 points, as predicted), but the 5 m survey map gives 5.8 %, 9.7 points lower, just short of the predicted 10. With the weight policy (w = 5) the survey maps give 22.7 % (2 m) and 7.8 % (5 m) against 54.5 %. |
+| P28-5 | Naive mission success on I30 is lower with E2 endpoints than with E1 endpoints. | HIT. Naive mission success on I30 is 2.5 % with E2 endpoints and 7.5 % with E1 (`A_naive.csv`). |
+| P28-6 | Footprint scoring raises the unsafe share of routed pairs of naive on I30 by at most 5 points. | HIT. Footprint scoring raises the unsafe share of routed naive pairs on I30 (E1) from 92.5 % to 93.5 %. |
+| P28-7 | The descent rule removes less than 1 % of graph edges on the 30 m grid at every site. | HIT for the main profile: on the 30 m grid the descent rule removes at most 0.05 % of the finite edges (Dumont), and 0.00 to 0.02 % elsewhere; with the `assumed` sensitivity profile it removes 1.3 % at Dumont (`D_descent_rule.csv`). |
+| P28-8 | For GBM with the conservative policy on I30 at tau 0.2, at least half of the unrouted pairs are endpoint refusals (start, goal or both). | HIT. Of the 565 unrouted pairs (E1, posterior, I30, GBM, conservative, tau 0.2), 430 (76 %) are endpoint refusals: 118 start, 114 goal and 198 both; 135 are disconnected (`B_refusals.csv`). |
 | P28-9 | Closed loop, R = 20 m: success is at least 70 % for every layer on I30, and the driven length ratio of naive exceeds that of FACEMAP by at least 0.1. | |
 | P28-10 | Closed loop: on I30, success with GBM exceeds success with naive by at most 10 points (onboard sensing, not the coarse prior, makes most routes safe). | |
 
