@@ -156,12 +156,91 @@ def fig_planning():
     fig.savefig(os.path.join(FIG, "fig_planning.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
+S27 = os.path.join(ROOT, "results", "benchmark", "stage27")
+S28 = os.path.join(ROOT, "results", "benchmark", "stage28")
+SWEEP_STYLE = {"SLOPE": ("#8A7A82", "v", "Slope"), "DET": ("#E58AAE", "^", "Synthetic detector"),
+               "BICUBIC": ("#C2185B", "s", "Cubic interpolation"), "GBM": ("#6A3D8F", "o", "Gradient boosting*")}
+
+
+def fig_resolution():
+    """(a) macro mean AUC against the posting; (b) pooled patch recall against face length over grid spacing."""
+    mac = read(os.path.join(S27, "C_macro.csv"))
+    sca = read(os.path.join(S27, "C_scaling.csv"))
+    fig, axs = plt.subplots(1, 2, figsize=(3.45, 1.75), gridspec_kw={"wspace": 0.42})
+    ax = axs[0]
+    for m, (col, mk, lab) in SWEEP_STYLE.items():
+        rr = sorted([r for r in mac if r["method"] == m], key=lambda r: float(r["posting_m"]))
+        x = [float(r["posting_m"]) for r in rr]; y = [float(r["auc"]) for r in rr]
+        ax.plot(x, y, color=col, lw=1.0); ax.scatter(x, y, s=10, marker=mk, color=col, edgecolors=INK, linewidths=0.3, zorder=3, label=lab)
+    ax.set_xscale("log"); ax.set_xticks([2, 5, 10, 30, 60]); ax.set_xticklabels(["2", "5", "10", "30", "60"])
+    ax.set_xlabel("grid spacing (m)"); ax.set_ylabel("mean AUC (face map label)")
+    ax.set_ylim(0.5, 1.0); ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
+    ax.set_title("(a)", fontsize=7, loc="left")
+    ax = axs[1]
+    bins = ["0 to 0.5", "0.5 to 1", "1 to 2", "2 to 4", "4 to 8", "8 to inf"]
+    centres = [0.35, 0.7, 1.4, 2.8, 5.6, 11.3]
+    for m in ("BICUBIC", "GBM"):
+        col, mk, lab = SWEEP_STYLE[m]
+        x, y = [], []
+        for b, c in zip(bins, centres):
+            rr = [r for r in sca if r["method"] == m and r["ratio_bin"] == b and r["recall"] != ""]
+            n = sum(int(r["patches"]) for r in rr)
+            if n >= 50:
+                x.append(c); y.append(sum(float(r["recall"]) * int(r["patches"]) for r in rr) / n)
+        ax.plot(x, y, color=col, lw=1.0); ax.scatter(x, y, s=10, marker=mk, color=col, edgecolors=INK, linewidths=0.3, zorder=3)
+    ax.set_xscale("log"); ax.set_xticks([0.5, 1, 2, 4, 8]); ax.set_xticklabels(["0.5", "1", "2", "4", "8"])
+    ax.set_xlabel("face length / grid spacing"); ax.set_ylabel("faces found at 10 % false alarms")
+    ax.set_ylim(0, 1.02); ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
+    ax.set_title("(b)", fontsize=7, loc="left")
+    for a in axs:
+        for sp in ("top", "right"):
+            a.spines[sp].set_visible(False)
+    axs[0].legend(loc="lower center", bbox_to_anchor=(1.15, 1.04), ncol=4, frameon=False, fontsize=5.6, handletextpad=0.15, columnspacing=0.7)
+    fig.savefig(os.path.join(FIG, "fig_resolution.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
+
+
+FRONT_STYLE = {"none": ("#8A7A82", "D", "Slip model only"), "DET": ("#E58AAE", "^", "Synthetic detector"),
+               "BICUBIC-cal": ("#C2185B", "s", "Cubic interpolation"), "GBM": ("#6A3D8F", "o", "Gradient boosting*"),
+               "DEM+S2": ("#9C6ADE", "P", "Boosting + Sentinel-2*"), "FACEMAP": (INK, "*", "Face map (upper bound)")}
+
+
+def fig_frontier():
+    """Routed share against mission success over the operating point sweep (gate thresholds and weights)."""
+    rows = [r for r in read(os.path.join(S28, "A_sweep.csv")) if r["profile"] == "published-posterior" and r["endpoints"] == "E1"]
+    fig, axs = plt.subplots(1, 2, figsize=(3.45, 1.9), sharey=True, gridspec_kw={"wspace": 0.08})
+    for ax, inp in zip(axs, ("I10", "I30")):
+        for lay, (col, mk, lab) in FRONT_STYLE.items():
+            for pol, ls in (("conservative", "-"), ("risk_weighted", ":")):
+                rr = [r for r in rows if r["input"] == inp and r["layer"] == lay and r["policy"] == pol]
+                if lay == "none":
+                    rr = [r for r in rows if r["input"] == inp and r["policy"] == "naive"]
+                if not rr:
+                    continue
+                rr = sorted(rr, key=lambda r: float(r["param"]) if r["param"] not in ("", None) else 0)
+                x = [float(r["routed"]) for r in rr]; y = [float(r["mission_success"]) for r in rr]
+                ax.plot(x, y, color=col, lw=0.8, ls=ls, alpha=0.9)
+                ax.scatter(x, y, s=8 if lay != "FACEMAP" else 18, marker=mk, color=col, edgecolors=INK, linewidths=0.25, zorder=3,
+                           label=lab if (pol == "conservative" and inp == "I10") else None)
+        ax.set_title("10 m map" if inp == "I10" else "30 m map", fontsize=7)
+        ax.set_xlim(-0.02, 1.02); ax.set_xlabel("pairs routed")
+        ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
+        for sp in ("top", "right"):
+            ax.spines[sp].set_visible(False)
+    axs[0].set_ylabel("mission success")
+    axs[0].legend(loc="lower center", bbox_to_anchor=(1.04, 1.1), ncol=3, frameon=False, fontsize=5.6, handletextpad=0.15, columnspacing=0.7)
+    fig.savefig(os.path.join(FIG, "fig_frontier.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
+
+
 def main():
     os.makedirs(FIG, exist_ok=True)
     fig_auc()
     if os.path.exists(os.path.join(PLN, "summary.csv")):
         fig_planning()
         fig_map()
+    if os.path.exists(os.path.join(S27, "C_macro.csv")):
+        fig_resolution()
+    if os.path.exists(os.path.join(S28, "A_sweep.csv")):
+        fig_frontier()
     print("figures in", FIG)
 
 
