@@ -1,0 +1,9 @@
+input,map,mission_success,chosen
+I10,FACEMAP,0.8433,Dumont:100 WhiteSands:100 Kelso:100 GreatSandDunes:10 Algodones:100 LittleSahara:100
+I10,shift5,0.7294,Dumont:1000 WhiteSands:1000 Kelso:100 GreatSandDunes:50 Algodones:1000 LittleSahara:1000
+I10,shift10,0.3756,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:10 Algodones:1000 LittleSahara:1000
+I10,shift30,0.1846,Dumont:20 WhiteSands:20 Kelso:100 GreatSandDunes:10 Algodones:5 LittleSahara:20
+I30,FACEMAP,0.835,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+I30,shift5,0.751,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+I30,shift10,0.6083,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+I30,shift30,0.1052,Dumont:20 WhiteSands:20 Kelso:20 GreatSandDunes:20 Algodones:5 LittleSahara:20

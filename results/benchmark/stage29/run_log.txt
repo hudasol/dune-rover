@@ -56,3 +56,15 @@ c Dumont I30: 814 s
 b LittleSahara I5: 141 s
 b LittleSahara I30: 146 s
 part b done in 975 s (00:43:49)
+stage 29 c on Algodones,LittleSahara started 2026-10-29 00:44:26
+c WhiteSands I10: 350 s
+c WhiteSands I30: 406 s
+c Kelso I10: 604 s
+c Kelso I30: 678 s
+c Algodones I10: 1263 s
+c Algodones I30: 1390 s
+c LittleSahara I10: 315 s
+c LittleSahara I30: 360 s
+part c done in 1750 s (01:13:36)
+c GreatSandDunes I10: 779 s
+c GreatSandDunes I30: 875 s
