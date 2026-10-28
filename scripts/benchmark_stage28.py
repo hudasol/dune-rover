@@ -139,7 +139,8 @@ def score(pts_m, T):
     r = {"length_m": round(length, 1), "unsafe": bool(on.any()), "unsafe_fp": bool(on_fp.any()),
          "m_on_face": round(0.5 * float(on.sum()), 1), "entries": int(on[0]) + int((on[1:] & ~on[:-1]).sum())}
     if on.any():
-        d = np.diff(sp, axis=0); d = np.vstack([d[:1], d])
+        d = np.diff(sp, axis=0) if len(sp) > 1 else np.zeros((1, 2))
+        d = np.vstack([d[:1], d]) if len(sp) > 1 else d
         nrm = np.maximum(np.hypot(d[:, 0], d[:, 1]), 1e-9)
         dr, dc = T["down_r"][ri, ci], T["down_c"][ri, ci]
         gm = np.maximum(np.hypot(dr, dc), 1e-9)
