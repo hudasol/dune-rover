@@ -617,7 +617,15 @@ def part_G(D):
         F = {s: B.feature_stack(zs[s], float(k)) for s in SITES}
         bic = {s: B.bicubic_max_slope(zs[s], k)[:zs[s].shape[0], :zs[s].shape[1]] for s in SITES}
         Fp = {s: np.concatenate([F[s], extra_features(zs[s], float(k), bic[s])], -1) for s in SITES}
-        variants = {"GBM": loso_gbm(F, ys), "GBM-noDET": loso_gbm({s: F[s][..., :12] for s in SITES}, ys), "GBM+": loso_gbm(Fp, ys)}
+        variants = {}
+        for vname, FF in (("GBM", F), ("GBM-noDET", {s: F[s][..., :12] for s in SITES}), ("GBM+", Fp)):
+            ckp = os.path.join(CDIR, "chunks", f"G_{inp}_{vname}.npz")
+            if os.path.exists(ckp):
+                z_ = np.load(ckp); variants[vname] = {s: z_[s] for s in SITES}; continue
+            t1 = time.time()
+            variants[vname] = loso_gbm(FF, ys)
+            os.makedirs(os.path.dirname(ckp), exist_ok=True); np.savez_compressed(ckp, **variants[vname])
+            say(f"G {inp} {vname}: {time.time() - t1:.0f} s")
         if inp in ("I10", "I30"):
             grid = [dict(learning_rate=lr, max_leaf_nodes=nl, max_iter=it, random_state=0) for lr in (0.05, 0.1) for nl in (15, 63) for it in (200, 600)]
             tuned, chosen = {}, {}
