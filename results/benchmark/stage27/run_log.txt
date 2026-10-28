@@ -1,0 +1,115 @@
+stage 27 prepare started 2026-10-28 15:23:56; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+prepare Dumont: 4693 patches, 63 s; {"R10": {"shape": [686, 578], "dx_m": 8.38, "dy_m": 10.27, "valid_cells": 166628, "void_share": 0.0}, "N30": {"shape": [229, 193], "dx_m": 25.15, "dy_m": 30.82, "valid_cells": 18367, "void_share": 0.0}, "G30n": {"shape": [229, 193], "dx_m": 25.15, "dy_m": 30.82, "valid_cells": 18367, "void_share": 0.0}}
+prepare WhiteSands: 789 patches, 29 s; {"R10": {"shape": [627, 395], "dx_m": 8.67, "dy_m": 10.27, "valid_cells": 60256, "void_share": 0.0}, "N30": {"shape": [209, 132], "dx_m": 26.01, "dy_m": 30.81, "valid_cells": 7694, "void_share": 0.0}, "G30n": {"shape": [209, 132], "dx_m": 26.01, "dy_m": 30.81, "valid_cells": 7694, "void_share": 0.0}}
+prepare Kelso: 2184 patches, 41 s; {"R10": {"shape": [483, 646], "dx_m": 8.46, "dy_m": 10.27, "valid_cells": 111346, "void_share": 0.0}, "N30": {"shape": [161, 215], "dx_m": 25.39, "dy_m": 30.82, "valid_cells": 12239, "void_share": 0.0}, "G30n": {"shape": [161, 215], "dx_m": 25.39, "dy_m": 30.82, "valid_cells": 12239, "void_share": 0.0}}
+prepare GreatSandDunes: 2065 patches, 61 s; {"R10": {"shape": [578, 709], "dx_m": 8.16, "dy_m": 10.28, "valid_cells": 175892, "void_share": 0.0}, "N30": {"shape": [193, 236], "dx_m": 24.48, "dy_m": 30.83, "valid_cells": 19392, "void_share": 0.0}, "G30n": {"shape": [193, 236], "dx_m": 24.48, "dy_m": 30.83, "valid_cells": 19392, "void_share": 0.0}}
+prepare Algodones: 3131 patches, 82 s; {"R10": {"shape": [710, 688], "dx_m": 8.66, "dy_m": 10.27, "valid_cells": 200340, "void_share": 0.0}, "N30": {"shape": [237, 229], "dx_m": 25.98, "dy_m": 30.81, "valid_cells": 24743, "void_share": 0.0}, "G30n": {"shape": [237, 229], "dx_m": 25.98, "dy_m": 30.81, "valid_cells": 24743, "void_share": 0.0}}
+prepare LittleSahara: 1776 patches, 36 s; {"R10": {"shape": [530, 474], "dx_m": 7.94, "dy_m": 10.28, "valid_cells": 77969, "void_share": 0.0}, "N30": {"shape": [177, 158], "dx_m": 23.82, "dy_m": 30.84, "valid_cells": 8565, "void_share": 0.0}, "G30n": {"shape": [177, 158], "dx_m": 23.82, "dy_m": 30.84, "valid_cells": 8565, "void_share": 0.0}}
+stage 27 prepare finished 2026-10-28 15:29:08
+stage 27 A E H D B G C F I started 2026-10-28 15:29:25; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+A I10: GBM 344 s
+  CNN held out Dumont: 169 s
+  CNN held out WhiteSands: 168 s
+  CNN held out Kelso: 180 s
+  CNN held out GreatSandDunes: 183 s
+  CNN held out Algodones: 195 s
+  CNN held out LittleSahara: 179 s
+A I10: DET 0.950, SLOPE 0.902, TRI 0.941, ROUGH 0.804, BICUBIC 0.968, GBM 0.968, CNN 0.962
+A I30: GBM 13 s
+  CNN held out Dumont: 49 s
+  CNN held out WhiteSands: 46 s
+  CNN held out Kelso: 45 s
+  CNN held out GreatSandDunes: 43 s
+  CNN held out Algodones: 42 s
+  CNN held out LittleSahara: 46 s
+A I30: DET 0.740, SLOPE 0.689, TRI 0.764, ROUGH 0.770, BICUBIC 0.817, GBM 0.810, CNN 0.800
+A G30: GBM 11 s
+  CNN held out Dumont: 47 s
+  CNN held out WhiteSands: 46 s
+  CNN held out Kelso: 52 s
+  CNN held out GreatSandDunes: 48 s
+  CNN held out Algodones: 44 s
+  CNN held out LittleSahara: 41 s
+A G30: DET 0.643, SLOPE 0.649, TRI 0.679, ROUGH 0.684, BICUBIC 0.695, GBM 0.720, CNN 0.721
+part A done in 2166 s (16:05:32)
+E I10: GBM 0.968, IMG-S2 0.680, IMG-NAIP 0.624, DEM+S2 0.967, DEM+NAIP 0.967
+E I30: GBM 0.810, IMG-S2 0.744, IMG-NAIP 0.665, DEM+S2 0.854, DEM+NAIP 0.842
+part E done in 481 s (16:13:32)
+part H done in 1 s (16:13:33)
+D R10: DET 0.945, SLOPE 0.901, TRI 0.929, BICUBIC 0.959, GBM 0.955
+D N30: DET 0.561, SLOPE 0.617, TRI 0.626, BICUBIC 0.623, GBM 0.629
+stage 27 D B started 2026-10-28 17:33:06; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+D R10: DET 0.945, SLOPE 0.901, TRI 0.929, BICUBIC 0.959, GBM 0.955
+D N30: DET 0.561, SLOPE 0.617, TRI 0.626, BICUBIC 0.623, GBM 0.629
+D G30n: DET 0.651, SLOPE 0.654, TRI 0.685, BICUBIC 0.699, GBM 0.723
+part D done in 3057 s (18:24:05)
+B L-CELL n10: DET 0.741, SLOPE 0.698, TRI 0.763, ROUGH 0.761, BICUBIC 0.817, GBM 0.806
+B L-CELL n50: DET 0.778, SLOPE 0.753, TRI 0.799, ROUGH 0.765, BICUBIC 0.854, GBM 0.838
+B L-CELL n100: DET 0.805, SLOPE 0.806, TRI 0.832, ROUGH 0.771, BICUBIC 0.887, GBM 0.867
+B L-CELL n300: DET 0.876, SLOPE 0.934, TRI 0.928, ROUGH 0.802, BICUBIC 0.965, GBM 0.959
+B L-ANY 28deg: DET 0.740, SLOPE 0.689, TRI 0.764, ROUGH 0.770, BICUBIC 0.817, GBM 0.810
+B L-ANY 30deg: DET 0.748, SLOPE 0.714, TRI 0.774, ROUGH 0.757, BICUBIC 0.823, GBM 0.803
+B L-ANY 32deg: DET 0.714, SLOPE 0.730, TRI 0.739, ROUGH 0.661, BICUBIC 0.772, GBM 0.673
+part B done in 83 s (18:25:28)
+stage 27 D B finished 2026-10-28 18:25:28
+stage 27 G started 2026-10-28 18:25:45; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+stage 27 G started 2026-10-28 18:47:02; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+stage 27 G started 2026-10-28 20:07:35; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+G I10 GBM: 124 s
+G I10 GBM-noDET: 122 s
+G I10 GBM+: 125 s
+G I10 tuned, held out Dumont: {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 200} (212 s)
+G I10 tuned, held out WhiteSands: {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 200} (432 s)
+G I10 tuned, held out Kelso: {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 600} (668 s)
+G I10 tuned, held out GreatSandDunes: {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 600} (902 s)
+G I10 tuned, held out Algodones: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 600} (1137 s)
+G I10 tuned, held out LittleSahara: {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 200} (1367 s)
+G I10: tuning 1367 s; chosen {"Dumont": {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 200}, "WhiteSands": {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 200}, "Kelso": {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 600}, "GreatSandDunes": {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 600}, "Algodones": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 600}, "LittleSahara": {"learning_rate": 0.05, "max_leaf_nodes": 63, "max_iter": 200}}
+G I10: GBM 0.968, GBM-noDET 0.967, GBM+ 0.974, GBM-tuned 0.968
+G I30 GBM: 16 s
+G I30 GBM-noDET: 15 s
+G I30 GBM+: 18 s
+G I30 tuned, held out Dumont: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200} (62 s)
+G I30 tuned, held out WhiteSands: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200} (134 s)
+G I30 tuned, held out Kelso: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200} (210 s)
+G I30 tuned, held out GreatSandDunes: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200} (275 s)
+G I30 tuned, held out Algodones: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200} (340 s)
+G I30 tuned, held out LittleSahara: {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200} (421 s)
+G I30: tuning 421 s; chosen {"Dumont": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200}, "WhiteSands": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200}, "Kelso": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200}, "GreatSandDunes": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200}, "Algodones": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200}, "LittleSahara": {"learning_rate": 0.05, "max_leaf_nodes": 15, "max_iter": 200}}
+  CNN held out Dumont: 287 s
+  CNN held out WhiteSands: 290 s
+  CNN held out Kelso: 289 s
+  CNN held out GreatSandDunes: 279 s
+  CNN held out Algodones: 273 s
+  CNN held out LittleSahara: 288 s
+G I30: GBM 0.810, GBM-noDET 0.809, GBM+ 0.829, GBM-tuned 0.811, CNN-long 0.838
+G G30 GBM: 14 s
+G G30 GBM-noDET: 10 s
+G G30 GBM+: 17 s
+G G30: GBM 0.720, GBM-noDET 0.724, GBM+ 0.724
+part G done in 3995 s (21:14:11)
+stage 27 G finished 2026-10-28 21:14:11
+stage 27 C F I started 2026-10-28 21:14:14; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+C 2 m (321 s): SLOPE 0.996, BICUBIC 0.999, DET 0.992, GBM 0.999
+C 5 m (120 s): SLOPE 0.965, BICUBIC 0.993, DET 0.982, GBM 0.992
+C 10 m (106 s): SLOPE 0.902, BICUBIC 0.968, DET 0.950, GBM 0.968
+C 15 m (73 s): SLOPE 0.837, BICUBIC 0.934, DET 0.904, GBM 0.935
+C 20 m (48 s): SLOPE 0.776, BICUBIC 0.895, DET 0.848, GBM 0.895
+C 30 m (27 s): SLOPE 0.689, BICUBIC 0.817, DET 0.740, GBM 0.810
+C 60 m (16 s): SLOPE 0.606, BICUBIC 0.693, DET 0.577, GBM 0.673
+part C done in 712 s (21:26:07)
+F held out Dumont: 1471 s; I30 SR 0.963, I30 BICUBIC 0.959, G30 SR 0.951, G30 BICUBIC 0.949
+stage 27 F I started 2026-10-28 22:13:59; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+F held out WhiteSands: 1531 s; I30 SR 0.809, I30 BICUBIC 0.752, G30 SR 0.460, G30 BICUBIC 0.481
+stage 27 F:LittleSahara,Algodones started 2026-10-28 22:39:59; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+F held out Kelso: 1541 s; I30 SR 0.813, I30 BICUBIC 0.792, G30 SR 0.750, G30 BICUBIC 0.747
+F held out LittleSahara: 1580 s; I30 SR 0.716, I30 BICUBIC 0.695, G30 SR 0.580, G30 BICUBIC 0.566
+F held out GreatSandDunes: 1544 s; I30 SR 0.900, I30 BICUBIC 0.868, G30 SR 0.702, G30 BICUBIC 0.701
+F held out Algodones: 1547 s; I30 SR 0.861, I30 BICUBIC 0.833, G30 SR 0.735, G30 BICUBIC 0.729
+part F:LittleSahara,Algodones done in 3128 s (23:32:09)
+stage 27 F:LittleSahara,Algodones finished 2026-10-28 23:32:09
+stage 27 F I started 2026-10-28 23:48:49; numpy 2.5.3, scipy 1.18.1, scikit-learn 1.9.1; seed 20261028
+part F done in 2 s (23:48:52)
+I correlogram range (m): {'Dumont': 870, 'WhiteSands': 30, 'Kelso': 120, 'GreatSandDunes': 90, 'Algodones': 60, 'LittleSahara': 30}
+part I done in 20 s (23:49:12)
+stage 27 F I finished 2026-10-28 23:49:12

@@ -1,0 +1,115 @@
+stage 28 A:Dumont,WhiteSands,Kelso started 2026-10-28 16:13:50; numpy 2.5.3; seed 20261028
+stage 28 A:Dumont,WhiteSands,Kelso started 2026-10-28 16:14:30; numpy 2.5.3; seed 20261028
+A Dumont published-posterior I10: 443 s
+A Dumont published-posterior I30: 510 s
+A Dumont published-posterior G30: 566 s
+A Dumont assumed I10: 917 s
+A Dumont assumed I30: 961 s
+A Dumont assumed G30: 997 s
+A Dumont: 104400 routes in 998 s
+A WhiteSands published-posterior I10: 273 s
+A WhiteSands published-posterior I30: 308 s
+A WhiteSands published-posterior G30: 340 s
+A WhiteSands assumed I10: 515 s
+A WhiteSands assumed I30: 536 s
+A WhiteSands assumed G30: 556 s
+A WhiteSands: 104400 routes in 557 s
+A Kelso published-posterior I10: 355 s
+A Kelso published-posterior I30: 400 s
+A Kelso published-posterior G30: 440 s
+A Kelso assumed I10: 719 s
+A Kelso assumed I30: 748 s
+A Kelso assumed G30: 774 s
+A Kelso: 104400 routes in 775 s
+part A:Dumont,WhiteSands,Kelso done in 2330 s (16:53:20)
+stage 28 A:GreatSandDunes,Algodones,LittleSahara started 2026-10-28 16:53:29; numpy 2.5.3; seed 20261028
+A GreatSandDunes published-posterior I10: 501 s
+A GreatSandDunes published-posterior I30: 562 s
+A GreatSandDunes published-posterior G30: 615 s
+A GreatSandDunes assumed I10: 1040 s
+A GreatSandDunes assumed I30: 1081 s
+A GreatSandDunes assumed G30: 1121 s
+A GreatSandDunes: 104400 routes in 1121 s
+A Algodones published-posterior I10: 940 s
+A Algodones published-posterior I30: 1029 s
+A Algodones published-posterior G30: 1108 s
+A Algodones assumed I10: 1791 s
+A Algodones assumed I30: 1847 s
+A Algodones assumed G30: 1892 s
+A Algodones: 104400 routes in 1893 s
+A LittleSahara published-posterior I10: 244 s
+A LittleSahara published-posterior I30: 276 s
+A LittleSahara published-posterior G30: 307 s
+A LittleSahara assumed I10: 493 s
+A LittleSahara assumed I30: 514 s
+A LittleSahara assumed G30: 532 s
+A LittleSahara: 104400 routes in 533 s
+part A:GreatSandDunes,Algodones,LittleSahara done in 3548 s (17:52:37)
+stage 28 C summary started 2026-10-28 17:52:46; numpy 2.5.3; seed 20261028
+C Dumont: 262 s
+C WhiteSands: 135 s
+C Kelso: 186 s
+C GreatSandDunes: 265 s
+C Algodones: 455 s
+C LittleSahara: 131 s
+part C done in 1434 s (18:16:41)
+summary A: 1044 settings, 207 held out rows
+part summary done in 52 s (18:17:33)
+stage 28 E:Dumont,WhiteSands,Kelso started 2026-10-28 18:17:40; numpy 2.5.3; seed 20261028
+E Dumont published-posterior I30 R 20 E1: 290 s
+stage 28 E:Dumont,WhiteSands,Kelso started 2026-10-28 18:25:47; numpy 2.5.3; seed 20261028
+E Dumont published-posterior I30 R 20 E1: 311 s
+E Dumont published-posterior I30 R 20 E2: 559 s
+E Dumont published-posterior I10 R 20 E1: 673 s
+E Dumont published-posterior I10 R 20 E2: 813 s
+E Dumont published-posterior I30 R 10 E1: 1063 s
+E Dumont published-posterior I30 R 30 E1: 1684 s
+stage 28 E:Dumont,WhiteSands,Kelso started 2026-10-28 19:37:47; numpy 2.5.3; seed 20261028
+E Dumont published-posterior I30 R 20 E1: 231 s
+E Dumont published-posterior I30 R 20 E2: 409 s
+E Dumont published-posterior I10 R 20 E1: 511 s
+E Dumont published-posterior I10 R 20 E2: 614 s
+E Dumont published-posterior I30 R 10 E1: 806 s
+E Dumont published-posterior I30 R 30 E1: 1234 s
+E Dumont assumed I30 R 20 E1: 2435 s
+E WhiteSands published-posterior I30 R 20 E1: 131 s
+E WhiteSands published-posterior I30 R 20 E2: 284 s
+E WhiteSands published-posterior I10 R 20 E1: 358 s
+E WhiteSands published-posterior I10 R 20 E2: 447 s
+E WhiteSands published-posterior I30 R 10 E1: 600 s
+E WhiteSands published-posterior I30 R 30 E1: 729 s
+E WhiteSands assumed I30 R 20 E1: 870 s
+E Kelso published-posterior I30 R 20 E1: 159 s
+E Kelso published-posterior I30 R 20 E2: 395 s
+E Kelso published-posterior I10 R 20 E1: 510 s
+E Kelso published-posterior I10 R 20 E2: 676 s
+E Kelso published-posterior I30 R 10 E1: 839 s
+E Kelso published-posterior I30 R 30 E1: 1003 s
+E Kelso assumed I30 R 20 E1: 1267 s
+part E:Dumont,WhiteSands,Kelso done in 4572 s (20:53:59)
+stage 28 E:GreatSandDunes,Algodones,LittleSahara started 2026-10-28 20:54:00; numpy 2.5.3; seed 20261028
+E GreatSandDunes published-posterior I30 R 20 E1: 565 s
+E GreatSandDunes published-posterior I30 R 20 E2: 1126 s
+E GreatSandDunes published-posterior I10 R 20 E1: 1300 s
+E GreatSandDunes published-posterior I10 R 20 E2: 1440 s
+E GreatSandDunes published-posterior I30 R 10 E1: 1909 s
+E GreatSandDunes published-posterior I30 R 30 E1: 2513 s
+stage 28 E:GreatSandDunes,Algodones,LittleSahara started 2026-10-28 21:38:06; numpy 2.5.3; seed 20261028
+E GreatSandDunes assumed I30 R 20 E1: 1116 s
+E Algodones published-posterior I30 R 20 E1: 252 s
+E Algodones published-posterior I30 R 20 E2: 499 s
+E Algodones published-posterior I10 R 20 E1: 679 s
+E Algodones published-posterior I10 R 20 E2: 842 s
+E Algodones published-posterior I30 R 10 E1: 1114 s
+E Algodones published-posterior I30 R 30 E1: 1346 s
+E Algodones assumed I30 R 20 E1: 1590 s
+E LittleSahara published-posterior I30 R 20 E1: 102 s
+E LittleSahara published-posterior I30 R 20 E2: 172 s
+E LittleSahara published-posterior I10 R 20 E1: 235 s
+E LittleSahara published-posterior I10 R 20 E2: 287 s
+E LittleSahara published-posterior I30 R 10 E1: 401 s
+E LittleSahara published-posterior I30 R 30 E1: 502 s
+E LittleSahara assumed I30 R 20 E1: 603 s
+stage 28 summaryE started 2026-10-28 22:33:28; numpy 2.5.3; seed 20261028
+stage 28 summaryE started 2026-10-28 22:33:34; numpy 2.5.3; seed 20261028
+part summaryE done in 5 s (22:33:39)
