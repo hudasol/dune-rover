@@ -1,0 +1,13 @@
+analysis,layer,sites_without_shift,other_sites
+detection G30n AUC,BICUBIC,0.8529,0.6226
+detection G30n AUC,GBM,0.8184,0.6751
+detection G30n AUC,DET,0.7489,0.6022
+detection G30n AUC,SLOPE,0.8329,0.5651
+"planning I30 mission success (E1, held out)",none,0.125,0.05
+"planning I30 mission success (E1, held out)",BICUBIC-cal,0.14,0.1175
+"planning I30 mission success (E1, held out)",GBM,0.14,0.0575
+"planning I30 mission success (E1, held out)",FACEMAP,0.59,0.925
+"planning G30 mission success (E1, held out)",none,0.095,0.035
+"planning G30 mission success (E1, held out)",BICUBIC-cal,0.095,0.05
+"planning G30 mission success (E1, held out)",GBM,0.135,0.035
+"planning G30 mission success (E1, held out)",FACEMAP,0.6,0.8925

@@ -413,7 +413,7 @@ def summary():
 # ---------------------------------------------------------------------------------------------------------------------
 # E: closed loop with local sensing on a 5 m grid
 # ---------------------------------------------------------------------------------------------------------------------
-def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
+def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, margin=60):
     """Global prior from the coarse assessment a (risk weighted, weight w, face probability h), local 5 m grid, sensing
     radius R metres on the lidar face patches. Returns one dict per pair."""
     from scipy.ndimage import zoom
@@ -442,7 +442,7 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
     for n, (pa, pb) in enumerate(pairs):
         s0 = (min(int(pa[0] // 5), nr - 1), min(int(pa[1] // 5), nc - 1)); g0 = (min(int(pb[0] // 5), nr - 1), min(int(pb[1] // 5), nc - 1))
         # crop to the pair's bounding box plus 300 m
-        m = 60
+        m = margin
         r0, r1 = max(0, min(s0[0], g0[0]) - m), min(nr, max(s0[0], g0[0]) + m + 1)
         c0, c1 = max(0, min(s0[1], g0[1]) - m), min(nc, max(s0[1], g0[1]) + m + 1)
         sr, sc = np.divmod(src, nc); dr_, dc_ = np.divmod(dst, nc)
@@ -465,6 +465,10 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
             r, c = divmod(cell, lnc)
             dist = np.hypot((RR - (r + r0)) * 5.0, (CC - (c + c0)) * 5.0)
             near = dist <= R
+            if visibility is not None:          # stage 29: only cells in line of sight are sensed
+                idx = np.nonzero(near)[0]
+                vis = visibility(r + r0, c + c0, RR[idx], CC[idx])
+                near = np.zeros_like(near); near[idx[vis]] = True; near[cell] = True
             known_face[near & facel] = True; known_free[near & ~facel] = True
 
         def plan():
