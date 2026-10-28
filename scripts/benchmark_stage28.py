@@ -36,6 +36,7 @@ LAYERS = ("DET", "DET-cal", "SLOPE-cal", "BICUBIC-cal", "GBM", "CNN", "DEM+S2", 
 COMBOS = (("published-posterior", "E1"), ("published-posterior", "E2"), ("assumed", "E1"))
 SITES = list(BD.SITES)
 DESCENT_CUT = -np.tan(np.radians(PL.DOWNHILL_CUT_DEG))
+MAX_REPLANS = 300
 LOG = None
 
 
@@ -448,9 +449,11 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
         inb = (sr >= r0) & (sr < r1) & (sc >= c0) & (sc < c1) & (dr_ >= r0) & (dr_ < r1) & (dc_ >= c0) & (dc_ < c1)
         lnc = c1 - c0
         ls = (sr[inb] - r0) * lnc + (sc[inb] - c0); ld = (dr_[inb] - r0) * lnc + (dc_[inb] - c0)
-        gidx = dst[inb]
         base_cost = cost[inb]
         ncell = (r1 - r0) * lnc
+        order = np.lexsort((ld, ls))                 # a fixed CSR structure; only the weights change between plans
+        ls, ld, base_cost = ls[order], ld[order], base_cost[order]
+        indptr = np.searchsorted(ls, np.arange(ncell + 1))
         known_face = np.zeros(ncell, bool); known_free = np.zeros(ncell, bool)
         allowed = allowed0.reshape(nr, nc)[r0:r1, c0:c1].ravel().copy()
         hl = h5[r0:r1, c0:c1].ravel(); facel = face5[r0:r1, c0:c1].ravel()
@@ -467,7 +470,7 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
         def plan():
             ok = allowed[ls] & allowed[ld] & ~known_face[ld]
             pen = np.where(known_free[ld], 1.0, 1.0 + w * hl[ld])
-            g = csr_matrix((base_cost[ok] * pen[ok], (ls[ok], ld[ok])), shape=(ncell, ncell))
+            g = csr_matrix((np.where(ok, base_cost * pen, np.inf), ld, indptr), shape=(ncell, ncell))
             dist, pred = dijkstra(g, directed=True, indices=cur, return_predecessors=True)
             if not np.isfinite(dist[goal]):
                 return None
@@ -486,6 +489,8 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000):
             sense(cur)
             if known_face[path].any():
                 replans += 1
+                if replans > MAX_REPLANS:        # amendment: replan budget per pair (register note)
+                    status = "gave_up"; path = None; break
                 path = plan()
         if cur == goal:
             status = "reached"
@@ -519,12 +524,17 @@ def part_E(sites=None, n_pairs=20, tag="E"):
                 zc, k = surf[inp]
                 assessed[(prof_name, inp)] = (PL.assess(PL.raster_from_array(zc, float(k)), profile=PL.builtin_profile(prof_name), n_draws=128), k)
             a, k = assessed[(prof_name, inp)]
+            ck = os.path.join(CDIR, "chunks_E", f"{site}_{prof_name}_{inp}_{R:g}_{e}.csv")
+            if os.path.exists(ck):
+                rows += list(csv.DictReader(open(ck))); continue
+            n0 = len(rows)
             hz = layers_for(site, inp)
             pairs = [(np.array(p), np.array(q)) for p, q in E[e][:n_pairs]]
             for lay in E_LAYERS:
                 h = np.zeros(a.classes.shape) if lay == "none" else hz[lay][:a.classes.shape[0], :a.classes.shape[1]]
                 for r in closed_loop(a, h, k, T, pairs, R):
                     rows.append({"site": site, "profile": prof_name, "input": inp, "layer": lay, "radius_m": R, "endpoints": e, **r})
+            os.makedirs(os.path.dirname(ck), exist_ok=True); write(ck, rows[n0:])
             say(f"{tag} {site} {prof_name} {inp} R {R:g} {e}: {time.time() - t0:.0f} s")
         write(os.path.join(CDIR, f"routes_{tag}_{site}.csv"), [r for r in rows if r["site"] == site])
         del T
