@@ -537,7 +537,7 @@ def part_E(D):
     write("E_metrics.csv", rows); write("E_macro.csv", macro(rows))
 
 
-def part_F(D):
+def part_F(D, sites=None):
     import torch, torch.nn as nn
     from dunerover import benchmark_cnn as C
     torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "2")))
@@ -559,7 +559,7 @@ def part_F(D):
         nr, nc = min(zb.shape[0], z5.shape[0]), min(zb.shape[1], z5.shape[1])
         data[s] = (inp_channels(zb[:nr, :nc]), ((z5[:nr, :nc] - zb[:nr, :nc]) / 5.0).astype(np.float32), zb[:nr, :nc])
     rows = []
-    for held in SITES:
+    for held in (sites or SITES):
         t0 = time.time()
         prev = done_rows(f"F_{held}")
         if prev is not None:
@@ -751,7 +751,8 @@ def main():
         if p == "prepare":
             continue
         t0 = time.time()
-        globals()[f"part_{p}"](D)
+        name, _, sel = p.partition(":")
+        globals()[f"part_{name}"](D, sel.split(",")) if sel else globals()[f"part_{name}"](D)
         say(f"part {p} done in {time.time() - t0:.0f} s ({time.strftime('%H:%M:%S')})")
     say(f"stage 27 {' '.join(parts)} finished {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
