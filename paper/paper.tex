@@ -2,15 +2,13 @@
 % paper/paper.tex. Edit this template, never paper/paper.tex.
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
-\usepackage{cite}
+\usepackage[nocompress]{cite}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
 \title{Slip Face Detection and Route Planning for Small Rovers on Sand Dunes, Tested Against Airborne Lidar}
@@ -23,7 +21,7 @@ hudamueen2407@gmail.com}}
 \maketitle
 
 \begin{abstract}
-Small wheeled robots that cross sand dunes usually plan on a global 30\,m elevation model, but the main hazard on active dunes, the slip face at the angle of repose, is often metres to tens of metres long. We measure what such maps hide with a preregistered benchmark on six North American dune fields, using one metre airborne lidar as truth and three coarse inputs: 10\,m and 30\,m block means of the lidar and the real Copernicus GLO-30 product. A subgrid slip face detector trained only on synthetic dune profiles is compared with slope, ruggedness, roughness and interpolation baselines and with gradient boosted trees and a convolutional network trained leave one site out on lidar labels; a released planner is then run with each hazard layer and its routes are scored on face patches in the lidar. At 10\,m every method except roughness ranks face cells well (mean AUC 0.93 to 0.97). At 30\,m a cubic interpolation of the coarse surface is best or tied best (mean AUC 0.82), the learned models follow, and the synthetic detector (0.74) beats only plain slope; on GLO-30 all methods fall to 0.65 to 0.73. In planning, hazard layers computable from a 30\,m map roughly halve the length of route on faces (post hoc) but lift mission success only from 6\,\% to at most 11\,\%; at 10\,m the best layer reaches 34\,\%. A post hoc check shows that with a perfect face map, a hard gate on the same 30\,m grid still finds a face free route for 83\,\% of pairs (87\,\% at 10\,m): the main limit is the face information that coarse elevation does not hold.
+Small wheeled robots that cross sand dunes usually plan on a global 30\,m elevation model, but the main hazard on active dunes, the slip face, is often only metres long. We built a benchmark on six North American dune fields, with one metre airborne lidar as truth, to measure what coarse maps hide and what a planner can do about it. Ten families of hazard layers, from slope and interpolation to boosted trees, a convolutional network, learned super resolution and imagery fusion, were scored against a lidar face map on lidar block means from 2 to 60\,m, on three real elevation products and with Sentinel-2 and NAIP imagery, and were then used by a slip aware planner at operating points chosen on held out sites. At 10\,m the best layer raises mission success from 17\,\% to 64\,\%. At 30\,m no layer, including imagery fusion, adds more than +5 points to 8\,\%, because most faces are shorter than one cell; a face map from fine data would reach 81\,\% on the same grid if placed within about 5\,m, and onboard sensing within 20\,m keeps the rover off faces whatever the prior, although some pairs then have no way through. Code, results and the prediction log are in a public repository.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -31,229 +29,225 @@ field robotics, traversability, digital elevation models, sand dunes, slip faces
 \end{IEEEkeywords}
 
 \section{Introduction}
-Small wheeled ground robots are increasingly proposed for survey, inspection and search tasks in sand deserts, including the dune seas of the Arabian Peninsula. Before such a robot drives, its route is usually planned on a prior elevation map, and for most deserts the only map available is a global digital elevation model (DEM) with a posting of about 30\,m, such as Copernicus GLO-30~\cite{copernicusdem}. The dominant hazard for a small rover on active dunes is the slip face: the lee side of a dune held near the angle of repose of dry sand, about 30 to 34\,degrees~\cite{pye2009}, where a wheeled vehicle can neither climb nor safely descend or traverse. Slip faces are often only metres to tens of metres long, so a 30\,m cell can contain one while its mean slope is gentle.
+Small wheeled ground robots are proposed for survey, inspection and search in sand deserts, including the dune seas of the Arabian Peninsula. Before such a robot drives, its route is planned on a prior map, and for most deserts the only elevation model available is a global product with a posting of about 30\,m~\cite{copernicusdem}. The dominant hazard on active dunes is the slip face, the lee side of a dune held near the angle of repose of dry sand, about 30 to 34\,degrees~\cite{pye2009}, where wheel slip rises until a small vehicle can no longer climb~\cite{heverly2013,arvidson2017megaripple}. Slip faces are often only metres to tens of metres long, so a 30\,m cell can hold one while its mean slope is gentle.
 
-This paper asks three questions and answers them with preregistered experiments. (i) How much of the slip face hazard does a coarse DEM hide, measured against one metre airborne lidar of real dune fields? (ii) Can a detector that estimates the probability of a hidden face from coarse DEM features recover it, and how does it compare with what a practitioner would otherwise use: slope and roughness costmaps, interpolation of the coarse surface, or a model learned from lidar labels? (iii) Does any of this make planned routes safer when they are scored on the lidar itself?
+That a coarse grid understates slope is long known~\cite{zhang1994}. What is not known is how much this matters for a planner, which hazard layer a practitioner should compute from a coarse map, how fine a map must be, and whether imagery, a different product or onboard sensing change the answer. This paper answers these questions with a benchmark on six North American dune fields where one metre airborne lidar provides the truth.
 
-The contributions are: (1) a benchmark on six North American dune fields with one metre lidar truth and three coarse inputs: 10\,m and 30\,m block means of the lidar, and the real GLO-30 product, which was acquired years earlier by a different sensor; (2) a subgrid slip face detector trained only on synthetic dune profiles, compared with six baselines including gradient boosted trees and a convolutional network trained leave one site out on lidar labels; (3) an evaluation of a released planner whose hazard layer is swapped between methods, with routes scored on face patches of 10\,m$^2$ or more in the lidar, and perfect label oracles as reference; and (4) a register of predictions written before every run, so that negative results are reported as prominently as positive ones. The answers are sobering: at 30\,m no model, ours included, recovers enough of the hazard to make routes face free, the simplest baseline, a cubic interpolation, ranks hidden faces best or tied best, and a post hoc oracle shows that what is missing is mostly face information: with a face map from fine data, a hard gate on the 30\,m grid still finds a face free route for most pairs. Code, result files and the prediction register are in the repository listed at the end.
+The contributions are:
+(1) a benchmark that scores hazard layers against a lidar face map whose meaning is the same at every resolution, on idealised surfaces from 2 to 60\,m, on three real elevation products on their own grids, and with Sentinel-2 and NAIP imagery;
+(2) a comparison of ten families of hazard layers, from slope and interpolation to boosted trees, a convolutional network, learned super resolution and imagery fusion, with every learned layer trained leave one site out;
+(3) a planning evaluation in which every layer is used at the operating point chosen on the other sites, routes are scored on the lidar, the face map oracle is degraded by position errors and simulated surveys, and a closed loop adds onboard sensing; and
+(4) a scaling result, detection skill against face length over grid spacing, that indicates which survey resolution a given dune field needs.
+Code, result files and the prediction log are in the repository listed at the end.
 
 \section{Related Work}
-\textit{Traversability from elevation.} Surveys of traversability analysis for ground vehicles~\cite{papadakis2013,borges2022} describe geometric methods that score slope, roughness and step height on a grid, as in the GESTALT navigation software of planetary rovers~\cite{goldberg2002}, and in grid map and costmap libraries used with ROS~\cite{fankhauser2016,macenski2020}. These methods assume that the grid resolves the hazard. Terrain ruggedness indices~\cite{riley1999} are used in geomorphometry for the same purpose, and it has long been known that coarser grids understate slopes~\cite{zhang1994}. Our slope, ruggedness and roughness baselines follow these definitions on the coarse grid. Risk aware planners propagate terrain uncertainty into routes~\cite{ono2015,fan2021}; our risk weighted policy is a simple member of that family. Learned DEM super resolution~\cite{chen2016demsr,xu2019demsr} would be a natural further baseline; we include only a cubic interpolation.
+\textit{Overhead priors.} Vandapel et al.~\cite{vandapel2006aerial} planned ground vehicle routes on airborne lidar collected before the mission, and overhead imagery or lidar at metre scale has served as a cost prior since~\cite{sofman2006}. Recent work sends a drone ahead to map only what the ground robot needs~\cite{delmerico2017active} or learns terrain properties from a hovering drone~\cite{fortin2025uav}. Planetary missions plan from orbital data: traversability analysis selected the Mars 2020 landing site~\cite{ono2016traversability}, and slip predicted from orbital data drives route plans~\cite{hedrick2021terrain}. These priors are at metre scale; we ask what a 10 to 60\,m prior, the only one available for most deserts, hides.
 
-\textit{Slip on sand slopes.} Wheel slip on loose sand rises steeply with slope; terramechanics models~\cite{ishigami2007} and online terrain estimation~\cite{iagnemma2004} describe it, and field data such as the Dumont Dunes traverses of the Mars Science Laboratory test rover~\cite{heverly2013} show slip reaching about 50\,\% at about 13\,degrees. Rovers have been immobilised in soft sand on Mars~\cite{arvidson2010}, and robophysical studies show how slope, gait and granular flow interact on sandy inclines~\cite{marvi2014,shrivastava2020}. Terrain adaptive navigation~\cite{helmick2009} and learned terrain classification for Mars~\cite{rothrock2016,ono2015} combine such models with maps; they rely on imagery or DEMs at metre scale.
+\textit{Slip on sand.} Geometric costmaps score slope and roughness on a grid~\cite{papadakis2013,borges2022,goldberg2002}, and recent reviews cover traversability risk~\cite{benrabah2024review}. On loose sand slip rises steeply with slope~\cite{ishigami2007,heverly2013}; Curiosity met high slip crossing megaripples~\cite{arvidson2017megaripple}, and robophysical studies show how slope and granular flow interact~\cite{shrivastava2020}. Planners propagate slip uncertainty into routes~\cite{inotsume2020robust,endo2023riskaware,ono2015}, but they assume that the map resolves the slope, which fails on dunes at 30\,m.
 
-\textit{Prior and overhead maps.} Overhead data have been used as priors for ground navigation~\cite{sofman2006,silver2010}, typically from aerial imagery or lidar at metre scale. The quality of global 30\,m DEMs has been assessed against lidar and laser altimetry~\cite{guth2021ranking}, but we are not aware of an assessment of what such a DEM hides for robot navigation on dunes, or of a benchmark that scores coarse map detectors and planners for this hazard against lidar truth.
+\textit{Dunes in elevation models.} Coarser grids understate slopes~\cite{zhang1994}. Dune morphometry from DEMs and imagery is well developed~\cite{hugenholtz2012remote}, and deep learning maps crestlines from DEM derivatives~\cite{daynac2024workflow}. Global 30\,m products have been ranked against lidar and laser altimetry~\cite{guth2021ranking}; TanDEM-X, the source of GLO-30, performs worse over sand~\cite{martone2016enhancing}, and the error of open DEMs in a dune sea grows on slopes above 15\,degrees~\cite{wang2025multisource}. Learned super resolution can sharpen coarse DEMs~\cite{chen2016demsr,han2023global}. We know of no benchmark that scores coarse map hazard layers and planners for slip faces against lidar truth across resolutions.
 
 \section{Benchmark}
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/fig_map.pdf}
-\caption{Kelso Dunes. (a) Hillshade of the one metre lidar with face patches (pink). (b) Face probability of the detector and (c) of gradient boosting on the 30\,m block mean. (d) Conservative routes with the detector on the 30\,m map (light) and the 10\,m map (dark) over the face patches; the 30\,m routes cross faces the map cannot see.}
-\label{fig:map}
-\end{figure*}
-
-\subsection{Sites and truth}
-Six windows of USGS 3DEP one metre bare earth lidar~\cite{sugarbaker2014} cover active dune fields in California, New Mexico, Colorado and Utah (Table~\ref{tab:sites}); windows were chosen from 20\,m slope images before any metric was computed. Slope is computed with the Horn operator~\cite{horn1981}. A post is \emph{steep} at 28\,degrees or more. The cell label of a coarse cell is positive when at least 10 steep posts (10\,m$^2$) fall inside its footprint; a secondary label counts only posts between 28 and 36\,degrees, to exclude rock and lidar artefacts steeper than sand can stand. For planning, a \emph{face patch} is an 8 connected group of at least 10 steep posts. The two targets differ: a cell can hold part of a patch without holding 10 steep posts, so a perfect detector of the cell label does not remove every face from a route.
-
 \begin{table}[t]
-\caption{Lidar windows and the share of cells that hold a face (cell label).}
+\caption{Lidar windows (USGS 3DEP one metre DEM; flown: acquisition period of the lidar project) and the share of cells holding a face patch post at 10 and 30\,m.}
 \label{tab:sites}
-\centering\small
-\begin{tabular}{lrrrr}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Site & Area & Relief & \multicolumn{2}{c}{Face cells} \\
- & km$^2$ & m & 10\,m & 30\,m \\
+Site & Lat., lon. & km$^2$ & Relief & Flown & 10\,m & 30\,m \\
 \midrule
-Dumont Dunes, CA & 14.4 & 322 & 32\,\% & 48\,\% \\
-White Sands, NM & 6.3 & 20 & 11\,\% & 36\,\% \\
-Kelso Dunes, CA & 9.7 & 240 & 11\,\% & 34\,\% \\
-Great Sand Dunes, CO & 14.8 & 246 & 13\,\% & 30\,\% \\
-Algodones Dunes, CA & 20.0 & 122 & 7\,\% & 24\,\% \\
-Little Sahara, UT & 6.4 & 99 & 6\,\% & 31\,\% \\
+Dumont Dunes, CA & 35.65, -116.27 & 14.4 & 322\,m & 2024 to 25 & 36\,\% & 49\,\% \\
+White Sands, NM & 32.82, -106.29 & 6.3 & 20\,m & 2020 & 15\,\% & 40\,\% \\
+Kelso Dunes, CA & 34.91, -115.72 & 9.7 & 240\,m & 2024 to 25 & 15\,\% & 38\,\% \\
+Great Sand Dunes, CO & 37.75, -105.54 & 14.8 & 246\,m & 2019 to 20 & 16\,\% & 32\,\% \\
+Algodones Dunes, CA & 32.92, -115.10 & 20.0 & 122\,m & 2021 to 23 & 10\,\% & 27\,\% \\
+Little Sahara, UT & 39.70, -112.39 & 6.4 & 99\,m & 2020 to 21 & 11\,\% & 35\,\% \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Inputs}
-\textbf{I10} and \textbf{I30} are block means of the lidar at 10 and 30\,m. \textbf{G30} is Copernicus GLO-30 interpolated bilinearly at the centres of the I30 cells. GLO-30 is a surface model derived from TanDEM-X radar acquisitions between December 2010 and January 2015~\cite{copernicusdem}, while the lidar was flown later, so G30 measures what a rover can learn today from a global product, including dune migration and sensor differences.
+\subsection{Sites, truth and label}
+Six windows of USGS 3DEP one metre bare earth lidar~\cite{sugarbaker2014} cover active dune fields (Table~\ref{tab:sites}); we chose them from 20\,m slope images and used them in earlier tests of the detector. A post is \emph{steep} when its Horn slope~\cite{horn1981} at 1\,m is $28^\circ$ or more, a little below the angle of repose of dry sand~\cite{pye2009}; voids never count as steep. A \emph{face patch} is an 8 connected group of at least 10 steep posts (10\,m$^2$). Face patches are steep ground, not verified slip faces. For a coarse cell $c$ with footprint $F_c$ the label is the face map
+\begin{equation}
+y_c = \mathbb{1}\left[\,\exists\, x \in F_c : x \in \text{a face patch}\,\right],
+\label{eq:label}
+\end{equation}
+which a planner needs and whose meaning does not change with the cell size. Our earlier label, at least 10 steep posts in $F_c$, means 10\,\% of a 10\,m cell but 1.1\,\% of a 30\,m cell and is reported only for comparison.
 
-\subsection{Methods compared}
-Table~\ref{tab:methods} lists the methods. \textbf{DET} (ours) is the subgrid detector of the released planner: its synthetic profiles have stoss slopes of 6 to 20\,degrees, faces of 29.5 to 32.5\,degrees and heights of 5 to 120\,m, are sampled as a DEM would sample them, and the detector never sees lidar. The baselines are what a practitioner would use instead: the input of a slope costmap, two roughness measures from geomorphometry and planetary navigation, an interpolation of the coarse surface, and two models trained leave one site out~\cite{roberts2017} on lidar labels, which use information DET does not have. No hyperparameter was tuned.
+\subsection{Inputs}
+\textit{Idealised:} block means of the lidar at 2, 5, 10, 15, 20, 30 and 60\,m (I10 and I30 in the tables), which isolate resolution from product noise, time and registration. \textit{Real:} the USGS 1/3 arc second DEM (R10, about $8\times10$\,m)~\cite{usgs3dep13}, NASADEM (N30, February 2000)~\cite{nasadem} and Copernicus GLO-30 (G30, 2011 to 2015)~\cite{copernicusdem}, each scored on its own geographic grid, with labels from the lidar posts inside each native cell. Over these sites R10 is probably resampled by USGS from the same lidar collections. \textit{Imagery:} one Sentinel-2 L2A scene per site~\cite{drusch2012sentinel} (10\,m; lidar year, cloud below 5\,\%, lowest sun, chosen by rule) and NAIP~\cite{naip} (0.3 to 0.6\,m, resampled to 1\,m).
+
+\subsection{Hazard layers}
+Table~\ref{tab:methods} lists the layers: what a practitioner would compute from a coarse map, learned models, imagery fusion, and a logistic subgrid detector trained only on synthetic dune profiles, which we built earlier for the planner and treat here as one baseline among others. Every learned layer is trained leave one site out~\cite{roberts2017}, so the scored site is never seen in training.
+
+\subsection{Planner}
+The planner searches the 8 connected grid of the input. For an edge with along track grade $\tan\alpha$ (uphill positive) and cross slope $\tan\beta$,
+\begin{equation}
+d=\sqrt{(\tan\alpha+f_r)^2+\tan^2\beta},\qquad i=-i_0\ln\left(1-d/\tan\phi\right)
+\label{eq:slip}
+\end{equation}
+give the traction demand and the slip ($i=\infty$ when $d\ge\tan\phi$), with friction angle $\phi$, motion resistance coefficient $f_r$ and slip scale $i_0$. An edge is passable when $i\le i_{\max}$ and costs $\ell/(1-i)$ for length $\ell$. The four parameters are drawn 128 times; a cell is passable for a draw when at least four of its eight headings are, and $q_c$ is the share of draws for which it is. A cell is BLOCKED when $q_c\le0.05$, TRAVERSABLE when $q_c\ge0.95$ and its face probability $p_c<\tau$, and UNKNOWN otherwise. The main vehicle is a posterior fitted to published slip curves of other wheeled vehicles ($\phi$ 30.6 to $43.7^\circ$, $f_r$ 0.03 to 0.32, $i_0$ 0.33 to 1.21, $i_{\max}$ 0.4 to 0.7; climbing limit 15.9$^\circ$); a narrower assumed range (limit 25.5$^\circ$) is the sensitivity. Three policies share the graph: \emph{slip only}, \emph{gate} (TRAVERSABLE cells only) and \emph{weight} (no BLOCKED cell, cost times $1+w\,p_c$ of the cell entered); gate and weight refuse descents of $28^\circ$ or more. Every layer is run at $\tau\in\{0.02,\dots,0.9\}$ and $w\in\{1,\dots,100\}$ and reported at the setting that maximises mission success on the other five sites.
+
+\subsection{Scoring and closed loop}
+One hundred pairs per site, at least 1\,km apart, are drawn twice: E1 from cells whose lidar posts are all gentle (truth used, as in our earlier runs) and E2 from cells whose coarse slope is below $15^\circ$ (no truth). A route, the polyline through its cell centres sampled every 0.5\,m on the lidar, is \emph{unsafe} when a sample falls on a face patch, and a \emph{mission success} when it exists and is not unsafe. In the closed loop the rover follows the plan on a 5\,m grid that inherits the coarse classes, costs and face probabilities ($w=5$); at every step it senses the face patches within a radius $R$ from the lidar, blocks those cells, drops the face penalty of sensed free cells and replans when its route is blocked.
+
+\subsection{Statistics and prediction log}
+AUC intervals come from a spatial block bootstrap~\cite{kunsch1989} with 300\,m blocks; route outcomes carry two stage bootstrap intervals (sites, then pairs). Site level claims use an exact sign flip test over the six sites, Holm corrected~\cite{holm1979}; the smallest attainable two sided $p$ is 1/32. On one processor core, assessing a 10\,km$^2$ window and planning 100 routes take 0.2 and 0.2\,s at 30\,m and 2.3 and 2.2\,s at 10\,m. Designs and numeric predictions were committed to a prediction log before each run; the log, with 31 hits and 12 misses so far, and the amendments made before runs are in the supplement.
 
 \begin{table}[t]
-\caption{Methods compared. Lidar: trained on lidar labels of the other five sites. All scores are per coarse cell; methods without a probability get a leave one site out logistic calibration (suffix -cal) when one is needed.}
+\caption{Hazard layers. L: trained on lidar labels of the other five sites (leave one site out). Every layer that is not a probability is calibrated by logistic regression~\cite{platt1999} on the other five sites when a planner needs one.}
 \label{tab:methods}
 \centering\scriptsize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}lp{0.70\columnwidth}c@{}}
+\begin{tabular}{@{}lp{0.74\columnwidth}c@{}}
 \toprule
-Method & Score of a cell & Lidar \\
+Layer & Score of a cell & L \\
 \midrule
-DET (ours) & Logistic model on slope, convexity, slope break and local relief, trained on 60\,000 synthetic straight crested dune profiles per posting & no \\
-DET-cal & DET recalibrated by logistic regression~\cite{platt1999} & yes \\
-SLOPE & Coarse Horn slope, the input of a slope costmap & no \\
-TRI & Terrain ruggedness index~\cite{riley1999} & no \\
-ROUGH & RMS residual of a plane fitted to the $3\times3$ cells, as in GESTALT~\cite{goldberg2002} & no \\
-BICUBIC & Steepest slope after cubic spline interpolation to 1\,m & no \\
-GBM & Gradient boosted trees~\cite{ke2017,pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, DET features) & yes \\
-CNN & Fully convolutional network~\cite{paszke2019}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016} & yes \\
+Slope & Horn slope of the coarse surface, the input of a slope costmap & \\
+Ruggedness & Terrain ruggedness index~\cite{riley1999} over the 8 neighbours & \\
+Roughness & RMS residual of a plane fitted to $3\times3$ cells, as in GESTALT~\cite{goldberg2002} & \\
+Aspect rule & Slope times agreement of the cell's downslope azimuth with the dominant face direction of the site (from the coarse map) & \\
+Interpolation & Steepest slope after cubic spline interpolation of the coarse surface to 1\,m & \\
+Super resolution & Steepest slope of a 5\,m surface predicted by a dilated residual network from the interpolated 30\,m surface & yes \\
+Detector & Logistic model on slope, convexity, slope break and relief, trained on 60\,000 synthetic straight crested dune profiles sampled at the cell size & \\
+Boosting & Gradient boosted trees~\cite{pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, detector features); variants with 5 more features (Boosting+), tuned by nested leave one site out, and without the detector features & yes \\
+Network & Fully convolutional network~\cite{long2015fully}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016}, 1500 or 6000 steps & yes \\
++ imagery & Boosting on the terrain features plus Sentinel-2 or NAIP features (band means, brightness, contrast, shadow share); also imagery alone & yes \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\subsection{Planner and scoring}
-The released planner assesses a DEM with a friction circle slip model whose four parameters (friction angle, motion resistance, slip scale and planning slip limit) are drawn 128 times inside an assumed range for a small wheeled robot (friction angle 28 to 38\,degrees, motion resistance coefficient 0.05 to 0.25, slip scale 0.05 to 0.40, slip limit 0.40 to 0.70; nominal 33\,degrees, 0.12, 0.20 and 0.50, which give a climbing limit of 25.5\,degrees; this is optimistic against the Dumont data; an exploratory rerun with a posterior fitted to published slip curves, limit 15.9\,degrees, routes fewer pairs and changes no conclusion); a cell is passable for a draw when at least four of its eight headings stay below the slip limit. A cell is TRAVERSABLE when it is passable in at least 95\,\% of draws and its face probability is below 0.20, BLOCKED when passable in at most 5\,\%, and UNKNOWN otherwise. Routes are least cost paths~\cite{dijkstra1959} on the 8 connected grid with cost equal to distance over one minus slip. The \emph{naive} policy uses the slip model only; the \emph{conservative} policy uses TRAVERSABLE cells only; the \emph{risk weighted} policy avoids BLOCKED cells and multiplies the cost of entering a cell by $1+5p$, where $p$ is its face probability. Both cautious policies refuse descents of 28\,degrees or more between cells. To compare hazard layers, the face probability of the assessment is replaced by each method's probability and the map is reclassified with the planner's own rule; \textbf{ORACLE} uses the lidar cell label itself, and \textbf{ORACLE-5} plans on a 5\,m map with every cell that holds a face patch post marked as a face.
-
-One hundred origin and destination pairs per site are drawn from the lidar only: centres of 30\,m cells whose one metre posts are all gentle, at least 1\,km apart. Every method plans between the same points. A route is the polyline through its cell centres, sampled every 0.5\,m on the lidar; it is \emph{unsafe} if any sample falls on a face patch, and a \emph{mission success} if a route exists and is not unsafe.
-
-\subsection{Statistics and preregistration}
-Areas under the ROC curve (AUC)~\cite{hanley1982} carry 95\,\% intervals from a spatial block bootstrap~\cite{kunsch1989} with 300\,m blocks and 1000 resamples; paired differences use the same resampled blocks. Route outcomes are pooled over sites with intervals from a bootstrap of pairs within sites; paired methods are compared with exact McNemar tests~\cite{mcnemar1947} with Holm correction~\cite{holm1979}, which treat pairs as independent, and, post hoc, with a two stage bootstrap that resamples sites and then pairs. The design, the predictions and their tolerances were committed before any metric was computed (stages 25 and 26 of the register); the baseline code was written in the minutes that followed, and the detection run started shortly before its script was committed (no hash of the script as run was recorded). The detector had been tested on block mean surfaces of the same windows before (stages 12 and 20), which informed the predictions about it, and the planner's descent rule and NO DATA class were added after earlier route tests on these windows. Analyses decided after the runs are labelled post hoc.
 
 \section{Results}
-\subsection{Detection}
-Table~\ref{tab:detection} and Fig.~\ref{fig:auc} summarise the six sites. On 10\,m block means the hazard is largely visible: every method except plane roughness reaches a mean AUC of at least 0.93, and the detector reaches 0.95 (range 0.91 to 0.97) without any lidar label. The cubic interpolation and the two learned models are nevertheless slightly better than the detector at every site (mean AUC 0.97, 0.97 and 0.97; paired intervals above zero at 6, 6 and 6 of six sites).
+\subsection{Which layer sees faces}
+Table~\ref{tab:detection} gives the mean AUC of every layer for the face map label. On 10\,m block means most layers rank face cells well (interpolation 0.97, boosting 0.97, the detector 0.95, slope 0.90), and the real USGS 1/3 arc second product behaves almost like the 10\,m block mean (interpolation 0.96). At 30\,m every elevation layer loses skill. With the settings of our earlier benchmark, interpolation is best (0.82), boosting (0.81) and the network (0.80) follow, and the detector (0.74) beats only slope (0.69) and the aspect rule (0.61). The learned layers were held back by those settings: learned super resolution of the 30\,m surface reaches 0.84 and the network trained four times longer 0.84, the best elevation layers at 30\,m, and boosting with five more features, among them the interpolated slope, 0.83, which supports the idea that interpolation helps through local curvature. Tuning boosting by nested leave one site out changes nothing (0.81). The information is not gone at 10\,m: the largest of the nine 10\,m interpolation scores in a 30\,m cell reaches 0.96.
 
-On 30\,m block means every method loses most of its skill. The best mean AUC, 0.82, belongs to the steepest slope of a cubic interpolation of the coarse surface, a baseline with no training (post hoc paired intervals: better than gradient boosting at 4 sites and tied at the others; better than the network at 4 and worse at 1); the gradient boosted trees and the network, trained on lidar of the other five fields, follow at 0.81 and 0.79. The detector reaches 0.74 (0.64 to 0.86): above the plain slope (0.70), but below the interpolation and the learned models at every site (significant at 6, 6 and 5 of six sites against the interpolation, gradient boosting and the network). The detector also underestimates how common faces are: at its threshold of 0.20 it misses 61\,\% of face cells on average, and a recalibration on the other sites lowers its Brier score from 0.22 to 0.18 but cannot change its ranking.
+Imagery adds what elevation lacks. Boosting on terrain plus Sentinel-2 features reaches 0.85 at 30\,m (+0.04 over terrain alone), and with NAIP 0.84; imagery alone is weaker (0.74 and 0.67), and at 10\,m it adds nothing (0.97). Super resolution and boosting with Sentinel-2 are above interpolation at all six sites and the detector below it at all six, but with six sites none of these comparisons is significant after Holm correction (sign flip $p=0.031$, adjusted 0.22).
 
-On the real Copernicus product every method falls again (mean AUC 0.65 for the detector, 0.70 for the interpolation, 0.72 and 0.73 for the learned models). A post hoc search for the horizontal shift that best aligns GLO-30 with the lidar gives 0\,m at Dumont and 0\,m at Kelso, where the georeferencing therefore agrees, and 15\,m at Algodones and 31\,m at White Sands, an actively migrating gypsum dune field~\cite{pedersen2015} whose lidar is years younger than the radar acquisition. There the unsupervised scores are at chance (0.46 to 0.52), and only the learned models retain some skill (0.65 and 0.68).
+The real 30\,m products are worse than the 30\,m block mean: on their own grids the best layer reaches 0.72 on GLO-30 and 0.63 on NASADEM, which predates the lidar by about two decades. Interpolating GLO-30 to the lidar grid, as in our earlier runs, changes little (best 0.72).
+
+The label definition matters less than expected. With the earlier cell label (at least 10 steep posts) the 30\,m interpolation scores 0.82 against 0.82; requiring 100 or 300 steep posts raises it to 0.89 and 0.97, because large faces are easier to see; a 30\,degree threshold changes little (0.82). The labels are spatially correlated over 30 to 870\,m (the largest at Dumont, whose window holds rocky hills); with blocks of 870\,m instead of 300\,m the per site intervals widen, but slope and the detector stay significantly below interpolation at all six sites.
 
 \begin{table}[t]
-\caption{Detection: mean over six sites of the AUC and average precision (AP); $^{*}$trained on lidar labels of the other five sites. Best AUC per input in bold.}
+\caption{Detection of the face map label (\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids. $^{*}$Trained on lidar labels of the other five sites. Best per column in bold; $\cdot$ not run.}
 \label{tab:detection}
-\centering\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcccccc}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.8pt}
+\begin{tabular}{@{}lcccccc@{}}
 \toprule
- & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\
-Method & AUC & AP & AUC & AP & AUC & AP \\
+Layer & I10 & I30 & I10$\rightarrow$30 & R10 & N30 & G30 \\
 \midrule
-DET (ours) & 0.95 & 0.76 & 0.74 & 0.65 & 0.65 & 0.51 \\
-SLOPE & 0.93 & 0.73 & 0.70 & 0.57 & 0.65 & 0.51 \\
-TRI & 0.95 & 0.76 & 0.76 & 0.64 & 0.68 & 0.53 \\
-ROUGH & 0.77 & 0.34 & 0.76 & 0.60 & 0.68 & 0.50 \\
-BICUBIC & 0.97 & 0.84 & \textbf{0.82} & 0.72 & 0.70 & 0.55 \\
-GBM$^{*}$ & \textbf{0.97} & 0.84 & 0.81 & 0.70 & 0.72 & 0.57 \\
-CNN$^{*}$ & 0.97 & 0.82 & 0.79 & 0.69 & \textbf{0.73} & 0.59 \\
+Slope & 0.90 & 0.69 & $\cdot$ & 0.90 & 0.62 & 0.65 \\
+Ruggedness & 0.94 & 0.76 & $\cdot$ & 0.93 & 0.63 & 0.69 \\
+Roughness & 0.80 & 0.77 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Aspect rule & 0.83 & 0.61 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Interpolation & 0.97 & 0.82 & 0.96 & \textbf{0.96} & 0.62 & 0.70 \\
+Super resolution$^{*}$ & $\cdot$ & 0.84 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Detector & 0.95 & 0.74 & 0.95 & 0.95 & 0.56 & 0.65 \\
+Boosting$^{*}$ & 0.97 & 0.81 & \textbf{0.96} & 0.95 & \textbf{0.63} & \textbf{0.72} \\
+Boosting+$^{*}$ & \textbf{0.97} & 0.83 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Boosting, tuned$^{*}$ & 0.97 & 0.81 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Network$^{*}$ & 0.96 & 0.80 & 0.95 & $\cdot$ & $\cdot$ & $\cdot$ \\
+Network, 6000 steps$^{*}$ & $\cdot$ & 0.84 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Sentinel-2 only$^{*}$ & 0.68 & 0.74 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Boosting + Sentinel-2$^{*}$ & 0.97 & \textbf{0.85} & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+NAIP only$^{*}$ & 0.62 & 0.67 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+Boosting + NAIP$^{*}$ & 0.97 & 0.84 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{How fine a map must be}
+Fig.~\ref{fig:resolution}a shows how detection falls with grid spacing. Every layer is almost perfect at 2\,m (interpolation 1.00) and still good at 10\,m (0.97); between 10 and 30\,m the AUC of interpolation falls to 0.82 and at 60\,m to 0.69, while slope and the detector fall faster. Fig.~\ref{fig:resolution}b explains the fall by face size. At every spacing, faces longer than about four grid cells are found almost always (boosting at 30\,m: 96\,\% of faces 4 to 8 cells long), and faces shorter than half a cell are found far less often (60\,\% at 30\,m, 46\,\% at 60\,m). Most faces in these fields are short at 30\,m: 75\,\% of the patches are shorter than one 30\,m cell.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig_auc.pdf}
-\caption{Face cell detection against one metre lidar on six dune fields. Large markers: mean AUC over sites; small dots and lines: individual sites and their range. $^{*}$Trained leave one site out on lidar labels.}
-\label{fig:auc}
+\includegraphics[width=\columnwidth]{figures/fig_resolution.pdf}
+\caption{Resolution and scale (lidar block means, face map label). (a) Mean AUC over six sites against the grid spacing. (b) Share of face patches found by boosting (a cell holding the patch is flagged at the threshold that flags 10\,\% of face free cells) against the patch length divided by the grid spacing, for four spacings; bins with fewer than 50 patches are omitted. $^{*}$Trained leave one site out.}
+\label{fig:resolution}
 \end{figure}
 
 \subsection{Planning}
-Table~\ref{tab:planning} and Fig.~\ref{fig:planning} give the registered outcomes of the 600 pairs. The dune fields are hazardous: the shortest grid path touches a face patch on 96\,\% of pairs, and the slip model alone, which avoids grades it cannot climb, still touches one on 94\,\% of pairs at 30\,m and 85\,\% at 10\,m. A refusal to route counts against mission success; on a 30\,m map that refusal is what the planner's resolution gate intends, so Table~\ref{tab:planning} also gives the unsafe share of the routes that were planned.
+Fig.~\ref{fig:frontier} shows every operating point and Table~\ref{tab:planning} the ones chosen on the other five sites. With the posterior vehicle the gate routes at most 34\,\% of pairs at 10\,m and 42\,\% at 30\,m, whatever the layer, because the slip model is uncertain on most dune slopes; most refusals are at an endpoint (76\,\% of the unrouted pairs for boosting at 30\,m and $\tau=0.2$). The weight policy routes almost every pair and is chosen for every layer on the block means; on 10\,m maps the chosen weight is the largest in the grid ($w=100$), so stronger weights may help further.
 
-On 30\,m maps no computable hazard layer produces many face free routes. Mission success is 6\,\% with the slip model alone and at most 11\,\% with any computable layer (interpolation, risk weighted: +4.8 points, 95\,\% interval +2.5 to +7.3 from a bootstrap over sites and pairs, positive at all six sites; no other 30\,m layer has an interval entirely above zero). The gating policy fails in two opposite ways. The detector underestimates face prevalence, so it gates few cells: 91\,\% of pairs are routed and 92\,\% of those routes are unsafe. The learned and recalibrated layers flag so much of the field that most pairs cannot be routed (19\,\% for gradient boosting). The layers do reduce exposure (Table~\ref{tab:posthoc}, post hoc): the length of route on a face patch falls from 50\,m per km with the slip model alone to 19\,m per km with interpolation, gradient boosting or network weighting, and the registered count of face patches entered per km from 5.1 to 2.3, but almost every route still touches some face (no intervals are given for these exposure values). GLO-30 gives the same picture.
+On 10\,m maps every layer helps. Mission success rises from 17\,\% with the slip model alone to 64\,\% with interpolation (+47 points, two stage interval +28 to +64, positive at all six sites), 59\,\% with boosting and 50\,\% with the detector. On 30\,m maps the gain is small: interpolation adds +5 points (interval +2 to +8) and boosting with Sentinel-2 +5 (interval +1 to +9) to 8\,\%, and no layer computed from GLO-30 has an interval above zero. Endpoints chosen without the truth (E2) lower every rate, for example the slip model alone to 2\,\% at 30\,m, but do not change the comparison.
 
-On 10\,m maps every layer helps. Mission success rises from 15\,\% with the slip model alone to 24\,\% with the detector gate, 27\,\% with the detector weighting and 34\,\% with gradient boosting weighting, the best computable layer under the registered outcome (+19.2 points over the slip model, interval +10.8 to +26.5, positive at all six sites).
+The face map, an upper bound that assumes face information from fine data, reaches 81\,\% on the 30\,m grid. Degraded face maps show how good that information must be (Table~\ref{tab:planning}, lower part). With the weight fixed at $w=5$ the face map gives 55\,\% at 30\,m; displaced by 5\,m it still gives 50\,\%, by 10\,m 43\,\% and by 30\,m 11\,\%. Face maps built with the same 28\,degree rule from simulated 2\,m and 5\,m surveys give only 23\,\% and 8\,\%: averaging to 2\,m already flattens part of the faces below the threshold, and because any contact with a patch of 10\,m$^2$ counts, the patches a survey misses are enough to fail most routes. A survey needs its own threshold, which we have not calibrated.
 
-The registered oracle, the stage 25 cell label, reaches 46\,\% at 10\,m and 59\,\% at 30\,m, and the registered 5\,m reference, which marks every cell holding a face patch post, reaches 100\,\%. Most of that gap comes from the label rule, not from the grid (post hoc, Table~\ref{tab:posthoc}): with the same rule on the coarse grids, the conservative policy finds a route for 87\,\% of pairs at 10\,m and 83\,\% at 30\,m. None of these routes can touch a face, by construction, so the informative number is how many pairs stay routable: a face map from fine data lets even a 30\,m grid serve most pairs, and the finer grids add the remaining 13 to 17 points. The same face map with the risk weighted policy, which avoids faces only through cost, gives 55\,\% at 30\,m and 79\,\% at 10\,m, so the gain needs a hard gate. When only patches of at least 500\,m$^2$ count (post hoc), every success rate rises (slip model alone 34\,\% at 30\,m and 40\,\% at 10\,m; computable layers up to 48\,\% and 72\,\%); the order among the better computable layers changes, but every one stays well below the face map.
-
-\begin{table}[t]
-\caption{Planning, pooled over six sites (600 pairs): unsafe share of routed pairs (U) and mission success (S), in \%. Gate: conservative policy; Weight: risk weighted policy.}
-\label{tab:planning}
-\centering\small
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lcccccc}
-\toprule
- & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\
-Planner & U & S & U & S & U & S \\
-\midrule
-Shortest path & 96 & 4 & 96 & 4 & 96 & 4 \\
-Slip model only & 85 & 15 & 94 & 6 & 95 & 5 \\
-Gate: SLOPE-cal & 79 & 17 & 88 & 3 & 98 & 0 \\
-Gate: BICUBIC-cal & 75 & 22 & 79 & 8 & 91 & 2 \\
-Gate: DET (ours) & 72 & 24 & 92 & 7 & 94 & 5 \\
-Gate: DET-cal & 78 & 22 & 71 & 2 & 75 & 0 \\
-Gate: GBM$^{*}$ & 76 & 24 & 67 & 6 & 70 & 3 \\
-Gate: CNN$^{*}$ & 70 & 27 & 56 & 7 & 79 & 3 \\
-Weight: DET (ours) & 73 & 27 & 93 & 7 & 94 & 6 \\
-Weight: BICUBIC-cal & 69 & 31 & 89 & 11 & 93 & 7 \\
-Weight: GBM$^{*}$ & 66 & 34 & 93 & 7 & 94 & 6 \\
-Gate: ORACLE & 54 & 46 & 32 & 59 & 34 & 57 \\
-\midrule
-ORACLE-5 (5\,m) & \multicolumn{6}{c}{U 0, S 100} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[t]
-\caption{Mission success (\%) when face patches of at least 10 or 500\,m$^2$ count (S$_{10}$; S$_{500}$, post hoc), face patches entered per km (P, registered secondary outcome) and metres of route on a face patch per km (E, post hoc). Face map (post hoc): every cell that holds a face patch post is marked; with the gate, no route can touch a face by construction.}
-\label{tab:posthoc}
-\centering\small
-\setlength{\tabcolsep}{2.4pt}
-\begin{tabular}{lcccccccc}
-\toprule
- & \multicolumn{4}{c}{I10} & \multicolumn{4}{c}{I30} \\
-Planner & S$_{10}$ & S$_{500}$ & P & E & S$_{10}$ & S$_{500}$ & P & E \\
-\midrule
-Slip model only & 15 & 40 & 3.3 & 24 & 6 & 34 & 5.1 & 50 \\
-Weight: BICUBIC-cal & 31 & 72 & 1.1 & 4 & 11 & 47 & 2.3 & 19 \\
-Weight: GBM$^{*}$ & 34 & 67 & 1.1 & 5 & 7 & 47 & 2.6 & 19 \\
-Weight: CNN$^{*}$ & 29 & 65 & 1.2 & 6 & 8 & 48 & 2.6 & 19 \\
-Gate: ORACLE (cell label) & 46 & 74 & 0.6 & 2 & 59 & 80 & 0.1 & 0.3 \\
-Gate: face map & 87 & 87 & 0.0 & 0.0 & 83 & 83 & 0.0 & 0.0 \\
-Weight: face map & 79 & 81 & 0.3 & 3 & 55 & 64 & 0.6 & 9 \\
-\bottomrule
-\end{tabular}
-\end{table}
+The outcome is robust to the scoring details. Counting a face within one post of the route (a vehicle footprint) raises the unsafe share of slip only routes at 30\,m from 92\,\% to 94\,\%; 2\,\% of the unsafe slip only routes touch faces only while descending the fall line, which some vehicles might survive; and the 28\,degree descent rule removes at most 0.1\,\% of the graph edges on the 30\,m grid, so it hardly acts there.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig_planning.pdf}
-\caption{Mission success of the released planner with swapped hazard layers, pooled over 600 origin and destination pairs (95\,\% bootstrap intervals). Hollow markers (post hoc): every cell that holds a face patch post marked as a face, on the 10\,m and 30\,m grids; dashed line: the same on a 5\,m grid. $^{*}$Trained leave one site out on lidar labels.}
-\label{fig:planning}
+\includegraphics[width=\columnwidth]{figures/fig_frontier.pdf}
+\caption{Mission success of the weight policy against the risk weight $w$ for each hazard layer (E1 endpoints, posterior vehicle, 600 pairs). Dashed: the slip model alone. The face map is an upper bound that needs face information from fine data. $^{*}$Trained leave one site out.}
+\label{fig:frontier}
 \end{figure}
 
+\begin{table}[t]
+\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero. Degraded face maps: weight policy, $w=5$. $^{*}$Trained leave one site out.}
+\label{tab:planning}
+\centering\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\
+Layer & E1 & E2 & E1 & E2 & E1 \\
+\midrule
+Slip model only & 17 & 9 & 8 & 2 & 6 \\
+Slope & 35$^{\dagger}$ & 28$^{\dagger}$ & 6 & 2 & 6 \\
+Interpolation & 64$^{\dagger}$ & 53$^{\dagger}$ & 12$^{\dagger}$ & 5 & 6 \\
+Detector & 50$^{\dagger}$ & 33$^{\dagger}$ & 7 & 4 & 5 \\
+Detector, recalibrated & 52$^{\dagger}$ & 37$^{\dagger}$ & 5 & 2 & 6 \\
+Boosting$^{*}$ & 59$^{\dagger}$ & 47$^{\dagger}$ & 8 & 4 & 7 \\
+Network$^{*}$ & 50$^{\dagger}$ & 40$^{\dagger}$ & 6 & 3 & 7 \\
+Boosting + Sentinel-2$^{*}$ & 56$^{\dagger}$ & 46$^{\dagger}$ & 13$^{\dagger}$ & 7$^{\dagger}$ & $\cdot$ \\
+Face map (upper bound) & 84$^{\dagger}$ & 80$^{\dagger}$ & 81$^{\dagger}$ & 68$^{\dagger}$ & 80$^{\dagger}$ \\
+\midrule
+Face map, $w=5$ & 80 & 71 & 55 & 40 & $\cdot$ \\
+Face map 5\,m off & 67 & 56 & 50 & 39 & $\cdot$ \\
+Face map 10\,m off & 36 & 26 & 43 & 32 & $\cdot$ \\
+Face map 30\,m off & 19 & 10 & 11 & 5 & $\cdot$ \\
+Face map from 2\,m survey & 29 & 19 & 23 & 14 & $\cdot$ \\
+Face map from 5\,m survey & 17 & 9 & 8 & 4 & $\cdot$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\subsection{Preregistered predictions}
-Table~\ref{tab:predictions} lists every registered prediction with its outcome: twelve were met and five were missed. The misses that matter are those against our own method and expectations: interpolation was expected to add nothing over slope at 30\,m and became the best method, and the detector gate cut the unsafe share at 10\,m by fewer points than predicted.
+\subsection{Onboard sensing}
+Table~\ref{tab:closedloop} adds onboard sensing. With a 20\,m sensing radius the rover reaches the goal without touching a face on 80\,\% of the pairs when its 30\,m prior holds only the slip model, and on 84\,\% with boosting as prior (+4 points, interval -1 to +12); even the face map prior gives 85\,\%. Sensing, not the prior, keeps the rover off faces: no route with E1 endpoints touched one. The failures are pairs where sensed faces close every way to the goal (20\,\% with the slip model prior). A better prior saves replanning rather than distance: the rover replans 29 times per pair with the slip model prior and 8 times with the face map, while the driven length stays near 1.16 times the straight distance. A 10 or 30\,m radius gives 76\,\% and 83\,\% with the slip model prior, and E2 endpoints give the same pattern at a lower level (67\,\% and 71\,\%).
 
 \begin{table}[t]
-\caption{The 17 predictions registered before the runs (stage 25, B; stage 26, P), what was observed, and the outcome (H hit, M missed).}
-\label{tab:predictions}
+\caption{Closed loop with onboard sensing (radius $R$), 20 pairs per site, E1 endpoints, posterior vehicle: success (\%; goal reached, no face contact) and replans per pair (Rp). Main runs $R=20$\,m; I30 also with $R=10$ and 30\,m.}
+\label{tab:closedloop}
 \centering\scriptsize
-\setlength{\tabcolsep}{2pt}
-\begin{tabular}{@{}llll@{}}
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{@{}lcccccc@{}}
 \toprule
-ID & Prediction & Observed & \\
+ & \multicolumn{2}{c}{I10, $R$ 20} & \multicolumn{2}{c}{I30, $R$ 20} & \multicolumn{2}{c}{I30, S} \\
+Prior layer & S & Rp & S & Rp & $R$ 10 & $R$ 30 \\
 \midrule
-B25-1 & I30: GBM beats DET at $\geq$3 sites, gain 0 to 0.12 & +0.07, 6 sites & H \\
-B25-2 & I30: DET above SLOPE at $\geq$4 sites & 4 sites & H \\
-B25-3 & I30: AUC $\geq$0.90 at $\leq$2 sites, any method & $\leq$1 site & H \\
-B25-4 & I10: DET, GBM, CNN $\geq$0.93 everywhere & DET 0.91 & M \\
-B25-5 & I30: BICUBIC beats SLOPE by $\leq$0.02 & +0.12 & M \\
-B25-6 & DET $\geq$0.03 lower on G30 than I30 & 0.09 lower & H \\
-B25-7 & G30: every method below 0.85 & best 0.73 & H \\
-B25-8 & I30: DET-cal Brier below DET at $\geq$5 sites & 6 sites & H \\
-B25-9 & I30: CNN within 0.05 of GBM & -0.01 & H \\
-P26-1 & I30: no layer lifts success by $>$15 points & oracle +53 & M \\
-P26-2 & I10: DET gate unsafe $\geq$15 points below naive & 13 points & M \\
-P26-3 & I30: ORACLE unsafe $\geq$20 points below DET & 32\,\%, 92\,\% & H \\
-P26-4 & ORACLE-5 unsafe $\leq$5 \% & 0\,\% & H \\
-P26-5 & Shortest path unsafe $\geq$60 \% & 96\,\% & H \\
-P26-6 & G30 DET gate unsafe $\geq$ I30 minus 5 & 94\,\%, 92\,\% & H \\
-P26-7 & I30: GBM unsafe $\leq$10 points below DET & 67\,\%, 92\,\% & M \\
-P26-8 & I10: DET gate length $\leq$1.5 times straight & 1.17 & H \\
+Slip model only & 78 & 11 & 80 & 29 & 76 & 83 \\
+Detector & 81 & 5 & 85 & 25 & 82 & 85 \\
+Interpolation & 80 & 4 & 82 & 20 & 81 & 87 \\
+Boosting$^{*}$ & 80 & 4 & 84 & 21 & 81 & 88 \\
+Face map & 80 & 1 & 85 & 8 & 82 & 86 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{Discussion and Limitations}
-\textit{What the results mean.} At 10\,m the face hazard is mostly visible and the choice of method matters little; at 30\,m it is mostly invisible, and no model of the coarse surface, physical or learned, recovers enough of it to plan face free routes, although the better layers halve the length of route on faces. The post hoc oracle locates most of the limit: given a face map made from fine data, a hard gate on the 30\,m grid still finds face free routes for most pairs, so the main missing ingredient is face information; the coarse grid costs a further share of routable pairs, and a soft cost alone does not keep routes off faces. At 30\,m the cubic interpolation, which adds no information to the coarse surface, ranks face cells as well as or better than models trained on lidar of five other fields; we suspect that its steepest interpolated slope summarises local curvature more sharply than the features we gave the learned models, but we have not tested this. Our synthetic detector, trained on two dimensional straight crested profiles, ranks worse than both and underestimates how common faces are; its remaining value is that it needs no lidar and gives a probability that a recalibration on any surveyed field can correct. For a planner, a 30\,m elevation model is a coarse prior that cannot certify ground as traversable, which the released planner already refuses to do.
+\label{sec:limits}
+\textit{What the results mean.} A 30\,m elevation model keeps enough of the dune shape to rank face cells better than chance, but not enough to plan around faces: the best 30\,m layer adds a few points of mission success, while the same layers on a 10\,m map add +47 points. The scaling curve (Fig.~\ref{fig:resolution}b) explains why: a face is found reliably once it spans about four grid cells, and most faces in these fields are shorter than one 30\,m cell. Better learning helps detection a little (a longer trained network reaches 0.84 against 0.82 for interpolation), but the shape of the curve, not the choice of model, sets the limit. Imagery gave the largest gain in 30\,m detection, which matches the experience of dune mapping from imagery~\cite{hugenholtz2012remote}; in planning its gain was the same size as the interpolation's. The face map results put the remaining gap on information, not on the planner: a face map displaced by 5\,m keeps most of its benefit on the 30\,m grid, but the benefit falls quickly beyond that (Table~\ref{tab:planning}), so a drone survey must be georeferenced to a few metres and its face threshold calibrated for its own resolution.
 
-\textit{Limitations.} The six fields are North American; the linear, star and compound megadunes of the Rub' al Khali are larger and only Great Sand Dunes holds star dunes, so the numbers transfer to Arabia as an indication only. The truth counts every surface steeper than 28\,degrees, including rock and lidar artefacts at Dumont; the secondary label limited to 36\,degrees changes little. The registered planning outcome is strict: any contact with a face patch of 10\,m$^2$ counts as unsafe, although some contacts would be short or survivable for a given vehicle, and a real rover would follow the route with a local planner and its own sensors; the post hoc exposure and patch size analyses show that the absolute numbers depend strongly on this choice and that the order among the better computable layers can change, while the gap between them and the face map remains. The vehicle model is an assumption range, not a measured rover, and no route was driven. GLO-30 differs from the lidar in sensor, date and datum, so the G30 results mix dune migration with product error. Six sites limit the leave one site out training of the learned baselines, and no hyperparameter was tuned for any method.
+\textit{Arabian dunes.} We did not test Arabian fields. The scaling curve suggests what to expect: a slip face 100\,m high at 32\,degrees spans about 160\,m, five 30\,m cells, which GLO-30 should resolve, while the smaller faces on the flanks of megadunes and on the linear dunes of the Rub' al Khali would remain hidden. The curve was measured on six North American fields and TanDEM-X, the source of GLO-30, performs worse over sandy deserts~\cite{martone2016enhancing}, so this is an expectation to test, not a result.
+
+\textit{Limitations.} The truth is steep ground: rock, vehicle ruts and vegetated mounds also exceed 28\,degrees, and the manual audit of a stratified sample of 600 patches is not finished, so label precision is unknown. The windows were chosen by us and used in earlier tests of the detector, and the prediction log is kept in our own repository rather than a public registry. The vehicle model is a posterior fitted to published slip curves of other vehicles; in our own leave one study out validation no slip model family transferred between published studies (median held out slip error 0.20 to 0.22), so absolute route outcomes are uncertain. No rover was driven and no physics was simulated; the closed loop assumes perfect sensing of faces within the radius. Any contact with a face patch counts as a failure, which is strict, although the footprint and descent variants change the picture little. Six sites limit the training data of the learned layers and the power of site level tests (the smallest attainable two sided $p$ is 1/32).
 
 \section{Conclusion}
-On six lidar dune fields, a 30\,m elevation model hides most slip faces, and neither a physically motivated detector nor models trained on lidar recover enough of them to plan face free routes; on the real Copernicus product the loss is larger still. At 10\,m every method sees most faces and the best hazard layer more than doubles mission success over the slip model alone. In a post hoc check, a face map built from fine data let a hard gate on the 30\,m grid find face free routes for most pairs, so the main constraint for small rovers on dunes is face information, which global elevation models do not hold. The next step is to run the same benchmark on Arabian dune fields with a drone survey and with a rover whose slip has been measured on the same sand.
+A 30\,m elevation model ranks slip faces better than chance but cannot keep a small rover off them. On six lidar dune fields no hazard layer computed from such a map, learned or not, with or without imagery, added more than a few points of mission success, while the same layers on a 10\,m map raised it from 17\,\% to as much as 64\,\%. Faces shorter than about four grid cells are the problem, so the survey resolution a rover needs depends on the size of the faces in its field. In simulation, onboard sensing within 20\,m kept every route between gentle endpoints off faces, and a better prior mainly saved replanning. The next steps are the manual audit of the face labels, the same benchmark on Arabian dune fields with a drone survey, and a rover whose slip has been measured on the same sand.
 
 \section*{Data and Code}
-USGS 3DEP lidar is in the public domain; Copernicus GLO-30 is used under its licence (produced using Copernicus WorldDEM-30 \copyright~DLR e.V. 2010-2014 and \copyright~Airbus Defence and Space GmbH 2014-2018, provided under COPERNICUS by the European Union and ESA; all rights reserved). The code, the result files, the prediction register and the scripts that regenerate every number and figure of this paper are at \url{https://github.com/hudasol/dune-rover} (stages 25 and 26).
+USGS 3DEP lidar and DEMs, NASADEM and NAIP are in the public domain; Sentinel-2 data are provided under the Copernicus free licence; Copernicus GLO-30 is used under its licence (produced using Copernicus WorldDEM-30 \copyright~DLR e.V. 2010-2014 and \copyright~Airbus Defence and Space GmbH 2014-2018, provided under COPERNICUS by the European Union and ESA; all rights reserved). The code, result files, prediction log and the scripts that regenerate every number and figure of this paper and its supplement are at \url{https://github.com/hudasol/dune-rover} (stages 25 to 28).
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}

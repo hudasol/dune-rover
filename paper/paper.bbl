@@ -22,12 +22,65 @@
 \BIBdecl
 
 \bibitem{copernicusdem}
+\BIBentryALTinterwordspacing
 {European Space Agency} and {Airbus}, ``Copernicus {DEM},'' Dataset, European
-  Space Agency, 2022.
+  Space Agency, 2022. [Online]. Available:
+  \url{https://doi.org/10.5270/ESA-c5d3d65}
+\BIBentrySTDinterwordspacing
 
 \bibitem{pye2009}
 K.~Pye and H.~Tsoar, \emph{Aeolian Sand and Sand Dunes}.\hskip 1em plus 0.5em
   minus 0.4em\relax Berlin, Heidelberg: Springer Berlin Heidelberg, 2009.
+
+\bibitem{heverly2013}
+M.~Heverly, J.~Matthews, J.~Lin, D.~Fuller, M.~Maimone, J.~Biesiadecki, and
+  J.~Leichty, ``Traverse performance characterization for the {Mars} {Science}
+  {Laboratory} rover,'' \emph{Journal of Field Robotics}, vol.~30, no.~6, pp.
+  835--846, 2013.
+
+\bibitem{arvidson2017megaripple}
+R.~E. Arvidson, K.~D. Iagnemma, M.~Maimone, A.~A. Fraeman, F.~Zhou, M.~C.
+  Heverly, P.~Bellutta, D.~Rubin, N.~T. Stein, J.~P. Grotzinger, and A.~R.
+  Vasavada, ``{Mars Science Laboratory Curiosity} rover megaripple crossings up
+  to sol 710 in {Gale} crater,'' \emph{Journal of Field Robotics}, vol.~34,
+  no.~3, pp. 495--518, 2017.
+
+\bibitem{zhang1994}
+W.~Zhang and D.~R. Montgomery, ``Digital elevation model grid size, landscape
+  representation, and hydrologic simulations,'' \emph{Water Resources
+  Research}, vol.~30, no.~4, pp. 1019--1028, 1994.
+
+\bibitem{vandapel2006aerial}
+N.~Vandapel, R.~R. Donamukkala, and M.~Hebert, ``Unmanned ground vehicle
+  navigation using aerial ladar data,'' \emph{The International Journal of
+  Robotics Research}, vol.~25, no.~1, pp. 31--51, 2006.
+
+\bibitem{sofman2006}
+B.~Sofman, E.~Lin, J.~A. Bagnell, J.~Cole, N.~Vandapel, and A.~Stentz,
+  ``Improving robot navigation through self-supervised online learning,''
+  \emph{Journal of Field Robotics}, vol.~23, no. 11-12, pp. 1059--1075, 2006.
+
+\bibitem{delmerico2017active}
+J.~Delmerico, E.~Mueggler, J.~Nitsch, and D.~Scaramuzza, ``Active autonomous
+  aerial exploration for ground robot path planning,'' \emph{IEEE Robotics and
+  Automation Letters}, vol.~2, no.~2, pp. 664--671, 2017.
+
+\bibitem{fortin2025uav}
+J.-M. Fortin, O.~Gamache, W.~Fecteau, E.~Daum, W.~Larriv{\'e}e-Hardy,
+  F.~Pomerleau, and P.~Gigu{\`e}re, ``{UAV}-assisted self-supervised terrain
+  awareness for off-road navigation,'' in \emph{Proc. IEEE International
+  Conference on Robotics and Automation (ICRA)}, 2025, pp. 1--7.
+
+\bibitem{ono2016traversability}
+M.~Ono, B.~Rothrock, E.~Almeida, A.~Ansar, R.~Otero, A.~Huertas, and
+  M.~Heverly, ``Data-driven surface traversability analysis for {Mars} 2020
+  landing site selection,'' in \emph{Proc. IEEE Aerospace Conference}, 2016,
+  pp. 1--12.
+
+\bibitem{hedrick2021terrain}
+G.~Hedrick and Y.~Gu, ``Terrain-aware traverse planning for a {Mars} sample
+  return rover,'' \emph{Advanced Robotics}, vol.~35, no. 21--22, pp.
+  1286--1301, 2021.
 
 \bibitem{papadakis2013}
 P.~Papadakis, ``Terrain traversability analysis methods for unmanned ground
@@ -47,81 +100,16 @@ S.~B. Goldberg, M.~W. Maimone, and L.~Matthies, ``Stereo vision and rover
   Aerospace Conference}, vol.~5, Big Sky, MT, USA, 2002, pp.
   {5--2025}--{5--2036}.
 
-\bibitem{fankhauser2016}
-P.~Fankhauser and M.~Hutter, ``A universal grid map library: Implementation and
-  use case for rough terrain navigation,'' in \emph{Robot Operating System
-  ({ROS}): The Complete Reference (Volume 1)}, ser. Studies in Computational
-  Intelligence, A.~Koubaa, Ed.\hskip 1em plus 0.5em minus 0.4em\relax Cham:
-  Springer International Publishing, 2016, vol. 625, pp. 99--120.
-
-\bibitem{macenski2020}
-S.~Macenski, F.~Martin, R.~White, and J.~{Gin{\'e}s Clavero}, ``The {Marathon}
-  2: A navigation system,'' in \emph{2020 {IEEE/RSJ} International Conference
-  on Intelligent Robots and Systems ({IROS})}, 2020, pp. 2718--2725.
-
-\bibitem{riley1999}
-\BIBentryALTinterwordspacing
-S.~J. Riley, S.~D. DeGloria, and R.~Elliot, ``A terrain ruggedness index that
-  quantifies topographic heterogeneity,'' \emph{Intermountain Journal of
-  Sciences}, vol.~5, no. 1-4, pp. 23--27, 1999. [Online]. Available:
-  \url{https://arc.lib.montana.edu/ojs/index.php/IJS/article/view/2914}
-\BIBentrySTDinterwordspacing
-
-\bibitem{zhang1994}
-W.~Zhang and D.~R. Montgomery, ``Digital elevation model grid size, landscape
-  representation, and hydrologic simulations,'' \emph{Water Resources
-  Research}, vol.~30, no.~4, pp. 1019--1028, 1994.
-
-\bibitem{ono2015}
-M.~Ono, T.~J. Fuchs, A.~Steffy, M.~Maimone, and J.~Yen, ``Risk-aware planetary
-  rover operation: Autonomous terrain classification and path planning,'' in
-  \emph{2015 {IEEE} Aerospace Conference}, Big Sky, MT, 2015, pp. 1--10.
-
-\bibitem{fan2021}
-D.~D. Fan, K.~Otsu, Y.~Kubo, A.~Dixit, J.~Burdick, and A.-a. Agha-mohammadi,
-  ``{STEP}: Stochastic traversability evaluation and planning for risk-aware
-  off-road navigation,'' in \emph{Robotics: Science and Systems XVII}, 2021.
-
-\bibitem{chen2016demsr}
-Z.~Chen, X.~Wang, Z.~Xu, and W.~Hou, ``Convolutional neural network based {DEM}
-  super resolution,'' in \emph{The International Archives of the
-  Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol.
-  XLI-B3, 2016, pp. 247--250.
-
-\bibitem{xu2019demsr}
-Z.~Xu, Z.~Chen, W.~Yi, Q.~Gui, W.~Hou, and M.~Ding, ``Deep gradient prior
-  network for {DEM} super-resolution: Transfer learning from image to {DEM},''
-  \emph{{ISPRS} Journal of Photogrammetry and Remote Sensing}, vol. 150, pp.
-  80--90, 2019.
+\bibitem{benrabah2024review}
+M.~Benrabah, C.~O. Mousse, E.~Randriamiarintsoa, R.~Chapuis, and
+  R.~Aufr{\`e}re, ``A review on traversability risk assessments for autonomous
+  ground vehicles: Methods and metrics,'' \emph{Sensors}, vol.~24, no.~6, p.
+  1909, 2024.
 
 \bibitem{ishigami2007}
 G.~Ishigami, A.~Miwa, K.~Nagatani, and K.~Yoshida, ``Terramechanics-based model
   for steering maneuver of planetary exploration rovers on loose soil,''
   \emph{Journal of Field Robotics}, vol.~24, no.~3, pp. 233--250, 2007.
-
-\bibitem{iagnemma2004}
-K.~Iagnemma, S.~Kang, H.~Shibly, and S.~Dubowsky, ``Online terrain parameter
-  estimation for wheeled mobile robots with application to planetary rovers,''
-  \emph{{IEEE} Transactions on Robotics}, vol.~20, no.~5, pp. 921--927, 2004.
-
-\bibitem{heverly2013}
-M.~Heverly, J.~Matthews, J.~Lin, D.~Fuller, M.~Maimone, J.~Biesiadecki, and
-  J.~Leichty, ``Traverse performance characterization for the {Mars} {Science}
-  {Laboratory} rover,'' \emph{Journal of Field Robotics}, vol.~30, no.~6, pp.
-  835--846, 2013.
-
-\bibitem{arvidson2010}
-R.~E. Arvidson, J.~F. Bell, P.~Bellutta, N.~A. Cabrol, J.~G. Catalano,
-  J.~Cohen, L.~S. Crumpler, D.~J. Des~Marais \emph{et~al.}, ``Spirit {Mars}
-  rover mission: Overview and selected results from the northern {Home} {Plate}
-  {Winter} {Haven} to the side of {Scamander} crater,'' \emph{Journal of
-  Geophysical Research: Planets}, vol. 115, no.~E7, 2010.
-
-\bibitem{marvi2014}
-H.~Marvi, C.~Gong, N.~Gravish, H.~Astley, M.~Travers, R.~L. Hatton, J.~R.
-  Mendelson, H.~Choset, D.~L. Hu, and D.~I. Goldman, ``Sidewinding with minimal
-  slip: Snake and robot ascent of sandy slopes,'' \emph{Science}, vol. 346, no.
-  6206, pp. 224--229, 2014.
 
 \bibitem{shrivastava2020}
 S.~Shrivastava, A.~Karsai, Y.~O. Aydin, R.~Pettinger, W.~Bluethmann, R.~O.
@@ -129,33 +117,60 @@ S.~Shrivastava, A.~Karsai, Y.~O. Aydin, R.~Pettinger, W.~Bluethmann, R.~O.
   facilitate locomotion of a robophysical rover over granular terrain,''
   \emph{Science Robotics}, vol.~5, no.~42, p. eaba3499, 2020.
 
-\bibitem{helmick2009}
-D.~Helmick, A.~Angelova, and L.~Matthies, ``Terrain adaptive navigation for
-  planetary rovers,'' \emph{Journal of Field Robotics}, vol.~26, no.~4, pp.
-  391--410, 2009.
+\bibitem{inotsume2020robust}
+H.~Inotsume, T.~Kubota, and D.~Wettergreen, ``Robust path planning for slope
+  traversing under uncertainty in slip prediction,'' \emph{IEEE Robotics and
+  Automation Letters}, vol.~5, no.~2, pp. 3390--3397, 2020.
 
-\bibitem{rothrock2016}
-B.~Rothrock, R.~Kennedy, C.~Cunningham, J.~Papon, M.~Heverly, and M.~Ono,
-  ``{SPOC}: Deep learning-based terrain classification for {Mars} rover
-  missions,'' in \emph{{AIAA} {SPACE} 2016}.\hskip 1em plus 0.5em minus
-  0.4em\relax Long Beach, California: American Institute of Aeronautics and
-  Astronautics, 2016.
+\bibitem{endo2023riskaware}
+M.~Endo, T.~Taniai, R.~Yonetani, and G.~Ishigami, ``Risk-aware path planning
+  via probabilistic fusion of traversability prediction for planetary rovers on
+  heterogeneous terrains,'' in \emph{Proc. IEEE International Conference on
+  Robotics and Automation (ICRA)}, 2023, pp. 11\,852--11\,858.
 
-\bibitem{sofman2006}
-B.~Sofman, E.~Lin, J.~A. Bagnell, J.~Cole, N.~Vandapel, and A.~Stentz,
-  ``Improving robot navigation through self-supervised online learning,''
-  \emph{Journal of Field Robotics}, vol.~23, no. 11-12, pp. 1059--1075, 2006.
+\bibitem{ono2015}
+M.~Ono, T.~J. Fuchs, A.~Steffy, M.~Maimone, and J.~Yen, ``Risk-aware planetary
+  rover operation: Autonomous terrain classification and path planning,'' in
+  \emph{2015 {IEEE} Aerospace Conference}, Big Sky, MT, 2015, pp. 1--10.
 
-\bibitem{silver2010}
-D.~Silver, J.~A. Bagnell, and A.~Stentz, ``Learning from demonstration for
-  autonomous navigation in complex unstructured terrain,'' \emph{The
-  International Journal of Robotics Research}, vol.~29, no.~12, pp. 1565--1592,
-  2010.
+\bibitem{hugenholtz2012remote}
+C.~H. Hugenholtz, N.~Levin, T.~E. Barchyn, and M.~C. Baddock, ``Remote sensing
+  and spatial analysis of aeolian sand dunes: A review and outlook,''
+  \emph{Earth-Science Reviews}, vol. 111, no. 3--4, pp. 319--334, 2012.
+
+\bibitem{daynac2024workflow}
+J.~Daynac, P.~Bessin, S.~Pochat, R.~Mourgues, and S.~Shumack, ``A new workflow
+  for mapping dune features (outline, crestline and defects) combining deep
+  learning and skeletonization from {DEM}-derived data,'' \emph{Geomorphology},
+  vol. 463, p. 109369, 2024.
 
 \bibitem{guth2021ranking}
 P.~L. Guth and T.~M. Geoffroy, ``{LiDAR} point cloud and {ICESat-2} evaluation
   of 1 second global digital elevation models: {Copernicus} wins,''
   \emph{Transactions in {GIS}}, vol.~25, no.~5, pp. 2245--2261, 2021.
+
+\bibitem{martone2016enhancing}
+M.~Martone, B.~Br{\"a}utigam, P.~Rizzoli, N.~Yague-Martinez, and G.~Krieger,
+  ``Enhancing interferometric {SAR} performance over sandy areas: Experience
+  from the {TanDEM-X} mission,'' \emph{IEEE Journal of Selected Topics in
+  Applied Earth Observations and Remote Sensing}, vol.~9, no.~3, pp.
+  1036--1046, 2016.
+
+\bibitem{wang2025multisource}
+M.~Wang, H.~Li, Y.~Liu, and H.~Li, ``Multi-source {DEM} vertical accuracy
+  evaluation of {Taklimakan} desert hinterland based on {ICESat-2 ATL08} and
+  {UAV} data,'' \emph{Remote Sensing}, vol.~17, no.~11, p. 1807, 2025.
+
+\bibitem{chen2016demsr}
+Z.~Chen, X.~Wang, Z.~Xu, and W.~Hou, ``Convolutional neural network based {DEM}
+  super resolution,'' in \emph{The International Archives of the
+  Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol.
+  XLI-B3, 2016, pp. 247--250.
+
+\bibitem{han2023global}
+X.~Han, X.~Ma, H.~Li, and Z.~Chen, ``A global-information-constrained deep
+  learning network for digital elevation model super-resolution,'' \emph{Remote
+  Sensing}, vol.~15, no.~2, p. 305, 2023.
 
 \bibitem{sugarbaker2014}
 L.~J. Sugarbaker, E.~W. Constance, H.~K. Heidemann, A.~L. Jason, V.~Lukas,
@@ -166,6 +181,35 @@ L.~J. Sugarbaker, E.~W. Constance, H.~K. Heidemann, A.~L. Jason, V.~Lukas,
 B.~K.~P. Horn, ``Hill shading and the reflectance map,'' \emph{Proceedings of
   the {IEEE}}, vol.~69, no.~1, pp. 14--47, 1981.
 
+\bibitem{usgs3dep13}
+\BIBentryALTinterwordspacing
+{U.S. Geological Survey}, ``1/3 arc second digital elevation models, {3D}
+  {Elevation} {Program},'' Dataset, The National Map, retrieved October 2026,
+  2026. [Online]. Available: \url{https://apps.nationalmap.gov/downloader/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{nasadem}
+\BIBentryALTinterwordspacing
+{NASA JPL}, ``{NASADEM} merged {DEM} global 1 arc second {V001},'' Dataset,
+  NASA EOSDIS Land Processes Distributed Active Archive Center, 2020. [Online].
+  Available: \url{https://doi.org/10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001}
+\BIBentrySTDinterwordspacing
+
+\bibitem{drusch2012sentinel}
+M.~Drusch, U.~Del~Bello, S.~Carlier, O.~Colin, V.~Fernandez, F.~Gascon,
+  B.~Hoersch, C.~Isola, P.~Laberinti, P.~Martimort, A.~Meygret, F.~Spoto,
+  O.~Sy, F.~Marchese, and P.~Bargellini, ``Sentinel-2: {ESA}'s optical
+  high-resolution mission for {GMES} operational services,'' \emph{Remote
+  Sensing of Environment}, vol. 120, pp. 25--36, 2012.
+
+\bibitem{naip}
+\BIBentryALTinterwordspacing
+{U.S. Department of Agriculture, Farm Service Agency}, ``National agriculture
+  imagery program ({NAIP}),'' Dataset, retrieved October 2026 through the
+  Microsoft Planetary Computer, 2026. [Online]. Available:
+  \url{https://naip-usdaonline.hub.arcgis.com/}
+\BIBentrySTDinterwordspacing
+
 \bibitem{roberts2017}
 D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
   S.~Hauenstein, J.~J. Lahoz-Monfort, B.~Schr{\"o}der, W.~Thuiller, D.~I.
@@ -173,19 +217,30 @@ D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
   strategies for data with temporal, spatial, hierarchical, or phylogenetic
   structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
 
+\bibitem{kunsch1989}
+H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
+  observations,'' \emph{The Annals of Statistics}, vol.~17, no.~3, pp.
+  1217--1241, 1989.
+
+\bibitem{holm1979}
+\BIBentryALTinterwordspacing
+S.~Holm, ``A simple sequentially rejective multiple test procedure,''
+  \emph{Scandinavian Journal of Statistics}, vol.~6, pp. 65--70, 1979.
+  [Online]. Available: \url{https://zbmath.org/3624650}
+\BIBentrySTDinterwordspacing
+
 \bibitem{platt1999}
 J.~C. Platt, ``Probabilities for {SV} machines,'' in \emph{Advances in
   Large-Margin Classifiers}, A.~J. Smola, P.~Bartlett, B.~Sch{\"o}lkopf, and
   D.~Schuurmans, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, MA: The
   MIT Press, 2000, pp. 61--74.
 
-\bibitem{ke2017}
+\bibitem{riley1999}
 \BIBentryALTinterwordspacing
-G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
-  ``{LightGBM}: A highly efficient gradient boosting decision tree,'' in
-  \emph{Advances in Neural Information Processing Systems}, vol.~30, 2017.
-  [Online]. Available:
-  \url{https://proceedings.neurips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html}
+S.~J. Riley, S.~D. DeGloria, and R.~Elliot, ``A terrain ruggedness index that
+  quantifies topographic heterogeneity,'' \emph{Intermountain Journal of
+  Sciences}, vol.~5, no. 1-4, pp. 23--27, 1999. [Online]. Available:
+  \url{https://arc.lib.montana.edu/ojs/index.php/IJS/article/view/2914}
 \BIBentrySTDinterwordspacing
 
 \bibitem{pedregosa2011}
@@ -198,16 +253,10 @@ F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
   \url{https://jmlr.org/papers/v12/pedregosa11a.html}
 \BIBentrySTDinterwordspacing
 
-\bibitem{paszke2019}
-\BIBentryALTinterwordspacing
-A.~Paszke, S.~Gross, F.~Massa, A.~Lerer, J.~Bradbury, G.~Chanan, T.~Killeen,
-  Z.~Lin, N.~Gimelshein, L.~Antiga, A.~Desmaison, A.~Kopf, E.~Yang, Z.~DeVito,
-  M.~Raison, A.~Tejani, S.~Chilamkurthy, B.~Steiner, L.~Fang, J.~Bai, and
-  S.~Chintala, ``{PyTorch}: An imperative style, high-performance deep learning
-  library,'' in \emph{Advances in Neural Information Processing Systems},
-  vol.~32, 2019. [Online]. Available:
-  \url{https://proceedings.neurips.cc/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html}
-\BIBentrySTDinterwordspacing
+\bibitem{long2015fully}
+J.~Long, E.~Shelhamer, and T.~Darrell, ``Fully convolutional networks for
+  semantic segmentation,'' in \emph{Proc. IEEE Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2015, pp. 3431--3440.
 
 \bibitem{yu2016}
 \BIBentryALTinterwordspacing
@@ -215,37 +264,5 @@ F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated
   convolutions,'' in \emph{International Conference on Learning Representations
   ({ICLR})}, 2016. [Online]. Available: \url{https://arxiv.org/abs/1511.07122}
 \BIBentrySTDinterwordspacing
-
-\bibitem{dijkstra1959}
-E.~W. Dijkstra, ``A note on two problems in connexion with graphs,''
-  \emph{Numerische Mathematik}, vol.~1, no.~1, pp. 269--271, 1959.
-
-\bibitem{hanley1982}
-J.~A. Hanley and B.~J. McNeil, ``The meaning and use of the area under a
-  receiver operating characteristic ({ROC}) curve,'' \emph{Radiology}, vol.
-  143, no.~1, pp. 29--36, 1982.
-
-\bibitem{kunsch1989}
-H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
-  observations,'' \emph{The Annals of Statistics}, vol.~17, no.~3, pp.
-  1217--1241, 1989.
-
-\bibitem{mcnemar1947}
-Q.~McNemar, ``Note on the sampling error of the difference between correlated
-  proportions or percentages,'' \emph{Psychometrika}, vol.~12, no.~2, pp.
-  153--157, 1947.
-
-\bibitem{holm1979}
-\BIBentryALTinterwordspacing
-S.~Holm, ``A simple sequentially rejective multiple test procedure,''
-  \emph{Scandinavian Journal of Statistics}, vol.~6, pp. 65--70, 1979.
-  [Online]. Available: \url{https://zbmath.org/3624650}
-\BIBentrySTDinterwordspacing
-
-\bibitem{pedersen2015}
-A.~Pedersen, G.~Kocurek, D.~Mohrig, and V.~Smith, ``Dune deformation in a
-  multi-directional wind regime: {White} {Sands} {Dune} {Field}, {New}
-  {Mexico},'' \emph{Earth Surface Processes and Landforms}, vol.~40, no.~7, pp.
-  925--941, 2015.
 
 \end{thebibliography}

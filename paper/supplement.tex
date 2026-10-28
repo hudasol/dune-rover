@@ -1,0 +1,109 @@
+% Generated supplement source: scripts/build_paper.py fills {{VAL:...}} and {{TABLE:...}} and writes paper/supplement.tex.
+\documentclass[10pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\begin{document}
+\begin{center}
+{\large Supplementary material}\\[2pt]
+{\normalsize Slip Face Detection and Route Planning for Small Rovers on Sand Dunes, Tested Against Airborne Lidar}
+\end{center}
+
+\section*{S1. Prediction log}
+Every experiment of this benchmark was designed and given numeric predictions before it ran, and the predictions were committed to the repository (\url{docs/PREDICTIONS.md}) before any metric of that stage was computed. Stages 25 and 26 were the first version of the benchmark; stages 27 and 28 were registered after a blind review of that version and before any of their metrics were computed, when the results of stages 25 and 26 were known. Table~\ref{tab:log} copies every prediction verbatim with its recorded outcome: 31 hits and 12 misses out of 43 predictions. Three amendments were made before the affected parts ran, each recorded in the log with its reason: the closed loop uses 20 pairs per site, a 300\,m crop margin and the radius and vehicle sensitivities on I30 only (compute budget); the nested tuning of boosting fits its inner folds on at most 150\,000 cells; and the closed loop gives each pair a budget of 300 replans after a first run stalled. Results decided after a run (for example the post hoc analyses of stages 25 and 26) are labelled as such in the log. The log lives in our own repository, not in a public registry, and the six windows had been used in earlier tests of the detector.
+
+\begin{longtable}{@{}p{0.08\linewidth}p{0.42\linewidth}p{0.46\linewidth}@{}}
+\caption{Prediction log of stages 25 to 28: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards.}\label{tab:log}\\
+\toprule
+ID & Prediction (before the run) & Outcome \\
+\midrule
+\endhead
+B25-1 & On I30, GBM beats DET (paired interval excludes zero, GBM higher) at three or more of the six sites, and the macro mean AUC difference GBM minus DET lies between 0.00 and 0.12. & HIT. GBM beats DET at all six sites on I30 (paired block bootstrap interval above zero), macro mean AUC 0.806 against 0.741, difference 0.065 (\url{results/benchmark/detection/paired_differences.csv}, \url{macro.csv}). \\
+B25-2 & On I30, the AUC point estimate of DET is higher than that of SLOPE at four or more of the six sites. & HIT (4 of 6). DET above SLOPE on I30 at White Sands (0.658 against 0.584), Great Sand Dunes (0.831 against 0.708), Algodones (0.761 against 0.691) and Little Sahara (0.637 against 0.533); below at Dumont (0.860 against 0.931) and Kelso (0.700 against 0.743). \\
+B25-3 & On I30, no method reaches an AUC of 0.90 at more than two of the six sites. & HIT. On I30 only Dumont reaches 0.90 (SLOPE, TRI, ROUGH, BICUBIC, GBM and CNN 0.93 to 0.96); no method reaches 0.90 at any other site (highest: CNN 0.893 at Great Sand Dunes). \\
+B25-4 & On I10, DET, GBM and CNN each reach an AUC of at least 0.93 at every site. & MISSED. GBM (0.937 to 0.985) and CNN (0.935 to 0.982) reach 0.93 everywhere on I10, DET does not at Little Sahara (0.908; elsewhere 0.953 to 0.973). \\
+B25-5 & On I30, the macro mean AUC of BICUBIC exceeds that of SLOPE by at most 0.02. & MISSED, in the opposite direction to the prediction. BICUBIC exceeds SLOPE by 0.118 macro mean AUC on I30 (0.817 against 0.699) and is the best method on I30 by mean AUC, ahead of GBM (0.806), CNN (0.795) and DET (0.741): the steepest slope of the interpolated surface carries curvature information that the coarse slope lacks. \\
+B25-6 & The macro mean AUC of DET on G30 is lower than on I30 by at least 0.03. & HIT. Macro mean AUC of DET 0.646 on G30 against 0.741 on I30 (difference 0.095). \\
+B25-7 & On G30, every method has a macro mean AUC below 0.85. & HIT. On G30 the highest macro mean AUC is 0.727 (CNN), then GBM 0.722 and BICUBIC 0.697; at White Sands every unsupervised method is at chance (0.46 to 0.52). \\
+B25-8 & On I30, DET-cal has a lower Brier score than DET at five or more of the six sites. & HIT (6 of 6). Brier score on I30, DET-cal against DET: Dumont 0.150 against 0.217, White Sands 0.221 against 0.254, Kelso 0.195 against 0.256, Great Sand Dunes 0.138 against 0.159, Algodones 0.144 against 0.179, Little Sahara 0.206 against 0.249. \\
+B25-9 & On I30, the macro mean AUC of CNN lies within 0.05 of that of GBM. & HIT. CNN 0.795 against GBM 0.806 macro mean AUC on I30 (difference 0.011). \\
+P26-1 & On I30, no hazard layer with either cautious policy raises pooled mission success above naive by more than 15 points. & MISSED, because of the oracle only. On I30 the ORACLE layer raised mission success from 6.2 \% (naive) to 59.0 \% (conservative) and 50.2 \% (risk weighted). Every layer a rover could actually compute stayed within 5 points of naive: the best was BICUBIC-cal with the risk weighted policy, 11.0 \% (plus 4.8 points, Holm corrected McNemar p 0.00002); DET 6.8 \% and 7.0 \%, GBM 6.2 \% and 7.2 \%, CNN 6.8 \% and 8.5 \% (\url{results/benchmark/planning/summary.csv}, \url{tests.csv}). \\
+P26-2 & On I10, the conservative policy with DET has a pooled unsafe share at least 15 points lower than naive, significant after Holm correction. & MISSED. On I10 the conservative policy with DET is unsafe on 72.4 \% of routed pairs against 85.3 \% for naive (12.9 points lower, not 15); its mission success, 24.3 \% against 14.7 \%, is significantly higher (Holm corrected McNemar p below 0.0001). \\
+P26-3 & On I30, the conservative policy with ORACLE has a pooled unsafe share at least 20 points lower than with DET. & HIT. On I30 the conservative policy is unsafe on 31.9 \% of routed pairs with ORACLE against 92.5 \% with DET. \\
+P26-4 & ORACLE-5 has a pooled unsafe share of at most 5 \%. & HIT. ORACLE-5 routed all 600 pairs and none crossed a face patch (unsafe 0.0 \%, length 1.30 times the straight distance). \\
+P26-5 & SHORTEST is unsafe on at least 60 \% of pairs, pooled. & HIT. SHORTEST is unsafe on 96.2 \% of pairs on the 30 m grid and 96.0 \% on the 10 m grid. \\
+P26-6 & On G30, the pooled unsafe share of the conservative policy with DET is at least that on I30 minus 5 points. & HIT. The conservative policy with DET is unsafe on 94.4 \% of routed pairs on G30 against 92.5 \% on I30. \\
+P26-7 & On I30, the pooled unsafe share of the conservative policy with GBM is at most 10 points lower than with DET. & MISSED. On I30 the conservative policy with GBM is unsafe on 67.3 \% of routed pairs against 92.5 \% with DET (25 points lower), but it routes only 18.8 \% of pairs against 91.2 \%, so its mission success is no higher (6.2 \% against 6.8 \%). \\
+P26-8 & On I10, the mean length over straight distance of conservative routes with DET is at most 1.5. & HIT. Mean length over straight distance of conservative DET routes on I10: 1.17. \\
+D27-1 & On I30 against L-ANY, BICUBIC has the highest or tied highest macro mean AUC among DET, SLOPE, TRI, ROUGH, BICUBIC, GBM and CNN (tied: within 0.01). & HIT. On I30 against L-ANY interpolation has the highest macro mean AUC of the seven (0.817; GBM 0.810, CNN 0.800, ROUGH 0.770, TRI 0.764, DET 0.740, SLOPE 0.689; \url{results/benchmark/stage27/A_macro.csv}). Part G later found a network trained four times longer at 0.838, which is not one of the seven. \\
+D27-2 & On I30, the macro mean AUC against L-ANY is lower than against L-CELL for at least five of the seven stage 25 methods. & MISSED. Lower against L-ANY for 3 of 7 methods (DET 0.740 against 0.741, SLOPE 0.689 against 0.699, BICUBIC 0.8165 against 0.8167) and higher for TRI, ROUGH, GBM and CNN; every difference is 0.01 or less, so the label change hardly matters on I30. \\
+D27-3 & I10 to 30 (maximum of the 10 m scores) beats the same method on I30 against L-ANY by at least 0.05 macro mean AUC for BICUBIC and GBM. & HIT. The maximum of the nine 10 m scores, scored on I30 L-ANY, beats the 30 m surface by 0.141 for BICUBIC (0.957 against 0.817) and 0.149 for GBM (0.959 against 0.810). \\
+D27-4 & Resolution sweep: the macro mean AUC of BICUBIC and GBM falls monotonically from 2 to 60 m (one inversion of at most 0.01 allowed per method). & HIT. BICUBIC 0.999, 0.993, 0.968, 0.934, 0.895, 0.817 and 0.693 and GBM 0.999, 0.992, 0.968, 0.935, 0.895, 0.810 and 0.673 at 2, 5, 10, 15, 20, 30 and 60 m, with no inversion (\url{results/benchmark/stage27/C_macro.csv}). \\
+D27-5 & Resolution sweep: at 2 m, SLOPE reaches a macro mean AUC of at least 0.95; at 60 m, no method exceeds 0.80. & HIT. SLOPE reaches 0.996 at 2 m; at 60 m the best method is BICUBIC at 0.693. \\
+D27-6 & Scaling: pooled patch recall of GBM is at least 0.8 for L/d of 2 or more and at most 0.5 for L/d below 0.5, at every posting where both bins hold at least 50 patches. & MISSED. For L/d below 0.5 the recall of GBM is 0.87 at 10 m, 0.76 at 15 m, 0.68 at 20 m, 0.60 at 30 m and 0.46 at 60 m (above 0.5 except at 60 m), and for L/d of 2 or more it is at least 0.91 from 10 to 30 m but 0.79 at 60 m (\url{results/benchmark/stage27/C_scaling_by_site.csv}). Short faces are found more often than predicted, because a cell flagged for a neighbouring face often holds a short one too. \\
+D27-7 & R10: the macro mean AUC of BICUBIC on R10 is within 0.05 of that on I10. & HIT. BICUBIC on R10 0.959 against 0.968 on I10 (\url{D_macro.csv}, \url{A_macro.csv}). \\
+D27-8 & N30: the macro mean AUC of the best method on N30 is at most that on G30n plus 0.02. & HIT. Best on N30 0.629 (GBM) against best on G30n 0.723 (GBM). \\
+D27-9 & G30n: the macro mean AUC of BICUBIC on G30n is at least that on G30 (stage 25 interpolation, L-ANY) minus 0.01. & HIT. BICUBIC on G30n 0.699 against 0.696 on G30 interpolated to the lidar grid. \\
+D27-10 & Imagery: on I30, DEM+S2 beats GBM by at least 0.02 macro mean AUC. & HIT. DEM+S2 0.854 against GBM 0.810 on I30 (plus 0.045; \url{E_macro.csv}). \\
+D27-11 & Imagery: on I30, IMG-NAIP alone reaches a macro mean AUC of at least 0.75. & MISSED. IMG-NAIP alone reaches 0.665 on I30 (Sentinel-2 alone 0.744). \\
+D27-12 & Super resolution: on I30, SR is within 0.03 of BICUBIC in macro mean AUC. & HIT. On I30 SR reaches 0.844 against 0.817 for BICUBIC (plus 0.027, within 0.03), above it at all six sites (\url{results/benchmark/stage27/F_macro.csv}, \url{I_site_tests.csv}); on G30 0.696 against 0.696. \\
+D27-13 & GBM+ beats GBM on I30 by at least 0.01 macro mean AUC (the curvature explanation of the interpolation result). & HIT. GBM+ 0.829 against GBM 0.810 on I30 (plus 0.020; \url{G_macro.csv}); on I10 0.974 against 0.968. \\
+D27-14 & GBM-tuned is within 0.01 of GBM in macro mean AUC on both I10 and I30. & HIT. GBM-tuned 0.968 against 0.968 on I10 and 0.811 against 0.810 on I30. \\
+D27-15 & ASPECT beats SLOPE on I30 (point estimate of AUC) at four or more of the six sites. & MISSED. ASPECT is below SLOPE at all six sites on I30 (macro mean 0.608 against 0.689; \url{H_metrics.csv}). \\
+D27-16 & The correlogram range of L-ANY is below 300 m at four or more of the six sites. & HIT (5 of 6). The correlogram of L-ANY on I10 falls below 0.1 at 30 m (White Sands, Little Sahara), 60 m (Algodones), 90 m (Great Sand Dunes) and 120 m (Kelso), and at 870 m at Dumont, whose window holds rocky hills (\url{I_summary.json}). The main I30 comparisons were rerun with 870 m blocks (\url{I_larger_blocks.csv}). \\
+P28-1 & On I30 (E1, posterior profile), the best computable layer at its held out operating point raises mission success over naive by at most 10 points. & HIT. On I30 (E1, posterior) the best computable layers at their held out operating points add 5.2 points (DEM+S2, 12.7 \% against 7.5 \%, two stage interval 1.3 to 9.3) and 5.0 points (BICUBIC-cal, 12.5 \%, interval 1.8 to 8.5) (\url{results/benchmark/stage28/A_held_out.csv}). \\
+P28-2 & On I10 (E1, posterior profile), the best computable layer at its held out operating point raises mission success over naive by at least 10 points. & HIT. On I10 the best computable layer, BICUBIC-cal, reaches 64.0 \% against 16.7 \% for naive (plus 47.3 points, interval 27.7 to 64.2, positive at all six sites). \\
+P28-3 & On I30 with the conservative policy, a FACEMAP shifted by 30 m gives mission success at least 30 points below the undegraded FACEMAP. & MISSED. With the conservative policy on I30 (E1) the face map gives 15.5 \% and the face map shifted by 30 m 6.3 \%, 9 points lower, because with the posterior vehicle the gate routes few pairs even with a perfect face map; with the weight policy (w = 5) the drop is 44 points (54.5 \% to 10.6 \%; \url{C_degraded.csv}). \\
+P28-4 & On I30 with the conservative policy, the FACEMAP from a simulated 2 m survey gives mission success within 10 points of the undegraded FACEMAP, and the one from a 5 m survey at least 10 points below it. & MISSED. Conservative on I30 (E1): the 2 m survey map gives 11.8 \% against 15.5 \% for the face map (within 10 points, as predicted), but the 5 m survey map gives 5.8 \%, 9.7 points lower, just short of the predicted 10. With the weight policy (w = 5) the survey maps give 22.7 \% (2 m) and 7.8 \% (5 m) against 54.5 \%. \\
+P28-5 & Naive mission success on I30 is lower with E2 endpoints than with E1 endpoints. & HIT. Naive mission success on I30 is 2.5 \% with E2 endpoints and 7.5 \% with E1 (\url{A_naive.csv}). \\
+P28-6 & Footprint scoring raises the unsafe share of routed pairs of naive on I30 by at most 5 points. & HIT. Footprint scoring raises the unsafe share of routed naive pairs on I30 (E1) from 92.5 \% to 93.5 \%. \\
+P28-7 & The descent rule removes less than 1 \% of graph edges on the 30 m grid at every site. & HIT for the main profile: on the 30 m grid the descent rule removes at most 0.05 \% of the finite edges (Dumont), and 0.00 to 0.02 \% elsewhere; with the \url{assumed} sensitivity profile it removes 1.3 \% at Dumont (\url{D_descent_rule.csv}). \\
+P28-8 & For GBM with the conservative policy on I30 at tau 0.2, at least half of the unrouted pairs are endpoint refusals (start, goal or both). & HIT. Of the 565 unrouted pairs (E1, posterior, I30, GBM, conservative, tau 0.2), 430 (76 \%) are endpoint refusals: 118 start, 114 goal and 198 both; 135 are disconnected (\url{B_refusals.csv}). \\
+P28-9 & Closed loop, R = 20 m: success is at least 70 \% for every layer on I30, and the driven length ratio of naive exceeds that of FACEMAP by at least 0.1. & MISSED. Success at R = 20 m on I30 (E1) is at least 70 \% for every layer (80.0 \% slip model only, 81.7 \% BICUBIC-cal, 84.2 \% GBM, 85.0 \% DET and FACEMAP; \url{results/benchmark/stage28/E_closed_loop.csv}), but the driven length ratio of naive (1.16) is lower than that of FACEMAP (1.19), not 0.1 higher: the prior saves replans (29 against 8 per pair) rather than distance. \\
+P28-10 & Closed loop: on I30, success with GBM exceeds success with naive by at most 10 points (onboard sensing, not the coarse prior, makes most routes safe). & HIT. On I30 (E1, R = 20 m) success with GBM exceeds success with naive by 4.2 points (84.2 \% against 80.0 \%, two stage interval minus 0.8 to plus 12.5 points). \\
+\bottomrule
+\end{longtable}
+
+\section*{S2. Per site detection}
+\begin{table}[h]
+\caption{AUC per site on I30 (face map label) with 95\,\% block bootstrap intervals where computed.}
+\label{tab:persite}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Site & Slope & Interp. & Detector & Boosting & Network & Boost.+S2 \\
+\midrule
+Dumont Dunes & 0.93 [0.91, 0.95] & 0.96 [0.95, 0.97] & 0.85 [0.83, 0.88] & 0.95 [0.94, 0.96] & 0.94 [0.93, 0.96] & 0.97 \\
+White Sands & 0.56 [0.54, 0.58] & 0.75 [0.73, 0.78] & 0.67 [0.65, 0.68] & 0.74 [0.72, 0.76] & 0.69 [0.67, 0.72] & 0.83 \\
+Kelso Dunes & 0.74 [0.71, 0.76] & 0.79 [0.77, 0.81] & 0.70 [0.67, 0.72] & 0.75 [0.73, 0.77] & 0.76 [0.73, 0.78] & 0.83 \\
+Great Sand Dunes & 0.69 [0.67, 0.72] & 0.87 [0.85, 0.88] & 0.82 [0.80, 0.84] & 0.87 [0.86, 0.89] & 0.89 [0.88, 0.90] & 0.89 \\
+Algodones Dunes & 0.68 [0.66, 0.70] & 0.83 [0.82, 0.85] & 0.75 [0.74, 0.77] & 0.83 [0.82, 0.85] & 0.82 [0.80, 0.83] & 0.90 \\
+Little Sahara & 0.53 [0.50, 0.56] & 0.69 [0.67, 0.72] & 0.64 [0.62, 0.67] & 0.71 [0.68, 0.73] & 0.69 [0.67, 0.72] & 0.70 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{S3. Example site}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_map.pdf}
+\caption{Kelso Dunes. (a) Hillshade of the one metre lidar with face patches (plum). (b) Face probability of the calibrated interpolation layer and (c) of boosting, both on the 30\,m block mean and trained or calibrated on the other five sites. (d) Routes on the 30\,m map between six of the E1 pairs: slip model only (dashed) and boosting with the weight policy, $w=100$ (solid), over the face patches.}
+\end{figure}
+
+\section*{S4. Notes on the runs}
+\textit{Data.} Lidar windows, projects and acquisition periods are in Table~I of the paper and in \url{results/benchmark/site_metadata.csv}. Sentinel-2 scenes: Dumont and Kelso 2024-12-20, White Sands 2020-12-19, Great Sand Dunes 2020-12-24, Algodones 2021-12-26, Little Sahara 2020-12-21; NAIP years 2021 to 2023. All crops carry SHA-256 values in \url{data/raw/extra/MANIFEST.json}.
+
+\textit{GLO-30 alignment.} The horizontal shift that best aligns GLO-30 with the 30\,m lidar block mean is 0\,m at Dumont, 0\,m at Kelso, 11\,m at Great Sand Dunes, 11\,m at Little Sahara, 15\,m at Algodones and 31\,m at White Sands, an actively migrating gypsum dune field whose lidar is years younger than the radar acquisition.
+
+\textit{Learned layers.} Boosting: scikit-learn histogram gradient boosting, learning rate 0.05, 300 iterations, 31 leaves; tuned version: learning rate 0.05 or 0.1, 15 or 63 leaves, 200 or 600 iterations, chosen by inner leave one site out AUC. Network: two input channels (elevation minus its $7\times7$ mean over the spacing, and the slope), four $3\times3$ convolutions of 32 channels with dilations 1, 2, 4 and 8, binary cross entropy, Adam at 0.001, 1500 (or 6000) steps of 16 random crops with flips and quarter turns. Super resolution: the same body predicts the 5\,m lidar block mean minus the cubic spline of the 30\,m surface, L1 loss, 3000 steps of 16 crops of $96\times96$ cells. Detector: logistic model on log transformed slope, convexity, slope break and relief and their pairwise products, trained on 60\,000 synthetic straight crested dune profiles (stoss slope 6 to 20\,degrees, face 29.5 to 32.5\,degrees, height 5 to 120\,m) sampled as a DEM samples them, and applied to two dimensional grids along the steepest descent direction; this mapping has not been validated separately.
+
+\textit{Statistics.} AUC intervals use a spatial block bootstrap with 300\,m blocks and 1000 resamples; paired differences resample the same blocks for both layers, and per site counts are also given with Bonferroni adjusted intervals (99.2\,\%) in \url{results/benchmark/stage27/A_paired_differences.csv}. The label correlogram reaches 0.1 at 30 to 870\,m, so the main 30\,m comparisons were repeated with 870\,m blocks (\url{I_larger_blocks.csv}). Planning differences carry two stage bootstrap intervals (4000 resamples of sites, then of pairs within the drawn sites), and every site level claim uses an exact sign flip test over the six per site differences.
+
+\end{document}
