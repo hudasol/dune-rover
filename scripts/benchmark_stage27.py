@@ -51,6 +51,29 @@ def write(name, rows):
         w = csv.DictWriter(fh, fieldnames=keys); w.writeheader(); w.writerows(rows)
 
 
+def done_rows(name):
+    """Rows of a finished chunk (checkpoint), or None."""
+    p = os.path.join(CDIR, "chunks", name + ".csv")
+    return list(csv.DictReader(open(p))) if os.path.exists(p) else None
+
+
+def save_rows(name, rows):
+    os.makedirs(os.path.join(CDIR, "chunks"), exist_ok=True)
+    keys = []
+    for r in rows:
+        keys += [k for k in r if k not in keys]
+    with open(os.path.join(CDIR, "chunks", name + ".csv"), "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=keys); w.writeheader(); w.writerows(rows)
+
+
+def numeric(rows):
+    for r in rows:
+        for k in ("auc", "ap", "prevalence", "posting_m"):
+            if r.get(k, "") not in ("", None):
+                r[k] = float(r[k])
+    return rows
+
+
 def cpath(site):
     return os.path.join(CDIR, f"{site}.npz")
 
@@ -416,6 +439,13 @@ def part_C(D):
     rows, scal = [], []
     for d in POSTINGS:
         t0 = time.time()
+        pr, ps = done_rows(f"C_{d}"), done_rows(f"Cs_{d}")
+        if pr is not None and ps is not None:
+            rows += numeric(pr)
+            for r in ps:
+                r["patches"] = int(r["patches"]); r["detected"] = int(r["detected"]); r["posting_m"] = int(float(r["posting_m"]))
+            scal += ps; continue
+        n0, m0 = len(rows), len(scal)
         zs = {s: D[s][f"z{d}"].astype(float) for s in SITES}
         ys = {s: D[s][f"any{d}"][:zs[s].shape[0], :zs[s].shape[1]] for s in SITES}
         sc = {}
@@ -446,6 +476,7 @@ def part_C(D):
                     sel = touched & (ratio >= lo) & (ratio < hi)
                     scal.append({"site": s, "posting_m": d, "method": m, "ratio_bin": f"{lo:g} to {hi:g}", "patches": int(sel.sum()),
                                  "detected": int((det & sel).sum())})
+        save_rows(f"C_{d}", rows[n0:]); save_rows(f"Cs_{d}", scal[m0:])
         say(f"C {d} m ({time.time() - t0:.0f} s): " + ", ".join(f"{m} {np.mean([r['auc'] for r in rows if r['input'] == f'B{d}' and r['method'] == m]):.3f}" for m in ('SLOPE', 'BICUBIC', 'DET', 'GBM')))
     write("C_metrics.csv", rows); write("C_macro.csv", macro(rows, keys=("input", "posting_m", "method")))
     pooled = []
@@ -459,6 +490,10 @@ def part_C(D):
 def part_D(D):
     rows = []
     for p in ("R10", "N30", "G30n"):
+        prev = done_rows(f"D_{p}")
+        if prev is not None:
+            rows += numeric(prev); continue
+        n0 = len(rows)
         zs, ys, va, F, sc = {}, {}, {}, {}, {}
         for s in SITES:
             z = D[s][f"{p}_z"].astype(float)
@@ -475,6 +510,7 @@ def part_D(D):
             for m in ("DET", "SLOPE", "TRI", "BICUBIC"):
                 rows.append(metric_row(s, p, m, sc[s][m][v], ys[s][v], "L-ANY", dx_m=round(float(D[s][f'{p}_dxdy'][0]), 2), dy_m=round(float(D[s][f'{p}_dxdy'][1]), 2)))
             rows.append(metric_row(s, p, "GBM", gbm[s].ravel(), ys[s][v], "L-ANY"))
+        save_rows(f"D_{p}", rows[n0:])
         say(f"D {p}: " + ", ".join(f"{m} {np.mean([r['auc'] for r in rows if r['input'] == p and r['method'] == m]):.3f}" for m in ('DET', 'SLOPE', 'TRI', 'BICUBIC', 'GBM')))
     write("D_metrics.csv", rows); write("D_macro.csv", macro(rows))
 
@@ -524,6 +560,10 @@ def part_F(D):
     rows = []
     for held in SITES:
         t0 = time.time()
+        prev = done_rows(f"F_{held}")
+        if prev is not None:
+            rows += numeric(prev); continue
+        n0 = len(rows)
         torch.manual_seed(0); rng = np.random.default_rng(0)
         m = net(); opt = torch.optim.Adam(m.parameters(), lr=1e-3); lossf = nn.L1Loss()
         tr = [data[s] for s in SITES if s != held]
@@ -558,6 +598,7 @@ def part_F(D):
             rows.append(metric_row(held, inp, "SR", score, y, "L-ANY"))
             rows.append(metric_row(held, inp, "BICUBIC", B.bicubic_max_slope(z30, 30)[:nr, :nc], y, "L-ANY"))
             np.save(os.path.join(CDIR, f"SR_{held}_{inp}.npy"), score.astype(np.float32))
+        save_rows(f"F_{held}", rows[n0:])
         say(f"F held out {held}: {time.time() - t0:.0f} s; " + ", ".join(f"{r['input']} {r['method']} {r['auc']:.3f}" for r in rows if r['site'] == held))
     write("F_metrics.csv", rows); write("F_macro.csv", macro(rows))
 
@@ -566,6 +607,10 @@ def part_G(D):
     from sklearn.ensemble import HistGradientBoostingClassifier
     rows = []
     for inp, k in (("I10", 10), ("I30", 30), ("G30", 30)):
+        prev = done_rows(f"G_{inp}")
+        if prev is not None:
+            rows += numeric(prev); continue
+        n0 = len(rows)
         zs = {s: (D[s][f"z{k}"] if inp != "G30" else B.fill_nearest(D[s]["G30"].astype(float))).astype(float) for s in SITES}
         ys = {s: D[s][f"any{k}"][:zs[s].shape[0], :zs[s].shape[1]] for s in SITES}
         F = {s: B.feature_stack(zs[s], float(k)) for s in SITES}
@@ -601,6 +646,7 @@ def part_G(D):
                 extra = {"chosen": json.dumps(chosen[s])} if name == "GBM-tuned" else {}
                 rows.append(metric_row(s, inp, name, pred[s], ys[s], "L-ANY", **extra))
         np.savez_compressed(os.path.join(CDIR, f"G_{inp}.npz"), **{f"{s}|{n}": v[s].astype(np.float32) for n, v in variants.items() for s in SITES})
+        save_rows(f"G_{inp}", rows[n0:])
         say(f"G {inp}: " + ", ".join(f"{m} {np.mean([r['auc'] for r in rows if r['input'] == inp and r['method'] == m]):.3f}" for m in variants))
     write("G_metrics.csv", rows); write("G_macro.csv", macro(rows))
 
