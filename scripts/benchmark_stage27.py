@@ -30,6 +30,7 @@ N_BOOT = 1000
 BLOCK_M = 300.0
 POSTINGS = (2, 5, 10, 15, 20, 30, 60)
 CAP_ROWS = 400_000
+TUNE_CAP = 150_000
 SITES = list(BD.SITES)
 UNSUP = ("DET", "SLOPE", "TRI", "ROUGH", "BICUBIC")
 LOG = None
@@ -629,6 +630,8 @@ def part_G(D):
                     for v in inner:
                         X = np.concatenate([F[s].reshape(-1, F[s].shape[-1]) for s in inner if s != v])
                         y = np.concatenate([ys[s].ravel() for s in inner if s != v])
+                        if len(y) > TUNE_CAP:        # amendment: inner folds on a random subsample (register note)
+                            idx = np.random.default_rng(0).choice(len(y), TUNE_CAP, replace=False); X, y = X[idx], y[idx]
                         mdl = HistGradientBoostingClassifier(**prm).fit(X, y)
                         aucs.append(B.auc(mdl.predict_proba(F[v].reshape(-1, F[v].shape[-1]))[:, 1], ys[v].ravel()))
                     if best is None or np.mean(aucs) > best[0]:
