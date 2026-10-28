@@ -7,3 +7,22 @@ e Algodones
 e LittleSahara
 part e done in 39 s (00:09:35)
 part f done in 3 s (00:09:38)
+stage 29 a on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:10:27
+stage 29 d on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:10:30
+a Dumont: 68 s
+d Dumont none: 73 s
+a WhiteSands: 38 s
+d Dumont GBM: 135 s
+a Kelso: 54 s
+d Dumont FACEMAP: 175 s
+d WhiteSands none: 50 s
+a GreatSandDunes: 80 s
+d WhiteSands GBM: 88 s
+d WhiteSands FACEMAP: 114 s
+d Kelso none: 54 s
+a Algodones: 114 s
+d Kelso GBM: 96 s
+a LittleSahara: 36 s
+part a done in 388 s (00:16:55)
+stage 29 b on Dumont,WhiteSands,Kelso started 2026-10-29 00:16:56
+d Kelso FACEMAP: 130 s

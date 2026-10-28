@@ -683,8 +683,15 @@ Design (`scripts/benchmark_stage29.py`, outputs in `results/benchmark/stage29/`)
 
 | ID | Prediction made before the run (post hoc, no confirmatory weight) | Outcome |
 |---|---|---|
-| X29-1 | With face patches of at least 300 posts, naive mission success on I30 (E1) is at least 30 %, and the best computable layer still adds at most 15 points. | |
+| X29-1 | With face patches of at least 300 posts, naive mission success on I30 (E1) is at least 30 %, and the best computable layer still adds at most 15 points. || HIT. Scored on face patches of at least 300 posts, naive mission success on I30 (E1) is 30.0 % (180 of 600 pairs) and the best computable layer, BICUBIC-cal, reaches 43.2 % (plus 13.2 points; GBM 40.0 %, DEM+S2 38.3 %). On I10 the same scoring gives 39.2 % for naive and 92.7 % for BICUBIC-cal. Without Dumont the I30 values are 30.8 % and 46.6 % (`results/benchmark/stage29/a_patch_size.csv`). |
 | X29-2 | On I5 the best computable layer (BICUBIC-cal) at its held out operating point reaches at least 70 % mission success (E1). | |
 | X29-3 | Neither SR nor CNN-long adds more than 10 points over naive on I30 (E1). | |
 | X29-4 | With line of sight sensing, closed loop success on I30 with the naive prior is at least 10 points below that with radius sensing (80.0 %), and at least one route touches a face. | |
-| X29-5 | The 2 m survey covers at least 70 % of the one metre face patch posts at every site, and the 5 m survey less than 60 % at four or more sites. | |
+| X29-5 | The 2 m survey covers at least 70 % of the one metre face patch posts at every site, and the 5 m survey less than 60 % at four or more sites. | MISSED. The 2 m survey covers 59 % (Little Sahara) to 91 % (Dumont) of the face patch posts, below 70 % at Little Sahara; the 5 m survey covers less than 60 % at four sites (White Sands 15 %, Kelso 51 %, Algodones 36 %, Little Sahara 8 %) and 73 to 78 % at Great Sand Dunes and Dumont (`results/benchmark/stage29/e_survey_coverage.csv`). |
+
+Correction notes on stages 25 to 28 (appended 2026-10-29 after the number audit of the second blind review; no prediction and no earlier outcome text was edited):
+- B25-9: from unrounded values the difference is 0.012 (0.8063 against 0.7947), not 0.011. The scoring (HIT) does not change.
+- D27-6: at 30 m the pooled recall of GBM for L/d of 2 or more is 1287 of 1422 patches, 0.905, so the outcome should read "at least 0.90 from 10 to 30 m". The scoring (MISSED) does not change. The closing sentence of that outcome ("a cell flagged for a neighbouring face often holds a short one too") is an explanation we did not test.
+- P28-7: the prediction names no profile; the stage 28 design makes the posterior profile the main setting, so it is scored on that profile. The descent rule was also computed for the `assumed` profile, which the design did not list for part D; those rows of `D_descent_rule.csv` are unregistered (1.3 % at Dumont).
+- P28-9: the main runs include E2 endpoints, and there the slip model prior reaches only 66.7 % at R = 20 m on I30, below 70 %, so the first condition also fails on E2. The scoring (MISSED) does not change.
+- `E_closed_loop.csv`, E2 rows: success, stuck and unsafe shares can add to more than one, because a pair that touched a face and then found no route counts as both stuck and unsafe (3 of the 120 pairs in every E2 configuration).
