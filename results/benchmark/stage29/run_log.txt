@@ -45,3 +45,5 @@ d LittleSahara GBM: 82 s
 d LittleSahara FACEMAP: 102 s
 part d done in 1139 s (00:29:29)
 stage 29 c on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:29:30
+stage 29 g on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:33:23
+part g done in 0 s (00:33:23)

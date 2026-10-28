@@ -370,6 +370,27 @@ def part_f(_sites):
     write(os.path.join(OUT, "f_glo30_migration.csv"), out)
 
 
+def part_g(sites):
+    """Failure breakdown of the stage 28 closed loop with radius sensing (posterior vehicle, R = 20 m), from its saved routes."""
+    rows = [r for s in sites if os.path.exists(os.path.join(S28.CDIR, f"routes_E_{s}.csv"))
+            for r in csv.DictReader(open(os.path.join(S28.CDIR, f"routes_E_{s}.csv")))
+            if r["profile"] == "published-posterior" and float(r["radius_m"]) == 20.0]
+    out = []
+    for e in ("E1", "E2"):
+        for inp in ("I10", "I30"):
+            for lay in ("none", "DET", "BICUBIC-cal", "GBM", "FACEMAP"):
+                rr = [r for r in rows if r["endpoints"] == e and r["input"] == inp and r["layer"] == lay]
+                if not rr:
+                    continue
+                out.append({"endpoints": e, "input": inp, "layer": lay, "pairs": len(rr),
+                            "reached": sum(r["status"] == "reached" for r in rr),
+                            "stuck_at_start": sum(r["status"] == "stuck" and r["replans"] == "0" for r in rr),
+                            "stuck_after_replans": sum(r["status"] == "stuck" and r["replans"] != "0" for r in rr),
+                            "gave_up": sum(r["status"] == "gave_up" for r in rr),
+                            "unsafe": sum(r["unsafe"] == "True" for r in rr)})
+    write(os.path.join(OUT, "g_closed_loop_failures_radius.csv"), out)
+
+
 def main():
     global LOG
     os.makedirs(OUT, exist_ok=True); os.makedirs(CDIR, exist_ok=True)
