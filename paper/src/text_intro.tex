@@ -1,0 +1,11 @@
+\section{Introduction}
+Small wheeled ground robots are proposed for survey, inspection and search in sand deserts, including the dune seas of the Arabian Peninsula. Before such a robot drives, its route is planned on a prior map, and for most deserts the only elevation model available is a global product with a posting of about 30\,m~\cite{copernicusdem}. The dominant hazard on active dunes is the slip face, the lee side of a dune held near the angle of repose of dry sand, about 30 to 34\,degrees~\cite{pye2009}, where wheel slip rises until a small vehicle can no longer climb~\cite{heverly2013,arvidson2017megaripple}. Slip faces are often only metres to tens of metres long, so a 30\,m cell can hold one while its mean slope is gentle.
+
+That a coarse grid understates slope is long known~\cite{zhang1994}. What is not known is how much this matters for a planner, which hazard layer a practitioner should compute from a coarse map, how fine a map must be, and whether imagery, a different product or onboard sensing change the answer. This paper answers these questions with a benchmark on six North American dune fields where one metre airborne lidar provides the truth.
+
+The contributions are:
+(1) a benchmark that scores hazard layers against a lidar face map whose meaning is the same at every resolution, on idealised surfaces from 2 to 60\,m, on three real elevation products on their own grids, and with Sentinel-2 and NAIP imagery;
+(2) a comparison of ten families of hazard layers, from slope and interpolation to boosted trees, a convolutional network, learned super resolution and imagery fusion, with every learned layer trained leave one site out;
+(3) a planning evaluation in which every layer is used at the operating point chosen on the other sites, routes are scored on the lidar, the face map oracle is degraded by position errors and simulated surveys, and a closed loop adds onboard sensing; and
+(4) a scaling result, detection skill against face length over grid spacing, that indicates which survey resolution a given dune field needs.
+Code, result files and the prediction log are in the repository listed at the end.

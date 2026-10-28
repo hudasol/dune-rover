@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build the conference paper from its template and the stage 25 and 26 result files.
+"""Build the conference paper and its supplement from their templates and the result files of stages 25 to 28.
 
-    PYTHONPATH=src python3 scripts/build_paper.py            # paper/paper.tex and paper/paper.pdf
-    PYTHONPATH=src python3 scripts/build_paper.py --check    # fail if paper/paper.tex is stale or a value is missing
+    PYTHONPATH=src python3 scripts/build_paper.py            # paper/paper.tex, paper/paper.pdf, paper/supplement.tex, .pdf
+    PYTHONPATH=src python3 scripts/build_paper.py --check    # fail if a generated .tex is stale or a value is missing
 
 Every number in the paper comes from a result file through a {{VAL:key}} placeholder; tables are built here. The text
-around the numbers is in paper/src/paper_template.tex and paper/src/text_*.tex. SIMULATED BY ME on PUBLISHED data.
+around the numbers is in paper/src/*.tex. SIMULATED BY ME on PUBLISHED data.
 """
 from __future__ import annotations
 import csv, json, os, re, shutil, subprocess, sys
@@ -13,252 +13,374 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAPER = os.path.join(ROOT, "paper")
-DET = os.path.join(ROOT, "results", "benchmark", "detection")
-PLN = os.path.join(ROOT, "results", "benchmark", "planning")
+SRC = os.path.join(PAPER, "src")
+BEN = os.path.join(ROOT, "results", "benchmark")
+S27, S28 = os.path.join(BEN, "stage27"), os.path.join(BEN, "stage28")
 SITE_LABEL = {"Dumont": "Dumont Dunes, CA", "WhiteSands": "White Sands, NM", "Kelso": "Kelso Dunes, CA",
               "GreatSandDunes": "Great Sand Dunes, CO", "Algodones": "Algodones Dunes, CA", "LittleSahara": "Little Sahara, UT"}
 SITES = list(SITE_LABEL)
-INPUTS = ("I10", "I30", "G30")
-METHODS = ("DET", "SLOPE", "TRI", "ROUGH", "BICUBIC", "GBM", "CNN")
-NAMES = {"DET": "DET (ours)", "SLOPE": "SLOPE", "TRI": "TRI", "ROUGH": "ROUGH", "BICUBIC": "BICUBIC", "GBM": "GBM$^{*}$", "CNN": "CNN$^{*}$"}
+NA = r"$\cdot$"
+WORDS = {0: "none", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten",
+         11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen", 17: "seventeen", 18: "eighteen",
+         19: "nineteen", 20: "twenty"}
 
 
 def read(path):
-    with open(path, newline="") as fh:
+    with open(path, newline="", encoding="utf-8") as fh:
         return list(csv.DictReader(fh))
+
+
+def key(*parts):
+    return "_".join(str(p) for p in parts).replace("-", "").replace("+", "plus").replace(".", "p").replace(" ", "")
 
 
 def f2(x):
     return f"{float(x):.2f}"
 
 
-def pct(x, nd=0):
+def pc(x, nd=0):
     return f"{100 * float(x):.{nd}f}\\,\\%"
 
 
-def values() -> dict:
+def pts(x):
+    return f"{100 * float(x):+.0f}"
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# values
+# ---------------------------------------------------------------------------------------------------------------------
+def det_rows():
+    rows = []
+    for f in ("A_metrics.csv", "D_metrics.csv", "E_metrics.csv", "F_metrics.csv", "G_metrics.csv", "H_metrics.csv"):
+        p = os.path.join(S27, f)
+        if os.path.exists(p):
+            for r in read(p):
+                if f == "F_metrics.csv" and r["method"] == "BICUBIC":
+                    continue          # the same numbers as part A
+                if f == "E_metrics.csv" and r["method"] == "GBM":
+                    continue
+                if f == "G_metrics.csv" and r["method"] == "GBM":
+                    continue
+                if f == "H_metrics.csv" and r["method"] == "SLOPE":
+                    continue
+                rows.append(r)
+    return rows
+
+
+def values():
     V = {}
-    met = read(os.path.join(DET, "metrics.csv"))
-    diffs = read(os.path.join(DET, "paired_differences.csv"))
-    summ = json.load(open(os.path.join(DET, "summary.json")))
-    get = lambda s, i, m: next((r for r in met if r["site"] == s and r["input"] == i and r["method"] == m), None)
-    for i in INPUTS:
-        for m in METHODS + ("DET-cal", "SLOPE-cal", "TRI-cal", "ROUGH-cal", "BICUBIC-cal"):
-            rr = [get(s, i, m) for s in SITES]
-            rr = [r for r in rr if r]
-            if not rr:
+    D = det_rows()
+    groups = {}
+    for r in D:
+        groups.setdefault((r["input"], r["method"]), []).append(r)
+    for (i, m), rr in groups.items():
+        a = [float(r["auc"]) for r in rr]
+        V[key("auc", i, m)] = f2(np.mean(a)); V[key("aucmin", i, m)] = f2(min(a)); V[key("aucmax", i, m)] = f2(max(a))
+        ap = [float(r["ap"]) for r in rr if r.get("ap", "") not in ("", "nan")]
+        if ap:
+            V[key("ap", i, m)] = f2(np.mean(ap))
+        prev = [float(r["prevalence"]) for r in rr]
+        V[key("prev", i)] = pc(np.mean(prev))
+        for r in rr:
+            V[key("auc", i, m, r["site"])] = f2(r["auc"])
+    # paired differences (part A): sites where the method is significantly above or below the reference
+    for r0 in {(r["input"], r["method"], r["reference"]) for r in read(os.path.join(S27, "A_paired_differences.csv"))}:
+        rr = [r for r in read(os.path.join(S27, "A_paired_differences.csv")) if (r["input"], r["method"], r["reference"]) == r0]
+        V[key("nup", *r0)] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) > 0 for r in rr))
+        V[key("ndown", *r0)] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) < 0 for r in rr))
+        V[key("nupb", *r0)] = str(sum(r["significant_bonferroni6"] == "True" and float(r["auc_difference"]) > 0 for r in rr))
+    # gains
+    g = lambda i, m: float(V[key("auc", i, m)])
+    V["gain_s2_I30"] = f"{g('I30', 'DEM+S2') - g('I30', 'GBM'):+.2f}"
+    V["gain_naip_I30"] = f"{g('I30', 'DEM+NAIP') - g('I30', 'GBM'):+.2f}"
+    V["gain_10to30_bic"] = f"{g('I10to30', 'BICUBIC') - g('I30', 'BICUBIC'):+.2f}"
+    # resolution sweep and scaling
+    if os.path.exists(os.path.join(S27, "C_macro.csv")):
+        for r in read(os.path.join(S27, "C_macro.csv")):
+            V[key("sw", int(float(r["posting_m"])), r["method"])] = f2(r["auc"])
+        bs = read(os.path.join(S27, "C_scaling_by_site.csv"))
+        for d in {int(float(r["posting_m"])) for r in bs}:
+            for m in ("GBM", "BICUBIC"):
+                tot = 0
+                for b in ("0 to 0.5", "0.5 to 1", "1 to 2", "2 to 4", "4 to 8", "8 to inf"):
+                    rr = [r for r in bs if int(float(r["posting_m"])) == d and r["method"] == m and r["ratio_bin"] == b]
+                    n = sum(int(r["patches"]) for r in rr); tot += n
+                    if n:
+                        V[f"rec{d}_{m}_{b.split()[0].replace('.', 'p')}"] = pc(sum(int(r["detected"]) for r in rr) / n)
+            rr = [r for r in bs if int(float(r["posting_m"])) == d and r["method"] == "GBM"]
+            short = sum(int(r["patches"]) for r in rr if r["ratio_bin"] in ("0 to 0.5", "0.5 to 1"))
+            V[f"short{d}_share"] = pc(short / max(1, sum(int(r["patches"]) for r in rr)))
+        sc = read(os.path.join(S27, "C_scaling.csv"))
+        for m in ("GBM", "BICUBIC", "SLOPE", "DET"):
+            for b in ("0 to 0.5", "0.5 to 1", "1 to 2", "2 to 4", "4 to 8", "8 to inf"):
+                rr = [r for r in sc if r["method"] == m and r["ratio_bin"] == b and r["recall"] != ""]
+                n = sum(int(r["patches"]) for r in rr)
+                if n:
+                    V[key("rec", m, b.split()[0])] = pc(sum(float(r["recall"]) * int(r["patches"]) for r in rr) / n)
+    # label sensitivity
+    if os.path.exists(os.path.join(S27, "B_macro.csv")):
+        for r in read(os.path.join(S27, "B_macro.csv")):
+            V[key("lab", r["label"], r["method"])] = f2(r["auc"])
+    # statistics
+    if os.path.exists(os.path.join(S27, "I_summary.json")):
+        I = json.load(open(os.path.join(S27, "I_summary.json")))
+        rng = [v for v in I["correlogram_range_m"].values() if v]
+        V["corr_range_min"], V["corr_range_max"] = f"{min(rng):.0f}", f"{max(rng):.0f}"
+        V["corr_block_m"] = f"{I['block_m_used_for_sensitivity']:.0f}"
+        for r in read(os.path.join(S27, "I_site_tests.csv")):
+            m = r["comparison"].split(" minus")[0]
+            V[key("sf_p", m)] = f"{float(r['p_sign_flip']):.3f}".rstrip("0").rstrip("."); V[key("sf_holm", m)] = f"{float(r['p_holm']):.2f}"
+            V[key("sf_pos", m)] = r["positive_sites"]
+    # stage 28
+    if os.path.exists(os.path.join(S28, "A_held_out.csv")):
+        for r in read(os.path.join(S28, "A_held_out.csv")):
+            if r["policies"] != "conservative+risk_weighted":
                 continue
-            for key in ("auc", "ap", "recall_at_fpr10", "brier", "miss_at_0.20", "flagged_at_0.20", "auc_28_36"):
-                v = [float(r[key]) for r in rr if r.get(key, "") not in ("", None)]
-                if v:
-                    k = key.replace(".", "").replace("_at_", "_")
-                    V[f"{k}_{i}_{m}_mean"] = f2(np.mean(v)) if "auc" in key or key in ("ap", "brier") else pct(np.mean(v))
-                    V[f"{k}_{i}_{m}_min"] = f2(min(v)) if "auc" in key or key in ("ap", "brier") else pct(min(v))
-                    V[f"{k}_{i}_{m}_max"] = f2(max(v)) if "auc" in key or key in ("ap", "brier") else pct(max(v))
-            for s in SITES:
-                r = get(s, i, m)
-                if r and r.get("auc", ""):
-                    V[f"auc_{i}_{m}_{s}"] = f2(r["auc"])
-        for m in METHODS:
-            for ref in ("DET", "SLOPE"):
-                dd = [d for d in diffs if d["input"] == i and d["method"] == m and d["reference"] == ref]
-                if dd:
-                    V[f"nbetter_{i}_{m}_vs_{ref}"] = str(sum(d["significant"] == "True" and float(d["auc_difference"]) > 0 for d in dd))
-                    V[f"nworse_{i}_{m}_vs_{ref}"] = str(sum(d["significant"] == "True" and float(d["auc_difference"]) < 0 for d in dd))
-                    V[f"dauc_{i}_{m}_vs_{ref}"] = f"{np.mean([float(d['auc_difference']) for d in dd]):+.2f}"
-    for s in SITES:
-        for i in ("I10", "I30"):
-            V[f"prev_{i}_{s}"] = pct(get(s, i, "DET")["prevalence"])
-    V["n_sites"] = str(len(SITES))
-    pl = [r for r in read(os.path.join(PLN, "summary.csv"))]
-    for r in pl:
-        key = f"{r['profile']}_{r['input']}_{r['policy']}_{r['hazard']}".replace("-", "").replace("published-posterior", "posterior")
-        for k in ("routed", "mission_success", "unsafe_of_routed", "uphill_of_routed"):
-            if r.get(k, "") != "":
-                V[f"pl_{key}_{k}"] = pct(r[k]); V[f"pl_{key}_{k}_lo"] = pct(r[k + "_lo"]); V[f"pl_{key}_{k}_hi"] = pct(r[k + "_hi"])
-        if r.get("length_ratio", "") != "":
-            V[f"pl_{key}_length_ratio"] = f2(r["length_ratio"])
-        if r.get("patch_entries_per_km", "") != "":
-            V[f"pl_{key}_entries_km"] = f"{float(r['patch_entries_per_km']):.1f}"
-    V["pairs_total"] = str(int(sum(1 for _ in read(os.path.join(PLN, "endpoints.csv")))))
-    tests = read(os.path.join(PLN, "tests.csv"))
-    for t in tests:
-        key = f"{t['profile']}_{t['input']}_{t['policy']}_{t['hazard']}_vs_{t['reference'].replace(' ', '_')}".replace("-", "")
-        q = float(t["p_holm"])
-        V[f"t_{key}_p"] = "<0.001" if q < 0.001 else f"={q:.3f}"; V[f"t_{key}_diff"] = f"{100 * float(t['difference']):+.0f}"
-    # tallies of the registered predictions of stages 25 and 26, read from the register
-    reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
-    outs = re.findall(r"^\| (?:B25|P26)-\d \|[^\n]*\| (HIT|MISSED)", reg, flags=re.M)
-    V["pred_n"] = str(len(outs)); V["pred_hit"] = str(outs.count("HIT")); V["pred_missed"] = str(outs.count("MISSED"))
-    words = {5: "five", 7: "seven", 9: "nine", 12: "twelve", 17: "seventeen"}
-    for k in ("pred_n", "pred_hit", "pred_missed"):
-        V[k + "_word"] = words.get(int(V[k]), V[k])
-    g = lambda i, pol, hz, k: float(next(r for r in pl if r["profile"] == "assumed" and r["input"] == i and r["policy"] == pol and r["hazard"] == hz)[k])
-    V["i10_det_gate_cut_points"] = f"{100 * (g('I10', 'naive', 'none', 'unsafe_of_routed') - g('I10', 'conservative', 'DET', 'unsafe_of_routed')):.0f}"
-    unsup = [float(r["auc"]) for r in met if r["site"] == "WhiteSands" and r["input"] == "G30" and r["method"] in ("DET", "SLOPE", "TRI", "ROUGH", "BICUBIC")]
-    V["ws_g30_unsup_min"], V["ws_g30_unsup_max"] = f2(min(unsup)), f2(max(unsup))
-    # POST HOC analyses (scripts/benchmark_posthoc.py)
-    PH = os.path.join(ROOT, "results", "benchmark", "posthoc")
-    for r in read(os.path.join(PH, "summary.csv")):
-        key = f"ph_{r['input']}_{r['policy']}_{r['hazard']}".replace("-", "")
-        for k in ("routed", "success_p10", "success_p100", "success_p500", "unsafe_all_pairs_p10"):
-            V[f"{key}_{k}"] = pct(r[k])
-        V[f"{key}_mkm"] = f"{float(r['m_on_face_per_km']):.0f}" if r["m_on_face_per_km"] != "" else "--"
-        V[f"{key}_ekm"] = f"{float(r['entries_per_km']):.1f}" if r["entries_per_km"] != "" else "--"
-    phs = read(os.path.join(PH, "summary.csv"))
-    o5 = float(next(r for r in pl if r["profile"] == "assumed" and r["hazard"] == "ORACLE-5")["routed"])
-    for i, tag in (("I10", "10"), ("I30", "30")):
-        fm = float(next(r for r in phs if r["input"] == i and r["policy"] == "conservative" and r["hazard"] == "ORACLE-ANY")["routed"])
-        V[f"ph_gap_{tag}"] = f"{100 * (o5 - fm):.0f}"
-        comp = [float(r["success_p500"]) for r in phs if r["input"] == i and r["hazard"] in ("DET", "DET-cal", "SLOPE-cal", "BICUBIC-cal", "GBM", "CNN")]
-        V[f"ph_best500_{i}"] = pct(max(comp))
-    for r in read(os.path.join(PH, "clustered_differences.csv")):
-        key = f"cd_{r['input']}_{r['policy']}_{r['hazard']}".replace("-", "")
-        V[key] = f"{100 * float(r['difference']):+.1f}"; V[key + "_lo"] = f"{100 * float(r['lo_two_stage']):+.1f}"; V[key + "_hi"] = f"{100 * float(r['hi_two_stage']):+.1f}"
-        V[key + "_pos"] = r["sites_positive"]
-    ab = read(os.path.join(PH, "auc_bicubic.csv"))
-    for ref in ("GBM", "CNN"):
-        rr = [r for r in ab if r["input"] == "I30" and r["reference"] == ref]
-        V[f"bic_vs_{ref}_better"] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) > 0 for r in rr))
-        V[f"bic_vs_{ref}_worse"] = str(sum(r["significant"] == "True" and float(r["auc_difference"]) < 0 for r in rr))
-    for r in read(os.path.join(PH, "glo30_shift.csv")):
+            pf = "post" if r["profile"] == "published-posterior" else "assu"
+            k = key("ho", pf, r["endpoints"], r["input"], r["layer"])
+            V[k] = pc(r["mission_success"]); V[k + "_d"] = pts(r["difference"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
+            V[k + "_pos"] = r["positive_sites"]; V[k + "_p"] = f"{float(r['p_sign_flip']):.3f}".rstrip("0").rstrip(".")
+            V[k + "_routed"] = pc(r["routed"])
+            if r.get("m_on_face_per_km", "") != "":
+                V[k + "_mkm"] = f"{float(r['m_on_face_per_km']):.0f}"
+        for r in read(os.path.join(S28, "A_naive.csv")):
+            pf = "post" if r["profile"] == "published-posterior" else "assu"
+            k = key("nv", pf, r["endpoints"], r["input"])
+            V[k] = pc(r["mission_success"]); V[k + "_unsafe"] = pc(r["unsafe_of_routed"]); V[k + "_unsafefp"] = pc(r["unsafe_fp_of_routed"])
+            V[k + "_mkm"] = f"{float(r['m_on_face_per_km']):.0f}"
+            V[k + "_desc"] = pc(r["unsafe_descent_only"]) if r.get("unsafe_descent_only", "") != "" else NA
+        ref = read(os.path.join(S28, "B_refusals.csv"))
+        for r in ref:
+            if r["profile"] == "published-posterior" and r["endpoints"] == "E1" and r["policy"] == "conservative" and r["param"] == "0.2":
+                k = key("ref", r["input"], r["layer"])
+                n = int(r["unrouted"])
+                V[k] = pc((int(r["start_refused"]) + int(r["goal_refused"]) + int(r["both_refused"])) / n) if n else NA
+        dr = read(os.path.join(S28, "D_descent_rule.csv"))
+        for pf in ("published-posterior", "assumed"):
+            for i in ("I10", "I30"):
+                v = [float(r["share_removed"]) for r in dr if r["profile"] == pf and r["input"] == i]
+                V[key("descent", pf[:4], i, "max")] = pc(max(v), 1)
+        sweep = read(os.path.join(S28, "A_sweep.csv"))
+        cons = [float(r["routed"]) for r in sweep if r["profile"] == "published-posterior" and r["endpoints"] == "E1" and r["input"] == "I30" and r["policy"] == "conservative"]
+        V["cons_routed_I30_max"] = pc(max(cons))
+        cons10 = [float(r["routed"]) for r in sweep if r["profile"] == "published-posterior" and r["endpoints"] == "E1" and r["input"] == "I10" and r["policy"] == "conservative"]
+        V["cons_routed_I10_max"] = pc(max(cons10))
+    if os.path.exists(os.path.join(S28, "C_degraded.csv")):
+        for r in read(os.path.join(S28, "C_degraded.csv")):
+            k = key("dg", r["endpoints"], r["input"], r["map"], r["policy"][:4])
+            V[k] = pc(r["mission_success"]); V[k + "_routed"] = pc(r["routed"]); V[k + "_lr"] = f2(r["length_ratio"])
+    if os.path.exists(os.path.join(S28, "E_closed_loop.csv")):
+        for r in read(os.path.join(S28, "E_closed_loop.csv")):
+            pf = "post" if r["profile"] == "published-posterior" else "assu"
+            k = key("cl", pf, r["endpoints"], r["input"], r["layer"], int(float(r["radius_m"])))
+            V[k] = pc(r["success"]); V[k + "_stuck"] = pc(r["stuck"]); V[k + "_lr"] = f2(r["length_ratio_reached"]) if r["length_ratio_reached"] else NA
+            V[k + "_replans"] = f"{float(r['replans']):.0f}"
+            if r.get("diff_vs_slip_only", "") not in ("", None):
+                V[k + "_d"] = pts(r["diff_vs_slip_only"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
+    # vehicle limits and run sizes
+    pl = json.load(open(os.path.join(BEN, "planning", "summary.json")))
+    V["crit_assumed"] = f"{pl['critical_uphill_deg']['assumed']:.1f}"
+    V["crit_posterior"] = f"{pl['critical_uphill_deg']['published-posterior']:.1f}"
+    for r in read(os.path.join(BEN, "runtime.csv")):
+        V[f"rt_{r['input']}_assess"] = f"{float(r['assess_s']):.1f}"; V[f"rt_{r['input']}_routes"] = f"{float(r['routes_100_s']):.1f}"
+        V["rt_area"] = f"{float(r['area_km2']):.0f}"
+    for r in read(os.path.join(BEN, "posthoc", "glo30_shift.csv")):
         V[f"shift_{r['site']}"] = f"{float(r['best_shift_m']):.0f}"
-    # observed values for the table of registered predictions
-    def aucs(i, m):
-        return {r["site"]: float(r["auc"]) for r in met if r["input"] == i and r["method"] == m and r.get("auc", "")}
-    det30, slo30 = aucs("I30", "DET"), aucs("I30", "SLOPE")
-    V["det_gt_slope_I30"] = str(sum(det30[s] > slo30[s] for s in det30))
-    V["max_sites_090_I30"] = str(max(sum(v >= 0.90 for v in aucs("I30", m).values()) for m in METHODS))
-    mean = lambda i, m: np.mean(list(aucs(i, m).values()))
-    V["det_drop_g30"] = f"{mean('I30', 'DET') - mean('G30', 'DET'):.2f}"
-    V["g30_best_mean"] = f"{max(mean('G30', m) for m in METHODS):.2f}"
-    V["cnn_minus_gbm_I30"] = f"{mean('I30', 'CNN') - mean('I30', 'GBM'):+.2f}"
-    br = lambda m: {r["site"]: float(r["brier"]) for r in met if r["input"] == "I30" and r["method"] == m}
-    V["detcal_better_sites"] = str(sum(br("DET-cal")[s] < br("DET")[s] for s in br("DET")))
-    succ = lambda i, pol, hz: float(next(r for r in pl if r["profile"] == "assumed" and r["input"] == i and r["policy"] == pol and r["hazard"] == hz)["mission_success"])
-    base = succ("I30", "naive", "none")
-    V["i30_oracle_gain"] = f"{100 * (succ('I30', 'conservative', 'ORACLE') - base):+.0f}"
-    V["i30_best_computable_gain"] = f"{100 * max(succ('I30', p, h) - base for p in ('conservative', 'risk_weighted') for h in ('DET', 'DET-cal', 'SLOPE-cal', 'BICUBIC-cal', 'GBM', 'CNN')):+.0f}"
-    V["crit_assumed"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['assumed']:.1f}"
-    V["crit_posterior"] = f"{json.load(open(os.path.join(PLN, 'summary.json')))['critical_uphill_deg']['published-posterior']:.1f}"
-    return V, met, pl, summ
-
-
-def table_sites(met, summ):
-    lines = [r"\begin{table}[t]", r"\caption{Lidar windows and the share of cells that hold a face (cell label).}", r"\label{tab:sites}",
-             r"\centering\small", r"\begin{tabular}{lrrrr}", r"\toprule", r"Site & Area & Relief & \multicolumn{2}{c}{Face cells} \\",
-             r" & km$^2$ & m & 10\,m & 30\,m \\", r"\midrule"]
-    for s in SITES:
-        st = summ["sites"][s]
-        w = st["window_utm"]
-        area = (w[1] - w[0]) * (w[3] - w[2]) / 1e6
-        rel = st.get("relief_m")
-        p10 = next(r for r in met if r["site"] == s and r["input"] == "I10" and r["method"] == "DET")["prevalence"]
-        p30 = next(r for r in met if r["site"] == s and r["input"] == "I30" and r["method"] == "DET")["prevalence"]
-        lines.append(f"{SITE_LABEL[s]} & {area:.1f} & {rel:.0f} & {100 * float(p10):.0f}\\,\\% & {100 * float(p30):.0f}\\,\\% \\\\")
-    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
-    return "\n".join(lines)
-
-
-def table_detection(met):
-    def cell(i, m, key):
-        v = [float(r[key]) for r in met if r["input"] == i and r["method"] == m and r.get(key, "") != ""]
-        return f"{np.mean(v):.2f}" if v else "--"
-    def raw(i, m):
-        v = [float(r["auc"]) for r in met if r["input"] == i and r["method"] == m and r.get("auc", "") != ""]
-        return np.mean(v) if v else -1.0
-    best = {i: max(METHODS, key=lambda m: raw(i, m)) for i in INPUTS}
-    lines = [r"\begin{table}[t]", r"\caption{Detection: mean over six sites of the AUC and average precision (AP); $^{*}$trained on lidar labels of the other five sites. Best AUC per input in bold.}",
-             r"\label{tab:detection}", r"\centering\small", r"\setlength{\tabcolsep}{4pt}", r"\begin{tabular}{lcccccc}", r"\toprule",
-             r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\",
-             r"Method & AUC & AP & AUC & AP & AUC & AP \\", r"\midrule"]
-    for m in METHODS:
-        if not any(r["method"] == m for r in met):
-            continue
-        cells = []
-        for i in INPUTS:
-            a = cell(i, m, "auc")
-            cells += [f"\\textbf{{{a}}}" if best[i] == m else a, cell(i, m, "ap")]
-        lines.append(f"{NAMES[m]} & " + " & ".join(cells) + r" \\")
-    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
-    return "\n".join(lines)
-
-
-PLAN_ROWS = [("shortest", "none", "Shortest path"), ("naive", "none", "Slip model only"),
-             ("conservative", "SLOPE-cal", "Gate: SLOPE-cal"), ("conservative", "BICUBIC-cal", "Gate: BICUBIC-cal"), ("conservative", "DET", "Gate: DET (ours)"),
-             ("conservative", "DET-cal", "Gate: DET-cal"), ("conservative", "GBM", "Gate: GBM$^{*}$"), ("conservative", "CNN", "Gate: CNN$^{*}$"),
-             ("risk_weighted", "DET", "Weight: DET (ours)"), ("risk_weighted", "BICUBIC-cal", "Weight: BICUBIC-cal"),
-             ("risk_weighted", "GBM", "Weight: GBM$^{*}$"), ("conservative", "ORACLE", "Gate: ORACLE")]
-
-
-def table_planning(pl):
-    def g(i, pol, hz, k):
-        r = next((r for r in pl if r["profile"] == "assumed" and r["input"] == i and r["policy"] == pol and r["hazard"] == hz), None)
-        return f"{100 * float(r[k]):.0f}" if r and r.get(k, "") != "" else "--"
-    lines = [r"\begin{table}[t]", r"\caption{Planning, pooled over six sites (600 pairs): unsafe share of routed pairs (U) and mission success (S), in \%. Gate: conservative policy; Weight: risk weighted policy.}",
-             r"\label{tab:planning}", r"\centering\small", r"\setlength{\tabcolsep}{3.5pt}", r"\begin{tabular}{lcccccc}", r"\toprule",
-             r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\", r"Planner & U & S & U & S & U & S \\", r"\midrule"]
-    for pol, hz, lab in PLAN_ROWS:
-        cells = []
-        for i in INPUTS:
-            cells += [g(i, pol, hz, "unsafe_of_routed"), g(i, pol, hz, "mission_success")]
-        lines.append(f"{lab} & " + " & ".join(cells) + r" \\")
-    o5 = next((r for r in pl if r["profile"] == "assumed" and r["hazard"] == "ORACLE-5"), None)
-    if o5:
-        lines.append(r"\midrule")
-        lines.append(f"ORACLE-5 (5\\,m) & \\multicolumn{{6}}{{c}}{{U {100 * float(o5['unsafe_of_routed']):.0f}, S {100 * float(o5['mission_success']):.0f}}} \\\\")
-    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
-    return "\n".join(lines)
-
-
-PH_ROWS = [("naive", "none", "Slip model only"), ("risk_weighted", "BICUBIC-cal", "Weight: BICUBIC-cal"), ("risk_weighted", "GBM", "Weight: GBM$^{*}$"),
-           ("risk_weighted", "CNN", "Weight: CNN$^{*}$"), ("conservative", "ORACLE", "Gate: ORACLE (cell label)"),
-           ("conservative", "ORACLE-ANY", "Gate: face map"), ("risk_weighted", "ORACLE-ANY", "Weight: face map")]
-
-
-def table_posthoc():
-    rows = read(os.path.join(ROOT, "results", "benchmark", "posthoc", "summary.csv"))
-    def g(i, pol, hz, k):
-        r = next((r for r in rows if r["input"] == i and r["policy"] == pol and r["hazard"] == hz), None)
-        if r is None or r[k] == "":
-            return "--"
-        if k == "m_on_face_per_km":
-            return f"{float(r[k]):.1f}" if float(r[k]) < 1 else f"{float(r[k]):.0f}"
-        if k == "entries_per_km":
-            return f"{float(r[k]):.1f}"
-        return f"{100 * float(r[k]):.0f}"
-    lines = [r"\begin{table}[t]", r"\caption{Mission success (\%) when face patches of at least 10 or 500\,m$^2$ count (S$_{10}$; S$_{500}$, post hoc), face patches entered per km (P, registered secondary outcome) and metres of route on a face patch per km (E, post hoc). Face map (post hoc): every cell that holds a face patch post is marked; with the gate, no route can touch a face by construction.}",
-             r"\label{tab:posthoc}", r"\centering\small", r"\setlength{\tabcolsep}{2.4pt}", r"\begin{tabular}{lcccccccc}", r"\toprule",
-             r" & \multicolumn{4}{c}{I10} & \multicolumn{4}{c}{I30} \\", r"Planner & S$_{10}$ & S$_{500}$ & P & E & S$_{10}$ & S$_{500}$ & P & E \\", r"\midrule"]
-    for pol, hz, lab in PH_ROWS:
-        cells = []
-        for i in ("I10", "I30"):
-            cells += [g(i, pol, hz, "success_p10"), g(i, pol, hz, "success_p500"), g(i, pol, hz, "entries_per_km"), g(i, pol, hz, "m_on_face_per_km")]
-        lines.append(f"{lab} & " + " & ".join(cells) + r" \\")
-    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
-    return "\n".join(lines)
-
-
-def table_predictions():
+    meta = read(os.path.join(BEN, "site_metadata.csv"))
+    for r in meta:
+        V[f"s2date_{r['site']}"] = r["sentinel2_date"]
+    V["naip_min"], V["naip_max"] = min(r["naip_year"] for r in meta), max(r["naip_year"] for r in meta)
+    V["area_total"] = f"{sum(float(r['area_km2']) for r in meta):.0f}"
+    # prediction log tallies (stages 25 to 28)
     reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
-    outcome = dict(re.findall(r"^\| ((?:B25|P26)-\d) \|[^\n]*\| (HIT|MISSED)", reg, flags=re.M))
-    lines = [r"\begin{table}[t]", r"\caption{The {{VAL:pred_n}} predictions registered before the runs (stage 25, B; stage 26, P), what was observed, and the outcome (H hit, M missed).}",
-             r"\label{tab:predictions}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2pt}", r"\begin{tabular}{@{}llll@{}}", r"\toprule",
-             r"ID & Prediction & Observed & \\", r"\midrule"]
-    for r in read(os.path.join(PAPER, "src", "predictions_short.csv")):
-        o = outcome[r["id"]]
-        lines.append(f"{r['id']} & {r['prediction']} & {r['observed']} & {'H' if o == 'HIT' else 'M'} \\\\")
-    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
-    return "\n".join(lines)
+    outs = re.findall(r"^\| (?:B25|P26|D27|P28)-\d+ \|[^\n]*\| (HIT|MISSED)\b", reg, flags=re.M)
+    V["log_n"] = str(len(outs)); V["log_hit"] = str(outs.count("HIT")); V["log_missed"] = str(outs.count("MISSED"))
+    for k in ("log_n", "log_hit", "log_missed"):
+        V[k + "_word"] = WORDS.get(int(V[k]), V[k])
+    return V
 
 
-def render(V, met, pl, summ) -> str:
-    t = open(os.path.join(PAPER, "src", "paper_template.tex"), encoding="utf-8").read()
-    for name in sorted(os.listdir(os.path.join(PAPER, "src"))):
+# ---------------------------------------------------------------------------------------------------------------------
+# tables
+# ---------------------------------------------------------------------------------------------------------------------
+def table_sites():
+    meta = {r["site"]: r for r in read(os.path.join(BEN, "site_metadata.csv"))}
+    A = read(os.path.join(S27, "A_metrics.csv"))
+    prev = lambda s, i: float(next(r for r in A if r["site"] == s and r["input"] == i)["prevalence"])
+    L = [r"\begin{table}[t]", r"\caption{Lidar windows (USGS 3DEP one metre DEM; flown: acquisition period of the lidar project) and the share of cells holding a face patch post at 10 and 30\,m.}",
+         r"\label{tab:sites}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lrrrrrr@{}}", r"\toprule",
+         r"Site & Lat., lon. & km$^2$ & Relief & Flown & 10\,m & 30\,m \\", r"\midrule"]
+    for s in SITES:
+        m = meta[s]
+        y0, y1 = m["acquisition_start"][:4], m["acquisition_end"][:4]
+        L.append(f"{SITE_LABEL[s]} & {float(m['centre_lat']):.2f}, {float(m['centre_lon']):.2f} & {float(m['area_km2']):.1f} & {float(m['relief_m']):.0f}\\,m & "
+                 f"{y0 if y0 == y1 else y0 + ' to ' + y1[2:]} & {100 * prev(s, 'I10'):.0f}\\,\\% & {100 * prev(s, 'I30'):.0f}\\,\\% \\\\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+DET_ROWS = [("SLOPE", "Slope"), ("TRI", "Ruggedness"), ("ROUGH", "Roughness"), ("ASPECT", "Aspect rule"), ("BICUBIC", "Interpolation"),
+            ("SR", "Super resolution$^{*}$"), ("DET", "Detector"), ("GBM", "Boosting$^{*}$"), ("GBM+", "Boosting+$^{*}$"), ("GBM-tuned", "Boosting, tuned$^{*}$"),
+            ("CNN", "Network$^{*}$"), ("CNN-long", "Network, 6000 steps$^{*}$"), ("IMG-S2", "Sentinel-2 only$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"),
+            ("IMG-NAIP", "NAIP only$^{*}$"), ("DEM+NAIP", "Boosting + NAIP$^{*}$")]
+DET_COLS = [("I10", "I10"), ("I30", "I30"), ("I10to30", r"I10$\rightarrow$30"), ("R10", "R10"), ("N30", "N30"), ("G30n", "G30")]
+
+
+def table_detection():
+    D = det_rows()
+    mean = {}
+    for r in D:
+        mean.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
+    best = {c: max((np.mean(v), m) for (i, m), v in mean.items() if i == c)[1] for c, _ in DET_COLS if any(i == c for i, _ in mean)}
+    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label (\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids. $^{*}$Trained on lidar labels of the other five sites. Best per column in bold; $\cdot$ not run.}",
+         r"\label{tab:detection}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.8pt}", r"\begin{tabular}{@{}l" + "c" * len(DET_COLS) + r"@{}}", r"\toprule",
+         "Layer & " + " & ".join(h for _, h in DET_COLS) + r" \\", r"\midrule"]
+    for m, lab in DET_ROWS:
+        cells = []
+        for c, _ in DET_COLS:
+            v = mean.get((c, m))
+            if v is None:
+                cells.append(NA)
+            else:
+                s = f"{np.mean(v):.2f}"
+                cells.append(f"\\textbf{{{s}}}" if best.get(c) == m else s)
+        if all(x == NA for x in cells):
+            continue
+        L.append(f"{lab} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+PLAN_LAYERS = [("none", "Slip model only"), ("SLOPE-cal", "Slope"), ("BICUBIC-cal", "Interpolation"), ("DET", "Detector"), ("DET-cal", "Detector, recalibrated"),
+               ("GBM", "Boosting$^{*}$"), ("CNN", "Network$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"), ("FACEMAP", "Face map (upper bound)")]
+PLAN_COLS = [("E1", "I10"), ("E2", "I10"), ("E1", "I30"), ("E2", "I30"), ("E1", "G30")]
+DEGRADED = [("FACEMAP", "Face map, $w=5$"), ("shift5", "Face map 5\\,m off"), ("shift10", "Face map 10\\,m off"), ("shift30", "Face map 30\\,m off"),
+            ("survey2", "Face map from 2\\,m survey"), ("survey5", "Face map from 5\\,m survey")]
+
+
+def table_planning():
+    H = read(os.path.join(S28, "A_held_out.csv"))
+    N = read(os.path.join(S28, "A_naive.csv"))
+    C = read(os.path.join(S28, "C_degraded.csv")) if os.path.exists(os.path.join(S28, "C_degraded.csv")) else []
+
+    def ho(e, i, lay):
+        if lay == "none":
+            r = next((r for r in N if r["profile"] == "published-posterior" and r["endpoints"] == e and r["input"] == i), None)
+            return f"{100 * float(r['mission_success']):.0f}" if r else NA
+        r = next((r for r in H if r["profile"] == "published-posterior" and r["endpoints"] == e and r["input"] == i and r["layer"] == lay
+                  and r["policies"] == "conservative+risk_weighted"), None)
+        if r is None:
+            return NA
+        s = f"{100 * float(r['mission_success']):.0f}"
+        return s + ("$^{\\dagger}$" if float(r["diff_lo"]) > 0 else "")
+    L = [r"\begin{table}[t]", r"\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero. Degraded face maps: weight policy, $w=5$. $^{*}$Trained leave one site out.}",
+         r"\label{tab:planning}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
+         r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\", r"Layer & E1 & E2 & E1 & E2 & E1 \\", r"\midrule"]
+    for lay, lab in PLAN_LAYERS:
+        L.append(f"{lab} & " + " & ".join(ho(e, i, lay) for e, i in PLAN_COLS) + r" \\")
+    if C:
+        L.append(r"\midrule")
+        for mp, lab in DEGRADED:
+            cells = []
+            for e, i in PLAN_COLS:
+                r = next((r for r in C if r["endpoints"] == e and r["input"] == i and r["map"] == mp and r["policy"] == "risk_weighted"), None)
+                cells.append(f"{100 * float(r['mission_success']):.0f}" if r else NA)
+            L.append(f"{lab} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+CL_LAYERS = [("none", "Slip model only"), ("DET", "Detector"), ("BICUBIC-cal", "Interpolation"), ("GBM", "Boosting$^{*}$"), ("FACEMAP", "Face map")]
+
+
+def table_closed_loop():
+    p = os.path.join(S28, "E_closed_loop.csv")
+    if not os.path.exists(p):
+        return "% closed loop not run yet"
+    E = read(p)
+
+    def g(e, i, lay, R, k):
+        r = next((r for r in E if r["profile"] == "published-posterior" and r["endpoints"] == e and r["input"] == i and r["layer"] == lay and float(r["radius_m"]) == R), None)
+        if r is None or r.get(k, "") == "":
+            return NA
+        return f"{100 * float(r[k]):.0f}" if k in ("success", "stuck") else f"{float(r[k]):.0f}"
+    L = [r"\begin{table}[t]", r"\caption{Closed loop with onboard sensing (radius $R$), 20 pairs per site, E1 endpoints, posterior vehicle: success (\%; goal reached, no face contact) and replans per pair (Rp). Main runs $R=20$\,m; I30 also with $R=10$ and 30\,m.}",
+         r"\label{tab:closedloop}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lcccccc@{}}", r"\toprule",
+         r" & \multicolumn{2}{c}{I10, $R$ 20} & \multicolumn{2}{c}{I30, $R$ 20} & \multicolumn{2}{c}{I30, S} \\",
+         r"Prior layer & S & Rp & S & Rp & $R$ 10 & $R$ 30 \\", r"\midrule"]
+    for lay, lab in CL_LAYERS:
+        L.append(f"{lab} & {g('E1', 'I10', lay, 20.0, 'success')} & {g('E1', 'I10', lay, 20.0, 'replans')} & "
+                 f"{g('E1', 'I30', lay, 20.0, 'success')} & {g('E1', 'I30', lay, 20.0, 'replans')} & "
+                 f"{g('E1', 'I30', lay, 10.0, 'success')} & {g('E1', 'I30', lay, 30.0, 'success')} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# supplement tables
+# ---------------------------------------------------------------------------------------------------------------------
+def tex_escape(s):
+    parts = re.split(r"(`[^`]*`)", s)
+    return "".join(r"\url{" + p[1:-1] + "}" if p.startswith("`") else _esc(p) for p in parts)
+
+
+def _esc(s):
+    s = s.replace("\\", "/").replace("%", "\\%").replace("&", "\\&").replace("#", "\\#").replace("_", "\\_")
+    s = s.replace("**", "").replace(">=", "$\\geq$").replace("<=", "$\\leq$").replace("x 300", "$\\times$ 300")
+    s = s.replace("≥", "$\\geq$").replace("≤", "$\\leq$").replace("×", "$\\times$").replace("→", "$\\rightarrow$")
+    return s
+
+
+def table_log():
+    reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
+    rows = re.findall(r"^\| ((?:B25|P26|D27|P28)-\d+) \| ([^|\n]*) \| ([^\n]*)\|\s*$", reg, flags=re.M)
+    L = [r"\begin{longtable}{@{}p{0.08\linewidth}p{0.42\linewidth}p{0.46\linewidth}@{}}",
+         r"\caption{Prediction log of stages 25 to 28: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards.}\label{tab:log}\\",
+         r"\toprule", r"ID & Prediction (before the run) & Outcome \\", r"\midrule", r"\endhead"]
+    for i, p, o in rows:
+        L.append(f"{i} & {tex_escape(p.strip())} & {tex_escape(o.strip())} \\\\")
+    L += [r"\bottomrule", r"\end{longtable}"]
+    return "\n".join(L)
+
+
+def table_persite():
+    D = [r for r in read(os.path.join(S27, "A_metrics.csv")) if r["input"] == "I30"]
+    E = [r for r in read(os.path.join(S27, "E_metrics.csv")) if r["input"] == "I30"]
+    ms = [("SLOPE", "Slope"), ("BICUBIC", "Interp."), ("DET", "Detector"), ("GBM", "Boosting"), ("CNN", "Network"), ("DEM+S2", "Boost.+S2")]
+    L = [r"\begin{table}[h]", r"\caption{AUC per site on I30 (face map label) with 95\,\% block bootstrap intervals where computed.}", r"\label{tab:persite}",
+         r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.5pt}", r"\begin{tabular}{@{}l" + "c" * len(ms) + r"@{}}", r"\toprule",
+         "Site & " + " & ".join(h for _, h in ms) + r" \\", r"\midrule"]
+    for s in SITES:
+        cells = []
+        for m, _ in ms:
+            r = next((r for r in D + E if r["site"] == s and r["method"] == m), None)
+            if r is None:
+                cells.append(NA); continue
+            c = f"{float(r['auc']):.2f}"
+            if r.get("auc_lo", ""):
+                c += f" [{float(r['auc_lo']):.2f}, {float(r['auc_hi']):.2f}]"
+            cells.append(c)
+        L.append(f"{SITE_LABEL[s].split(',')[0]} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# render and build
+# ---------------------------------------------------------------------------------------------------------------------
+TABLES = {"sites": table_sites, "methods": lambda: open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip(),
+          "detection": table_detection, "planning": table_planning, "closedloop": table_closed_loop, "log": table_log, "persite": table_persite}
+
+
+def render(template, V) -> str:
+    t = open(os.path.join(SRC, template), encoding="utf-8").read()
+    for name in sorted(os.listdir(SRC)):
         if name.startswith("text_") and name.endswith(".tex"):
-            body = open(os.path.join(PAPER, "src", name), encoding="utf-8").read().strip()
+            body = open(os.path.join(SRC, name), encoding="utf-8").read().strip()
             t = t.replace("{{VAL:" + name[5:-4] + "}}", body)
-    t = t.replace("{{TABLE:sites}}", table_sites(met, summ)).replace("{{TABLE:detection}}", table_detection(met)).replace("{{TABLE:planning}}", table_planning(pl)).replace("{{TABLE:posthoc}}", table_posthoc()).replace("{{TABLE:predictions}}", table_predictions()).replace("{{TABLE:methods}}", open(os.path.join(PAPER, "src", "table_methods.tex"), encoding="utf-8").read().strip())
+    for name, fn in TABLES.items():
+        if "{{TABLE:" + name + "}}" in t:
+            t = t.replace("{{TABLE:" + name + "}}", fn())
     missing = []
 
     def sub(mo):
@@ -272,30 +394,32 @@ def render(V, met, pl, summ) -> str:
     return t
 
 
+def latex(name):
+    r = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error", f"{name}.tex"], cwd=PAPER, capture_output=True, text=True)
+    if r.returncode:
+        print(r.stdout[-3000:]); raise SystemExit(f"LaTeX failed on {name}")
+    subprocess.run(["latexmk", "-c", f"{name}.tex"], cwd=PAPER, capture_output=True)
+    log = r.stdout
+    print(name, "pages:", re.findall(rf"Output written on {name}.pdf \((\d+) pages", log))
+
+
 def main():
     check = "--check" in sys.argv
-    V, met, pl, summ = values()
-    # relief per site from the stage 12 and 20 summaries (the same windows)
-    for f in ("results/terrain_validation/summary.json", "results/terrain_validation_phase4/summary.json"):
-        for s, v in json.load(open(os.path.join(ROOT, f)))["sites"].items():
-            summ["sites"][s]["relief_m"] = v["relief_m"]
-    tex = render(V, met, pl, summ)
-    out = os.path.join(PAPER, "paper.tex")
+    V = values()
+    docs = {"paper.tex": render("paper_template.tex", V), "supplement.tex": render("supplement_template.tex", V)}
     if check:
-        old = open(out, encoding="utf-8").read() if os.path.exists(out) else ""
-        if old != tex:
-            raise SystemExit("paper/paper.tex is stale: run scripts/build_paper.py")
+        for name, tex in docs.items():
+            old = open(os.path.join(PAPER, name), encoding="utf-8").read() if os.path.exists(os.path.join(PAPER, name)) else ""
+            if old != tex:
+                raise SystemExit(f"paper/{name} is stale: run scripts/build_paper.py")
         print("paper: ok"); return
-    open(out, "w", encoding="utf-8").write(tex)
+    for name, tex in docs.items():
+        open(os.path.join(PAPER, name), "w", encoding="utf-8").write(tex)
     json.dump(V, open(os.path.join(PAPER, "values.json"), "w"), indent=0, sort_keys=True)
     if shutil.which("latexmk") and "--no-pdf" not in sys.argv:
-        r = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error", "paper.tex"], cwd=PAPER, capture_output=True, text=True)
-        if r.returncode:
-            print(r.stdout[-3000:]); raise SystemExit("LaTeX failed")
-        subprocess.run(["latexmk", "-c"], cwd=PAPER, capture_output=True)
-        log = open(os.path.join(PAPER, "paper.log"), encoding="latin-1").read() if os.path.exists(os.path.join(PAPER, "paper.log")) else ""
-        print("pages:", re.findall(r"Output written on paper.pdf \((\d+) pages", r.stdout + log))
-    print("wrote", out)
+        for name in docs:
+            latex(name[:-4])
+    print("wrote", ", ".join(docs))
 
 
 if __name__ == "__main__":

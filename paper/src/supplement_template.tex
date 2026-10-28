@@ -1,0 +1,36 @@
+% Generated supplement source: scripts/build_paper.py fills {{VAL:...}} and {{TABLE:...}} and writes paper/supplement.tex.
+\documentclass[10pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\begin{document}
+\begin{center}
+{\large Supplementary material}\\[2pt]
+{\normalsize Slip Face Detection and Route Planning for Small Rovers on Sand Dunes, Tested Against Airborne Lidar}
+\end{center}
+
+\section*{S1. Prediction log}
+{{VAL:supp_log}}
+
+{{TABLE:log}}
+
+\section*{S2. Per site detection}
+{{TABLE:persite}}
+
+\section*{S3. Example site}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_map.pdf}
+\caption{{{VAL:caption_map}}}
+\end{figure}
+
+\section*{S4. Notes on the runs}
+{{VAL:supp_notes}}
+
+\end{document}

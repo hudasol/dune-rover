@@ -1,20 +1,22 @@
 \begin{table}[t]
-\caption{Methods compared. Lidar: trained on lidar labels of the other five sites. All scores are per coarse cell; methods without a probability get a leave one site out logistic calibration (suffix -cal) when one is needed.}
+\caption{Hazard layers. L: trained on lidar labels of the other five sites (leave one site out). Every layer that is not a probability is calibrated by logistic regression~\cite{platt1999} on the other five sites when a planner needs one.}
 \label{tab:methods}
 \centering\scriptsize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}lp{0.70\columnwidth}c@{}}
+\begin{tabular}{@{}lp{0.74\columnwidth}c@{}}
 \toprule
-Method & Score of a cell & Lidar \\
+Layer & Score of a cell & L \\
 \midrule
-DET (ours) & Logistic model on slope, convexity, slope break and local relief, trained on 60\,000 synthetic straight crested dune profiles per posting & no \\
-DET-cal & DET recalibrated by logistic regression~\cite{platt1999} & yes \\
-SLOPE & Coarse Horn slope, the input of a slope costmap & no \\
-TRI & Terrain ruggedness index~\cite{riley1999} & no \\
-ROUGH & RMS residual of a plane fitted to the $3\times3$ cells, as in GESTALT~\cite{goldberg2002} & no \\
-BICUBIC & Steepest slope after cubic spline interpolation to 1\,m & no \\
-GBM & Gradient boosted trees~\cite{ke2017,pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, DET features) & yes \\
-CNN & Fully convolutional network~\cite{paszke2019}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016} & yes \\
+Slope & Horn slope of the coarse surface, the input of a slope costmap & \\
+Ruggedness & Terrain ruggedness index~\cite{riley1999} over the 8 neighbours & \\
+Roughness & RMS residual of a plane fitted to $3\times3$ cells, as in GESTALT~\cite{goldberg2002} & \\
+Aspect rule & Slope times agreement of the cell's downslope azimuth with the dominant face direction of the site (from the coarse map) & \\
+Interpolation & Steepest slope after cubic spline interpolation of the coarse surface to 1\,m & \\
+Super resolution & Steepest slope of a 5\,m surface predicted by a dilated residual network from the interpolated 30\,m surface & yes \\
+Detector & Logistic model on slope, convexity, slope break and relief, trained on 60\,000 synthetic straight crested dune profiles sampled at the cell size & \\
+Boosting & Gradient boosted trees~\cite{pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, detector features); variants with 5 more features (Boosting+), tuned by nested leave one site out, and without the detector features & yes \\
+Network & Fully convolutional network~\cite{long2015fully}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016}, 1500 or 6000 steps & yes \\
++ imagery & Boosting on the terrain features plus Sentinel-2 or NAIP features (band means, brightness, contrast, shadow share); also imagery alone & yes \\
 \bottomrule
 \end{tabular}
 \end{table}
