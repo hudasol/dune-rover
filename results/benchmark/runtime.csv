@@ -1,0 +1,3 @@
+site,input,grid,area_km2,assess_s,routes_100_s,machine
+Kelso,I30,90 x 120,9.7,0.21,0.19,"x86_64, 1 thread(s)"
+Kelso,I10,270 x 360,9.7,2.26,2.22,"x86_64, 1 thread(s)"
