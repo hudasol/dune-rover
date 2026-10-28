@@ -1,0 +1,11 @@
+{
+ "correlogram_range_m": {
+  "Dumont": 870,
+  "WhiteSands": 30,
+  "Kelso": 120,
+  "GreatSandDunes": 90,
+  "Algodones": 60,
+  "LittleSahara": 30
+ },
+ "block_m_used_for_sensitivity": 870
+}
