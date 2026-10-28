@@ -51,7 +51,7 @@ def pc(x, nd=0):
 
 def pts(x):
     v = rnd(100 * float(x), 0)
-    return f"{v:+.0f}" if v != 0 else "0"
+    return (f"+{v:.0f}" if v > 0 else f"$-${-v:.0f}") if v != 0 else "0"
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -208,6 +208,9 @@ def values():
         for r in read(p):
             k = key("ps", r["endpoints"], r["input"], r["layer"], r["min_patch_posts"]) + ("_nd" if r["without_dumont"] == "True" else "")
             V[k] = pc(r["mission_success"])
+        A = {(r["endpoints"], r["input"], r["layer"], r["min_patch_posts"], r["without_dumont"]): float(r["mission_success"]) for r in read(p)}
+        for inp in ("I10", "I30"):
+            V[f"ps_gain_{inp}_300"] = f"{rnd(round(100 * (A[('E1', inp, 'BICUBIC-cal', '300', 'False')] - A[('E1', inp, 'none', '300', 'False')]), 6), 0):.0f}"
     p = os.path.join(S29, "b_planning.csv")
     if os.path.exists(p):
         for r in read(p):
@@ -225,6 +228,15 @@ def values():
             k = key("los", r["layer"])
             V[k] = pc(r["success"]); V[k + "_unsafe"] = pc(r["unsafe"]); V[k + "_start"] = pc(r["stuck_at_start"])
             V[k + "_after"] = pc(r["stuck_after_replans"]); V[k + "_gaveup"] = pc(r["gave_up"]); V[k + "_replans"] = f"{float(r['replans']):.0f}"
+            if r.get("diff_vs_slip_only", "") not in ("", None):
+                V[k + "_d"] = pts(r["diff_vs_slip_only"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
+                V[k + "_sitespos"] = WORDS[int(r["sites_positive"])]
+    p = os.path.join(S29, "g_closed_loop_failures_radius.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("fb", r["endpoints"], r["input"], r["layer"])
+            for c in ("pairs", "reached", "stuck_at_start", "stuck_after_replans", "gave_up", "unsafe"):
+                V[k + "_" + c.replace("_", "")] = r[c]
     p = os.path.join(S29, "e_survey_coverage.csv")
     if os.path.exists(p):
         E = read(p)

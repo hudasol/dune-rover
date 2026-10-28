@@ -4,7 +4,7 @@ Small wheeled ground robots are proposed for survey, inspection and search in sa
 That a coarse grid understates slope is long known~\cite{zhang1994}. What is not known is how much this matters for a planner, which hazard layer a practitioner should compute from a coarse map, how fine a map must be, and whether imagery, a different product or onboard sensing change the answer. This paper answers these questions with a benchmark on six North American dune fields where one metre airborne lidar provides the truth.
 
 The contributions are:
-(1) a benchmark that scores hazard layers against a lidar face map whose meaning is the same at every resolution, on idealised surfaces from 2 to 60\,m, on three real elevation products on their own grids, and with Sentinel-2 and NAIP imagery;
-(2) a comparison of ten families of hazard layers, from slope and interpolation to boosted trees, a convolutional network, learned super resolution and imagery fusion, with every learned layer trained leave one site out;
-(3) a planning evaluation in which each planned layer is used at the operating point chosen on the other sites, routes are scored on the lidar, the face map oracle is degraded by position errors and simulated surveys, and a closed loop adds onboard sensing; and
-(4) a scaling result, detection skill against face length over grid spacing, that relates the survey resolution a field needs to the size of its faces.
+(1) a benchmark that scores hazard layers against a lidar face map whose meaning is the same at every resolution, on surfaces from 2 to 60\,m, on three real elevation products and with Sentinel-2 and NAIP imagery;
+(2) a comparison of ten families of hazard layers, every learned layer trained leave one site out;
+(3) a planning evaluation at operating points chosen on the other sites, with degraded face maps and a closed loop with onboard sensing; and
+(4) a scaling result, detection skill against face length over grid spacing.

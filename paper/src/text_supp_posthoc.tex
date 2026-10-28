@@ -1,0 +1,7 @@
+These checks were decided after a second review of the paper and are post hoc (stage 29 of the log).
+
+\textit{Larger faces.} Scored only on face patches of at least 300 posts, the slip model alone succeeds on {{VAL:ps_E1_I30_none_300}} of the 30\,m routes and interpolation on {{VAL:ps_E1_I30_BICUBICcal_300}}; on 10\,m maps the values are {{VAL:ps_E1_I10_none_300}} and {{VAL:ps_E1_I10_BICUBICcal_300}}. Without Dumont, whose window holds rocky hills, the 30\,m values are {{VAL:ps_E1_I30_none_300_nd}} and {{VAL:ps_E1_I30_BICUBICcal_300_nd}}. The gap between 10 and 30\,m is therefore not only a matter of small steep patches.
+
+\textit{Survey face maps.} The face maps from simulated surveys fail because the 28\,degree rule misses faces on a coarser grid: the 2\,m survey marks {{VAL:cov2_min}} to {{VAL:cov2_max}} of the face patch posts, depending on the site, and the 5\,m survey {{VAL:cov5_min}} to {{VAL:cov5_max}}, below 60\,\% at {{VAL:cov5_below60}} sites.
+
+\textit{GLO-30 and dune migration.} No shift was applied to GLO-30. At Dumont and Kelso, where it matches the lidar without shift, interpolation of GLO-30 on its own grid reaches an AUC of {{VAL:mig_det_BICUBIC_still}}, against {{VAL:mig_det_BICUBIC_other}} at the other four sites, so dune migration since the TanDEM-X acquisitions, not only the posting, limits GLO-30. Planning on GLO-30 stays close to the slip model alone at both groups of sites ({{VAL:mig_plG30_GBM_still}} with boosting against {{VAL:mig_plG30_none_still}} at Dumont and Kelso).
