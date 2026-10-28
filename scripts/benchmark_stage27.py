@@ -540,7 +540,7 @@ def part_E(D):
 def part_F(D):
     import torch, torch.nn as nn
     from dunerover import benchmark_cnn as C
-    torch.set_num_threads(2)
+    torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "2")))
     K = 6        # 30 m to 5 m
 
     def inp_channels(zb):
