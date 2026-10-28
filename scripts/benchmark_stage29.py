@@ -307,6 +307,17 @@ def summary_d():
                     "stuck_after_replans": round(sum(r["status"] == "stuck" and r["replans"] != "0" for r in rr) / n, 4),
                     "gave_up": round(sum(r["status"] == "gave_up" for r in rr) / n, 4),
                     "replans": round(float(np.mean([float(r["replans"]) for r in rr])), 2)})
+        # difference in success against the slip model prior, pair by pair, with the two stage interval of stage 28
+        base = {(r["site"], r["pair"]): float(r["success"] == "True") for r in rows if r["layer"] == "none"}
+        mine = {(r["site"], r["pair"]): float(r["success"] == "True") for r in rr}
+        d = [[mine[k] - base[k] for k in base if k[0] == s and k in mine] for s in SITES]
+        d = [x for x in d if x]
+        if lay != "none" and d:
+            lo, hi = S28.two_stage(d)
+            out[-1].update({"diff_vs_slip_only": round(float(np.mean(sum(d, []))), 4), "diff_lo": round(lo, 4), "diff_hi": round(hi, 4),
+                            "sites_positive": sum(np.mean(x) > 0 for x in d)})
+        else:
+            out[-1].update({"diff_vs_slip_only": "", "diff_lo": "", "diff_hi": "", "sites_positive": ""})
     write(os.path.join(OUT, "d_closed_loop_line_of_sight.csv"), out)
 
 
