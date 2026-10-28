@@ -26,3 +26,6 @@ a LittleSahara: 36 s
 part a done in 388 s (00:16:55)
 stage 29 b on Dumont,WhiteSands,Kelso started 2026-10-29 00:16:56
 d Kelso FACEMAP: 130 s
+d GreatSandDunes none: 153 s
+b Dumont I5: 240 s
+b Dumont I30: 250 s
