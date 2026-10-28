@@ -1,0 +1,73 @@
+site,input,label,method,cells,prevalence,auc,ap,chosen
+Dumont,I10,L-ANY,GBM,144000,0.3561,0.9817,0.9711,
+WhiteSands,I10,L-ANY,GBM,63000,0.1466,0.985,0.9222,
+Kelso,I10,L-ANY,GBM,97200,0.1452,0.9648,0.8642,
+GreatSandDunes,I10,L-ANY,GBM,148000,0.1589,0.9809,0.9304,
+Algodones,I10,L-ANY,GBM,200000,0.0967,0.9707,0.824,
+LittleSahara,I10,L-ANY,GBM,64000,0.1066,0.9245,0.6544,
+Dumont,I10,L-ANY,GBM-noDET,144000,0.3561,0.9812,0.9707,
+WhiteSands,I10,L-ANY,GBM-noDET,63000,0.1466,0.9846,0.92,
+Kelso,I10,L-ANY,GBM-noDET,97200,0.1452,0.9634,0.8617,
+GreatSandDunes,I10,L-ANY,GBM-noDET,148000,0.1589,0.98,0.9284,
+Algodones,I10,L-ANY,GBM-noDET,200000,0.0967,0.9702,0.8206,
+LittleSahara,I10,L-ANY,GBM-noDET,64000,0.1066,0.9235,0.652,
+Dumont,I10,L-ANY,GBM+,144000,0.3561,0.9832,0.9604,
+WhiteSands,I10,L-ANY,GBM+,63000,0.1466,0.9863,0.9266,
+Kelso,I10,L-ANY,GBM+,97200,0.1452,0.9735,0.8914,
+GreatSandDunes,I10,L-ANY,GBM+,148000,0.1589,0.985,0.9444,
+Algodones,I10,L-ANY,GBM+,200000,0.0967,0.9769,0.8554,
+LittleSahara,I10,L-ANY,GBM+,64000,0.1066,0.9379,0.7021,
+Dumont,I10,L-ANY,GBM-tuned,144000,0.3561,0.9819,0.9716,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 63, ""max_iter"": 200}"
+WhiteSands,I10,L-ANY,GBM-tuned,63000,0.1466,0.9852,0.9238,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 63, ""max_iter"": 200}"
+Kelso,I10,L-ANY,GBM-tuned,97200,0.1452,0.9654,0.8664,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 63, ""max_iter"": 600}"
+GreatSandDunes,I10,L-ANY,GBM-tuned,148000,0.1589,0.9813,0.9315,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 63, ""max_iter"": 600}"
+Algodones,I10,L-ANY,GBM-tuned,200000,0.0967,0.9706,0.8219,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 600}"
+LittleSahara,I10,L-ANY,GBM-tuned,64000,0.1066,0.9252,0.6565,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 63, ""max_iter"": 200}"
+Dumont,I30,L-ANY,GBM,16000,0.4897,0.9523,0.9525,
+WhiteSands,I30,L-ANY,GBM,7000,0.402,0.7415,0.6815,
+Kelso,I30,L-ANY,GBM,10800,0.3787,0.7512,0.698,
+GreatSandDunes,I30,L-ANY,GBM,16359,0.3196,0.8738,0.8096,
+Algodones,I30,L-ANY,GBM,22078,0.2725,0.8323,0.6893,
+LittleSahara,I30,L-ANY,GBM,6996,0.3536,0.7066,0.5689,
+Dumont,I30,L-ANY,GBM-noDET,16000,0.4897,0.9526,0.9527,
+WhiteSands,I30,L-ANY,GBM-noDET,7000,0.402,0.737,0.6773,
+Kelso,I30,L-ANY,GBM-noDET,10800,0.3787,0.7545,0.7011,
+GreatSandDunes,I30,L-ANY,GBM-noDET,16359,0.3196,0.8732,0.8087,
+Algodones,I30,L-ANY,GBM-noDET,22078,0.2725,0.8324,0.6891,
+LittleSahara,I30,L-ANY,GBM-noDET,6996,0.3536,0.7052,0.5704,
+Dumont,I30,L-ANY,GBM+,16000,0.4897,0.9569,0.9581,
+WhiteSands,I30,L-ANY,GBM+,7000,0.402,0.7845,0.7315,
+Kelso,I30,L-ANY,GBM+,10800,0.3787,0.7702,0.7241,
+GreatSandDunes,I30,L-ANY,GBM+,16359,0.3196,0.8946,0.8476,
+Algodones,I30,L-ANY,GBM+,22078,0.2725,0.8479,0.7188,
+LittleSahara,I30,L-ANY,GBM+,6996,0.3536,0.7214,0.5902,
+Dumont,I30,L-ANY,GBM-tuned,16000,0.4897,0.9523,0.9522,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 200}"
+WhiteSands,I30,L-ANY,GBM-tuned,7000,0.402,0.7392,0.6857,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 200}"
+Kelso,I30,L-ANY,GBM-tuned,10800,0.3787,0.7534,0.702,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 200}"
+GreatSandDunes,I30,L-ANY,GBM-tuned,16359,0.3196,0.8779,0.8167,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 200}"
+Algodones,I30,L-ANY,GBM-tuned,22078,0.2725,0.8344,0.6857,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 200}"
+LittleSahara,I30,L-ANY,GBM-tuned,6996,0.3536,0.7084,0.5703,"{""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""max_iter"": 200}"
+Dumont,I30,L-ANY,CNN-long,16000,0.4897,0.9559,0.956,
+WhiteSands,I30,L-ANY,CNN-long,7000,0.402,0.795,0.7449,
+Kelso,I30,L-ANY,CNN-long,10800,0.3787,0.7882,0.7333,
+GreatSandDunes,I30,L-ANY,CNN-long,16359,0.3196,0.8998,0.8454,
+Algodones,I30,L-ANY,CNN-long,22078,0.2725,0.8676,0.7491,
+LittleSahara,I30,L-ANY,CNN-long,6996,0.3536,0.7232,0.609,
+Dumont,G30,L-ANY,GBM,16000,0.4897,0.9309,0.9206,
+WhiteSands,G30,L-ANY,GBM,7000,0.402,0.6535,0.574,
+Kelso,G30,L-ANY,GBM,10800,0.3787,0.6748,0.5964,
+GreatSandDunes,G30,L-ANY,GBM,16359,0.3196,0.7102,0.5378,
+Algodones,G30,L-ANY,GBM,22078,0.2725,0.7213,0.5266,
+LittleSahara,G30,L-ANY,GBM,6996,0.3536,0.6297,0.4796,
+Dumont,G30,L-ANY,GBM-noDET,16000,0.4897,0.9314,0.9179,
+WhiteSands,G30,L-ANY,GBM-noDET,7000,0.402,0.6647,0.5917,
+Kelso,G30,L-ANY,GBM-noDET,10800,0.3787,0.6754,0.5967,
+GreatSandDunes,G30,L-ANY,GBM-noDET,16359,0.3196,0.7102,0.5348,
+Algodones,G30,L-ANY,GBM-noDET,22078,0.2725,0.7306,0.532,
+LittleSahara,G30,L-ANY,GBM-noDET,6996,0.3536,0.6291,0.4782,
+Dumont,G30,L-ANY,GBM+,16000,0.4897,0.9377,0.9307,
+WhiteSands,G30,L-ANY,GBM+,7000,0.402,0.6638,0.5753,
+Kelso,G30,L-ANY,GBM+,10800,0.3787,0.6818,0.6014,
+GreatSandDunes,G30,L-ANY,GBM+,16359,0.3196,0.7103,0.5376,
+Algodones,G30,L-ANY,GBM+,22078,0.2725,0.7288,0.5499,
+LittleSahara,G30,L-ANY,GBM+,6996,0.3536,0.6232,0.4795,
