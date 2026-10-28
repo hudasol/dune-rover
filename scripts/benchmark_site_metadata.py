@@ -15,6 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "src")); sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import benchmark_detection as BD  # noqa: E402
 
+
 def get(url):
     with urllib.request.urlopen(url, timeout=60) as r:
         return json.load(r)
