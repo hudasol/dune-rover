@@ -184,7 +184,7 @@ B.~K.~P. Horn, ``Hill shading and the reflectance map,'' \emph{Proceedings of
 \bibitem{usgs3dep13}
 \BIBentryALTinterwordspacing
 {U.S. Geological Survey}, ``1/3 arc second digital elevation models, {3D}
-  {Elevation} {Program},'' Dataset, The National Map, retrieved October 2026,
+  {Elevation} {Program},'' Dataset, The National Map, 2026, accessed October
   2026. [Online]. Available: \url{https://apps.nationalmap.gov/downloader/}
 \BIBentrySTDinterwordspacing
 
@@ -205,8 +205,8 @@ M.~Drusch, U.~Del~Bello, S.~Carlier, O.~Colin, V.~Fernandez, F.~Gascon,
 \bibitem{naip}
 \BIBentryALTinterwordspacing
 {U.S. Department of Agriculture, Farm Service Agency}, ``National agriculture
-  imagery program ({NAIP}),'' Dataset, retrieved October 2026 through the
-  Microsoft Planetary Computer, 2026. [Online]. Available:
+  imagery program ({NAIP}),'' Dataset, through the Microsoft Planetary
+  Computer, 2026, accessed October 2026. [Online]. Available:
   \url{https://naip-usdaonline.hub.arcgis.com/}
 \BIBentrySTDinterwordspacing
 
@@ -217,6 +217,10 @@ D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
   strategies for data with temporal, spatial, hierarchical, or phylogenetic
   structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
 
+\bibitem{wong2008}
+J.~Y. Wong, \emph{Theory of Ground Vehicles}, 4th~ed.\hskip 1em plus 0.5em
+  minus 0.4em\relax Wiley, 2008.
+
 \bibitem{kunsch1989}
 H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
   observations,'' \emph{The Annals of Statistics}, vol.~17, no.~3, pp.
@@ -225,8 +229,8 @@ H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
 \bibitem{holm1979}
 \BIBentryALTinterwordspacing
 S.~Holm, ``A simple sequentially rejective multiple test procedure,''
-  \emph{Scandinavian Journal of Statistics}, vol.~6, pp. 65--70, 1979.
-  [Online]. Available: \url{https://zbmath.org/3624650}
+  \emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp. 65--70, 1979.
+  [Online]. Available: \url{https://www.jstor.org/stable/4615733}
 \BIBentrySTDinterwordspacing
 
 \bibitem{platt1999}
