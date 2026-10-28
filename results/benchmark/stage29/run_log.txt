@@ -29,3 +29,19 @@ d Kelso FACEMAP: 130 s
 d GreatSandDunes none: 153 s
 b Dumont I5: 240 s
 b Dumont I30: 250 s
+d GreatSandDunes GBM: 304 s
+b WhiteSands I5: 153 s
+b WhiteSands I30: 157 s
+d GreatSandDunes FACEMAP: 403 s
+d Algodones none: 84 s
+d Algodones GBM: 163 s
+b Kelso I5: 197 s
+b Kelso I30: 204 s
+part b done in 632 s (00:27:28)
+stage 29 b on GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:27:34
+d Algodones FACEMAP: 214 s
+d LittleSahara none: 46 s
+d LittleSahara GBM: 82 s
+d LittleSahara FACEMAP: 102 s
+part d done in 1139 s (00:29:29)
+stage 29 c on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 00:29:30

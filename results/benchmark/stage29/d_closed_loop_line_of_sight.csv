@@ -1,0 +1,4 @@
+layer,pairs,success,unsafe,stuck_at_start,stuck_after_replans,gave_up,replans,diff_vs_slip_only,diff_lo,diff_hi,sites_positive
+none,120,0.3,0.65,0.0167,0.1667,0.0,21.38,,,,
+GBM,120,0.4167,0.55,0.0167,0.1333,0.0,12.87,0.1167,0.025,0.2083,6
+FACEMAP,120,0.7417,0.225,0.0167,0.1,0.0,4.21,0.4417,0.25,0.625,6
