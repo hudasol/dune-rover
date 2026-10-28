@@ -1,0 +1,10 @@
+profile,endpoints,input,pairs,routed,mission_success,success_footprint,unsafe_of_routed,unsafe_fp_of_routed,m_on_face_per_km,length_ratio,unsafe_descent_only
+published-posterior,E1,I10,600,1.0,0.1667,0.135,0.8333,0.865,12.58,1.297,0.11
+published-posterior,E1,I30,600,1.0,0.075,0.065,0.925,0.935,32.88,1.19,0.0234
+published-posterior,E1,G30,600,0.9983,0.055,0.0467,0.9449,0.9533,42.19,1.185,0.0247
+published-posterior,E2,I10,600,0.9883,0.0883,0.0583,0.9106,0.941,13.69,1.259,0.0778
+published-posterior,E2,I30,600,0.9967,0.025,0.0183,0.9749,0.9816,36.73,1.165,0.0051
+published-posterior,E2,G30,600,0.9983,0.02,0.015,0.98,0.985,45.64,1.16,0.0153
+assumed,E1,I10,600,1.0,0.1467,0.1267,0.8533,0.8733,23.79,1.069,0.0879
+assumed,E1,I30,600,1.0,0.0617,0.0567,0.9383,0.9433,49.89,1.057,0.0213
+assumed,E1,G30,600,1.0,0.0483,0.045,0.9517,0.955,57.47,1.056,0.0175
