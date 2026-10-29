@@ -72,6 +72,9 @@ def det_rows():
                 if f == "H_metrics.csv" and r["method"] == "SLOPE":
                     continue
                 rows.append(r)
+    p = os.path.join(S30, "e_imagery_cnn_detection_by_site.csv")       # stage 30, post hoc
+    if os.path.exists(p):
+        rows += read(p)
     return rows
 
 
@@ -274,6 +277,8 @@ def values():
             V[k + "_feas"] = pc(r["feasible_share_of_successes"]); V[k + "_infeas"] = pc(1 - float(r["feasible_share_of_successes"]))
             V[k + "_facekm"] = f"{rnd(float(r['face_m_per_km']), 1):.1f}"; V[k + "_entkm"] = f"{rnd(float(r['entries_per_km']), 1):.1f}"
         B_ = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)}
+        comp = [float(B_[("E1", "I30", l)]["vehicle_success"]) for l in ("DET", "BICUBIC-cal", "GBM", "DEM+S2") if ("E1", "I30", l) in B_]
+        V["vb_E1_I30_maxcomp"] = pc(max(comp))
         for e in ("E1", "E2"):
             for inp in ("I10", "I30"):
                 for c in ("success_L60", "vehicle_success"):
@@ -341,9 +346,10 @@ def table_sites():
 
 
 DET_ROWS = [("SLOPE", "Slope"), ("TRI", "Ruggedness"), ("ROUGH", "Roughness"), ("ASPECT", "Aspect rule"), ("BICUBIC", "Interpolation"),
-            ("SR", "Super resolution$^{*}$"), ("DET", "Detector"), ("GBM", "Boosting$^{*}$"), ("GBM+", "Boosting+$^{*}$"), ("GBM-tuned", "Boosting, tuned$^{*}$"),
+            ("SR", "Super resolution$^{*}$"), ("DET", "Detector"), ("GBM", "Boosting$^{*}$"), ("GBM+", "Boosting+$^{*}$"),
             ("CNN", "Network$^{*}$"), ("CNN-long", "Network, 6000 steps$^{*}$"), ("IMG-S2", "Sentinel-2 only$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"),
-            ("IMG-NAIP", "NAIP only$^{*}$"), ("DEM+NAIP", "Boosting + NAIP$^{*}$")]
+            ("IMG-NAIP", "NAIP only$^{*}$"), ("DEM+NAIP", "Boosting + NAIP$^{*}$"),
+            ("IMG-CNN-S2", "Sentinel-2 network$^{*\\ddagger}$"), ("IMG-CNN-NAIP", "NAIP network$^{*\\ddagger}$")]
 DET_COLS = [("I10", "I10"), ("I30", "I30"), ("I10to30", r"I10$\rightarrow$30"), ("R10", "R10"), ("N30", "N30"), ("G30n", "G30")]
 
 
@@ -354,7 +360,7 @@ def table_detection():
         mean.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     best = {c: f2(max(np.mean(v) for (i, m), v in mean.items() if i == c)) for c, _ in DET_COLS if any(i == c for i, _ in mean)}
     g30i = {r["method"]: f2(r["auc"]) for f in ("A_macro.csv", "F_macro.csv") for r in read(os.path.join(S27, f)) if r["input"] == "G30" and r["label"] == "L-ANY" and r["method"] in ("CNN", "SR")}
-    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, resampled by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the network and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"). $^{*}$Trained on the lidar of the other five sites. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
+    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, resampled by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the network and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"). $^{*}$Trained on the lidar of the other five sites. $^{\ddagger}$Post hoc, pixel level. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
          r"\label{tab:detection}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.8pt}", r"\begin{tabular}{@{}l" + "c" * len(DET_COLS) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in DET_COLS) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
@@ -373,14 +379,14 @@ def table_detection():
     return "\n".join(L)
 
 
-PLAN_LAYERS = [("none", "Slip model only"), ("SLOPE-cal", "Slope"), ("BICUBIC-cal", "Interpolation"), ("DET", "Detector"), ("DET-cal", "Detector, recalibrated"),
+PLAN_LAYERS = [("none", "Slip model only"), ("SLOPE-cal", "Slope"), ("BICUBIC-cal", "Interpolation"), ("DET", "Detector"),
                ("GBM", "Boosting$^{*}$"), ("CNN", "Network$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"), ("FACEMAP", "Face map (oracle)")]
 PLAN_COLS = [("E1", "I10"), ("E2", "I10"), ("E1", "I30"), ("E2", "I30"), ("E1", "G30")]
 DEGRADED = [("FACEMAP", "Face map, $w=5$"), ("shift5", "Face map 5\\,m off"), ("shift10", "Face map 10\\,m off"), ("shift30", "Face map 30\\,m off"),
             ("survey2", "Face map from 2\\,m survey"), ("survey5", "Face map from 5\\,m survey")]
 
 
-def table_planning():
+def table_planning(degraded=False):
     H = read(os.path.join(S28, "A_held_out.csv"))
     N = read(os.path.join(S28, "A_naive.csv"))
     C = read(os.path.join(S28, "C_degraded.csv")) if os.path.exists(os.path.join(S28, "C_degraded.csv")) else []
@@ -395,12 +401,12 @@ def table_planning():
             return NA
         s = f"{rnd(100 * float(r['mission_success'])):.0f}"
         return s + ("$^{\\dagger}$" if float(r["diff_lo"]) > 0 else "")
-    L = [r"\begin{table}[t]", r"\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero (not corrected for the number of cells). Lower part, a second protocol: face maps degraded as registered, weight policy at a fixed $w=5$. $\cdot$ not run. $^{*}$Trained leave one site out.}",
+    L = [r"\begin{table}[t]", r"\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero (not corrected for the number of cells). " + (r"Lower part, a second protocol: face maps degraded as registered, weight policy at a fixed $w=5$. " if degraded else "") + r"$\cdot$ not run. $^{*}$Trained leave one site out.}",
          r"\label{tab:planning}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\", r"Layer & E1 & E2 & E1 & E2 & E1 \\", r"\midrule"]
     for lay, lab in PLAN_LAYERS:
         L.append(f"{lab} & " + " & ".join(ho(e, i, lay) for e, i in PLAN_COLS) + r" \\")
-    if C:
+    if C and degraded:
         L.append(r"\midrule")
         for mp, lab in DEGRADED:
             cells = []
@@ -569,8 +575,8 @@ def table_persite():
 # render and build
 # ---------------------------------------------------------------------------------------------------------------------
 TABLES = {"sites": table_sites, "methods": lambda: open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip(),
-          "detection": table_detection, "planning": table_planning, "closedloop": table_closed_loop, "closedloop_los": table_closed_loop_los, "log": table_log, "persite": table_persite,
-          "glossary": table_glossary, "spread": table_spread}
+          "detection": table_detection, "planning": table_planning, "planning_degraded": lambda: table_planning(True).replace("\\begin{table}[t]", "\\begin{table}[H]").replace("tab:planning", "tab:planning_s"), "closedloop": table_closed_loop, "closedloop_los": table_closed_loop_los, "log": table_log, "persite": table_persite,
+          "glossary": table_glossary, "methods_supp": lambda: re.sub(r"~?\\cite\{[^}]*\}", "", open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip()).replace("\\begin{table}[t]", "\\begin{table}[H]").replace("tab:methods", "tab:methods_s"), "spread": table_spread}
 
 
 def render(template, V) -> str:

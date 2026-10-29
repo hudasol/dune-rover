@@ -12,7 +12,7 @@ Ruggedness & Terrain ruggedness index~\cite{riley1999} over the 8 neighbours & \
 Roughness & Root mean square residual of a plane fitted to $3\times3$ cells, as in GESTALT~\cite{goldberg2002} & \\
 Aspect rule & Slope times agreement of the cell's downslope azimuth with the dominant face direction of the site (from the coarse map) & \\
 Interpolation & Steepest slope after cubic spline interpolation of the coarse surface to 1\,m & \\
-Super resolution & Steepest slope of a 5\,m surface predicted by a dilated network~\cite{yu2016} as a residual~\cite{he2016resnet} of the interpolated 30\,m surface & yes \\
+Super resolution & Steepest slope of a 5\,m surface predicted by a dilated network~\cite{yu2016} as a residual of the interpolated 30\,m surface & yes \\
 Detector & Logistic model on slope, convexity, slope break and relief, trained on 60\,000 synthetic straight crested dune profiles sampled at the cell size & \\
 Boosting & Gradient boosted trees~\cite{friedman2001,ke2017,pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, detector features); variants with 5 more features (Boosting+), tuned by nested leave one site out, and without the detector features & yes \\
 Network & Fully convolutional network~\cite{long2015fully}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016}, trained with Adam~\cite{kingma2015adam} for 1500 or 6000 steps & yes \\

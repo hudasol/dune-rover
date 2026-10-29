@@ -7,3 +7,7 @@
 \textit{Statistics.} {{VAL:supp_stats}}
 
 \textit{Scoring details.} Counting a face within one post of the route (a vehicle footprint) raises the unsafe share of slip only routes at 30\,m from {{VAL:nv_post_E1_I30_unsafe1}} to {{VAL:nv_post_E1_I30_unsafefp1}}; {{VAL:nv_post_E1_I30_desc}} of the unsafe slip only routes touch faces only while descending the fall line, which some vehicles might survive; and the 28\,degree descent rule removes at most {{VAL:descent_publ_I30_max}} of the graph edges on the 30\,m grid, so it hardly acts there.
+
+\textit{Spatial correlation.} The labels are spatially correlated over {{VAL:corr_range_min}} to {{VAL:corr_range_max}}\,m (the largest at Dumont, whose window holds rocky hills); with {{VAL:corr_block_m}}\,m blocks the per site intervals of slope and the detector still lie below interpolation at all six sites.
+
+\textit{Runtime.} On one core of a cloud x86 machine, assessing a {{VAL:rt_area}}\,km$^2$ window and planning 100 routes on it take {{VAL:rt_I30_assess}} and {{VAL:rt_I30_routes}}\,s at 30\,m.

@@ -129,7 +129,7 @@ def fig_teaser(site="GreatSandDunes", pair=3, crop=(1300, 3050, 1150, 3350)):
     r0, r1, c0, c1 = crop
     face_col, prior_col = "#C2185B", "#6A3D8F"
     violet = LinearSegmentedColormap.from_list("vi", ["#FBF3F6", "#C9B3E3", "#9C6ADE", "#4A2A66"])
-    fig = plt.figure(figsize=(7.1, 1.95))
+    fig = plt.figure(figsize=(7.1, 1.8))
     gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 1, 1.25], wspace=0.2)
     axs = [fig.add_subplot(gs[0, i]) for i in range(4)]
     ext1 = [0, z.shape[1], z.shape[0], 0]; ext30 = [0, shape[1] * 30, shape[0] * 30, 0]
