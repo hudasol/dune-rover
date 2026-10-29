@@ -754,3 +754,5 @@ Design (`scripts/fetch_benchmark_stage31.py`, `scripts/benchmark_stage31.py`, ou
 | Z31-11 | Mission success of the slip model alone on I30 (E1) is at least twice as high in the shortest tertile of pair distance as in the longest. | |
 
 Note on Z31-5 (appended before any stage 31 run, no prediction edited): the open loop held out value of FACEMAP on I10 (E1) is 84.3 %, not 84.0 %; the prediction is scored against 84.3 %.
+
+Amendment to stage 31 part f (appended before any UNET result was computed or seen, no prediction edited): a first run of part f was stopped during its first fold, with nothing written, because at about 0.36 s per step on the shared two cores the registered cap of 12000 steps could take up to two hours per fold. The cap is lowered to 6000 steps (validation every 500 steps, stop after four evaluations without improvement, as registered); parts a and b run first.

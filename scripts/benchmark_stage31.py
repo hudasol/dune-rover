@@ -372,7 +372,7 @@ def part_f(sites):
         t0 = time.time()
         trs = [s for s in SITES if s != held]
         vs = SITES[(SITES.index(held) + 1) % len(SITES)]
-        _, n_best, v_auc = unet_train([data[s] for s in trs if s != vs], 12000, val=data[vs])
+        _, n_best, v_auc = unet_train([data[s] for s in trs if s != vs], 6000, val=data[vs])   # cap amended from 12000 (register note)
         m, _, _ = unet_train([data[s] for s in trs], max(n_best, 500))
         np.save(npy, unet_predict(m, data[held][0]).astype(np.float32))
         json.dump({"validation_site": vs, "steps": n_best, "validation_auc": round(float(v_auc), 4)}, open(npy + ".json", "w"))
