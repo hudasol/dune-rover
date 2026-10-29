@@ -12,7 +12,7 @@
 \begin{document}
 \begin{center}
 {\large Supplementary material}\\[2pt]
-{\normalsize Slip Face Detection and Route Planning for Small Rovers on Sand Dunes, Tested Against Airborne Lidar}
+{\normalsize A Lidar Benchmark for Desert Rover Traversability: Slip Face Detection, Hazard Layers and Route Planning from Coarse Elevation Models on Active Sand Dunes}
 \end{center}
 
 \section*{S1. Prediction log}
@@ -148,11 +148,16 @@ Boosting + NAIP$^{*}$ & 0.93 to 0.98 & 0.76 to 0.96 & $\cdot$ & $\cdot$ & $\cdot
 \end{tabular}
 \end{table}
 
-\section*{S4. Example site}
+\section*{S4. Example site and the weight policy at every weight}
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_map.pdf}
 \caption{Kelso Dunes. (a) Hillshade of the one metre lidar with face patches (plum). (b) Face probability of the calibrated interpolation layer and (c) of boosting, both on the 30\,m block mean and trained or calibrated on the other five sites. (d) Routes on the 30\,m map between six of the E1 pairs: slip model only (dashed) and boosting with the weight policy, $w=100$ (solid), over the face patches.}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.62\textwidth]{figures/fig_frontier.pdf}
+\caption{Mission success of the weight policy against the risk weight $w$ for each hazard layer (E1 endpoints, posterior vehicle, 600 pairs). Dashed: the slip model alone. The face map is an upper bound that needs face information from fine data. $^{*}$Trained leave one site out.}
 \end{figure}
 
 \section*{S5. Notes on the runs}
