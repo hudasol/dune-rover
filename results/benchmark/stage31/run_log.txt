@@ -232,3 +232,5 @@ b LittleSahara I10 FACEMAP w=100: 22 s
 part b done in 4705 s (18:41:17)
 f UNET held out Dumont: validation WhiteSands AUC 0.865 at 1500 steps; 757 s
 f UNET held out WhiteSands: validation Kelso AUC 0.801 at 1000 steps; 649 s
+f UNET held out Kelso: validation GreatSandDunes AUC 0.893 at 1000 steps; 602 s
+stage 31 f on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 19:23:04
