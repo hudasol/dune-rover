@@ -1,0 +1,7 @@
+site,workpackage,method,collect_start,collect_end,window_share,same_as_truth_lidar,truth_lidar_project
+Dumont,CA_FEMAR9Southeast_D24,linear-mode lidar,2024-04-06,2025-09-06,1.0,True,CA_FEMAR9Southeast_D24
+WhiteSands,NM_WhiteSandsNM_2020_D20,linear-mode lidar,2020-01-18,2020-01-19,1.0,True,NM_WhiteSandsNM_2020_D20
+Kelso,CA_FEMAR9Southeast_D24,linear-mode lidar,2024-04-06,2025-09-06,1.0,True,CA_FEMAR9Southeast_D24
+GreatSandDunes,CO_SanLuisJuanMiguel_2020_D20,linear-mode lidar,2019-09-21,2020-10-04,1.0,True,CO_SanLuisJuanMiguel_2020_D20
+Algodones,CA_SaltonSea_EarthMRI_2021_D21,linear-mode lidar,2021-11-02,2023-08-04,1.0,True,CA_SaltonSea_EarthMRI_2021_D21
+LittleSahara,UT_StatewideCenSouth_2020_A20,linear-mode lidar,2020-09-20,2021-06-26,1.0,True,UT_StatewideCenSouth_2020_A20
