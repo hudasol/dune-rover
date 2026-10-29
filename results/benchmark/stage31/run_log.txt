@@ -115,3 +115,27 @@ a Algodones noise0.15 none: 98 s
 a Algodones noise0.15 BICUBIC-cal: 83 s
 a Algodones noise0.15 GBM: 96 s
 a Algodones noise0.15 FACEMAP: 64 s
+a Algodones obs0.8 none: 91 s
+a Algodones obs0.8 GBM: 95 s
+a Algodones obs0.8 FACEMAP: 62 s
+a LittleSahara eye0.5 none: 43 s
+a LittleSahara eye0.5 BICUBIC-cal: 33 s
+a LittleSahara eye0.5 GBM: 35 s
+a LittleSahara eye0.5 FACEMAP: 20 s
+a LittleSahara eye1.5 none: 42 s
+a LittleSahara eye1.5 BICUBIC-cal: 32 s
+a LittleSahara eye1.5 GBM: 38 s
+a LittleSahara eye1.5 FACEMAP: 21 s
+a LittleSahara noise0.05 none: 42 s
+a LittleSahara noise0.05 BICUBIC-cal: 35 s
+a LittleSahara noise0.05 GBM: 40 s
+a LittleSahara noise0.05 FACEMAP: 23 s
+a LittleSahara noise0.15 none: 57 s
+a LittleSahara noise0.15 BICUBIC-cal: 46 s
+a LittleSahara noise0.15 GBM: 44 s
+a LittleSahara noise0.15 FACEMAP: 32 s
+a LittleSahara obs0.8 none: 49 s
+a LittleSahara obs0.8 GBM: 40 s
+a LittleSahara obs0.8 FACEMAP: 27 s
+part a done in 7190 s (17:22:31)
+stage 31 b f on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 17:22:52
