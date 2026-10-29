@@ -255,6 +255,62 @@ def values():
             a = "det" if r["analysis"].startswith("detection") else ("plI30" if "I30" in r["analysis"] else "plG30")
             fmt = f2 if a == "det" else pc
             V[key("mig", a, r["layer"], "still")] = fmt(r["sites_without_shift"]); V[key("mig", a, r["layer"], "other")] = fmt(r["other_sites"])
+    # stage 30, post hoc checks after the third review
+    p = os.path.join(S30, "a_closed_loop_line_of_sight.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("lo", r["input"], r["endpoints"], r["layer"], "p" + r["p_detect"].replace(".", ""))
+            V[k] = pc(r["success"]); V[k + "_unsafe"] = pc(r["unsafe"]); V[k + "_replans"] = f"{float(r['replans']):.0f}"
+            V[k + "_start"] = pc(r["stuck_at_start"]); V[k + "_after"] = pc(r["stuck_after_replans"]); V[k + "_gaveup"] = pc(r["gave_up"])
+            if r["diff_vs_slip_only"] not in ("", None):
+                V[k + "_d"] = pts(r["diff_vs_slip_only"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
+                V[k + "_sitespos"] = WORDS[int(r["sites_positive"])]
+    p = os.path.join(S30, "b_vehicle_exposure_labels.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("vb", r["endpoints"], r["input"], r["layer"])
+            for c in ("mission_success", "vehicle_success", "success_H", "success_M", "success_L60"):
+                V[k + "_" + c.replace("_", "")] = pc(r[c])
+            V[k + "_feas"] = pc(r["feasible_share_of_successes"]); V[k + "_infeas"] = pc(1 - float(r["feasible_share_of_successes"]))
+            V[k + "_facekm"] = f"{rnd(float(r['face_m_per_km']), 1):.1f}"; V[k + "_entkm"] = f"{rnd(float(r['entries_per_km']), 1):.1f}"
+        B_ = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)}
+        for e in ("E1", "E2"):
+            for inp in ("I10", "I30"):
+                for c in ("success_L60", "vehicle_success"):
+                    for lay in ("BICUBIC-cal", "FACEMAP", "GBM", "DEM+S2", "DET"):
+                        if (e, inp, lay) in B_:
+                            V[key("vbd", e, inp, lay, c.replace("_", ""))] = pts(round(float(B_[(e, inp, lay)][c]) - float(B_[(e, inp, "none")][c]), 6))
+    p = os.path.join(S30, "b_label_stats.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("lab30", r["label"], "shortcount")] = pc(r["short_share_count"]); V[key("lab30", r["label"], "shortarea")] = pc(r["short_share_area"])
+            V[key("lab30", r["label"], "n")] = f"{int(r['patches']):,}".replace(",", "\\,")
+    p = os.path.join(S30, "b_detection_robust_labels.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("rl", r["label"], r["method"])] = f2(r["auc"])
+    p = os.path.join(S30, "c_glo30_shift_detection.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("gs", r["input"], r["method"])] = f2(r["auc"])
+    p = os.path.join(S30, "c_glo30_shift_planning.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("gsp", r["input"], r["layer"])] = pc(r["mission_success"])
+    p = os.path.join(S30, "d_extended_weight_grid.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("xw", r["endpoints"], r["input"], r["layer"])
+            V[k] = pc(r["weight_only_up_to_1000"]); V[k + "_100"] = pc(r["weight_only_up_to_100"])
+    p = os.path.join(S30, "e_imagery_cnn_detection.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("im", r["method"])] = f2(r["auc"])
+    p = os.path.join(S30, "e_imagery_cnn_planning.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("imp", r["endpoints"], r["layer"])
+            V[k] = pc(r["mission_success"]); V[k + "_d"] = pts(r["difference"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
     # prediction log tallies (stages 25 to 28)
     reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
     outs = re.findall(r"^\| (?:B25|P26|D27|P28)-\d+ \|[^\n]*\| (HIT|MISSED)\b", reg, flags=re.M)
