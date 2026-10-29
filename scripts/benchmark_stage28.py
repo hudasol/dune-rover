@@ -413,9 +413,11 @@ def summary():
 # ---------------------------------------------------------------------------------------------------------------------
 # E: closed loop with local sensing on a 5 m grid
 # ---------------------------------------------------------------------------------------------------------------------
-def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, margin=60, p_detect=1.0, seed=0):
+def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, margin=60, p_detect=1.0, seed=0,
+                sensed_face5=None, p_mode="pair"):
     """Global prior from the coarse assessment a (risk weighted, weight w, face probability h), local 5 m grid, sensing
-    radius R metres on the lidar face patches. Returns one dict per pair."""
+    radius R metres on the lidar face patches. Returns one dict per pair. Stage 31: sensed_face5 (5 m grid) replaces the
+    true face cells for sensing only (scoring stays on the truth); p_mode "observation" draws detection at every view."""
     from scipy.ndimage import zoom
     from scipy.sparse.csgraph import dijkstra
     from dunerover.dem import Dem
@@ -430,6 +432,7 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, ma
     cls5 = np.repeat(np.repeat(a.classes, f, 0), f, 1)[:nr, :nc]
     h5 = np.repeat(np.repeat(h, f, 0), f, 1)[:nr, :nc].astype(float)
     face5 = B.block(T["patch"], 5, "any")[:nr, :nc]
+    sface5 = face5 if sensed_face5 is None else sensed_face5[:nr, :nc]
     src, dst, cost = [], [], []
     for s, d, dist, ta, tc in zip(eg.src, eg.dst, eg.dist, eg.tan_a, eg.tan_c):
         c = edge_cost(dist, _slip(ta, tc, p), p.i_max)
@@ -456,10 +459,11 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, ma
         indptr = np.searchsorted(ls, np.arange(ncell + 1))
         known_face = np.zeros(ncell, bool); known_free = np.zeros(ncell, bool)
         allowed = allowed0.reshape(nr, nc)[r0:r1, c0:c1].ravel().copy()
-        hl = h5[r0:r1, c0:c1].ravel(); facel = face5[r0:r1, c0:c1].ravel()
+        hl = h5[r0:r1, c0:c1].ravel(); facel = sface5[r0:r1, c0:c1].ravel()
         RR, CC = rr_[r0:r1, c0:c1].ravel(), cc_[r0:r1, c0:c1].ravel()
         # stage 30: each face cell is detectable with probability p_detect, drawn once per pair (1.0: every face is seen)
-        detl = facel & (np.random.default_rng([seed, n]).random(ncell) < p_detect) if p_detect < 1.0 else facel
+        rng_obs = np.random.default_rng([seed, n])
+        detl = facel & (rng_obs.random(ncell) < p_detect) if (p_detect < 1.0 and p_mode == "pair") else facel
         cur = (s0[0] - r0) * lnc + (s0[1] - c0); goal = (g0[0] - r0) * lnc + (g0[1] - c0)
         allowed[cur] = True
 
@@ -471,7 +475,11 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, ma
                 idx = np.nonzero(near)[0]
                 vis = visibility(r + r0, c + c0, RR[idx], CC[idx])
                 near = np.zeros_like(near); near[idx[vis]] = True; near[cell] = True
-            known_face[near & detl] = True; known_free[near & ~detl] = True
+            if p_mode == "observation" and p_detect < 1.0:     # stage 31: a fresh draw at every view
+                hit = near & detl & (rng_obs.random(ncell) < p_detect)
+                known_face[hit] = True; known_free[near & ~hit & ~known_face] = True
+            else:
+                known_face[near & detl] = True; known_free[near & ~detl] = True
 
         def plan():
             ok = allowed[ls] & allowed[ld] & ~known_face[ld]
