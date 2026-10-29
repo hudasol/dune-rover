@@ -73,20 +73,43 @@ X29-2 & On I5 the best computable layer (BICUBIC-cal) at its held out operating 
 X29-3 & Neither SR nor CNN-long adds more than 10 points over naive on I30 (E1). & HIT. On I30 (E1) SR-cal reaches 12.2 \% against 7.5 \% for naive (plus 4.7 points, interval 2.0 to 7.5) and CNN-long 9.7 \% (plus 2.2 points, interval 0.0 to 4.7). \\
 X29-4 & With line of sight sensing, closed loop success on I30 with the naive prior is at least 10 points below that with radius sensing (80.0 \%), and at least one route touches a face. & HIT. With line of sight sensing (eye 1 m above the ground, R = 20 m, I30, E1, 120 pairs) success is 30.0 \% with the slip model prior, 50 points below radius sensing, and 65.0 \% of the pairs touch a face; with the boosting prior 41.7 \% (plus 11.7 points, two stage interval 2.5 to 20.8, higher at all six sites) and with the face map prior 74.2 \% (plus 44.2 points, interval 25.0 to 62.5). No pair exhausted the replan budget; 1.7 \% were stuck at the start and 10.0 to 16.7 \% stuck after replanning (\url{results/benchmark/stage29/d_closed_loop_line_of_sight.csv}). The interval and per site columns were added to the summary after the run. \\
 X29-5 & The 2 m survey covers at least 70 \% of the one metre face patch posts at every site, and the 5 m survey less than 60 \% at four or more sites. & MISSED. The 2 m survey covers 59 \% (Little Sahara) to 91 \% (Dumont) of the face patch posts, below 70 \% at Little Sahara; the 5 m survey covers less than 60 \% at four sites (White Sands 15 \%, Kelso 51 \%, Algodones 36 \%, Little Sahara 8 \%) and 73 to 78 \% at Great Sand Dunes and Dumont (\url{results/benchmark/stage29/e_survey_coverage.csv}). \\
-Y30-1 & With line of sight on I30 (E1), every computable prior stays below 55 \% success and FACEMAP stays at least 15 points above the best computable prior. &  \\
-Y30-2 & With line of sight on I30, success with the slip model prior is lower with E2 endpoints than with E1 endpoints. &  \\
-Y30-3 & With a detection probability of 0.8, line of sight success with the FACEMAP prior (I30, E1) falls by at least 5 points. &  \\
-Y30-4 & On I30 (E1), at least 10 \% of the routes that count as a mission success for the slip model only planner are infeasible for the vehicle on the 5 m lidar surface. &  \\
-Y30-5 & With hysteresis patches (H), the share of patches shorter than 30 m is below 60 \% by count (registered rule: about 75 \%). &  \\
-Y30-6 & Scored against long faces only (L of 60 m or more), BICUBIC-cal on I30 (E1) still adds at most 20 points over the slip model alone. &  \\
-Y30-7 & Applying the shift raises the macro AUC of BICUBIC on G30 by at least 0.03. &  \\
-Y30-8 & With weights up to 1000, held out mission success of BICUBIC-cal on I10 (E1) rises by at least 3 points over the registered 64.0 \%. &  \\
+Y30-1 & With line of sight on I30 (E1), every computable prior stays below 55 \% success and FACEMAP stays at least 15 points above the best computable prior. & HIT. With line of sight on I30 (E1, 120 pairs) success is 30.0 \% with the slip model prior, 34.2 \% DET, 48.3 \% BICUBIC-cal, 41.7 \% GBM, 48.3 \% DEM+S2, 47.5 \% SR-cal and 38.3 \% CNN-long, all below 55 \%, and 74.2 \% with FACEMAP, 25.8 points above the best computable prior. BICUBIC-cal, GBM, DEM+S2 and SR-cal are higher than the slip model prior at all six sites with two stage intervals above zero (BICUBIC-cal plus 18.3 points, 5.8 to 33.3) (\url{results/benchmark/stage30/a_closed_loop_line_of_sight.csv}). \\
+Y30-2 & With line of sight on I30, success with the slip model prior is lower with E2 endpoints than with E1 endpoints. & HIT, narrowly. With the slip model prior, success is 29.2 \% with E2 endpoints against 30.0 \% with E1 (35 against 36 of 120 pairs). With E2 endpoints no computable prior has an interval above zero (best GBM 38.3 \%, plus 9.2 points, minus 0.8 to plus 20.8); FACEMAP reaches 64.2 \%. \\
+Y30-3 & With a detection probability of 0.8, line of sight success with the FACEMAP prior (I30, E1) falls by at least 5 points. & HIT. With a detection probability of 0.8, FACEMAP prior success falls from 74.2 \% to 67.5 \% (6.7 points); the slip model prior falls from 30.0 \% to 11.7 \% and GBM from 41.7 \% to 20.8 \%. \\
+Y30-4 & On I30 (E1), at least 10 \% of the routes that count as a mission success for the slip model only planner are infeasible for the vehicle on the 5 m lidar surface. & HIT. On I30 (E1) the slip model only planner has 45 mission successes in 600 pairs (7.5 \%); 80.0 \% of them are feasible for the nominal posterior vehicle on the 5 m lidar surface, so 20.0 \% are not. Vehicle success (mission success and feasible) is 6.0 \% for the slip model, 6.8 \% for BICUBIC-cal and 17.3 \% for FACEMAP on I30, and 8.7 \%, 47.3 \% and 25.0 \% on I10; only 21 to 30 \% of the FACEMAP successes are feasible, because its routes go round faces over slopes the vehicle cannot climb (\url{results/benchmark/stage30/b_vehicle_exposure_labels.csv}). \\
+Y30-5 & With hysteresis patches (H), the share of patches shorter than 30 m is below 60 \% by count (registered rule: about 75 \%). & HIT. With hysteresis patches 50.5 \% of the 7931 patches are shorter than 30 m (registered rule: 75.3 \% of 14638; merged rule: 71.5 \% of 11783). By area the short patches hold only 7.3 \% of the face posts under the registered rule and 2.8 \% under the hysteresis rule (\url{b_label_stats.csv}). \\
+Y30-6 & Scored against long faces only (L of 60 m or more), BICUBIC-cal on I30 (E1) still adds at most 20 points over the slip model alone. & HIT. Scored against faces of 60 m or more only, BICUBIC-cal on I30 (E1) reaches 36.7 \% against 29.2 \% for the slip model alone (plus 7.5 points); on I10 79.7 \% against 37.7 \%. \\
+Y30-7 & Applying the shift raises the macro AUC of BICUBIC on G30 by at least 0.03. & MISSED. Applying the shift raises the macro AUC of BICUBIC on G30 only from 0.696 to 0.702 (SLOPE 0.649 to 0.659, DET 0.643 to 0.645), and planning with BICUBIC-cal on the shifted G30 gives 6.2 \% against 5.7 \% for the slip model (unshifted 6.5 \% against 5.5 \%) (\url{results/benchmark/stage30/c_glo30_shift_detection.csv}, \url{c_glo30_shift_planning.csv}). So a horizontal offset does not explain the weakness of GLO-30, and the stage 29 (f) contrast between sites with and without a shift probably reflects how hard the sites are. \\
+Y30-8 & With weights up to 1000, held out mission success of BICUBIC-cal on I10 (E1) rises by at least 3 points over the registered 64.0 \%. & MISSED. With the weight policy over w up to 1000, held out mission success of BICUBIC-cal on I10 (E1) is 66.2 \% against the registered 64.0 \% (plus 2.2 points); GBM rises from 58.7 \% to 64.5 \% and FACEMAP on I30 from 81.3 \% to 83.2 \%; on I30 no computable layer changes by more than 2 points (\url{d_extended_weight_grid.csv}). \\
 Y30-9 & IMG-CNN-NAIP reaches a macro AUC of at least 0.85 on I30. &  \\
 Y30-10 & IMG-CNN-NAIP adds at most 10 points of mission success over the slip model alone on I30 (E1). &  \\
 \bottomrule
 \end{longtable}
 
-\section*{S2. Names}
+\section*{S2. Hazard layers and names}
+\begin{table}[H]
+\caption{Hazard layers. L: trained on the lidar of the other five sites (leave one site out), on its face labels or, for super resolution, on its elevation. Every layer that is not a probability is calibrated by logistic regression on the other five sites when a planner needs one.}
+\label{tab:methods_s}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lp{0.74\columnwidth}c@{}}
+\toprule
+Layer & Score of a cell & L \\
+\midrule
+Slope & Horn slope of the coarse surface, the input of a slope costmap & \\
+Ruggedness & Terrain ruggedness index over the 8 neighbours & \\
+Roughness & Root mean square residual of a plane fitted to $3\times3$ cells, as in GESTALT & \\
+Aspect rule & Slope times agreement of the cell's downslope azimuth with the dominant face direction of the site (from the coarse map) & \\
+Interpolation & Steepest slope after cubic spline interpolation of the coarse surface to 1\,m & \\
+Super resolution & Steepest slope of a 5\,m surface predicted by a dilated network as a residual of the interpolated 30\,m surface & yes \\
+Detector & Logistic model on slope, convexity, slope break and relief, trained on 60\,000 synthetic straight crested dune profiles sampled at the cell size & \\
+Boosting & Gradient boosted trees on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, detector features); variants with 5 more features (Boosting+), tuned by nested leave one site out, and without the detector features & yes \\
+Network & Fully convolutional network, four $3\times3$ layers dilated by 1, 2, 4 and 8, trained with Adam for 1500 or 6000 steps & yes \\
++ imagery & Boosting on the terrain features plus Sentinel-2 or NAIP features (band means, brightness, contrast, shadow share); also imagery alone & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \begin{table}[H]
 \caption{Names used in the paper and in the result files.}
 \label{tab:glossary}
@@ -152,7 +175,6 @@ Super resolution$^{*}$ & $\cdot$ & 0.72 to 0.96 & $\cdot$ & $\cdot$ & $\cdot$ & 
 Detector & 0.90 to 0.97 & 0.64 to 0.86 & 0.89 to 0.98 & 0.90 to 0.97 & 0.50 to 0.73 & 0.46 to 0.84 \\
 Boosting$^{*}$ & 0.92 to 0.99 & 0.71 to 0.95 & 0.90 to 0.99 & 0.91 to 0.98 & 0.51 to 0.86 & 0.59 to 0.93 \\
 Boosting+$^{*}$ & 0.94 to 0.99 & 0.72 to 0.96 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
-Boosting, tuned$^{*}$ & 0.93 to 0.99 & 0.71 to 0.95 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
 Network$^{*}$ & 0.92 to 0.98 & 0.69 to 0.94 & 0.89 to 0.98 & $\cdot$ & $\cdot$ & $\cdot$ \\
 Network, 6000 steps$^{*}$ & $\cdot$ & 0.72 to 0.96 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
 Sentinel-2 only$^{*}$ & 0.62 to 0.76 & 0.66 to 0.84 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
@@ -186,13 +208,75 @@ Boosting + NAIP$^{*}$ & 0.93 to 0.98 & 0.76 to 0.96 & $\cdot$ & $\cdot$ & $\cdot
 
 \textit{Scoring details.} Counting a face within one post of the route (a vehicle footprint) raises the unsafe share of slip only routes at 30\,m from 92.5\,\% to 93.5\,\%; 2\,\% of the unsafe slip only routes touch faces only while descending the fall line, which some vehicles might survive; and the 28\,degree descent rule removes at most 0.05\,\% of the graph edges on the 30\,m grid, so it hardly acts there.
 
-\section*{S6. Post hoc checks}
-These checks were decided after a second review of the paper and are post hoc (stage 29 of the log).
+\textit{Spatial correlation.} The labels are spatially correlated over 30 to 870\,m (the largest at Dumont, whose window holds rocky hills); with 870\,m blocks the per site intervals of slope and the detector still lie below interpolation at all six sites.
 
-\textit{Larger faces.} Scored only on face patches of at least 300 posts, the slip model alone succeeds on 30\,\% of the 30\,m routes and interpolation on 43\,\%; on 10\,m maps the values are 39\,\% and 93\,\%. Without Dumont, whose window holds rocky hills, the 30\,m values are 31\,\% and 47\,\%. The gap between 10 and 30\,m is therefore not only a matter of small steep patches.
+\textit{Runtime.} On one core of a cloud x86 machine, assessing a 10\,km$^2$ window and planning 100 routes on it take 0.2 and 0.2\,s at 30\,m.
 
-\textit{Survey face maps.} The face maps from simulated surveys fail because the 28\,degree rule misses faces on a coarser grid: the 2\,m survey marks 59\,\% to 91\,\% of the face patch posts, depending on the site, and the 5\,m survey 8\,\% to 78\,\%, below 60\,\% at four sites.
+\section*{S6. Degraded face maps and post hoc checks}
+\begin{table}[H]
+\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero (not corrected for the number of cells). Lower part, a second protocol: face maps degraded as registered, weight policy at a fixed $w=5$. $\cdot$ not run. $^{*}$Trained leave one site out.}
+\label{tab:planning_s}
+\centering\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\
+Layer & E1 & E2 & E1 & E2 & E1 \\
+\midrule
+Slip model only & 17 & 9 & 8 & 3 & 6 \\
+Slope & 35$^{\dagger}$ & 28$^{\dagger}$ & 6 & 3 & 6 \\
+Interpolation & 64$^{\dagger}$ & 53$^{\dagger}$ & 13$^{\dagger}$ & 5 & 7 \\
+Detector & 50$^{\dagger}$ & 33$^{\dagger}$ & 7 & 4 & 5 \\
+Boosting$^{*}$ & 59$^{\dagger}$ & 47$^{\dagger}$ & 9 & 4 & 7 \\
+Network$^{*}$ & 51$^{\dagger}$ & 40$^{\dagger}$ & 6 & 3 & 7 \\
+Boosting + Sentinel-2$^{*}$ & 56$^{\dagger}$ & 46$^{\dagger}$ & 13$^{\dagger}$ & 7$^{\dagger}$ & $\cdot$ \\
+Face map (oracle) & 84$^{\dagger}$ & 80$^{\dagger}$ & 81$^{\dagger}$ & 68$^{\dagger}$ & 80$^{\dagger}$ \\
+\midrule
+Face map, $w=5$ & 81 & 71 & 55 & 40 & $\cdot$ \\
+Face map 5\,m off & 67 & 56 & 50 & 39 & $\cdot$ \\
+Face map 10\,m off & 36 & 26 & 43 & 32 & $\cdot$ \\
+Face map 30\,m off & 19 & 10 & 11 & 5 & $\cdot$ \\
+Face map from 2\,m survey & 29 & 19 & 23 & 14 & $\cdot$ \\
+Face map from 5\,m survey & 17 & 9 & 8 & 4 & $\cdot$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\textit{GLO-30 and dune migration.} No shift was applied to GLO-30. At Dumont and Kelso, where it matches the lidar without shift, interpolation of GLO-30 on its own grid reaches an AUC of 0.85, against 0.62 at the other four sites, so dune migration since the TanDEM-X acquisitions, not only the posting, limits GLO-30. Planning on GLO-30 stays close to the slip model alone at both groups of sites (14\,\% with boosting against 10\,\% at Dumont and Kelso).
+These checks were decided after the main results were known and are post hoc (stages 29 and 30 of the log).
+
+\textit{Larger faces by post count.} Scored only on face patches of at least 300 posts, the slip model alone succeeds on 30\,\% of the 30\,m routes and interpolation on 43\,\%; on 10\,m maps the values are 39\,\% and 93\,\%. Without Dumont, whose window holds rocky hills, the 30\,m values are 31\,\% and 47\,\%.
+
+\textit{Other face rules.} A hysteresis rule (posts of 25\,degrees or more, groups of at least 10 posts holding one post of 30\,degrees or more) gives 7\,931 patches against 14\,638 with the registered rule, and a rule that closes gaps of one post before grouping gives 11\,783. Mission success on I30 (E1) scored against these rules: slip model alone 6\,\% and 8\,\%, interpolation 9\,\% and 12\,\%.
+
+\textit{Exposure.} Metres on face patches per km of route on I30 (E1): slip model alone 32.9, interpolation 11.4, boosting with Sentinel-2 8.3, face map oracle 2.1; on I10 12.6, 1.0 and 0.3.
+
+\textit{Survey face maps.} The face maps from simulated surveys fail because the 28\,degree rule misses faces on a coarser grid: the 2\,m survey marks 59\,\% to 91\,\% of the face patch posts, depending on the site, and the 5\,m survey 8\,\% to 78\,\%, below 60\,\% at four sites. A survey face map needs a threshold calibrated for its own spacing.
+
+\textit{GLO-30 alignment and migration.} At Dumont and Kelso, where GLO-30 matches the lidar without shift, interpolation of GLO-30 on its own grid reaches an AUC of 0.85, against 0.62 at the other four sites. Applying the best shift at every site changes the mean AUC of interpolation only from 0.70 to 0.70, and planning with it from 7\,\% to 6\,\% (slip model alone 6\,\% and 6\,\%). The contrast between the two groups of sites therefore probably reflects how hard the sites are rather than misregistration.
+
+\textit{Extended weight grid.} With the weight policy over $w$ up to 1000, held out success on I10 (E1) is 66\,\% for interpolation (registered grid 64\,\%), 65\,\% for boosting (59\,\%), and on I30 83\,\% for the oracle (81\,\%); no computable layer on I30 changes by more than two points.
+
+\textit{Finer and learned inputs.} On 5\,m block means with weights up to 1000, interpolation reaches 86\,\% against 34\,\% for the slip model alone and the oracle 93\,\%. On 30\,m maps the best layers from elevation alone add little: super resolution +5 points (interval +2 to +8) and the network trained for 6000 steps +2.
+
+\textit{Displaced face maps.} With the weight chosen on the other five sites from a grid up to 1000, where the oracle itself reaches 84\,\%, the face map gives 75\,\% displaced by 5\,m, 61\,\% by 10\,m and 11\,\% by 30\,m.
+
+\begin{table}[H]
+\caption{Registered closed loop with an idealised sensor (radius $R$), 20 pairs per site, posterior vehicle, sensing every face within the radius: success (\%; goal reached, no face contact) and replans per pair (Rp), E1 endpoints unless marked E2. Main runs $R=20$\,m; I30 also with $R=10$ and 30\,m.}
+\label{tab:closedloop_ideal}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{I10, $R$ 20} & \multicolumn{2}{c}{I30, $R$ 20} & \multicolumn{3}{c}{I30, S} \\
+Prior layer & S & Rp & S & Rp & E2 & $R$ 10 & $R$ 30 \\
+\midrule
+Slip model only & 78 & 11 & 80 & 29 & 67 & 76 & 83 \\
+Detector & 81 & 5 & 85 & 25 & 73 & 82 & 85 \\
+Interpolation & 80 & 4 & 82 & 20 & 71 & 81 & 87 \\
+Boosting$^{*}$ & 80 & 4 & 84 & 21 & 71 & 81 & 88 \\
+Face map & 80 & 1 & 85 & 8 & 75 & 83 & 86 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \end{document}

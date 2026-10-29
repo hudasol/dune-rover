@@ -110,12 +110,6 @@ S.~B. Goldberg, M.~W. Maimone, and L.~Matthies, ``Stereo vision and rover
   navigation software for planetary exploration,'' in \emph{Proc. IEEE
   Aerospace Conference}, vol.~5, Big Sky, MT, USA, 2002, pp. 2025--2036.
 
-\bibitem{benrabah2024review}
-M.~Benrabah, C.~O. Mousse, E.~Randriamiarintsoa, R.~Chapuis, and
-  R.~Aufr{\`e}re, ``A review on traversability risk assessments for autonomous
-  ground vehicles: Methods and metrics,'' \emph{Sensors}, vol.~24, no.~6, p.
-  1909, 2024.
-
 \bibitem{ishigami2007}
 G.~Ishigami, A.~Miwa, K.~Nagatani, and K.~Yoshida, ``Terramechanics-based model
   for steering maneuver of planetary exploration rovers on loose soil,''
@@ -191,11 +185,6 @@ Z.~Chen, X.~Wang, Z.~Xu, and W.~Hou, ``Convolutional neural network based {DEM}
   Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol.
   XLI-B3, 2016, pp. 247--250.
 
-\bibitem{han2023global}
-X.~Han, X.~Ma, H.~Li, and Z.~Chen, ``A global-information-constrained deep
-  learning network for digital elevation model super-resolution,'' \emph{Remote
-  Sensing}, vol.~15, no.~2, p. 305, 2023.
-
 \bibitem{sugarbaker2014}
 L.~J. Sugarbaker, E.~W. Constance, H.~K. Heidemann, A.~L. Jason, V.~Lukas,
   D.~L. Saghy, and J.~M. Stoker, ``The {3D} {Elevation} {Program} initiative: A
@@ -234,62 +223,6 @@ M.~Drusch, U.~Del~Bello, S.~Carlier, O.~Colin, V.~Fernandez, F.~Gascon,
   \url{https://naip-usdaonline.hub.arcgis.com/}
 \BIBentrySTDinterwordspacing
 
-\bibitem{roberts2017}
-D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
-  S.~Hauenstein, J.~J. Lahoz-Monfort, B.~Schr{\"o}der, W.~Thuiller, D.~I.
-  Warton, B.~A. Wintle, F.~Hartig, and C.~F. Dormann, ``Cross-validation
-  strategies for data with temporal, spatial, hierarchical, or phylogenetic
-  structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
-
-\bibitem{janosi1961}
-Z.~Janosi and B.~Hanamoto, ``The analytical determination of drawbar pull as a
-  function of slip for tracked vehicles in deformable soils,'' in \emph{Proc.
-  1st International Conference on the Mechanics of Soil Vehicle Systems}.\hskip
-  1em plus 0.5em minus 0.4em\relax Turin, Italy: Edizioni Minerva Tecnica,
-  1961.
-
-\bibitem{wong2008}
-J.~Y. Wong, \emph{Theory of Ground Vehicles}, 4th~ed.\hskip 1em plus 0.5em
-  minus 0.4em\relax Wiley, 2008.
-
-\bibitem{inotsume2016thesis}
-\BIBentryALTinterwordspacing
-H.~Inotsume, ``Analysis of angle of attack for efficient slope ascent by
-  rovers,'' Master's thesis, Robotics Institute, Carnegie Mellon University,
-  2016, cMU-RI-TR-15-22. [Online]. Available:
-  \url{https://publications.ri.cmu.edu/storage/publications/pub_files/2016/8/MSThesis_Hiroaki.pdf}
-\BIBentrySTDinterwordspacing
-
-\bibitem{li2008spirit}
-R.~Li, B.~Wu, K.~Di, A.~Angelova, R.~E. Arvidson, I.-C. Lee, M.~Maimone, L.~H.
-  Matthies, L.~Richter, R.~Sullivan, M.~H. Sims, R.~Greenberger, and S.~W.
-  Squyres, ``Characterization of traverse slippage experienced by {Spirit}
-  rover on {Husband Hill} at {Gusev} crater,'' \emph{Journal of Geophysical
-  Research: Planets}, vol. 113, no. E12, 2008.
-
-\bibitem{hanley1982}
-J.~A. Hanley and B.~J. McNeil, ``The meaning and use of the area under a
-  receiver operating characteristic ({ROC}) curve,'' \emph{Radiology}, vol.
-  143, no.~1, pp. 29--36, 1982.
-
-\bibitem{kunsch1989}
-H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
-  observations,'' \emph{The Annals of Statistics}, vol.~17, no.~3, pp.
-  1217--1241, 1989.
-
-\bibitem{holm1979}
-\BIBentryALTinterwordspacing
-S.~Holm, ``A simple sequentially rejective multiple test procedure,''
-  \emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp. 65--70, 1979.
-  [Online]. Available: \url{https://www.jstor.org/stable/4615733}
-\BIBentrySTDinterwordspacing
-
-\bibitem{platt1999}
-J.~C. Platt, ``Probabilities for {SV} machines,'' in \emph{Advances in
-  Large-Margin Classifiers}, A.~J. Smola, P.~Bartlett, B.~Sch{\"o}lkopf, and
-  D.~Schuurmans, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, MA: The
-  MIT Press, 2000, pp. 61--74.
-
 \bibitem{riley1999}
 \BIBentryALTinterwordspacing
 S.~J. Riley, S.~D. DeGloria, and R.~Elliot, ``A terrain ruggedness index that
@@ -304,11 +237,6 @@ F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated
   convolutions,'' in \emph{International Conference on Learning Representations
   ({ICLR})}, 2016. [Online]. Available: \url{https://arxiv.org/abs/1511.07122}
 \BIBentrySTDinterwordspacing
-
-\bibitem{he2016resnet}
-K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image
-  recognition,'' in \emph{Proc. IEEE Conference on Computer Vision and Pattern
-  Recognition (CVPR)}, 2016, pp. 770--778.
 
 \bibitem{friedman2001}
 J.~H. Friedman, ``Greedy function approximation: A gradient boosting machine,''
@@ -343,6 +271,57 @@ J.~Long, E.~Shelhamer, and T.~Darrell, ``Fully convolutional networks for
 D.~P. Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' in
   \emph{International Conference on Learning Representations (ICLR)}, 2015.
   [Online]. Available: \url{https://arxiv.org/abs/1412.6980}
+\BIBentrySTDinterwordspacing
+
+\bibitem{roberts2017}
+D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
+  S.~Hauenstein, J.~J. Lahoz-Monfort, B.~Schr{\"o}der, W.~Thuiller, D.~I.
+  Warton, B.~A. Wintle, F.~Hartig, and C.~F. Dormann, ``Cross-validation
+  strategies for data with temporal, spatial, hierarchical, or phylogenetic
+  structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
+
+\bibitem{platt1999}
+J.~C. Platt, ``Probabilities for {SV} machines,'' in \emph{Advances in
+  Large-Margin Classifiers}, A.~J. Smola, P.~Bartlett, B.~Sch{\"o}lkopf, and
+  D.~Schuurmans, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, MA: The
+  MIT Press, 2000, pp. 61--74.
+
+\bibitem{janosi1961}
+Z.~Janosi and B.~Hanamoto, ``The analytical determination of drawbar pull as a
+  function of slip for tracked vehicles in deformable soils,'' in \emph{Proc.
+  1st International Conference on the Mechanics of Soil Vehicle Systems}.\hskip
+  1em plus 0.5em minus 0.4em\relax Turin, Italy: Edizioni Minerva Tecnica,
+  1961.
+
+\bibitem{wong2008}
+J.~Y. Wong, \emph{Theory of Ground Vehicles}, 4th~ed.\hskip 1em plus 0.5em
+  minus 0.4em\relax Wiley, 2008.
+
+\bibitem{inotsume2016thesis}
+\BIBentryALTinterwordspacing
+H.~Inotsume, ``Analysis of angle of attack for efficient slope ascent by
+  rovers,'' Master's thesis, Robotics Institute, Carnegie Mellon University,
+  2016, {CMU-RI-TR-15-22}. [Online]. Available:
+  \url{https://publications.ri.cmu.edu/storage/publications/pub_files/2016/8/MSThesis_Hiroaki.pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{li2008spirit}
+R.~Li, B.~Wu, K.~Di, A.~Angelova, R.~E. Arvidson, I.-C. Lee, M.~Maimone, L.~H.
+  Matthies, L.~Richter, R.~Sullivan, M.~H. Sims, R.~Greenberger, and S.~W.
+  Squyres, ``Characterization of traverse slippage experienced by {Spirit}
+  rover on {Husband Hill} at {Gusev} crater,'' \emph{Journal of Geophysical
+  Research: Planets}, vol. 113, no. E12, 2008.
+
+\bibitem{kunsch1989}
+H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
+  observations,'' \emph{The Annals of Statistics}, vol.~17, no.~3, pp.
+  1217--1241, 1989.
+
+\bibitem{holm1979}
+\BIBentryALTinterwordspacing
+S.~Holm, ``A simple sequentially rejective multiple test procedure,''
+  \emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp. 65--70, 1979.
+  [Online]. Available: \url{https://www.jstor.org/stable/4615733}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
