@@ -399,9 +399,9 @@ def _esc(s):
 
 def table_log():
     reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
-    rows = re.findall(r"^\| ((?:B25|P26|D27|P28|X29)-\d+) \| ([^|\n]*) \| ([^\n]*)\|\s*$", reg, flags=re.M)
+    rows = re.findall(r"^\| ((?:B25|P26|D27|P28|X29|Y30)-\d+) \| ([^|\n]*) \| ([^\n]*)\|\s*$", reg, flags=re.M)
     L = [r"\begin{longtable}{@{}p{0.08\linewidth}p{0.42\linewidth}p{0.46\linewidth}@{}}",
-         r"\caption{Prediction log of stages 25 to 29: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards. Stage 29 (X29) is post hoc and not counted in the tally.}\label{tab:log}\\",
+         r"\caption{Prediction log of stages 25 to 30: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards. Stages 29 (X29) and 30 (Y30) are post hoc and not counted in the tally.}\label{tab:log}\\",
          r"\toprule", r"ID & Prediction (before the run) & Outcome \\", r"\midrule", r"\endhead"]
     for i, p, o in rows:
         L.append(f"{i} & {tex_escape(p.strip())} & {tex_escape(o.strip())} \\\\")
@@ -428,7 +428,7 @@ GLOSSARY = [("Slip face", "the lee face of a dune near the angle of repose; in t
 
 
 def table_glossary():
-    L = [r"\begin{table}[h]", r"\caption{Names used in the paper and in the result files.}", r"\label{tab:glossary}", r"\centering\small",
+    L = [r"\begin{table}[H]", r"\caption{Names used in the paper and in the result files.}", r"\label{tab:glossary}", r"\centering\small",
          r"\begin{tabular}{@{}lp{0.68\linewidth}@{}}", r"\toprule", r"Name & Meaning \\", r"\midrule"]
     L += [f"{a} & {b} \\\\" for a, b in GLOSSARY]
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
@@ -441,7 +441,7 @@ def table_spread():
     for r in D:
         vals.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     cols = [c for c in DET_COLS if any(i == c[0] for i, _ in vals)]
-    L = [r"\begin{table}[h]", r"\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table III of the paper.}",
+    L = [r"\begin{table}[H]", r"\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table III of the paper.}",
          r"\label{tab:spread}", r"\centering\scriptsize", r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in cols) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
@@ -458,7 +458,7 @@ def table_persite():
     E = [r for r in read(os.path.join(S27, "E_metrics.csv")) if r["input"] == "I30"]
     E += [r for r in read(os.path.join(S27, "F_metrics.csv")) if r["input"] == "I30" and r["method"] == "SR"]
     ms = [("SLOPE", "Slope"), ("BICUBIC", "Interp."), ("SR", "Super res."), ("DET", "Detector"), ("GBM", "Boosting"), ("CNN", "Network"), ("DEM+S2", "Boost.+S2")]
-    L = [r"\begin{table}[h]", r"\caption{AUC per site on I30 (face map label) with 95\,\% block bootstrap intervals where computed.}", r"\label{tab:persite}",
+    L = [r"\begin{table}[H]", r"\caption{AUC per site on I30 (face map label), three decimals, with 95\,\% block bootstrap intervals where computed.}", r"\label{tab:persite}",
          r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.5pt}", r"\begin{tabular}{@{}l" + "c" * len(ms) + r"@{}}", r"\toprule",
          "Site & " + " & ".join(h for _, h in ms) + r" \\", r"\midrule"]
     for s in SITES:
@@ -467,7 +467,7 @@ def table_persite():
             r = next((r for r in D + E if r["site"] == s and r["method"] == m), None)
             if r is None:
                 cells.append(NA); continue
-            c = f2(r["auc"])
+            c = f"{rnd(r['auc'], 3):.3f}"
             if r.get("auc_lo", ""):
                 c += f" [{f2(r['auc_lo'])}, {f2(r['auc_hi'])}]"
             cells.append(c)

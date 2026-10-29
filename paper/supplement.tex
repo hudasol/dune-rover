@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{float}
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
 \renewcommand{\thetable}{S\arabic{table}}
@@ -16,10 +17,10 @@
 \end{center}
 
 \section*{S1. Prediction log}
-Every experiment of this benchmark was designed and given numeric predictions before it ran, and the predictions were committed to the repository (\url{docs/PREDICTIONS.md}) before any metric of that stage was computed. Stages 25 and 26 were the first version of the benchmark; stages 27 and 28 were registered after a blind review of that version and before any of their metrics were computed, when the results of stages 25 and 26 were known. Table~\ref{tab:log} copies every prediction verbatim with its recorded outcome: 31 hits and 12 misses out of 43 predictions. Three amendments were made before the affected results were known, each recorded in the log with its reason: the closed loop uses 20 pairs per site, a 300\,m crop margin and the radius and vehicle sensitivities on I30 only (compute budget); after a first tuning attempt was stopped because it would not finish, the nested tuning of boosting fits its inner folds on at most 150\,000 cells; and after a first closed loop run was stopped, with its outcomes unseen, each pair has a budget of 300 replans. Results decided after a run (for example the post hoc analyses of stages 25 and 26, and stage 29, the post hoc checks of the paper) are labelled as such in the log; the predictions of stage 29 were written before its runs but carry no confirmatory weight and are not counted above. Correction notes appended after a number audit (rounding of two outcomes and the scope of two others; no scoring changed) are in the log. The log lives in our own repository, not in a public registry, and the six windows had been used in earlier tests of the detector.
+Every experiment of this benchmark was designed and given numeric predictions before it ran, and the predictions were committed to the repository (\url{docs/PREDICTIONS.md}) before any metric of that stage was computed. Stages 25 and 26 were the first version of the benchmark; stages 27 and 28 were registered after a blind review of that version and before any of their metrics were computed, when the results of stages 25 and 26 were known. Table~\ref{tab:log} copies every prediction verbatim with its recorded outcome: 31 hits and 12 misses out of 43 predictions. Three amendments were made before the affected results were known, each recorded in the log with its reason: the closed loop uses 20 pairs per site, a 300\,m crop margin and the radius and vehicle sensitivities on I30 only (compute budget); after a first tuning attempt was stopped because it would not finish, the nested tuning of boosting fits its inner folds on at most 150\,000 cells; and after a first closed loop run was stopped, with its outcomes unseen, each pair has a budget of 300 replans. Results decided after a run (for example the post hoc analyses of stages 25 and 26, and stages 29 and 30, the post hoc checks of the paper) are labelled as such in the log; the predictions of stages 29 and 30 were written before their runs but carry no confirmatory weight and are not counted above. Correction notes appended after a number audit (rounding of two outcomes and the scope of two others; no scoring changed) are in the log. The log lives in our own repository, not in a public registry, and the six windows had been used in earlier tests of the detector.
 
 \begin{longtable}{@{}p{0.08\linewidth}p{0.42\linewidth}p{0.46\linewidth}@{}}
-\caption{Prediction log of stages 25 to 29: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards. Stage 29 (X29) is post hoc and not counted in the tally.}\label{tab:log}\\
+\caption{Prediction log of stages 25 to 30: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards. Stages 29 (X29) and 30 (Y30) are post hoc and not counted in the tally.}\label{tab:log}\\
 \toprule
 ID & Prediction (before the run) & Outcome \\
 \midrule
@@ -72,11 +73,21 @@ X29-2 & On I5 the best computable layer (BICUBIC-cal) at its held out operating 
 X29-3 & Neither SR nor CNN-long adds more than 10 points over naive on I30 (E1). & HIT. On I30 (E1) SR-cal reaches 12.2 \% against 7.5 \% for naive (plus 4.7 points, interval 2.0 to 7.5) and CNN-long 9.7 \% (plus 2.2 points, interval 0.0 to 4.7). \\
 X29-4 & With line of sight sensing, closed loop success on I30 with the naive prior is at least 10 points below that with radius sensing (80.0 \%), and at least one route touches a face. & HIT. With line of sight sensing (eye 1 m above the ground, R = 20 m, I30, E1, 120 pairs) success is 30.0 \% with the slip model prior, 50 points below radius sensing, and 65.0 \% of the pairs touch a face; with the boosting prior 41.7 \% (plus 11.7 points, two stage interval 2.5 to 20.8, higher at all six sites) and with the face map prior 74.2 \% (plus 44.2 points, interval 25.0 to 62.5). No pair exhausted the replan budget; 1.7 \% were stuck at the start and 10.0 to 16.7 \% stuck after replanning (\url{results/benchmark/stage29/d_closed_loop_line_of_sight.csv}). The interval and per site columns were added to the summary after the run. \\
 X29-5 & The 2 m survey covers at least 70 \% of the one metre face patch posts at every site, and the 5 m survey less than 60 \% at four or more sites. & MISSED. The 2 m survey covers 59 \% (Little Sahara) to 91 \% (Dumont) of the face patch posts, below 70 \% at Little Sahara; the 5 m survey covers less than 60 \% at four sites (White Sands 15 \%, Kelso 51 \%, Algodones 36 \%, Little Sahara 8 \%) and 73 to 78 \% at Great Sand Dunes and Dumont (\url{results/benchmark/stage29/e_survey_coverage.csv}). \\
+Y30-1 & With line of sight on I30 (E1), every computable prior stays below 55 \% success and FACEMAP stays at least 15 points above the best computable prior. &  \\
+Y30-2 & With line of sight on I30, success with the slip model prior is lower with E2 endpoints than with E1 endpoints. &  \\
+Y30-3 & With a detection probability of 0.8, line of sight success with the FACEMAP prior (I30, E1) falls by at least 5 points. &  \\
+Y30-4 & On I30 (E1), at least 10 \% of the routes that count as a mission success for the slip model only planner are infeasible for the vehicle on the 5 m lidar surface. &  \\
+Y30-5 & With hysteresis patches (H), the share of patches shorter than 30 m is below 60 \% by count (registered rule: about 75 \%). &  \\
+Y30-6 & Scored against long faces only (L of 60 m or more), BICUBIC-cal on I30 (E1) still adds at most 20 points over the slip model alone. &  \\
+Y30-7 & Applying the shift raises the macro AUC of BICUBIC on G30 by at least 0.03. &  \\
+Y30-8 & With weights up to 1000, held out mission success of BICUBIC-cal on I10 (E1) rises by at least 3 points over the registered 64.0 \%. &  \\
+Y30-9 & IMG-CNN-NAIP reaches a macro AUC of at least 0.85 on I30. &  \\
+Y30-10 & IMG-CNN-NAIP adds at most 10 points of mission success over the slip model alone on I30 (E1). &  \\
 \bottomrule
 \end{longtable}
 
 \section*{S2. Names}
-\begin{table}[h]
+\begin{table}[H]
 \caption{Names used in the paper and in the result files.}
 \label{tab:glossary}
 \centering\small
@@ -97,7 +108,7 @@ Detector & the synthetic subgrid detector of the planner (DET; DET-cal when reca
 Boosting, network & gradient boosted trees (GBM) and the dilated convolutional network (CNN) \\
 Slip model only & the planner without a hazard layer (naive in the files) \\
 Gate, weight & the conservative and risk weighted policies \\
-Face map (upper bound) & the face map label used as a hazard layer (FACEMAP, ORACLE-ANY) \\
+Face map (oracle) & the face map label used as a hazard layer (FACEMAP, ORACLE-ANY); an oracle, not a bound \\
 Posterior vehicle & the slip model with parameters drawn from a posterior fitted to published slip curves of other wheeled vehicles \\
 E1, E2 & endpoints chosen with the truth (all posts gentle) and from the coarse map only \\
 \bottomrule
@@ -105,8 +116,8 @@ E1, E2 & endpoints chosen with the truth (all posts gentle) and from the coarse 
 \end{table}
 
 \section*{S3. Per site detection}
-\begin{table}[h]
-\caption{AUC per site on I30 (face map label) with 95\,\% block bootstrap intervals where computed.}
+\begin{table}[H]
+\caption{AUC per site on I30 (face map label), three decimals, with 95\,\% block bootstrap intervals where computed.}
 \label{tab:persite}
 \centering\scriptsize
 \setlength{\tabcolsep}{2.5pt}
@@ -114,17 +125,17 @@ E1, E2 & endpoints chosen with the truth (all posts gentle) and from the coarse 
 \toprule
 Site & Slope & Interp. & Super res. & Detector & Boosting & Network & Boost.+S2 \\
 \midrule
-Dumont Dunes & 0.93 [0.91, 0.95] & 0.96 [0.95, 0.97] & 0.96 & 0.86 [0.83, 0.88] & 0.95 [0.94, 0.96] & 0.94 [0.93, 0.96] & 0.97 \\
-White Sands & 0.56 [0.54, 0.58] & 0.75 [0.73, 0.78] & 0.81 & 0.67 [0.65, 0.68] & 0.74 [0.72, 0.76] & 0.69 [0.67, 0.72] & 0.83 \\
-Kelso Dunes & 0.74 [0.71, 0.76] & 0.79 [0.77, 0.81] & 0.81 & 0.70 [0.67, 0.72] & 0.75 [0.73, 0.77] & 0.76 [0.74, 0.78] & 0.83 \\
-Great Sand Dunes & 0.69 [0.67, 0.72] & 0.87 [0.85, 0.88] & 0.90 & 0.82 [0.80, 0.84] & 0.87 [0.86, 0.89] & 0.89 [0.88, 0.90] & 0.89 \\
-Algodones Dunes & 0.68 [0.66, 0.70] & 0.83 [0.82, 0.85] & 0.86 & 0.75 [0.74, 0.77] & 0.83 [0.82, 0.85] & 0.82 [0.80, 0.83] & 0.90 \\
-Little Sahara & 0.53 [0.50, 0.56] & 0.70 [0.67, 0.72] & 0.72 & 0.64 [0.62, 0.67] & 0.71 [0.68, 0.73] & 0.69 [0.67, 0.72] & 0.70 \\
+Dumont Dunes & 0.932 [0.91, 0.95] & 0.959 [0.95, 0.97] & 0.963 & 0.855 [0.83, 0.88] & 0.952 [0.94, 0.96] & 0.944 [0.93, 0.96] & 0.967 \\
+White Sands & 0.560 [0.54, 0.58] & 0.752 [0.73, 0.78] & 0.809 & 0.666 [0.65, 0.68] & 0.742 [0.72, 0.76] & 0.693 [0.67, 0.72] & 0.834 \\
+Kelso Dunes & 0.738 [0.71, 0.76] & 0.792 [0.77, 0.81] & 0.813 & 0.696 [0.67, 0.72] & 0.751 [0.73, 0.77] & 0.760 [0.74, 0.78] & 0.832 \\
+Great Sand Dunes & 0.695 [0.67, 0.72] & 0.868 [0.85, 0.88] & 0.900 & 0.822 [0.80, 0.84] & 0.874 [0.86, 0.89] & 0.893 [0.88, 0.90] & 0.887 \\
+Algodones Dunes & 0.680 [0.66, 0.70] & 0.833 [0.82, 0.85] & 0.861 & 0.754 [0.74, 0.77] & 0.832 [0.82, 0.85] & 0.817 [0.80, 0.83] & 0.904 \\
+Little Sahara & 0.529 [0.50, 0.56] & 0.695 [0.67, 0.72] & 0.716 & 0.644 [0.62, 0.67] & 0.707 [0.68, 0.73] & 0.693 [0.67, 0.72] & 0.703 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table III of the paper.}
 \label{tab:spread}
 \centering\scriptsize
@@ -153,12 +164,12 @@ Boosting + NAIP$^{*}$ & 0.93 to 0.98 & 0.76 to 0.96 & $\cdot$ & $\cdot$ & $\cdot
 \end{table}
 
 \section*{S4. Example site and the weight policy at every weight}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_map.pdf}
 \caption{Kelso Dunes. (a) Hillshade of the one metre lidar with face patches (plum). (b) Face probability of the calibrated interpolation layer and (c) of boosting, both on the 30\,m block mean and trained or calibrated on the other five sites. (d) Routes on the 30\,m map between six of the E1 pairs: slip model only (dashed) and boosting with the weight policy, $w=100$ (solid), over the face patches.}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.62\textwidth]{figures/fig_frontier.pdf}
 \caption{Mission success of the weight policy against the risk weight $w$ for each hazard layer (E1 endpoints, posterior vehicle, 600 pairs). Dashed: the slip model alone. The face map is an upper bound that needs face information from fine data. $^{*}$Trained leave one site out.}
@@ -169,7 +180,7 @@ Boosting + NAIP$^{*}$ & 0.93 to 0.98 & 0.76 to 0.96 & $\cdot$ & $\cdot$ & $\cdot
 
 \textit{GLO-30 alignment.} The horizontal shift that best aligns GLO-30 with the 30\,m lidar block mean is 0\,m at Dumont, 0\,m at Kelso, 11\,m at Great Sand Dunes, 11\,m at Little Sahara, 15\,m at Algodones and 31\,m at White Sands, an actively migrating gypsum dune field whose lidar is years younger than the radar acquisition.
 
-\textit{Learned layers.} Boosting: scikit-learn histogram gradient boosting, learning rate 0.05, 300 iterations, 31 leaves; tuned version: learning rate 0.05 or 0.1, 15 or 63 leaves, 200 or 600 iterations, chosen by inner leave one site out AUC. Network: two input channels (elevation minus its $7\times7$ mean over the spacing, and the slope), four $3\times3$ convolutions of 32 channels with dilations 1, 2, 4 and 8, binary cross entropy, Adam at 0.001, 1500 (or 6000) steps of 16 random crops with flips and quarter turns. Super resolution: the same body predicts the 5\,m lidar block mean minus the cubic spline of the 30\,m surface, L1 loss, 3000 steps of 16 crops of $96\times96$ cells. Detector: logistic model on log transformed slope, convexity, slope break and relief and their pairwise products, trained on 60\,000 synthetic straight crested dune profiles (stoss slope 6 to 20\,degrees, face 29.5 to 32.5\,degrees, height 5 to 120\,m) sampled as a DEM samples them, and applied to two dimensional grids along the steepest descent direction; this mapping has not been validated separately.
+\textit{Learned layers.} Boosting: scikit-learn histogram gradient boosting, learning rate 0.05, 300 iterations, 31 leaves; tuned version: learning rate 0.05 or 0.1, 15 or 63 leaves, 200 or 600 iterations, chosen by inner leave one site out AUC. Network: two input channels (elevation minus its $7\times7$ mean over the spacing, and the slope), four $3\times3$ convolutions of 32 channels with dilations 1, 2, 4 and 8, binary cross entropy, Adam~\cite{kingma2015adam} at 0.001, 1500 (or 6000) steps of 16 random crops with flips and quarter turns. Super resolution: the same body predicts the 5\,m lidar block mean minus the cubic spline of the 30\,m surface, L1 loss, 3000 steps of 16 crops of $96\times96$ cells. Detector: logistic model on log transformed slope, convexity, slope break and relief and their pairwise products, trained on 60\,000 synthetic straight crested dune profiles (stoss slope 6 to 20\,degrees, face 29.5 to 32.5\,degrees, height 5 to 120\,m) sampled as a DEM samples them, and applied to two dimensional grids along the steepest descent direction; this mapping has not been validated separately.
 
 \textit{Statistics.} AUC intervals use a spatial block bootstrap with 300\,m blocks and 1000 resamples; paired differences resample the same blocks for both layers, and per site counts are also given with Bonferroni adjusted intervals (99.2\,\%) in \url{results/benchmark/stage27/A_paired_differences.csv}. The label correlogram reaches 0.1 at 30 to 870\,m, so the main 30\,m comparisons were repeated with 870\,m blocks (\url{I_larger_blocks.csv}). Planning differences carry two stage bootstrap intervals (4000 resamples of sites, then of pairs within the drawn sites), and every site level claim uses an exact sign flip test over the six per site differences.
 

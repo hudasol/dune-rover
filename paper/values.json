@@ -2289,6 +2289,7 @@
 "ps_E2_I30_none_300_nd": "25\\,\\%",
 "ps_gain_I10_300": "54",
 "ps_gain_I30_300": "13",
+"r10_same_sites": "all six",
 "rec10_BICUBIC_0": "84\\,\\%",
 "rec10_BICUBIC_0p5": "79\\,\\%",
 "rec10_BICUBIC_1": "80\\,\\%",

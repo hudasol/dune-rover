@@ -28,9 +28,20 @@
   \url{https://doi.org/10.5270/ESA-c5d3d65}
 \BIBentrySTDinterwordspacing
 
+\bibitem{tadono2014aw3d}
+T.~Tadono, H.~Ishida, F.~Oda, S.~Naito, K.~Minakawa, and H.~Iwamoto, ``Precise
+  global {DEM} generation by {ALOS} {PRISM},'' \emph{ISPRS Annals of the
+  Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol. II-4,
+  pp. 71--76, 2014.
+
+\bibitem{hawker2022fabdem}
+L.~Hawker, P.~Uhe, L.~Paulo, J.~Sosa, J.~Savage, C.~Sampson, and J.~Neal, ``A
+  30 m global map of elevation with forests and buildings removed,''
+  \emph{Environmental Research Letters}, vol.~17, no.~2, p. 024016, 2022.
+
 \bibitem{pye2009}
-K.~Pye and H.~Tsoar, \emph{Aeolian Sand and Sand Dunes}.\hskip 1em plus 0.5em
-  minus 0.4em\relax Berlin, Heidelberg: Springer Berlin Heidelberg, 2009.
+K.~Pye and H.~Tsoar, \emph{Aeolian Sand and Sand Dunes}, 2nd~ed.\hskip 1em plus
+  0.5em minus 0.4em\relax Berlin: Springer, 2009.
 
 \bibitem{heverly2013}
 M.~Heverly, J.~Matthews, J.~Lin, D.~Fuller, M.~Maimone, J.~Biesiadecki, and
@@ -69,7 +80,7 @@ J.~Delmerico, E.~Mueggler, J.~Nitsch, and D.~Scaramuzza, ``Active autonomous
 J.-M. Fortin, O.~Gamache, W.~Fecteau, E.~Daum, W.~Larriv{\'e}e-Hardy,
   F.~Pomerleau, and P.~Gigu{\`e}re, ``{UAV}-assisted self-supervised terrain
   awareness for off-road navigation,'' in \emph{Proc. IEEE International
-  Conference on Robotics and Automation (ICRA)}, 2025, pp. 1--7.
+  Conference on Robotics and Automation (ICRA)}, 2025.
 
 \bibitem{ono2016traversability}
 M.~Ono, B.~Rothrock, E.~Almeida, A.~Ansar, R.~Otero, A.~Huertas, and
@@ -96,9 +107,8 @@ P.~V.~K. Borges, T.~Peynot, S.~Liang, B.~Arain, M.~Wildie, M.~G. Minareci,
 
 \bibitem{goldberg2002}
 S.~B. Goldberg, M.~W. Maimone, and L.~Matthies, ``Stereo vision and rover
-  navigation software for planetary exploration,'' in \emph{Proceedings, {IEEE}
-  Aerospace Conference}, vol.~5, Big Sky, MT, USA, 2002, pp.
-  {5--2025}--{5--2036}.
+  navigation software for planetary exploration,'' in \emph{Proc. IEEE
+  Aerospace Conference}, vol.~5, Big Sky, MT, USA, 2002, pp. 2025--2036.
 
 \bibitem{benrabah2024review}
 M.~Benrabah, C.~O. Mousse, E.~Randriamiarintsoa, R.~Chapuis, and
@@ -117,6 +127,20 @@ S.~Shrivastava, A.~Karsai, Y.~O. Aydin, R.~Pettinger, W.~Bluethmann, R.~O.
   facilitate locomotion of a robophysical rover over granular terrain,''
   \emph{Science Robotics}, vol.~5, no.~42, p. eaba3499, 2020.
 
+\bibitem{angelova2007slip}
+A.~Angelova, L.~Matthies, D.~Helmick, and P.~Perona, ``Learning and prediction
+  of slip from visual information,'' \emph{Journal of Field Robotics}, vol.~24,
+  no.~3, pp. 205--231, 2007.
+
+\bibitem{thrun2006stanley}
+S.~Thrun, M.~Montemerlo, H.~Dahlkamp, D.~Stavens, A.~Aron, J.~Diebel, P.~Fong,
+  J.~Gale, M.~Halpenny, G.~Hoffmann, K.~Lau, C.~Oakley, M.~Palatucci, V.~Pratt,
+  P.~Stang, S.~Strohband, C.~Dupont, L.-E. Jendrossek, C.~Koelen, C.~Markey,
+  C.~Rummel, J.~van Niekerk, E.~Jensen, P.~Alessandrini, G.~Bradski, B.~Davies,
+  S.~Ettinger, A.~Kaehler, A.~Nefian, and P.~Mahoney, ``Stanley: The robot that
+  won the {DARPA} {Grand} {Challenge},'' \emph{Journal of Field Robotics},
+  vol.~23, no.~9, pp. 661--692, 2006.
+
 \bibitem{inotsume2020robust}
 H.~Inotsume, T.~Kubota, and D.~Wettergreen, ``Robust path planning for slope
   traversing under uncertainty in slip prediction,'' \emph{IEEE Robotics and
@@ -131,7 +155,7 @@ M.~Endo, T.~Taniai, R.~Yonetani, and G.~Ishigami, ``Risk-aware path planning
 \bibitem{ono2015}
 M.~Ono, T.~J. Fuchs, A.~Steffy, M.~Maimone, and J.~Yen, ``Risk-aware planetary
   rover operation: Autonomous terrain classification and path planning,'' in
-  \emph{2015 {IEEE} Aerospace Conference}, Big Sky, MT, 2015, pp. 1--10.
+  \emph{Proc. IEEE Aerospace Conference}, Big Sky, MT, USA, 2015, pp. 1--10.
 
 \bibitem{hugenholtz2012remote}
 C.~H. Hugenholtz, N.~Levin, T.~E. Barchyn, and M.~C. Baddock, ``Remote sensing
@@ -217,9 +241,36 @@ D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
   strategies for data with temporal, spatial, hierarchical, or phylogenetic
   structure,'' \emph{Ecography}, vol.~40, no.~8, pp. 913--929, 2017.
 
+\bibitem{janosi1961}
+Z.~Janosi and B.~Hanamoto, ``The analytical determination of drawbar pull as a
+  function of slip for tracked vehicles in deformable soils,'' in \emph{Proc.
+  1st International Conference on the Mechanics of Soil Vehicle Systems}.\hskip
+  1em plus 0.5em minus 0.4em\relax Turin, Italy: Edizioni Minerva Tecnica,
+  1961.
+
 \bibitem{wong2008}
 J.~Y. Wong, \emph{Theory of Ground Vehicles}, 4th~ed.\hskip 1em plus 0.5em
   minus 0.4em\relax Wiley, 2008.
+
+\bibitem{inotsume2016thesis}
+\BIBentryALTinterwordspacing
+H.~Inotsume, ``Analysis of angle of attack for efficient slope ascent by
+  rovers,'' Master's thesis, Robotics Institute, Carnegie Mellon University,
+  2016, cMU-RI-TR-15-22. [Online]. Available:
+  \url{https://publications.ri.cmu.edu/storage/publications/pub_files/2016/8/MSThesis_Hiroaki.pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{li2008spirit}
+R.~Li, B.~Wu, K.~Di, A.~Angelova, R.~E. Arvidson, I.-C. Lee, M.~Maimone, L.~H.
+  Matthies, L.~Richter, R.~Sullivan, M.~H. Sims, R.~Greenberger, and S.~W.
+  Squyres, ``Characterization of traverse slippage experienced by {Spirit}
+  rover on {Husband Hill} at {Gusev} crater,'' \emph{Journal of Geophysical
+  Research: Planets}, vol. 113, no. E12, 2008.
+
+\bibitem{hanley1982}
+J.~A. Hanley and B.~J. McNeil, ``The meaning and use of the area under a
+  receiver operating characteristic ({ROC}) curve,'' \emph{Radiology}, vol.
+  143, no.~1, pp. 29--36, 1982.
 
 \bibitem{kunsch1989}
 H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
@@ -247,6 +298,31 @@ S.~J. Riley, S.~D. DeGloria, and R.~Elliot, ``A terrain ruggedness index that
   \url{https://arc.lib.montana.edu/ojs/index.php/IJS/article/view/2914}
 \BIBentrySTDinterwordspacing
 
+\bibitem{yu2016}
+\BIBentryALTinterwordspacing
+F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated
+  convolutions,'' in \emph{International Conference on Learning Representations
+  ({ICLR})}, 2016. [Online]. Available: \url{https://arxiv.org/abs/1511.07122}
+\BIBentrySTDinterwordspacing
+
+\bibitem{he2016resnet}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image
+  recognition,'' in \emph{Proc. IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, 2016, pp. 770--778.
+
+\bibitem{friedman2001}
+J.~H. Friedman, ``Greedy function approximation: A gradient boosting machine,''
+  \emph{The Annals of Statistics}, vol.~29, no.~5, pp. 1189--1232, 2001.
+
+\bibitem{ke2017}
+\BIBentryALTinterwordspacing
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
+  ``{LightGBM}: A highly efficient gradient boosting decision tree,'' in
+  \emph{Advances in Neural Information Processing Systems}, vol.~30, 2017.
+  [Online]. Available:
+  \url{https://proceedings.neurips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html}
+\BIBentrySTDinterwordspacing
+
 \bibitem{pedregosa2011}
 \BIBentryALTinterwordspacing
 F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
@@ -262,11 +338,11 @@ J.~Long, E.~Shelhamer, and T.~Darrell, ``Fully convolutional networks for
   semantic segmentation,'' in \emph{Proc. IEEE Conference on Computer Vision
   and Pattern Recognition (CVPR)}, 2015, pp. 3431--3440.
 
-\bibitem{yu2016}
+\bibitem{kingma2015adam}
 \BIBentryALTinterwordspacing
-F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated
-  convolutions,'' in \emph{International Conference on Learning Representations
-  ({ICLR})}, 2016. [Online]. Available: \url{https://arxiv.org/abs/1511.07122}
+D.~P. Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' in
+  \emph{International Conference on Learning Representations (ICLR)}, 2015.
+  [Online]. Available: \url{https://arxiv.org/abs/1412.6980}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
