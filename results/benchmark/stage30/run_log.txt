@@ -159,3 +159,8 @@ stage 30 e on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara star
 e NAIP held out Dumont: 4061 s
 stage 30 eNAIPrev on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 15:31:04
 stage 30 e on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 17:06:30
+e NAIP held out WhiteSands: resumed at step 1800
+stage 30 eNAIPrev on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 17:06:51
+e NAIP held out Algodones: resumed at step 1800
+e NAIP held out WhiteSands: 617 s
+e NAIP held out Algodones: 629 s
