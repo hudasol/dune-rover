@@ -16,6 +16,7 @@ PAPER = os.path.join(ROOT, "paper")
 SRC = os.path.join(PAPER, "src")
 BEN = os.path.join(ROOT, "results", "benchmark")
 S27, S28, S29, S30 = os.path.join(BEN, "stage27"), os.path.join(BEN, "stage28"), os.path.join(BEN, "stage29"), os.path.join(BEN, "stage30")
+S31 = os.path.join(BEN, "stage31")
 SITE_LABEL = {"Dumont": "Dumont Dunes, CA", "WhiteSands": "White Sands, NM", "Kelso": "Kelso Dunes, CA",
               "GreatSandDunes": "Great Sand Dunes, CO", "Algodones": "Algodones Dunes, CA", "LittleSahara": "Little Sahara, UT"}
 SITES = list(SITE_LABEL)
@@ -75,6 +76,10 @@ def det_rows():
     p = os.path.join(S30, "e_imagery_cnn_detection_by_site.csv")       # stage 30, post hoc
     if os.path.exists(p):
         rows += read(p)
+    for f in ("e_products_detection_by_site.csv", "f_unet_detection_by_site.csv"):   # stage 31, post hoc
+        p = os.path.join(S31, f)
+        if os.path.exists(p):
+            rows += read(p)
     return rows
 
 
@@ -229,7 +234,7 @@ def values():
     p = os.path.join(S29, "c_degraded_held_out.csv")
     if os.path.exists(p):
         for r in read(p):
-            V[key("pc", r["input"], r["map"])] = pc(r["mission_success"])
+            V[key("pc", r["input"], r["map"])] = pc(r["mission_success"]); V[key("pc1", r["input"], r["map"])] = pc(r["mission_success"], 1)
     p = os.path.join(S29, "d_closed_loop_line_of_sight.csv")
     if os.path.exists(p):
         for r in read(p):
@@ -306,7 +311,12 @@ def values():
     if os.path.exists(p):
         for r in read(p):
             k = key("xw", r["endpoints"], r["input"], r["layer"])
-            V[k] = pc(r["weight_only_up_to_1000"]); V[k + "_100"] = pc(r["weight_only_up_to_100"])
+            V[k] = pc(r["weight_only_up_to_1000"]); V[k + "_100"] = pc(r["weight_only_up_to_100"]); V[k + "_1"] = pc(r["weight_only_up_to_1000"], 1)
+            if r["registered_both_policies"] != "":
+                V[k + "_up"] = pts(round(float(r["weight_only_up_to_1000"]) - float(r["registered_both_policies"]), 6))
+        X = [r for r in read(p) if r["registered_both_policies"] != "" and r["layer"] != "FACEMAP"]
+        for inp in ("I10", "I30", "G30"):
+            V[f"xw_{inp}_maxup"] = pts(max(float(r["weight_only_up_to_1000"]) - float(r["registered_both_policies"]) for r in X if r["input"] == inp))
     p = os.path.join(S30, "e_imagery_cnn_detection.csv")
     if os.path.exists(p):
         for r in read(p):
@@ -316,12 +326,136 @@ def values():
         for r in read(p):
             k = key("imp", r["endpoints"], r["layer"])
             V[k] = pc(r["mission_success"]); V[k + "_d"] = pts(r["difference"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
+    values31(V)
     # prediction log tallies (stages 25 to 28)
     reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
     outs = re.findall(r"^\| (?:B25|P26|D27|P28)-\d+ \|[^\n]*\| (HIT|MISSED)\b", reg, flags=re.M)
     V["log_n"] = str(len(outs)); V["log_hit"] = str(outs.count("HIT")); V["log_missed"] = str(outs.count("MISSED"))
     for k in ("log_n", "log_hit", "log_missed"):
         V[k + "_word"] = WORDS.get(int(V[k]), V[k])
+    return V
+
+
+def ci_pts(lo, hi):
+    return f"{pts(lo)} to {pts(hi)}"
+
+
+def values31(V):
+    """Stage 31, post hoc checks after the fourth review."""
+    p = os.path.join(S31, "c_vehicle_all_cells.csv")
+    if os.path.exists(p):
+        C = read(p)
+        for r in C:
+            k = key("vc", r["endpoints"], r["input"], r["layer"])
+            V[k + "_m"] = pc(r["mission_success"]); V[k + "_v"] = pc(r["vehicle_success"]); V[k + "_feas"] = pc(r["feasible_share_of_successes"])
+            for m in ("P300", "L60", "H", "M"):
+                V[k + "_" + m] = pc(r[f"success_{m}"])
+                b = next((x for x in C if x["endpoints"] == r["endpoints"] and x["input"] == r["input"] and x["layer"] == "none"), None)
+                if b is not None and r["layer"] != "none":
+                    V[k + "_" + m + "d"] = pts(round(float(r[f"success_{m}"]) - float(b[f"success_{m}"]), 6))
+            for e in ("mission", "vehicle"):
+                if r[f"{e}_site_lo"] != "":
+                    V[k + f"_{e[0]}d"] = pts(r[f"{e}_diff"]); V[k + f"_{e[0]}ci"] = ci_pts(r[f"{e}_site_lo"], r[f"{e}_site_hi"])
+                    V[k + f"_{e[0]}pos"] = WORDS[int(r[f"{e}_sites_positive"])]
+        comp = ("SLOPE-cal", "BICUBIC-cal", "DET", "GBM", "CNN", "DEM+S2")
+        for e in ("E1", "E2"):
+            for inp in ("I10", "I30", "G30"):
+                rr = [r for r in C if r["endpoints"] == e and r["input"] == inp and r["layer"] in comp]
+                if rr:
+                    V[key("vc", e, inp, "maxcomp", "vd")] = pts(max(float(r["vehicle_diff"]) for r in rr))
+                    V[key("vc", e, inp, "maxcomp", "md")] = pts(max(float(r["mission_diff"]) for r in rr))
+                    V[key("vc", e, inp, "maxcomp", "v")] = pc(max(float(r["vehicle_success"]) for r in rr))
+                    V[key("vc", e, inp, "maxcomp", "md1")] = f"{rnd(100 * max(float(r['mission_diff']) for r in rr), 1):.1f}"
+                    V[key("vc", e, inp, "maxcomp", "vd1")] = f"{rnd(100 * max(float(r['vehicle_diff']) for r in rr), 1):.1f}"
+                    V[key("vc", e, inp, "maxcomp", "mdlay")] = max(rr, key=lambda r: float(r["mission_diff"]))["layer"]
+        ci_ex = [r for r in C if r["layer"] in comp and r["mission_site_lo"] != "" and float(r["mission_site_lo"]) > 0]
+        V["vc_I30_E1_mci_exclude"] = WORDS[sum(r["input"] == "I30" and r["endpoints"] == "E1" for r in ci_ex)]
+    p = os.path.join(S31, "c_by_pair_distance.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("tt", r["endpoints"], r["input"], r["layer"], r["tertile"])
+            V[k] = pc(r["mission_success"]); V[k + "_v"] = pc(r["vehicle_success"])
+            V[key("tt", r["endpoints"], "edge", r["tertile"])] = f"{float(r['from_m']) / 1000:.1f}"
+    p = os.path.join(S31, "c_route_overlap.csv")
+    if os.path.exists(p):
+        O = read(p)
+        V["ov_min"], V["ov_max"] = pc(min(float(r["share_of_cells_shared"]) for r in O)), pc(max(float(r["share_of_cells_shared"]) for r in O))
+        V["jac_max"] = f2(max(float(r["mean_pairwise_jaccard"]) for r in O))
+    p = os.path.join(S31, "e_products_detection.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("pr", r["input"], r["method"])] = f2(r["auc"]); V[key("pr3", r["input"], r["method"])] = f"{rnd(float(r['auc']), 3):.3f}"
+    p = os.path.join(S30, "c_glo30_shift_detection.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V[key("gs3", r["input"], r["method"])] = f"{rnd(float(r['auc']), 3):.3f}"
+    p = os.path.join(S31, "e_products_planning.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("prp", r["input"], r["layer"])
+            V[k] = pc(r["mission_success"]); V[k + "_v"] = pc(r["vehicle_success"])
+    if "vc_E1_G30_maxcomp_md1" in V and os.path.exists(os.path.join(S31, "e_products_planning.csv")):
+        P = {(r["input"], r["layer"]): float(r["mission_success"]) for r in read(os.path.join(S31, "e_products_planning.csv"))}
+        g30 = {(r["input"], r["layer"]): float(r["mission_success"]) for r in read(os.path.join(S30, "c_glo30_shift_planning.csv"))}
+        cands = [float(V["vc_E1_G30_maxcomp_md1"]) / 100, P[("A30", "BICUBIC-cal")] - P[("A30", "none")], P[("F30", "BICUBIC-cal")] - P[("F30", "none")],
+                 g30[("G30", "BICUBIC-cal")] - g30[("G30", "none")]]
+        V["real30_max_md1"] = f"{rnd(100 * max(cands), 1):.1f}"
+        for pn in ("A30", "F30"):
+            V[key("prp", pn, "d1")] = f"{rnd(100 * (P[(pn, 'BICUBIC-cal')] - P[(pn, 'none')]), 1):.1f}"
+    p = os.path.join(S31, "f_unet_detection.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            V["un_auc"] = f2(r["auc"])
+    p = os.path.join(S31, "f_unet_planning.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("unp", r["endpoints"])
+            V[k] = pc(r["mission_success"]); V[k + "_v"] = pc(r["vehicle_success"]); V[k + "_base"] = pc(r["slip_only"])
+            V[k + "_d"] = pts(r["diff"]); V[k + "_ci"] = ci_pts(r["site_lo"], r["site_hi"])
+    p = os.path.join(S31, "a_sensor_variants.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            if r["success"] == "":
+                continue
+            k = key("sv", r["variant"].split()[0] if r["variant"].startswith(("registered", "stage")) else r["variant"], r["layer"])
+            if r["variant"].startswith("stage 30"):
+                k = key("sv", "pair08", r["layer"])
+            V[k] = pc(r["success"])
+            if r["site_lo"] != "" and r["layer"] != "none":
+                V[k + "_d"] = pts(r["diff"]); V[k + "_ci"] = ci_pts(r["site_lo"], r["site_hi"]); V[k + "_pos"] = WORDS[int(r["sites_positive"])]
+            for c in ("unsafe", "gave_up", "stuck"):
+                if r.get(c, "") not in ("", None):
+                    V[k + "_" + c.replace("_", "")] = pc(r[c])
+    p = os.path.join(S31, "b_closed_loop_held_out_weight.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("hw", r["input"], r["layer"])
+            V[k] = pc(r["success"]); V[k + "_d"] = pts(r["diff"]); V[k + "_ci"] = ci_pts(r["site_lo"], r["site_hi"])
+            V[k + "_chosen"] = ", ".join(sorted({c.split(":")[1] for c in r["chosen"].split()}, key=float))
+            for w in (1, 5, 20, 100):
+                if r.get(f"success_w{w}", "") != "":
+                    V[k + f"_w{w}"] = pc(r[f"success_w{w}"])
+    p = os.path.join(S31, "d_site_level_line_of_sight.csv")
+    if os.path.exists(p):
+        for r in read(p):
+            k = key("sl", r["input"], r["endpoints"], r["layer"], "p" + r["p_detect"].replace(".", ""))
+            if r["site_lo"] != "":
+                V[k + "_ci"] = ci_pts(r["site_lo"], r["site_hi"]); V[k + "_d"] = pts(r["diff"])
+                V[k + "_excl"] = "yes" if float(r["site_lo"]) > 0 else "no"
+    p = os.path.join(S31, "d_detection_intervals_sr_dems2.csv")
+    if os.path.exists(p):
+        R = read(p)
+        for m in ("SR", "DEM+S2"):
+            rr = [r for r in R if r["method"] == m]
+            V[key("di", m, "above")] = WORDS[sum(float(r["diff_lo"]) > 0 for r in rr)]
+            V[key("di", m, "pos")] = WORDS[sum(float(r["diff_vs_bicubic"]) > 0 for r in rr)]
+    p = os.path.join(S31, "g_grid_edges.csv")
+    if os.path.exists(p):
+        G = read(p)
+        reg = [r for r in G if r["source"].startswith("stage 28") and r["layer"] not in ("none",)]
+        V["edge_reg_share"] = pc(sum(int(r["sites_at_edge"]) for r in reg) / (6 * len(reg)))
+        xw = [r for r in G if r["source"].startswith("stage 30")]
+        V["edge_xw_share"] = pc(sum(int(r["sites_at_edge"]) for r in xw) / (6 * len(xw)))
     return V
 
 
@@ -333,7 +467,7 @@ def table_sites():
     A = read(os.path.join(S27, "A_metrics.csv"))
     pm = json.load(open(os.path.join(S27, "prepare_meta.json")))
     prev = lambda s, i: float(next(r for r in A if r["site"] == s and r["input"] == i)["prevalence"])
-    L = [r"\begin{table}[t]", r"\caption{Lidar windows (USGS 3DEP one metre DEM; flown: acquisition period of the lidar project), the number of face patches and the share of cells holding a face patch post at 10 and 30\,m.}",
+    L = [r"\begin{table}[t]", r"\caption{Lidar windows (USGS 3DEP one metre DEM; flown: acquisition period), face patches and the share of cells holding a face patch post at 10 and 30\,m.}",
          r"\label{tab:sites}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lrrrrrrr@{}}", r"\toprule",
          r"Site & Lat., lon. & km$^2$ & Relief & Flown & Patches & 10\,m & 30\,m \\", r"\midrule"]
     for s in SITES:
@@ -349,8 +483,8 @@ DET_ROWS = [("SLOPE", "Slope"), ("TRI", "Ruggedness"), ("ROUGH", "Roughness"), (
             ("SR", "Super resolution$^{*}$"), ("DET", "Detector"), ("GBM", "Boosting$^{*}$"), ("GBM+", "Boosting+$^{*}$"),
             ("CNN", "Network$^{*}$"), ("CNN-long", "Network, 6000 steps$^{*}$"), ("IMG-S2", "Sentinel-2 only$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"),
             ("IMG-NAIP", "NAIP only$^{*}$"), ("DEM+NAIP", "Boosting + NAIP$^{*}$"),
-            ("IMG-CNN-S2", "Sentinel-2 network$^{*\\ddagger}$"), ("IMG-CNN-NAIP", "NAIP network$^{*\\ddagger}$")]
-DET_COLS = [("I10", "I10"), ("I30", "I30"), ("I10to30", r"I10$\rightarrow$30"), ("R10", "R10"), ("N30", "N30"), ("G30n", "G30")]
+            ("IMG-CNN-S2", "Sentinel-2 network$^{*\\ddagger}$"), ("IMG-CNN-NAIP", "NAIP network$^{*\\ddagger}$"), ("UNET", "U-Net$^{*\\ddagger}$")]
+DET_COLS = [("I10", "I10"), ("I30", "I30"), ("I10to30", r"I10$\rightarrow$30"), ("R10", "R10"), ("N30", "N30"), ("G30n", "G30"), ("A30", "A30$^{\\ddagger}$"), ("F30", "F30$^{\\ddagger}$")]
 
 
 def table_detection():
@@ -360,10 +494,12 @@ def table_detection():
         mean.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     best = {c: f2(max(np.mean(v) for (i, m), v in mean.items() if i == c)) for c, _ in DET_COLS if any(i == c for i, _ in mean)}
     g30i = {r["method"]: f2(r["auc"]) for f in ("A_macro.csv", "F_macro.csv") for r in read(os.path.join(S27, f)) if r["input"] == "G30" and r["label"] == "L-ANY" and r["method"] in ("CNN", "SR")}
-    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, resampled by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the network and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"). $^{*}$Trained on the lidar of the other five sites. $^{\ddagger}$Post hoc, pixel level. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
+    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, made by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the networks and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"); A30: AW3D30 and F30: FABDEM, interpolated to the 30\,m lidar grid. Ruggedness and roughness: supplement. $^{*}$Trained on the lidar of the other five sites. $^{\ddagger}$Post hoc. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
          r"\label{tab:detection}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.8pt}", r"\begin{tabular}{@{}l" + "c" * len(DET_COLS) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in DET_COLS) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
+        if m in ("TRI", "ROUGH"):
+            continue                      # in the supplement (Table S5)
         cells = []
         for c, _ in DET_COLS:
             v = mean.get((c, m))
@@ -387,33 +523,206 @@ DEGRADED = [("FACEMAP", "Face map, $w=5$"), ("shift5", "Face map 5\\,m off"), ("
 
 
 def table_planning(degraded=False):
-    H = read(os.path.join(S28, "A_held_out.csv"))
-    N = read(os.path.join(S28, "A_naive.csv"))
-    C = read(os.path.join(S28, "C_degraded.csv")) if os.path.exists(os.path.join(S28, "C_degraded.csv")) else []
+    if degraded:
+        return table_degraded()
+    p = os.path.join(S31, "c_vehicle_all_cells.csv")
+    C = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)} if os.path.exists(p) else {}
 
-    def ho(e, i, lay):
-        if lay == "none":
-            r = next((r for r in N if r["profile"] == "published-posterior" and r["endpoints"] == e and r["input"] == i), None)
-            return f"{rnd(100 * float(r['mission_success'])):.0f}" if r else NA
-        r = next((r for r in H if r["profile"] == "published-posterior" and r["endpoints"] == e and r["input"] == i and r["layer"] == lay
-                  and r["policies"] == "conservative+risk_weighted"), None)
+    def cell(e, i, lay):
+        r = C.get((e, i, lay))
         if r is None:
             return NA
-        s = f"{rnd(100 * float(r['mission_success'])):.0f}"
-        return s + ("$^{\\dagger}$" if float(r["diff_lo"]) > 0 else "")
-    L = [r"\begin{table}[t]", r"\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero (not corrected for the number of cells). " + (r"Lower part, a second protocol: face maps degraded as registered, weight policy at a fixed $w=5$. " if degraded else "") + r"$\cdot$ not run. $^{*}$Trained leave one site out.}",
-         r"\label{tab:planning}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
-         r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\", r"Layer & E1 & E2 & E1 & E2 & E1 \\", r"\midrule"]
+        return f"{rnd(100 * float(r['mission_success'])):.0f}/{rnd(100 * float(r['vehicle_success'])):.0f}"
+    L = [r"\begin{table}[t]", r"\caption{Mission success / vehicle success (\%; vehicle success post hoc) at the operating point chosen on the other five sites, 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: from the coarse map only. Site level intervals: supplement S6. $^{*}$Trained leave one site out.}",
+         r"\label{tab:planning}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
+         r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\", r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(l){6-6}", r"Layer & E1 & E2 & E1 & E2 & E1 \\", r"\midrule"]
     for lay, lab in PLAN_LAYERS:
-        L.append(f"{lab} & " + " & ".join(ho(e, i, lay) for e, i in PLAN_COLS) + r" \\")
-    if C and degraded:
-        L.append(r"\midrule")
-        for mp, lab in DEGRADED:
-            cells = []
-            for e, i in PLAN_COLS:
-                r = next((r for r in C if r["endpoints"] == e and r["input"] == i and r["map"] == mp and r["policy"] == "risk_weighted"), None)
-                cells.append(f"{rnd(100 * float(r['mission_success'])):.0f}" if r else NA)
-            L.append(f"{lab} & " + " & ".join(cells) + r" \\")
+        L.append(f"{lab} & " + " & ".join(cell(e, i, lay) for e, i in PLAN_COLS) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_degraded():
+    C = read(os.path.join(S28, "C_degraded.csv")) if os.path.exists(os.path.join(S28, "C_degraded.csv")) else []
+    L = [r"\begin{table}[H]", r"\caption{Registered degraded face maps (stage 28), weight policy at a fixed $w=5$: mission success (\%), 100 pairs per site, posterior vehicle. The first row is the exact face map at the same weight; Table~III of the paper gives the face map at the weight chosen on the other five sites.}",
+         r"\label{tab:planning_s}", r"\centering\small", r"\begin{tabular}{@{}lcccc@{}}", r"\toprule",
+         r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} \\", r"Face map & E1 & E2 & E1 & E2 \\", r"\midrule"]
+    for mp, lab in DEGRADED:
+        cells = []
+        for e, i in PLAN_COLS[:4]:
+            r = next((r for r in C if r["endpoints"] == e and r["input"] == i and r["map"] == mp and r["policy"] == "risk_weighted"), None)
+            cells.append(f"{rnd(100 * float(r['mission_success'])):.0f}" if r else NA)
+        L.append(f"{lab} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def _cidisp(r, e):
+    if r is None or r.get(f"{e}_site_lo", "") == "":
+        return NA
+    return f"{pts(r[f'{e}_diff'])} ({pts(r[f'{e}_site_lo'])}, {pts(r[f'{e}_site_hi'])})"
+
+
+def table_site_level():
+    p = os.path.join(S31, "c_vehicle_all_cells.csv")
+    if not os.path.exists(p):
+        return "% site level table not run yet"
+    C = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)}
+    cols = [("E1", "I10", "mission"), ("E1", "I10", "vehicle"), ("E1", "I30", "mission"), ("E1", "I30", "vehicle"), ("E2", "I30", "mission"), ("E1", "G30", "mission")]
+    L = [r"\begin{table}[H]", r"\caption{Site level inference for Table~III of the paper: gain over the slip model alone in points, mean of the six per site differences, with a 95\,\% $t$ interval (five degrees of freedom; it can extend beyond the possible range). M: mission success; V: vehicle success.}",
+         r"\label{tab:sitelevel}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}", r"\toprule",
+         "Layer & " + " & ".join(f"{i} {e} {m[0].upper()}" for e, i, m in cols) + r" \\", r"\midrule"]
+    for lay, lab in PLAN_LAYERS:
+        if lay == "none":
+            continue
+        L.append(f"{lab} & " + " & ".join(_cidisp(C.get((e, i, lay)), m) for e, i, m in cols) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_labels():
+    p = os.path.join(S31, "c_vehicle_all_cells.csv")
+    if not os.path.exists(p):
+        return "% label table not run yet"
+    C = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)}
+    labs = [("mission_success", "Registered"), ("success_P300", "P300"), ("success_L60", "L60"), ("success_H", "H"), ("success_M", "M")]
+    L = [r"\begin{table}[H]", r"\caption{Mission success (\%) of the routes of Table~III of the paper (E1 endpoints) scored against other face rules: patches of at least 300 posts (P300), patches at least 60\,m long (L60), hysteresis patches (H) and patches merged across gaps of one post (M). The operating points stay those chosen for the registered rule.}",
+         r"\label{tab:labels}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}l" + "c" * (2 * len(labs)) + r"@{}}", r"\toprule",
+         r" & \multicolumn{" + str(len(labs)) + r"}{c}{I10} & \multicolumn{" + str(len(labs)) + r"}{c}{I30} \\",
+         "Layer & " + " & ".join(h for _ in range(2) for _, h in labs) + r" \\", r"\midrule"]
+    for lay, lab in PLAN_LAYERS:
+        cells = []
+        for i in ("I10", "I30"):
+            r = C.get(("E1", i, lay))
+            cells += [f"{rnd(100 * float(r[c])):.0f}" if r else NA for c, _ in labs]
+        L.append(f"{lab} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_tertiles():
+    p = os.path.join(S31, "c_by_pair_distance.csv")
+    if not os.path.exists(p):
+        return "% distance table not run yet"
+    T = read(p)
+    get = lambda e, i, lay, t: next((r for r in T if r["endpoints"] == e and r["input"] == i and r["layer"] == lay and r["tertile"] == str(t)), None)
+    e1 = [r for r in T if r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] == "none"]
+    edges = sorted({float(r["from_m"]) for r in e1})[1:]
+    L = [r"\begin{table}[H]", r"\caption{Mission success / vehicle success (\%) by tertile of the straight distance of the pair (E1 endpoints, 200 pairs per tertile; edges " + f"{edges[0] / 1000:.1f} and {edges[1] / 1000:.1f}" + r"\,km).}",
+         r"\label{tab:tertiles}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccccc@{}}", r"\toprule",
+         r" & \multicolumn{3}{c}{I10} & \multicolumn{3}{c}{I30} \\", r"Layer & short & middle & long & short & middle & long \\", r"\midrule"]
+    for lay, lab in (("none", "Slip model only"), ("BICUBIC-cal", "Interpolation"), ("FACEMAP", "Face map (oracle)")):
+        cells = []
+        for i in ("I10", "I30"):
+            for t in (1, 2, 3):
+                r = get("E1", i, lay, t)
+                cells.append(f"{rnd(100 * float(r['mission_success'])):.0f}/{rnd(100 * float(r['vehicle_success'])):.0f}" if r else NA)
+        L.append(f"{lab} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_cl_variants():
+    p = os.path.join(S31, "a_sensor_variants.csv")
+    if not os.path.exists(p):
+        return "% sensor variants not run yet"
+    A = read(p)
+    H = read(os.path.join(S31, "b_closed_loop_held_out_weight.csv")) if os.path.exists(os.path.join(S31, "b_closed_loop_held_out_weight.csv")) else []
+    cols = [("registered eye 1 m", "Eye 1\\,m"), ("eye0.5", "Eye 0.5\\,m"), ("eye1.5", "Eye 1.5\\,m"), ("noise0.05", "Noise 0.05\\,m"), ("noise0.15", "Noise 0.15\\,m"),
+            ("stage 30 p 0.8 once per pair", "$p_d$ 0.8, pair"), ("obs0.8", "$p_d$ 0.8, view")]
+
+    def g(v, lay):
+        r = next((r for r in A if r["variant"] == v and r["layer"] == lay), None)
+        return f"{rnd(100 * float(r['success'])):.0f}" if r and r["success"] != "" else NA
+
+    def hw(i, lay):
+        r = next((r for r in H if r["input"] == i and r["layer"] == lay), None)
+        return f"{rnd(100 * float(r['success'])):.0f}" if r else NA
+    L = [r"\begin{table}[H]", r"\caption{Line of sight closed loop on I30 (E1 endpoints, 20 pairs per site, $R=20$\,m) under sensor variants (post hoc): success (\%). Eye: height of the sensor above the ground. Noise: standard deviation of the noise added to every lidar post before the rover's face patches are computed. $p_d$ 0.8: each face cell is detected with probability 0.8, drawn once per pair (pair) or at every view (view). All at $w=5$; last columns: weight chosen on the other five sites from $\{1,5,20,100\}$, on I30 and on I10.}",
+         r"\label{tab:clvariants}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}l" + "c" * (len(cols) + 2) + r"@{}}", r"\toprule",
+         "Prior layer & " + " & ".join(h for _, h in cols) + r" & Held out $w$ & I10, held out $w$ \\", r"\midrule"]
+    for lay, lab in (("none", "Slip model only"), ("BICUBIC-cal", "Interpolation"), ("GBM", "Boosting$^{*}$"), ("FACEMAP", "Face map (oracle)")):
+        hcell = NA if lay == "none" else hw("I30", lay)
+        h10 = NA if lay in ("none", "GBM") else hw("I10", lay)
+        L.append(f"{lab} & " + " & ".join(g(v, lay) for v, _ in cols) + f" & {hcell} & {h10} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_los_site_level():
+    p = os.path.join(S31, "d_site_level_line_of_sight.csv")
+    if not os.path.exists(p):
+        return "% not run yet"
+    R = read(p)
+    cols = [("I30", "E1", "1.0", "I30, E1"), ("I30", "E2", "1.0", "I30, E2"), ("I30", "E1", "0.8", "I30, E1, $p_d$ 0.8"), ("I10", "E1", "1.0", "I10, E1")]
+
+    def g(i, e, pd, lay):
+        r = next((r for r in R if r["input"] == i and r["endpoints"] == e and r["p_detect"] == pd and r["layer"] == lay), None)
+        return f"{pts(r['diff'])} ({pts(r['site_lo'])}, {pts(r['site_hi'])})" if r and r["site_lo"] != "" else NA
+    L = [r"\begin{table}[H]", r"\caption{Line of sight closed loop of Table~IV of the paper: gain over the slip model prior in points, mean of the six per site differences with a 95\,\% $t$ interval (five degrees of freedom).}",
+         r"\label{tab:lossite}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccc@{}}", r"\toprule", "Prior layer & " + " & ".join(c[3] for c in cols) + r" \\", r"\midrule"]
+    for lay, lab in LOS_LAYERS:
+        if lay == "none":
+            continue
+        L.append(f"{lab} & " + " & ".join(g(i, e, pd, lay) for i, e, pd, _ in cols) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_products():
+    p = os.path.join(S31, "e_products_detection.csv")
+    if not os.path.exists(p):
+        return "% products not run yet"
+    D = {(r["input"], r["method"]): r for r in read(p)}
+    D.update({(r["input"], r["method"]): r for r in read(os.path.join(S30, "c_glo30_shift_detection.csv"))})
+    P = {(r["input"], r["layer"]): r for r in read(os.path.join(S31, "e_products_planning.csv"))} if os.path.exists(os.path.join(S31, "e_products_planning.csv")) else {}
+    G = {(r["input"], r["layer"]): r for r in read(os.path.join(S30, "c_glo30_shift_planning.csv"))}
+    L = [r"\begin{table}[H]", r"\caption{Real 30\,m products interpolated to the 30\,m lidar grid (post hoc for A30 and F30): mean AUC against the face map label, and mission success / vehicle success (\%) on E1 with the weight chosen on the other five sites from $\{1,\dots,1000\}$. G30: GLO-30 (vehicle success not scored on this grid); A30: AW3D30 (optical stereo surface model); F30: FABDEM (GLO-30 with forest and buildings removed). Boosting is trained on the other five sites.}",
+         r"\label{tab:products}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccccc@{}}", r"\toprule",
+         r" & \multicolumn{4}{c}{AUC} & \multicolumn{2}{c}{Success} \\", r"\cmidrule(lr){2-5}\cmidrule(l){6-7}",
+         r"Product & Slope & Interp. & Detector & Boosting & Slip only & Interp. \\", r"\midrule"]
+    for inp, lab in (("G30", "G30"), ("A30", "A30"), ("F30", "F30")):
+        aucs = [f2(D[(inp, m)]["auc"]) if (inp, m) in D else NA for m in ("SLOPE", "BICUBIC", "DET", "GBM")]
+        if inp == "G30":
+            pl = [f"{rnd(100 * float(G[(inp, l)]['mission_success'])):.0f}/$\\cdot$" if (inp, l) in G else NA for l in ("none", "BICUBIC-cal")]
+        else:
+            pl = [f"{rnd(100 * float(P[(inp, l)]['mission_success'])):.0f}/{rnd(100 * float(P[(inp, l)]['vehicle_success'])):.0f}" if (inp, l) in P else NA for l in ("none", "BICUBIC-cal")]
+        L.append(f"{lab} & " + " & ".join(aucs + pl) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_sensitivity():
+    H = read(os.path.join(S28, "A_held_out.csv")); N = read(os.path.join(S28, "A_naive.csv"))
+    cols = [("E1", "I10"), ("E1", "I30"), ("E1", "G30")]
+
+    def g(prof, e, i, lay):
+        if lay == "none":
+            r = next((r for r in N if r["profile"] == prof and r["endpoints"] == e and r["input"] == i), None)
+        else:
+            r = next((r for r in H if r["profile"] == prof and r["endpoints"] == e and r["input"] == i and r["layer"] == lay and r["policies"] == "conservative+risk_weighted"), None)
+        return f"{rnd(100 * float(r['mission_success'])):.0f}" if r else NA
+    L = [r"\begin{table}[H]", r"\caption{Mission success (\%) with the posterior vehicle (P) and the sensitivity vehicle with narrower assumed ranges (A), E1 endpoints, operating point chosen on the other five sites.}",
+         r"\label{tab:sensitivity}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccccc@{}}", r"\toprule",
+         r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\", r"Layer & P & A & P & A & P & A \\", r"\midrule"]
+    for lay, lab in PLAN_LAYERS:
+        if lay == "DEM+S2":
+            continue
+        L.append(f"{lab} & " + " & ".join(g(pf, e, i, lay) for e, i in cols for pf in ("published-posterior", "assumed")) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+def table_dates():
+    meta = {r["site"]: r for r in read(os.path.join(BEN, "site_metadata.csv"))}
+    L = [r"\begin{table}[H]", r"\caption{Lidar projects and acquisition dates, and the dates of the other inputs. NASADEM is from February 2000 and GLO-30 from radar acquisitions of 2011 to 2015 at every site (the copyright years of the licence statement, 2010 to 2014, are not acquisition dates).}",
+         r"\label{tab:dates}", r"\centering\scriptsize", r"\begin{tabular}{@{}llccc@{}}", r"\toprule",
+         r"Site & Lidar project & Lidar flown & Sentinel-2 & NAIP \\", r"\midrule"]
+    for s in SITES:
+        m = meta[s]
+        a, b = m["acquisition_start"], m["acquisition_end"]
+        fl = a if a == b else f"{a} to {b}"
+        L.append(f"{SITE_LABEL[s].split(',')[0]} & {_esc(m['lidar_project'])} & {fl} & {m['sentinel2_date']} & {m['naip_year']} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
 
@@ -432,10 +741,11 @@ def table_closed_loop():
         if r is None or r.get(k, "") == "":
             return NA
         return f"{rnd(100 * float(r[k])):.0f}" if k in ("success", "stuck") else f"{rnd(float(r[k])):.0f}"
-    L = [r"\begin{table}[H]", r"\caption{Registered closed loop with an idealised sensor (radius $R$), 20 pairs per site, posterior vehicle, sensing every face within the radius: success (\%; goal reached, no face contact) and replans per pair (Rp), E1 endpoints unless marked E2. Main runs $R=20$\,m; I30 also with $R=10$ and 30\,m.}",
+    L = [r"\begin{table}[H]", r"\caption{Registered closed loop with an idealised sensor (radius $R$), 20 pairs per site, posterior vehicle, sensing every face within the radius: success S (\%; goal reached, no face contact) and replans per pair Rp. Main runs $R=20$\,m; I30 also with E2 endpoints and with $R=10$ and 30\,m.}",
          r"\label{tab:closedloop_ideal}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.4pt}", r"\begin{tabular}{@{}lccccccc@{}}", r"\toprule",
-         r" & \multicolumn{2}{c}{I10, $R$ 20} & \multicolumn{2}{c}{I30, $R$ 20} & \multicolumn{3}{c}{I30, S} \\",
-         r"Prior layer & S & Rp & S & Rp & E2 & $R$ 10 & $R$ 30 \\", r"\midrule"]
+         r" & \multicolumn{2}{c}{I10, E1, $R$ 20} & \multicolumn{2}{c}{I30, E1, $R$ 20} & I30, E2 & \multicolumn{2}{c}{I30, E1} \\",
+         r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-6}\cmidrule(l){7-8}",
+         r"Prior layer & S & Rp & S & Rp & S, $R$ 20 & S, $R$ 10 & S, $R$ 30 \\", r"\midrule"]
     for lay, lab in CL_LAYERS:
         L.append(f"{lab} & {g('E1', 'I10', lay, 20.0, 'success')} & {g('E1', 'I10', lay, 20.0, 'replans')} & "
                  f"{g('E1', 'I30', lay, 20.0, 'success')} & {g('E1', 'I30', lay, 20.0, 'replans')} & "
@@ -460,13 +770,12 @@ def table_closed_loop_los():
         r = next((r for r in A if r["input"] == inp and r["endpoints"] == e and r["layer"] == lay and float(r["p_detect"]) == pd), None)
         if r is None:
             return NA
-        c = f"{rnd(100 * float(r['success'])):.0f}"
-        return c + ("$^{\\dagger}$" if r["diff_lo"] not in ("", None) and float(r["diff_lo"]) > 0 else "")
+        return f"{rnd(100 * float(r['success'])):.0f}"
 
     def ideal(lay):
         r = next((r for r in E if r["profile"] == "published-posterior" and r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] == lay and float(r["radius_m"]) == 20.0), None)
         return f"{rnd(100 * float(r['success'])):.0f}" if r else NA
-    L = [r"\begin{table}[t]", r"\caption{Closed loop with onboard sensing within 20\,m, 20 pairs per site, posterior vehicle, weight $w=5$: success (\%; goal reached without touching a face). Line of sight: a 5\,m cell is sensed only when visible from an eye 1\,m above the ground; $p_d=0.8$: each face cell is detectable with probability 0.8. Last column: the registered idealised sensor that sees every face within the radius. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model prior entirely above zero. $\cdot$ not run. $^{*}$Trained leave one site out. Line of sight runs are post hoc.}",
+    L = [r"\begin{table}[t]", r"\caption{Exploratory closed loop, sensing within 20\,m (post hoc except the last column), 20 pairs per site, $w=5$: success (\%; goal reached, no face touched). Line of sight: eye 1\,m above the ground; $p_d=0.8$: each face cell detectable with probability 0.8. Ideal: the registered sensor that sees every face. Intervals and sensor variants: supplement S6. $^{*}$Trained leave one site out.}",
          r"\label{tab:closedloop}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
          r" & \multicolumn{4}{c}{Line of sight} & Ideal \\", r"\cmidrule(lr){2-5}\cmidrule(l){6-6}",
          r" & \multicolumn{3}{c}{I30} & I10 & I30 \\", r"\cmidrule(lr){2-4}\cmidrule(lr){5-5}\cmidrule(l){6-6}",
@@ -494,9 +803,9 @@ def _esc(s):
 
 def table_log():
     reg = open(os.path.join(ROOT, "docs", "PREDICTIONS.md"), encoding="utf-8").read()
-    rows = re.findall(r"^\| ((?:B25|P26|D27|P28|X29|Y30)-\d+) \| ([^|\n]*) \| ([^\n]*)\|\s*$", reg, flags=re.M)
+    rows = re.findall(r"^\| ((?:B25|P26|D27|P28|X29|Y30|Z31)-\d+) \| ([^|\n]*) \| ([^\n]*)\|\s*$", reg, flags=re.M)
     L = [r"\begin{longtable}{@{}p{0.08\linewidth}p{0.42\linewidth}p{0.46\linewidth}@{}}",
-         r"\caption{Prediction log of stages 25 to 30: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards. Stages 29 (X29) and 30 (Y30) are post hoc and not counted in the tally.}\label{tab:log}\\",
+         r"\caption{Prediction log of stages 25 to 31: every prediction as committed before its run (verbatim) and the outcome as recorded afterwards. Stages 29 (X29), 30 (Y30) and 31 (Z31) are post hoc and not counted in the tally.}\label{tab:log}\\",
          r"\toprule", r"ID & Prediction (before the run) & Outcome \\", r"\midrule", r"\endhead"]
     for i, p, o in rows:
         L.append(f"{i} & {tex_escape(p.strip())} & {tex_escape(o.strip())} \\\\")
@@ -519,7 +828,22 @@ GLOSSARY = [("Slip face", "the lee face of a dune near the angle of repose; in t
             ("Gate, weight", "the conservative and risk weighted policies"),
             ("Face map (oracle)", "the face map label used as a hazard layer (FACEMAP, ORACLE-ANY); an oracle, not a bound"),
             ("Posterior vehicle", "the slip model with parameters drawn from a posterior fitted to published slip curves of other wheeled vehicles"),
-            ("E1, E2", "endpoints chosen with the truth (all posts gentle) and from the coarse map only")]
+            ("E1, E2", "endpoints chosen with the truth (centres of 30 m cells whose one metre posts are all valid and below 20 degrees, 25 degrees at a site with fewer than 200 such cells) and from the coarse map only (coarse slope below 15 degrees)"),
+            ("Mission success", "a route exists and no sample of it lies on a face patch"),
+            ("Vehicle success", "mission success and every 5 m step of the route climbable by the nominal posterior vehicle on the 5 m lidar block mean, with no descent of 28 degrees or more"),
+            ("Slope, ruggedness, roughness, aspect rule", "SLOPE, TRI, ROUGH and ASPECT in the files; -cal: calibrated on the other five sites"),
+            ("BICUBIC", "the file name of interpolation; the method is a cubic spline"),
+            ("Super resolution", "SR (SR-cal when calibrated)"),
+            ("Network, 6000 steps", "CNN-long; U-Net: UNET"),
+            ("Boosting variants", "GBM+ (five more features), GBM-tuned (nested tuning), GBM-noDET (without the detector features)"),
+            ("Imagery layers", "IMG-S2 and IMG-NAIP (imagery features only), DEM+S2 and DEM+NAIP (terrain plus imagery features), IMG-CNN-S2 and IMG-CNN-NAIP (pixel level networks on the imagery)"),
+            ("A30, F30", "AW3D30 and FABDEM interpolated to the 30 m lidar grid"),
+            ("SHORTEST, ORACLE-5", "stage 26 references: the shortest grid path without terrain, and the gate on the 5 m surface with every face cell marked"),
+            ("P300, L60, H, M", "other face rules: patches of at least 300 posts, patches at least 60 m long, hysteresis patches and patches merged across one post gaps"),
+            ("Exponential family", "the slip law of Eq. (2) (not the statistical exponential family)"),
+            ("Stage, part", "one round of the prediction log (stages 25 to 31) and a lettered part of its design"),
+            ("Crop margin", "the local grid of a closed loop run covers the bounding box of the pair plus this margin"),
+            ("Blind review", "a critical review of the paper by a reader who had not seen the work being produced, used to decide the post hoc checks")]
 
 
 def table_glossary():
@@ -536,7 +860,7 @@ def table_spread():
     for r in D:
         vals.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     cols = [c for c in DET_COLS if any(i == c[0] for i, _ in vals)]
-    L = [r"\begin{table}[H]", r"\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table III of the paper.}",
+    L = [r"\begin{table}[H]", r"\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table~II of the paper.}",
          r"\label{tab:spread}", r"\centering\scriptsize", r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in cols) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
@@ -553,7 +877,9 @@ def table_persite():
     E = [r for r in read(os.path.join(S27, "E_metrics.csv")) if r["input"] == "I30"]
     E += [r for r in read(os.path.join(S27, "F_metrics.csv")) if r["input"] == "I30" and r["method"] == "SR"]
     ms = [("SLOPE", "Slope"), ("BICUBIC", "Interp."), ("SR", "Super res."), ("DET", "Detector"), ("GBM", "Boosting"), ("CNN", "Network"), ("DEM+S2", "Boost.+S2")]
-    L = [r"\begin{table}[H]", r"\caption{AUC per site on I30 (face map label), three decimals, with 95\,\% block bootstrap intervals where computed.}", r"\label{tab:persite}",
+    dp = os.path.join(S31, "d_detection_intervals_sr_dems2.csv")
+    DI = {(r["site"], r["method"]): r for r in read(dp)} if os.path.exists(dp) else {}
+    L = [r"\begin{table}[H]", r"\caption{AUC per site on I30 (face map label), three decimals, with 95\,\% block bootstrap intervals (300\,m blocks). Paired intervals of super resolution and of boosting with Sentinel-2 against interpolation (post hoc) lie above zero at " + WORDS[sum(float(r["diff_lo"]) > 0 for r in DI.values() if r["method"] == "SR")] + " and " + WORDS[sum(float(r["diff_lo"]) > 0 for r in DI.values() if r["method"] == "DEM+S2")] + r" of the six sites.}", r"\label{tab:persite}",
          r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.5pt}", r"\begin{tabular}{@{}l" + "c" * len(ms) + r"@{}}", r"\toprule",
          "Site & " + " & ".join(h for _, h in ms) + r" \\", r"\midrule"]
     for s in SITES:
@@ -563,8 +889,11 @@ def table_persite():
             if r is None:
                 cells.append(NA); continue
             c = f"{rnd(r['auc'], 3):.3f}"
+            di = DI.get((s, m))
             if r.get("auc_lo", ""):
                 c += f" [{f2(r['auc_lo'])}, {f2(r['auc_hi'])}]"
+            elif di:
+                c += f" [{f2(di['lo'])}, {f2(di['hi'])}]"
             cells.append(c)
         L.append(f"{SITE_LABEL[s].split(',')[0]} & " + " & ".join(cells) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
@@ -575,8 +904,9 @@ def table_persite():
 # render and build
 # ---------------------------------------------------------------------------------------------------------------------
 TABLES = {"sites": table_sites, "methods": lambda: open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip(),
-          "detection": table_detection, "planning": table_planning, "planning_degraded": lambda: table_planning(True).replace("\\begin{table}[t]", "\\begin{table}[H]").replace("tab:planning", "tab:planning_s"), "closedloop": table_closed_loop, "closedloop_los": table_closed_loop_los, "log": table_log, "persite": table_persite,
-          "glossary": table_glossary, "methods_supp": lambda: re.sub(r"~?\\cite\{[^}]*\}", "", open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip()).replace("\\begin{table}[t]", "\\begin{table}[H]").replace("tab:methods", "tab:methods_s"), "spread": table_spread}
+          "detection": table_detection, "planning": table_planning, "planning_degraded": table_degraded, "closedloop": table_closed_loop, "closedloop_los": table_closed_loop_los, "log": table_log, "persite": table_persite,
+          "glossary": table_glossary, "sitelevel": table_site_level, "labels": table_labels, "tertiles": table_tertiles,
+          "clvariants": table_cl_variants, "lossite": table_los_site_level, "products": table_products, "sensitivity": table_sensitivity, "dates": table_dates, "methods_supp": lambda: re.sub(r"~?\\cite\{[^}]*\}", "", open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip()).replace("\\begin{table}[t]", "\\begin{table}[H]").replace("tab:methods", "tab:methods_s"), "spread": table_spread}
 
 
 def render(template, V) -> str:
