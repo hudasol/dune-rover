@@ -443,7 +443,7 @@ def imagery_inputs(name):
     return X, Y, K, D
 
 
-def part_e(names=("S2", "NAIP"), steps=2000):
+def part_e(names=("S2", "NAIP"), steps=2000, order=None):
     import torch, torch.nn as nn
     torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "1")))
 
@@ -456,10 +456,12 @@ def part_e(names=("S2", "NAIP"), steps=2000):
     for name in names:
         X, Y, K, D = imagery_inputs(name)
         crop = 64 if name == "S2" else 128
-        for held in SITES:
+        for held in (order or SITES):
             out_path = os.path.join(CDIR, f"IMG-CNN-{name}_{held}.npy")
-            if os.path.exists(out_path):
+            lock = out_path + ".lock"
+            if os.path.exists(out_path) or os.path.exists(lock):
                 continue
+            open(lock, "w").close()        # a second process working in reverse order skips this fold
             t0 = time.time()
             torch.manual_seed(0); rng = np.random.default_rng(0)
             m = net(); opt = torch.optim.Adam(m.parameters(), lr=1e-3); lossf = nn.BCEWithLogitsLoss()
@@ -491,7 +493,7 @@ def part_e(names=("S2", "NAIP"), steps=2000):
             k = K[held]
             nr, nc = prob.shape[0] // k, prob.shape[1] // k
             score = prob[:nr * k, :nc * k].reshape(nr, k, nc, k).max((1, 3))
-            np.save(out_path, score)
+            np.save(out_path, score); os.remove(lock)
             say(f"e {name} held out {held}: {time.time() - t0:.0f} s")
 
 
@@ -583,6 +585,8 @@ def main():
             continue
         if p == "e":
             part_e()
+        elif p == "eNAIPrev":
+            part_e(("NAIP",), order=SITES[::-1])
         elif p == "eplan":
             part_e_plan(sites)
         else:
