@@ -27,3 +27,4 @@ a Dumont eye0.5 none: 84 s
 a Dumont eye0.5 BICUBIC-cal: 84 s
 a Dumont eye0.5 GBM: 98 s
 a Dumont eye0.5 FACEMAP: 78 s
+a Dumont eye1.5 none: 87 s
