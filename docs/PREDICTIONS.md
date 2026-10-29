@@ -752,3 +752,5 @@ Design (`scripts/fetch_benchmark_stage31.py`, `scripts/benchmark_stage31.py`, ou
 | Z31-9 | Planning with BICUBIC-cal on A30 (E1) adds at most 5 points of mission success over the slip model alone on A30. | |
 | Z31-10 | UNET reaches a macro AUC on I30 of at most 0.86 and adds at most 5 points of mission success over the slip model alone on I30 (E1). | |
 | Z31-11 | Mission success of the slip model alone on I30 (E1) is at least twice as high in the shortest tertile of pair distance as in the longest. | |
+
+Note on Z31-5 (appended before any stage 31 run, no prediction edited): the open loop held out value of FACEMAP on I10 (E1) is 84.3 %, not 84.0 %; the prediction is scored against 84.3 %.
