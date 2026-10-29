@@ -23,3 +23,7 @@ e Algodones F30
 e LittleSahara F30
 part e done in 322 s (15:09:03)
 stage 31 a b on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 15:22:42
+a Dumont eye0.5 none: 84 s
+a Dumont eye0.5 BICUBIC-cal: 84 s
+a Dumont eye0.5 GBM: 98 s
+a Dumont eye0.5 FACEMAP: 78 s
