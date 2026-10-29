@@ -16,7 +16,9 @@ Super resolution & Steepest slope of a 5\,m surface predicted by a dilated netwo
 Detector & Logistic model on slope, convexity, slope break and relief, trained on 60\,000 synthetic straight crested dune profiles sampled at the cell size & \\
 Boosting & Gradient boosted trees~\cite{friedman2001,ke2017,pedregosa2011} on 14 terrain features (slope, ruggedness, roughness, curvature, topographic position, relief, detector features); variants with 5 more features (Boosting+), tuned by nested leave one site out, and without the detector features & yes \\
 Network & Fully convolutional network~\cite{long2015fully}, four $3\times3$ layers dilated by 1, 2, 4 and 8~\cite{yu2016}, trained with Adam~\cite{kingma2015adam} for 1500 or 6000 steps & yes \\
+U-Net & Two level U-Net~\cite{ronneberger2015unet} on the elevation residual, the slope and the interpolation score, with early stopping on a validation site (post hoc) & yes \\
 + imagery & Boosting on the terrain features plus Sentinel-2 or NAIP features (band means, brightness, contrast, shadow share); also imagery alone & yes \\
+Imagery network & The network on Sentinel-2 bands at 10\,m or NAIP bands at 2\,m; cell score: the largest pixel probability (post hoc) & yes \\
 \bottomrule
 \end{tabular}
 \end{table}
