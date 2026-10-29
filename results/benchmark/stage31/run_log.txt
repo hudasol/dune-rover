@@ -234,3 +234,15 @@ f UNET held out Dumont: validation WhiteSands AUC 0.865 at 1500 steps; 757 s
 f UNET held out WhiteSands: validation Kelso AUC 0.801 at 1000 steps; 649 s
 f UNET held out Kelso: validation GreatSandDunes AUC 0.893 at 1000 steps; 602 s
 stage 31 f on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 19:23:04
+f UNET held out GreatSandDunes: validation Algodones AUC 0.884 at 1500 steps; 780 s
+f UNET held out Algodones: validation LittleSahara AUC 0.723 at 2500 steps; 1125 s
+f UNET held out LittleSahara: validation Dumont AUC 0.954 at 1000 steps; 640 s
+f plan Dumont
+f plan WhiteSands
+f plan Kelso
+f plan GreatSandDunes
+f plan Algodones
+f plan LittleSahara
+part f done in 2666 s (20:07:30)
+stage 31 summary on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 20:07:36
+part summary done in 7 s (20:07:43)

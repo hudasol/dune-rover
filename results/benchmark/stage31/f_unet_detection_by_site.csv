@@ -1,0 +1,7 @@
+site,input,label,method,cells,prevalence,auc,ap,validation_site,steps,validation_auc
+Dumont,I30,L-ANY,UNET,16000,0.4897,0.9483,0.9537,WhiteSands,1500,0.8652
+WhiteSands,I30,L-ANY,UNET,7000,0.402,0.7977,0.7384,Kelso,1000,0.8013
+Kelso,I30,L-ANY,UNET,10800,0.3787,0.7978,0.7442,GreatSandDunes,1000,0.8926
+GreatSandDunes,I30,L-ANY,UNET,16359,0.3196,0.9011,0.8466,Algodones,1500,0.8836
+Algodones,I30,L-ANY,UNET,22078,0.2725,0.8328,0.7121,LittleSahara,2500,0.7234
+LittleSahara,I30,L-ANY,UNET,6996,0.3536,0.7157,0.5835,Dumont,1000,0.9544
