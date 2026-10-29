@@ -413,7 +413,7 @@ def summary():
 # ---------------------------------------------------------------------------------------------------------------------
 # E: closed loop with local sensing on a 5 m grid
 # ---------------------------------------------------------------------------------------------------------------------
-def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, margin=60):
+def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, margin=60, p_detect=1.0, seed=0):
     """Global prior from the coarse assessment a (risk weighted, weight w, face probability h), local 5 m grid, sensing
     radius R metres on the lidar face patches. Returns one dict per pair."""
     from scipy.ndimage import zoom
@@ -458,6 +458,8 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, ma
         allowed = allowed0.reshape(nr, nc)[r0:r1, c0:c1].ravel().copy()
         hl = h5[r0:r1, c0:c1].ravel(); facel = face5[r0:r1, c0:c1].ravel()
         RR, CC = rr_[r0:r1, c0:c1].ravel(), cc_[r0:r1, c0:c1].ravel()
+        # stage 30: each face cell is detectable with probability p_detect, drawn once per pair (1.0: every face is seen)
+        detl = facel & (np.random.default_rng([seed, n]).random(ncell) < p_detect) if p_detect < 1.0 else facel
         cur = (s0[0] - r0) * lnc + (s0[1] - c0); goal = (g0[0] - r0) * lnc + (g0[1] - c0)
         allowed[cur] = True
 
@@ -469,7 +471,7 @@ def closed_loop(a, h, k, T, pairs, R, w=5.0, max_steps=4000, visibility=None, ma
                 idx = np.nonzero(near)[0]
                 vis = visibility(r + r0, c + c0, RR[idx], CC[idx])
                 near = np.zeros_like(near); near[idx[vis]] = True; near[cell] = True
-            known_face[near & facel] = True; known_free[near & ~facel] = True
+            known_face[near & detl] = True; known_free[near & ~detl] = True
 
         def plan():
             ok = allowed[ls] & allowed[ld] & ~known_face[ld]
