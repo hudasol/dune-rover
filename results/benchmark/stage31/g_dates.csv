@@ -1,0 +1,7 @@
+site,lidar_year,s2_date,naip_year,lidar_file
+Dumont,2024,2024-12-20,2022,USGS_1M_11_x56y395_CA_FEMAR9Southeast_D24.tif
+WhiteSands,2020,2020-12-19,2022,USGS_1M_13_x37y364_NM_WhiteSandsNM_2020_D20.tif
+Kelso,2024,2024-12-20,2022,USGS_1M_11_x61y387_CA_FEMAR9Southeast_D24.tif
+GreatSandDunes,2020,2020-12-24,2023,USGS_1M_13_x45y418_CO_SanLuisJuanMiguel_2020_D20.tif
+Algodones,2021,2021-12-26,2022,USGS_1M_11_x67y365_CA_SaltonSea_EarthMRI_2021_D21.tif
+LittleSahara,2020,2020-12-21,2021,USGS_1M_12_x38y440_UT_StatewideCenSouth_2020_A20.tif

@@ -1,0 +1,5 @@
+input,layer,mission_success,vehicle_success,chosen
+A30,none,0.0567,0.04,
+A30,BICUBIC-cal,0.0767,0.045,Dumont:20 WhiteSands:20 Kelso:20 GreatSandDunes:20 Algodones:20 LittleSahara:20
+F30,none,0.05,0.0383,
+F30,BICUBIC-cal,0.0517,0.0433,Dumont:10 WhiteSands:10 Kelso:50 GreatSandDunes:10 Algodones:1 LittleSahara:1

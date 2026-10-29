@@ -1,0 +1,93 @@
+source,endpoints,input,layer,sites_at_edge,chosen
+stage 28 registered grid,E1,I10,DET,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I10,DET-cal,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I10,SLOPE-cal,2,Dumont:risk50 WhiteSands:risk50 Kelso:risk50 GreatSandDunes:risk100 Algodones:risk50 LittleSahara:risk100
+stage 28 registered grid,E1,I10,BICUBIC-cal,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I10,GBM,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I10,CNN,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I10,DEM+S2,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I10,FACEMAP,5,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk10 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I30,DET,0,Dumont:risk20 WhiteSands:risk5 Kelso:risk5 GreatSandDunes:risk5 Algodones:risk5 LittleSahara:risk5
+stage 28 registered grid,E1,I30,DET-cal,5,Dumont:risk20 WhiteSands:risk1 Kelso:risk1 GreatSandDunes:risk1 Algodones:risk1 LittleSahara:risk1
+stage 28 registered grid,E1,I30,SLOPE-cal,1,Dumont:risk2 WhiteSands:risk2 Kelso:risk2 GreatSandDunes:risk2 Algodones:risk1 LittleSahara:risk2
+stage 28 registered grid,E1,I30,BICUBIC-cal,0,Dumont:risk50 WhiteSands:risk50 Kelso:risk50 GreatSandDunes:risk50 Algodones:risk20 LittleSahara:risk50
+stage 28 registered grid,E1,I30,GBM,4,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk10 Algodones:risk10 LittleSahara:risk100
+stage 28 registered grid,E1,I30,CNN,5,Dumont:risk5 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,I30,DEM+S2,1,Dumont:risk20 WhiteSands:risk20 Kelso:risk100 GreatSandDunes:risk20 Algodones:risk5 LittleSahara:risk20
+stage 28 registered grid,E1,I30,FACEMAP,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E1,G30,DET,0,Dumont:cons0.1 WhiteSands:cons0.1 Kelso:risk5 GreatSandDunes:cons0.1 Algodones:risk2 LittleSahara:cons0.1
+stage 28 registered grid,E1,G30,DET-cal,0,Dumont:cons0.7 WhiteSands:cons0.7 Kelso:cons0.7 GreatSandDunes:cons0.7 Algodones:cons0.5 LittleSahara:cons0.7
+stage 28 registered grid,E1,G30,SLOPE-cal,0,Dumont:cons0.5 WhiteSands:cons0.5 Kelso:cons0.5 GreatSandDunes:cons0.5 Algodones:cons0.5 LittleSahara:cons0.5
+stage 28 registered grid,E1,G30,BICUBIC-cal,1,Dumont:risk50 WhiteSands:risk50 Kelso:risk20 GreatSandDunes:risk50 Algodones:risk1 LittleSahara:risk50
+stage 28 registered grid,E1,G30,GBM,1,Dumont:risk5 WhiteSands:risk5 Kelso:risk1 GreatSandDunes:risk5 Algodones:risk5 LittleSahara:risk5
+stage 28 registered grid,E1,G30,CNN,0,Dumont:risk10 WhiteSands:risk20 Kelso:risk20 GreatSandDunes:risk20 Algodones:risk50 LittleSahara:risk20
+stage 28 registered grid,E1,G30,FACEMAP,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,DET,5,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk50 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,DET-cal,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,SLOPE-cal,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,BICUBIC-cal,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,GBM,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,CNN,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,DEM+S2,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I10,FACEMAP,4,Dumont:risk100 WhiteSands:risk100 Kelso:risk50 GreatSandDunes:risk50 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I30,DET,0,Dumont:risk10 WhiteSands:risk10 Kelso:risk10 GreatSandDunes:risk10 Algodones:risk10 LittleSahara:risk10
+stage 28 registered grid,E2,I30,DET-cal,1,Dumont:risk2 WhiteSands:risk2 Kelso:risk2 GreatSandDunes:risk1 Algodones:risk2 LittleSahara:risk2
+stage 28 registered grid,E2,I30,SLOPE-cal,0,Dumont:risk20 WhiteSands:risk2 Kelso:risk2 GreatSandDunes:risk2 Algodones:risk2 LittleSahara:risk2
+stage 28 registered grid,E2,I30,BICUBIC-cal,0,Dumont:risk20 WhiteSands:risk50 Kelso:risk20 GreatSandDunes:risk20 Algodones:risk20 LittleSahara:risk20
+stage 28 registered grid,E2,I30,GBM,4,Dumont:risk5 WhiteSands:risk100 Kelso:risk50 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I30,CNN,5,Dumont:risk50 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I30,DEM+S2,5,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk50 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,I30,FACEMAP,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,G30,DET,5,Dumont:risk1 WhiteSands:risk1 Kelso:risk20 GreatSandDunes:risk1 Algodones:risk1 LittleSahara:risk1
+stage 28 registered grid,E2,G30,DET-cal,4,Dumont:risk50 WhiteSands:risk1 Kelso:risk1 GreatSandDunes:risk1 Algodones:risk1 LittleSahara:risk2
+stage 28 registered grid,E2,G30,SLOPE-cal,5,Dumont:risk1 WhiteSands:risk1 Kelso:risk1 GreatSandDunes:risk1 Algodones:risk2 LittleSahara:risk1
+stage 28 registered grid,E2,G30,BICUBIC-cal,0,Dumont:risk20 WhiteSands:risk20 Kelso:risk20 GreatSandDunes:risk20 Algodones:risk5 LittleSahara:risk20
+stage 28 registered grid,E2,G30,GBM,0,Dumont:risk50 WhiteSands:risk50 Kelso:risk50 GreatSandDunes:risk50 Algodones:risk10 LittleSahara:risk10
+stage 28 registered grid,E2,G30,CNN,5,Dumont:risk50 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 28 registered grid,E2,G30,FACEMAP,6,Dumont:risk100 WhiteSands:risk100 Kelso:risk100 GreatSandDunes:risk100 Algodones:risk100 LittleSahara:risk100
+stage 30 weight grid to 1000,E1,G30,BICUBIC-cal,1,Dumont:50 WhiteSands:50 Kelso:20 GreatSandDunes:50 Algodones:1 LittleSahara:50
+stage 30 weight grid to 1000,E1,G30,CNN,0,Dumont:10 WhiteSands:20 Kelso:20 GreatSandDunes:20 Algodones:50 LittleSahara:20
+stage 30 weight grid to 1000,E1,G30,DET,0,Dumont:20 WhiteSands:5 Kelso:5 GreatSandDunes:5 Algodones:2 LittleSahara:5
+stage 30 weight grid to 1000,E1,G30,DET-cal,5,Dumont:20 WhiteSands:1 Kelso:1 GreatSandDunes:1 Algodones:1 LittleSahara:1
+stage 30 weight grid to 1000,E1,G30,FACEMAP,6,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E1,G30,GBM,1,Dumont:5 WhiteSands:5 Kelso:1 GreatSandDunes:5 Algodones:5 LittleSahara:5
+stage 30 weight grid to 1000,E1,G30,SLOPE-cal,1,Dumont:2 WhiteSands:50 Kelso:50 GreatSandDunes:50 Algodones:1 LittleSahara:50
+stage 30 weight grid to 1000,E1,I10,BICUBIC-cal,5,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:500
+stage 30 weight grid to 1000,E1,I10,CNN,5,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:500
+stage 30 weight grid to 1000,E1,I10,DEM+S2,5,Dumont:1000 WhiteSands:200 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E1,I10,DET,4,Dumont:1000 WhiteSands:200 Kelso:1000 GreatSandDunes:1000 Algodones:200 LittleSahara:1000
+stage 30 weight grid to 1000,E1,I10,DET-cal,1,Dumont:100 WhiteSands:100 Kelso:100 GreatSandDunes:1000 Algodones:100 LittleSahara:500
+stage 30 weight grid to 1000,E1,I10,FACEMAP,0,Dumont:100 WhiteSands:100 Kelso:100 GreatSandDunes:10 Algodones:100 LittleSahara:100
+stage 30 weight grid to 1000,E1,I10,GBM,0,Dumont:500 WhiteSands:500 Kelso:500 GreatSandDunes:500 Algodones:500 LittleSahara:500
+stage 30 weight grid to 1000,E1,I10,SLOPE-cal,0,Dumont:200 WhiteSands:50 Kelso:50 GreatSandDunes:200 Algodones:200 LittleSahara:200
+stage 30 weight grid to 1000,E1,I30,BICUBIC-cal,0,Dumont:50 WhiteSands:50 Kelso:50 GreatSandDunes:50 Algodones:20 LittleSahara:50
+stage 30 weight grid to 1000,E1,I30,CNN,0,Dumont:5 WhiteSands:500 Kelso:200 GreatSandDunes:500 Algodones:500 LittleSahara:500
+stage 30 weight grid to 1000,E1,I30,DEM+S2,0,Dumont:200 WhiteSands:200 Kelso:200 GreatSandDunes:200 Algodones:5 LittleSahara:200
+stage 30 weight grid to 1000,E1,I30,DET,1,Dumont:1000 WhiteSands:5 Kelso:5 GreatSandDunes:5 Algodones:5 LittleSahara:5
+stage 30 weight grid to 1000,E1,I30,DET-cal,5,Dumont:20 WhiteSands:1 Kelso:1 GreatSandDunes:1 Algodones:1 LittleSahara:1
+stage 30 weight grid to 1000,E1,I30,FACEMAP,5,Dumont:1000 WhiteSands:500 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E1,I30,GBM,4,Dumont:500 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:10 LittleSahara:1000
+stage 30 weight grid to 1000,E1,I30,SLOPE-cal,1,Dumont:2 WhiteSands:2 Kelso:2 GreatSandDunes:2 Algodones:1 LittleSahara:2
+stage 30 weight grid to 1000,E2,G30,BICUBIC-cal,0,Dumont:20 WhiteSands:20 Kelso:20 GreatSandDunes:20 Algodones:5 LittleSahara:20
+stage 30 weight grid to 1000,E2,G30,CNN,0,Dumont:500 WhiteSands:500 Kelso:500 GreatSandDunes:500 Algodones:500 LittleSahara:100
+stage 30 weight grid to 1000,E2,G30,DET,5,Dumont:1 WhiteSands:1 Kelso:20 GreatSandDunes:1 Algodones:1 LittleSahara:1
+stage 30 weight grid to 1000,E2,G30,DET-cal,4,Dumont:50 WhiteSands:1 Kelso:1 GreatSandDunes:1 Algodones:1 LittleSahara:2
+stage 30 weight grid to 1000,E2,G30,FACEMAP,5,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:200 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E2,G30,GBM,0,Dumont:50 WhiteSands:50 Kelso:50 GreatSandDunes:50 Algodones:10 LittleSahara:10
+stage 30 weight grid to 1000,E2,G30,SLOPE-cal,4,Dumont:500 WhiteSands:1 Kelso:1 GreatSandDunes:1 Algodones:2 LittleSahara:1
+stage 30 weight grid to 1000,E2,I10,BICUBIC-cal,2,Dumont:500 WhiteSands:500 Kelso:1000 GreatSandDunes:500 Algodones:1000 LittleSahara:500
+stage 30 weight grid to 1000,E2,I10,CNN,5,Dumont:1000 WhiteSands:500 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E2,I10,DEM+S2,6,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E2,I10,DET,6,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E2,I10,DET-cal,6,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E2,I10,FACEMAP,0,Dumont:200 WhiteSands:200 Kelso:200 GreatSandDunes:50 Algodones:200 LittleSahara:200
+stage 30 weight grid to 1000,E2,I10,GBM,2,Dumont:500 WhiteSands:500 Kelso:1000 GreatSandDunes:1000 Algodones:500 LittleSahara:500
+stage 30 weight grid to 1000,E2,I10,SLOPE-cal,1,Dumont:500 WhiteSands:1000 Kelso:500 GreatSandDunes:500 Algodones:500 LittleSahara:500
+stage 30 weight grid to 1000,E2,I30,BICUBIC-cal,0,Dumont:20 WhiteSands:50 Kelso:20 GreatSandDunes:20 Algodones:20 LittleSahara:20
+stage 30 weight grid to 1000,E2,I30,CNN,0,Dumont:50 WhiteSands:100 Kelso:100 GreatSandDunes:100 Algodones:100 LittleSahara:100
+stage 30 weight grid to 1000,E2,I30,DEM+S2,6,Dumont:1000 WhiteSands:1000 Kelso:1000 GreatSandDunes:1000 Algodones:1000 LittleSahara:1000
+stage 30 weight grid to 1000,E2,I30,DET,0,Dumont:500 WhiteSands:10 Kelso:10 GreatSandDunes:10 Algodones:10 LittleSahara:10
+stage 30 weight grid to 1000,E2,I30,DET-cal,1,Dumont:2 WhiteSands:2 Kelso:2 GreatSandDunes:1 Algodones:2 LittleSahara:2
+stage 30 weight grid to 1000,E2,I30,FACEMAP,0,Dumont:500 WhiteSands:500 Kelso:500 GreatSandDunes:100 Algodones:500 LittleSahara:500
+stage 30 weight grid to 1000,E2,I30,GBM,0,Dumont:200 WhiteSands:200 Kelso:200 GreatSandDunes:200 Algodones:100 LittleSahara:200
+stage 30 weight grid to 1000,E2,I30,SLOPE-cal,0,Dumont:20 WhiteSands:2 Kelso:2 GreatSandDunes:2 Algodones:2 LittleSahara:2

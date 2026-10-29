@@ -1,0 +1,25 @@
+stage 31 c on WhiteSands started 2026-10-29 14:50:02
+c WhiteSands: 76 s
+part c done in 76 s (14:51:17)
+stage 31 c e on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 14:51:33
+c Dumont: 138 s
+c Kelso: 107 s
+c GreatSandDunes: 173 s
+c Algodones: 233 s
+c LittleSahara: 76 s
+part c done in 728 s (15:03:41)
+e Dumont A30
+e WhiteSands A30
+e Kelso A30
+e GreatSandDunes A30
+e Algodones A30
+e LittleSahara A30
+e Dumont F30
+stage 31 f a b on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 15:07:24
+e WhiteSands F30
+e Kelso F30
+e GreatSandDunes F30
+e Algodones F30
+e LittleSahara F30
+part e done in 322 s (15:09:03)
+stage 31 a b on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 15:22:42
