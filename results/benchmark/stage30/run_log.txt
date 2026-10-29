@@ -1,0 +1,16 @@
+stage 30 a on Dumont,WhiteSands,Kelso started 2026-10-29 12:22:07
+stage 30 a on GreatSandDunes,Algodones,LittleSahara started 2026-10-29 12:22:10
+a Dumont I30 E1 DET p=1: 60 s
+a Dumont I30 E1 BICUBIC-cal p=1: 50 s
+a GreatSandDunes I30 E1 DET p=1: 161 s
+a Dumont I30 E1 DEM+S2 p=1: 52 s
+a Dumont I30 E1 SR-cal p=1: 66 s
+a GreatSandDunes I30 E1 BICUBIC-cal p=1: 113 s
+a Dumont I30 E1 CNN-long p=1: 58 s
+a Dumont I30 E2 none p=1: 72 s
+a GreatSandDunes I30 E1 DEM+S2 p=1: 130 s
+a Dumont I30 E2 DET p=1: 74 s
+a Dumont I30 E2 BICUBIC-cal p=1: 65 s
+a GreatSandDunes I30 E1 SR-cal p=1: 130 s
+a Dumont I30 E2 GBM p=1: 56 s
+a Dumont I30 E2 DEM+S2 p=1: 101 s
