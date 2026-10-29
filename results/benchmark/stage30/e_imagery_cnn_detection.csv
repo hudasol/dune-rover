@@ -1,0 +1,3 @@
+input,label,method,sites,auc,ap
+I30,L-ANY,IMG-CNN-NAIP,6,0.6226,0.5241
+I30,L-ANY,IMG-CNN-S2,6,0.7787,0.6711

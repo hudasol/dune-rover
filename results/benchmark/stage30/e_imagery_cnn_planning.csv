@@ -1,0 +1,5 @@
+endpoints,layer,mission_success,naive,difference,diff_lo,diff_hi,chosen
+E1,IMG-CNN-S2,0.0983,0.075,0.0233,-0.01,0.0617,Dumont:5 WhiteSands:5 Kelso:5 GreatSandDunes:5 Algodones:5 LittleSahara:50
+E1,IMG-CNN-NAIP,0.065,0.075,-0.01,-0.0533,0.0217,Dumont:10 WhiteSands:1 Kelso:1 GreatSandDunes:1 Algodones:1 LittleSahara:1
+E2,IMG-CNN-S2,0.0517,0.025,0.0267,0.0017,0.0583,Dumont:5 WhiteSands:20 Kelso:5 GreatSandDunes:5 Algodones:5 LittleSahara:5
+E2,IMG-CNN-NAIP,0.0217,0.025,-0.0033,-0.025,0.0183,Dumont:10 WhiteSands:2 Kelso:2 GreatSandDunes:2 Algodones:2 LittleSahara:2
