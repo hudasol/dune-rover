@@ -202,6 +202,11 @@ def values():
         V[f"s2date_{r['site']}"] = r["sentinel2_date"]
     V["naip_min"], V["naip_max"] = min(r["naip_year"] for r in meta), max(r["naip_year"] for r in meta)
     V["area_total"] = f"{sum(float(r['area_km2']) for r in meta):.0f}"
+    p = os.path.join(BEN, "r10_source.csv")
+    if os.path.exists(p):
+        src = read(p)
+        same = {r["site"] for r in src if r["same_as_truth_lidar"] == "True" and float(r["window_share"]) > 0.99}
+        V["r10_same_sites"] = "all six" if len(same) == 6 else WORDS[len(same)] + " of the six"
     # stage 29, post hoc checks
     p = os.path.join(S29, "a_patch_size.csv")
     if os.path.exists(p):
@@ -292,7 +297,8 @@ def table_detection():
     for r in D:
         mean.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     best = {c: f2(max(np.mean(v) for (i, m), v in mean.items() if i == c)) for c, _ in DET_COLS if any(i == c for i, _ in mean)}
-    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label (\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids. $^{*}$Trained on lidar labels of the other five sites. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
+    g30i = {r["method"]: f2(r["auc"]) for f in ("A_macro.csv", "F_macro.csv") for r in read(os.path.join(S27, f)) if r["input"] == "G30" and r["label"] == "L-ANY" and r["method"] in ("CNN", "SR")}
+    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, resampled by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the network and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"). $^{*}$Trained on the lidar of the other five sites. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
          r"\label{tab:detection}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.8pt}", r"\begin{tabular}{@{}l" + "c" * len(DET_COLS) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in DET_COLS) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
@@ -312,7 +318,7 @@ def table_detection():
 
 
 PLAN_LAYERS = [("none", "Slip model only"), ("SLOPE-cal", "Slope"), ("BICUBIC-cal", "Interpolation"), ("DET", "Detector"), ("DET-cal", "Detector, recalibrated"),
-               ("GBM", "Boosting$^{*}$"), ("CNN", "Network$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"), ("FACEMAP", "Face map (upper bound)")]
+               ("GBM", "Boosting$^{*}$"), ("CNN", "Network$^{*}$"), ("DEM+S2", "Boosting + Sentinel-2$^{*}$"), ("FACEMAP", "Face map (oracle)")]
 PLAN_COLS = [("E1", "I10"), ("E2", "I10"), ("E1", "I30"), ("E2", "I30"), ("E1", "G30")]
 DEGRADED = [("FACEMAP", "Face map, $w=5$"), ("shift5", "Face map 5\\,m off"), ("shift10", "Face map 10\\,m off"), ("shift30", "Face map 30\\,m off"),
             ("survey2", "Face map from 2\\,m survey"), ("survey5", "Face map from 5\\,m survey")]
@@ -333,7 +339,7 @@ def table_planning():
             return NA
         s = f"{rnd(100 * float(r['mission_success'])):.0f}"
         return s + ("$^{\\dagger}$" if float(r["diff_lo"]) > 0 else "")
-    L = [r"\begin{table}[t]", r"\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero. Degraded face maps: weight policy, $w=5$. $^{*}$Trained leave one site out.}",
+    L = [r"\begin{table}[t]", r"\caption{Mission success (\%) at the operating point chosen on the other five sites (gate threshold or weight), 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: chosen from the coarse map only. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model entirely above zero (not corrected for the number of cells). Lower part, a second protocol: face maps degraded as registered, weight policy at a fixed $w=5$. $\cdot$ not run. $^{*}$Trained leave one site out.}",
          r"\label{tab:planning}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\", r"Layer & E1 & E2 & E1 & E2 & E1 \\", r"\midrule"]
     for lay, lab in PLAN_LAYERS:
@@ -416,7 +422,7 @@ GLOSSARY = [("Slip face", "the lee face of a dune near the angle of repose; in t
             ("Boosting, network", "gradient boosted trees (GBM) and the dilated convolutional network (CNN)"),
             ("Slip model only", "the planner without a hazard layer (naive in the files)"),
             ("Gate, weight", "the conservative and risk weighted policies"),
-            ("Face map (upper bound)", "the face map label used as a hazard layer (FACEMAP, ORACLE-ANY)"),
+            ("Face map (oracle)", "the face map label used as a hazard layer (FACEMAP, ORACLE-ANY); an oracle, not a bound"),
             ("Posterior vehicle", "the slip model with parameters drawn from a posterior fitted to published slip curves of other wheeled vehicles"),
             ("E1, E2", "endpoints chosen with the truth (all posts gentle) and from the coarse map only")]
 

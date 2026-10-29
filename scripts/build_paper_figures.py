@@ -55,8 +55,8 @@ def fig_map(site="Kelso"):
     patch = B.face_patches(steep)
     hs = hillshade(z1f, 1.0, 1.0)
     ext = [0, z1.shape[1], z1.shape[0], 0]
-    plum = "#6A3D8F"
-    pink = LinearSegmentedColormap.from_list("pk", ["#FBF3F6", "#E58AAE", "#C2185B", "#4A2A66"])
+    plum = "#C2185B"      # face patches in rose, as in Fig. 1 of the paper
+    pink = LinearSegmentedColormap.from_list("vi", ["#FBF3F6", "#C9B3E3", "#9C6ADE", "#4A2A66"])
     fig, axes = plt.subplots(1, 4, figsize=(7.1, 2.6), gridspec_kw={"wspace": 0.05})
     ov = np.ma.masked_where(~patch, np.ones_like(hs))
     axes[0].imshow(hs, cmap="gray", extent=ext, interpolation="nearest")
@@ -78,7 +78,7 @@ def fig_map(site="Kelso"):
     h = L[f"{site}|I30|GBM"].astype(float)[:shape[0], :shape[1]]
     keep = ((a.classes != 1) & (a.classes != 5)).ravel()
     S = [S28.BP.cell_of(q[0], 30, shape) for q in pairs]; T = [S28.BP.cell_of(q[1], 30, shape) for q in pairs]
-    for g, col, ls, lab in ((S28.masked(g0, a.classes != 5), "#E58AAE", "--", "slip model only"), (S28.masked(g1, keep, h, 100.0), "#C2185B", "-", "boosting, weight")):
+    for g, col, ls, lab in ((S28.masked(g0, a.classes != 5), INK, "--", "slip model only"), (S28.masked(g1, keep, h, 100.0), "#6A3D8F", "-", "boosting, weight")):
         for n, rc in enumerate(B.routes_from(g, shape[1], S, T)):
             if rc is None:
                 continue
@@ -189,9 +189,9 @@ def fig_teaser(site="GreatSandDunes", pair=3, crop=(1300, 3050, 1150, 3350)):
     vis = np.array([True] * (j + 1) + [seen(sl.start + j, sl.start + t) for t in range(j + 1, len(d))])
     ax = axs[3]
     base = zz.min() - 3
-    ax.fill_between(d, base, zz, color="#E9DDE3", lw=0)
     hid = ~vis.copy(); hid[:j + 1] = False
-    ax.fill_between(d, base, zz, where=hid, color="#8A7A82", alpha=0.55, lw=0, label="hidden from the rover")
+    ax.fill_between(d, base, zz, color="#E2BFD0", lw=0, label="ground in view")
+    ax.fill_between(d, base, zz, where=hid, color="#B5A8AE", lw=0, interpolate=True, label="hidden from the rover")
     ax.plot(d, zz, color=INK, lw=0.8)
     ax.plot(np.where(oo, d, np.nan), np.where(oo, zz, np.nan), color=face_col, lw=2.4, solid_capstyle="butt", label="face patch")
     hid_idx = np.where(hid)[0]
@@ -204,12 +204,12 @@ def fig_teaser(site="GreatSandDunes", pair=3, crop=(1300, 3050, 1150, 3350)):
     ax.annotate("rover, eye 1 m", xy=(d[j], eye), xytext=(d[j] + 25, eye + 0.22 * (zz.max() - base)), fontsize=5.2, color=INK,
                 arrowprops=dict(arrowstyle="-", color=INK, lw=0.5))
     ax.set_xlabel("distance along the slip model route (m)", fontsize=5.6, labelpad=1)
-    ax.set_ylabel("height (m)", fontsize=5.6); ax.yaxis.set_label_coords(-0.115, 0.5)
+    ax.text(0.015, 0.985, "height (m)", transform=ax.transAxes, ha="left", va="top", fontsize=5.4, color=INK)
     ax.tick_params(labelsize=5.2, length=2, pad=1)
     ax.set_xlim(d[0], d[-1]); ax.set_ylim(base, zz.max() + 0.25 * (zz.max() - base))
     for s_ in ("top", "right"):
         ax.spines[s_].set_visible(False)
-    ax.legend(loc="lower left", fontsize=5.0, frameon=False, handlelength=1.4, borderaxespad=0.3, labelspacing=0.2)
+    ax.legend(loc="lower left", fontsize=5.0, frameon=True, facecolor="white", framealpha=0.92, edgecolor="none", handlelength=1.4, borderaxespad=0.3, labelspacing=0.2)
     ax.set_title("(d) line of sight before a face", fontsize=6.4)
     ax.set_box_aspect((r1 - r0) / (c1 - c0) * 0.98)
     fig.savefig(os.path.join(FIG, "fig_teaser.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02)
@@ -218,8 +218,8 @@ def fig_teaser(site="GreatSandDunes", pair=3, crop=(1300, 3050, 1150, 3350)):
 
 S27 = os.path.join(ROOT, "results", "benchmark", "stage27")
 S28 = os.path.join(ROOT, "results", "benchmark", "stage28")
-SWEEP_STYLE = {"SLOPE": ("#8A7A82", "v", "Slope"), "DET": ("#E58AAE", "^", "Synthetic detector"),
-               "BICUBIC": ("#C2185B", "s", "Cubic interpolation"), "GBM": ("#6A3D8F", "o", "Gradient boosting*")}
+SWEEP_STYLE = {"SLOPE": ("#8A7A82", "v", "Slope"), "DET": ("#E58AAE", "^", "Detector"),
+               "BICUBIC": ("#C2185B", "s", "Interpolation"), "GBM": ("#6A3D8F", "o", "Boosting*")}
 
 
 def fig_resolution():
@@ -241,7 +241,7 @@ def fig_resolution():
     bins = ["0 to 0.5", "0.5 to 1", "1 to 2", "2 to 4", "4 to 8", "8 to inf"]
     centres = [0.35, 0.7, 1.4, 2.8, 5.6, 11.3]
     by_site = read(os.path.join(S27, "C_scaling_by_site.csv"))
-    shades = {10: ("#E58AAE", "o"), 20: ("#C2185B", "s"), 30: ("#9C6ADE", "^"), 60: ("#6A3D8F", "D")}
+    shades = {10: ("#C9B3E3", "o"), 20: ("#9C6ADE", "s"), 30: ("#6A3D8F", "^"), 60: ("#2B2024", "D")}   # one hue, light to dark
     for d, (col, mk) in shades.items():
         x, y = [], []
         for b_, c in zip(bins, centres):
@@ -251,20 +251,20 @@ def fig_resolution():
                 x.append(c); y.append(sum(int(r["detected"]) for r in rr) / n)
         ax.plot(x, y, color=col, lw=1.0); ax.scatter(x, y, s=10, marker=mk, color=col, edgecolors=INK, linewidths=0.3, zorder=3, label=f"{d} m")
     ax.set_xscale("log"); ax.set_xticks([0.5, 1, 2, 4, 8]); ax.set_xticklabels(["0.5", "1", "2", "4", "8"]); ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.set_xlabel("face length / grid spacing"); ax.set_ylabel("faces found (boosting*)")
+    ax.set_xlabel("face length / grid spacing"); ax.set_ylabel("face patches found (boosting*)")
     ax.set_ylim(0.3, 1.02); ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
     ax.text(0.03, 0.96, "(b)", transform=ax.transAxes, fontsize=7, ha="left", va="top")
     ax.legend(loc="lower right", fontsize=5.6, frameon=False, handletextpad=0.15, labelspacing=0.2)
     for a in axs:
         for sp in ("top", "right"):
             a.spines[sp].set_visible(False)
-    axs[0].legend(loc="lower center", bbox_to_anchor=(1.15, 1.10), ncol=4, frameon=False, fontsize=5.6, handletextpad=0.15, columnspacing=0.7)
+    axs[0].legend(loc="lower left", frameon=False, fontsize=5.4, handletextpad=0.15, labelspacing=0.2, borderaxespad=0.2)
     fig.savefig(os.path.join(FIG, "fig_resolution.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
-FRONT_STYLE = {"none": ("#8A7A82", "D", "Slip model only"), "DET": ("#E58AAE", "^", "Synthetic detector"),
-               "BICUBIC-cal": ("#C2185B", "s", "Cubic interpolation"), "GBM": ("#6A3D8F", "o", "Gradient boosting*"),
-               "DEM+S2": ("#9C6ADE", "P", "Boosting + Sentinel-2*"), "FACEMAP": (INK, "*", "Face map (upper bound)")}
+FRONT_STYLE = {"none": ("#8A7A82", "D", "Slip model only"), "DET": ("#E58AAE", "^", "Detector"),
+               "BICUBIC-cal": ("#C2185B", "s", "Interpolation"), "GBM": ("#6A3D8F", "o", "Boosting*"),
+               "DEM+S2": ("#9C6ADE", "P", "Boosting + Sentinel-2*"), "FACEMAP": (INK, "*", "Face map (oracle)")}
 
 
 def fig_frontier():
