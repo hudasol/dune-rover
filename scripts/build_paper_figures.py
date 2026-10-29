@@ -55,12 +55,12 @@ def fig_map(site="Kelso"):
     patch = B.face_patches(steep)
     hs = hillshade(z1f, 1.0, 1.0)
     ext = [0, z1.shape[1], z1.shape[0], 0]
-    plum = "#C2185B"      # face patches in rose, as in Fig. 1 of the paper
+    rose = "#C2185B"      # face patches in rose, as in Fig. 1 of the paper
     pink = LinearSegmentedColormap.from_list("vi", ["#FBF3F6", "#C9B3E3", "#9C6ADE", "#4A2A66"])
     fig, axes = plt.subplots(1, 4, figsize=(7.1, 2.6), gridspec_kw={"wspace": 0.05})
     ov = np.ma.masked_where(~patch, np.ones_like(hs))
     axes[0].imshow(hs, cmap="gray", extent=ext, interpolation="nearest")
-    axes[0].imshow(ov, cmap=ListedColormap([plum]), extent=ext, alpha=0.9, interpolation="nearest")
+    axes[0].imshow(ov, cmap=ListedColormap([rose]), extent=ext, alpha=0.9, interpolation="nearest")
     axes[0].set_title("(a) lidar, face patches", fontsize=7)
     for ax, key_, title in ((axes[1], "BICUBIC-cal", "(b) interpolation, 30 m"), (axes[2], "GBM", "(c) boosting, 30 m")):
         p = L[f"{site}|I30|{key_}"]
@@ -69,7 +69,7 @@ def fig_map(site="Kelso"):
         ax.set_title(title, fontsize=7)
     ax = axes[3]
     ax.imshow(hs, cmap="gray", extent=ext, interpolation="nearest")
-    ax.imshow(ov, cmap=ListedColormap([plum]), extent=ext, alpha=0.9, interpolation="nearest")
+    ax.imshow(ov, cmap=ListedColormap([rose]), extent=ext, alpha=0.9, interpolation="nearest")
     zc = B.block(z1f, 30)
     a = PL.assess(PL.raster_from_array(zc, 30.0), profile=PL.builtin_profile("published-posterior"), n_draws=128)
     pairs = S28.endpoints_E1(site)[:6]
@@ -155,6 +155,9 @@ def fig_teaser(site="GreatSandDunes", pair=3, crop=(1300, 3050, 1150, 3350)):
     axs[0].plot([c0 + 80, c0 + 580], [r1 - 110] * 2, color=INK, lw=1.6, solid_capstyle="butt")
     axs[0].text(c0 + 330, r1 - 160, "500 m", ha="center", va="bottom", fontsize=5.5, color=INK,
                 bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.85))
+    for ax_ in axs[1:2]:                                   # the same 500 m scale bar on the 30 m map
+        ax_.plot([c0 + 80, c0 + 580], [r1 - 110] * 2, color="white", lw=3.2, solid_capstyle="butt", zorder=5)
+        ax_.plot([c0 + 80, c0 + 580], [r1 - 110] * 2, color=INK, lw=1.6, solid_capstyle="butt", zorder=6)
     from matplotlib.patches import Rectangle
     axs[2].add_patch(Rectangle((0.03, 0.02), 0.6, 0.27, transform=axs[2].transAxes, fc="white", ec="none", alpha=0.88, zorder=4))
     cax = axs[2].inset_axes([0.08, 0.13, 0.5, 0.05])
@@ -236,7 +239,7 @@ def fig_resolution():
     ax.set_xscale("log"); ax.set_xticks([2, 5, 10, 30, 60]); ax.set_xticklabels(["2", "5", "10", "30", "60"]); ax.xaxis.set_minor_formatter(NullFormatter())
     ax.set_xlabel("grid spacing (m)"); ax.set_ylabel("mean AUC (face map label)")
     ax.set_ylim(0.5, 1.0); ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
-    ax.text(0.03, 0.04, "(a)", transform=ax.transAxes, fontsize=7, ha="left", va="bottom")
+    ax.text(0.03, 0.96, "(a)", transform=ax.transAxes, fontsize=7, ha="left", va="top")
     ax = axs[1]
     bins = ["0 to 0.5", "0.5 to 1", "1 to 2", "2 to 4", "4 to 8", "8 to inf"]
     centres = [0.35, 0.7, 1.4, 2.8, 5.6, 11.3]
@@ -250,8 +253,8 @@ def fig_resolution():
             if n >= 50:
                 x.append(c); y.append(sum(int(r["detected"]) for r in rr) / n)
         ax.plot(x, y, color=col, lw=1.0); ax.scatter(x, y, s=10, marker=mk, color=col, edgecolors=INK, linewidths=0.3, zorder=3, label=f"{d} m")
-    ax.set_xscale("log"); ax.set_xticks([0.5, 1, 2, 4, 8]); ax.set_xticklabels(["0.5", "1", "2", "4", "8"]); ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.set_xlabel("face length / grid spacing"); ax.set_ylabel("face patches found (boosting*)")
+    ax.set_xscale("log"); ax.set_xticks([0.35, 1, 2, 4, 11.3]); ax.set_xticklabels(["<0.5", "1", "2", "4", ">8"]); ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.set_xlabel("patch length / grid spacing"); ax.set_ylabel("face patches found (boosting*)")
     ax.set_ylim(0.3, 1.02); ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
     ax.text(0.03, 0.96, "(b)", transform=ax.transAxes, fontsize=7, ha="left", va="top")
     ax.legend(loc="lower right", fontsize=5.6, frameon=False, handletextpad=0.15, labelspacing=0.2)
@@ -262,7 +265,8 @@ def fig_resolution():
     fig.savefig(os.path.join(FIG, "fig_resolution.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
-FRONT_STYLE = {"none": ("#8A7A82", "D", "Slip model only"), "DET": ("#E58AAE", "^", "Detector"),
+FRONT_STYLE = {"none": ("#8A7A82", "D", "Slip model only"), "SLOPE-cal": ("#B9AAB1", "v", "Slope"), "DET": ("#E58AAE", "^", "Detector"),
+               "CNN": ("#D9A3BF", "<", "Network*"),
                "BICUBIC-cal": ("#C2185B", "s", "Interpolation"), "GBM": ("#6A3D8F", "o", "Boosting*"),
                "DEM+S2": ("#9C6ADE", "P", "Boosting + Sentinel-2*"), "FACEMAP": (INK, "*", "Face map (oracle)")}
 
@@ -274,23 +278,23 @@ def fig_frontier():
     fig, axs = plt.subplots(1, 2, figsize=(3.45, 1.95), sharey=True, gridspec_kw={"wspace": 0.08})
     for ax, inp in zip(axs, ("I10", "I30")):
         nv = next(r for r in rows if r["input"] == inp and r["policy"] == "naive")
-        ax.axhline(float(nv["mission_success"]), color="#8A7A82", lw=0.9, ls="--", label="Slip model only" if inp == "I10" else None)
+        ax.axhline(100 * float(nv["mission_success"]), color="#8A7A82", lw=0.9, ls="--", label="Slip model only" if inp == "I10" else None)
         for lay, (col, mk, lab) in FRONT_STYLE.items():
             if lay == "none":
                 continue
             rr = sorted([r for r in rows if r["input"] == inp and r["layer"] == lay and r["policy"] == "risk_weighted"], key=lambda r: float(r["param"]))
             if not rr:
                 continue
-            x = [float(r["param"]) for r in rr]; y = [float(r["mission_success"]) for r in rr]
+            x = [float(r["param"]) for r in rr]; y = [100 * float(r["mission_success"]) for r in rr]
             ax.plot(x, y, color=col, lw=0.9)
             ax.scatter(x, y, s=9 if lay != "FACEMAP" else 16, marker=mk, color=col, edgecolors=INK, linewidths=0.25, zorder=3, label=lab if inp == "I10" else None)
         ax.set_xscale("log"); ax.set_xticks([1, 10, 100]); ax.set_xticklabels(["1", "10", "100"]); ax.xaxis.set_minor_formatter(NullFormatter())
         ax.set_title("10 m map" if inp == "I10" else "30 m map", fontsize=7)
-        ax.set_xlabel("risk weight $w$"); ax.set_ylim(0, 0.9)
+        ax.set_xlabel("risk weight $w$"); ax.set_ylim(0, 90)
         ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
         for sp in ("top", "right"):
             ax.spines[sp].set_visible(False)
-    axs[0].set_ylabel("mission success")
+    axs[0].set_ylabel("mission success (%)")
     axs[0].legend(loc="lower center", bbox_to_anchor=(1.04, 1.12), ncol=3, frameon=False, fontsize=5.6, handletextpad=0.15, columnspacing=0.7)
     fig.savefig(os.path.join(FIG, "fig_frontier.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
