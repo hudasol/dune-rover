@@ -149,3 +149,8 @@ c LittleSahara G30-shifted
 part c done in 146 s (13:41:30)
 stage 30 eNAIPrev on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 13:41:41
 e S2 held out WhiteSands: 515 s
+e S2 held out Kelso: 563 s
+e S2 held out GreatSandDunes: 501 s
+e S2 held out Algodones: 492 s
+e S2 held out LittleSahara: 469 s
+stage 30 e on Dumont,WhiteSands,Kelso,GreatSandDunes,Algodones,LittleSahara started 2026-10-29 14:22:23
