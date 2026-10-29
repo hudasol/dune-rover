@@ -1,0 +1,5 @@
+input,layer,mission_success,chosen
+G30,none,0.055,
+G30,BICUBIC-cal,0.065,Dumont:50 WhiteSands:50 Kelso:20 GreatSandDunes:50 Algodones:1 LittleSahara:50
+G30-shifted,none,0.0567,
+G30-shifted,BICUBIC-cal,0.0617,Dumont:50 WhiteSands:50 Kelso:50 GreatSandDunes:50 Algodones:1 LittleSahara:50
