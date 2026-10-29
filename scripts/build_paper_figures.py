@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Figures of the conference paper and its supplement (paper/figures/*.pdf), from the stage 27 and 28 result files and caches.
+"""Figures of the conference paper and its supplement (paper/figures/*.pdf), from the stage 27 to 29 result files and caches.
 
     PYTHONPATH=src python3 scripts/build_paper_figures.py
 
@@ -104,6 +104,118 @@ def fig_map(site="Kelso"):
     fig.savefig(os.path.join(FIG, "fig_map.png"), dpi=170, bbox_inches="tight", pad_inches=0.02, facecolor="white"); plt.close(fig)
 
 
+def fig_teaser(site="GreatSandDunes", pair=3, crop=(1300, 3050, 1150, 3350)):
+    """Fig. 1 of the paper: what a 30 m map hides. (a) one metre lidar with face patches and two 30 m routes of one
+    registered E1 pair, (b) the 30 m block mean the planner sees, (c) the calibrated interpolation layer, (d) the lidar
+    profile along the slip model route where it first meets a face, with the ground hidden from a 1 m eye."""
+    import matplotlib.patheffects as pe
+    import benchmark_stage28 as S28
+    import benchmark_stage29 as S29
+    from dunerover import planner as PL
+    T = S29.truth(site); z = T["z1f"]; patch = T["p10"]
+    hs = hillshade(z, 1.0, 1.0)
+    zc = B.block(z, 30); hs30 = hillshade(zc, 30.0, 30.0)
+    a = PL.assess(PL.raster_from_array(zc, 30.0), profile=PL.builtin_profile("published-posterior"), n_draws=128)
+    shape = a.classes.shape
+    g0, _ = S28.base_graph(a, False); g1, _ = S28.base_graph(a, True)
+    fm = B.block(patch, 30, "any")[:shape[0], :shape[1]].astype(float)
+    L = np.load(os.path.join(ROOT, "data", "cache", "stage27", "layers_L-ANY.npz"))
+    bc = L[f"{site}|I30|BICUBIC-cal"].astype(float)[:shape[0], :shape[1]]
+    p = S28.endpoints_E1(site)[pair]
+    S = [S28.BP.cell_of(p[0], 30, shape)]; Tg = [S28.BP.cell_of(p[1], 30, shape)]
+    keep = ((a.classes != 1) & (a.classes != 5)).ravel()
+    r_slip = B.routes_from(S28.masked(g0, a.classes != 5), shape[1], S, Tg)[0]
+    r_face = B.routes_from(S28.masked(g1, keep, fm, 100.0), shape[1], S, Tg)[0]
+    r0, r1, c0, c1 = crop
+    face_col, prior_col = "#C2185B", "#6A3D8F"
+    violet = LinearSegmentedColormap.from_list("vi", ["#FBF3F6", "#C9B3E3", "#9C6ADE", "#4A2A66"])
+    fig = plt.figure(figsize=(7.1, 1.95))
+    gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 1, 1.25], wspace=0.2)
+    axs = [fig.add_subplot(gs[0, i]) for i in range(4)]
+    ext1 = [0, z.shape[1], z.shape[0], 0]; ext30 = [0, shape[1] * 30, shape[0] * 30, 0]
+    halo = [pe.Stroke(linewidth=2.6, foreground="white"), pe.Normal()]
+    ax = axs[0]
+    ax.imshow(hs, cmap="gray", extent=ext1, interpolation="nearest")
+    ax.imshow(np.ma.masked_where(~patch, np.ones_like(hs)), cmap=ListedColormap([face_col]), extent=ext1, alpha=0.95, interpolation="nearest")
+    for rc, col, ls, lab in ((r_slip, INK, (0, (3, 1.6)), "slip model only"), (r_face, prior_col, "-", "face map prior")):
+        xy = (rc + 0.5) * 30
+        ax.plot(xy[:, 1], xy[:, 0], color=col, lw=1.2, ls=ls, label=lab, path_effects=halo)
+    for q in p:
+        ax.plot(q[1], q[0], "o", ms=3.2, mfc="white", mec=INK, mew=0.7, zorder=5)
+    leg = ax.legend(loc="upper right", fontsize=5.0, frameon=True, framealpha=0.92, handlelength=2.0, borderpad=0.3, labelspacing=0.2, edgecolor="none")
+    ax.set_title("(a) 1 m lidar and face patches", fontsize=6.4)
+    axs[1].imshow(hs30, cmap="gray", extent=ext30, interpolation="nearest")
+    axs[1].set_title("(b) 30 m block mean", fontsize=6.4)
+    axs[2].imshow(hs30, cmap="gray", extent=ext30, interpolation="nearest")
+    im = axs[2].imshow(bc, cmap=violet, vmin=0, vmax=1, extent=ext30, alpha=0.78, interpolation="nearest")
+    axs[2].set_title("(c) 30 m interpolation layer", fontsize=6.4)
+    for ax in axs[:3]:
+        ax.set_xlim(c0, c1); ax.set_ylim(r1, r0); ax.set_xticks([]); ax.set_yticks([])
+    axs[0].plot([c0 + 80, c0 + 580], [r1 - 110] * 2, color="white", lw=3.2, solid_capstyle="butt")
+    axs[0].plot([c0 + 80, c0 + 580], [r1 - 110] * 2, color=INK, lw=1.6, solid_capstyle="butt")
+    axs[0].text(c0 + 330, r1 - 160, "500 m", ha="center", va="bottom", fontsize=5.5, color=INK,
+                bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.85))
+    from matplotlib.patches import Rectangle
+    axs[2].add_patch(Rectangle((0.03, 0.02), 0.6, 0.27, transform=axs[2].transAxes, fc="white", ec="none", alpha=0.88, zorder=4))
+    cax = axs[2].inset_axes([0.08, 0.13, 0.5, 0.05])
+    cb = fig.colorbar(im, cax=cax, orientation="horizontal", ticks=[0, 0.5, 1])
+    cb.ax.tick_params(labelsize=4.8, length=1.5, pad=0.5); cb.outline.set_linewidth(0.3)
+    cax.set_title("face probability", fontsize=4.8, pad=1)
+    # (d) profile along the slip model route around the face contact, hidden from 40 m before it, with the largest drop
+    sp = S28.samples(r_slip, 30)
+    ri = np.clip(sp[:, 0].astype(int), 0, z.shape[0] - 1); ci = np.clip(sp[:, 1].astype(int), 0, z.shape[1] - 1)
+    on = patch[ri, ci]; zall = z[ri, ci]
+    dall = np.r_[0, np.cumsum(np.hypot(np.diff(sp[:, 0]), np.diff(sp[:, 1])))]
+
+    def seen(j, t):
+        e = zall[j] + 1.0
+        if t <= j + 1:
+            return True
+        line = e + (zall[t] + 0.2 - e) * (dall[j + 1:t] - dall[j]) / (dall[t] - dall[j])
+        return bool(np.all(zall[j + 1:t] < line))
+    best, k0 = -1.0, int(np.argmax(on))
+    for k in np.where(on & ~np.r_[False, on[:-1]])[0]:
+        j = int(np.argmin(np.abs(dall - (dall[k] - 40.0))))
+        if j <= 0 or seen(j, k):
+            continue
+        run = on[k:k + 200]; n_ = int(np.argmax(~run)) if (~run).any() else len(run)
+        drop = zall[k] - zall[min(k + n_, len(zall) - 1)]
+        if drop > best:
+            best, k0 = drop, int(k)
+    sl = slice(max(k0 - 240, 0), min(k0 + 120, len(sp)))
+    d = dall[sl] - dall[sl.start]; zz = zall[sl] - zall[sl].min(); oo = on[sl]
+    j = int(np.argmin(np.abs(d - (d[k0 - sl.start] - 40.0))))    # rover 40 m before the face
+    eye = zz[j] + 1.0
+    vis = np.array([True] * (j + 1) + [seen(sl.start + j, sl.start + t) for t in range(j + 1, len(d))])
+    ax = axs[3]
+    base = zz.min() - 3
+    ax.fill_between(d, base, zz, color="#E9DDE3", lw=0)
+    hid = ~vis.copy(); hid[:j + 1] = False
+    ax.fill_between(d, base, zz, where=hid, color="#8A7A82", alpha=0.55, lw=0, label="hidden from the rover")
+    ax.plot(d, zz, color=INK, lw=0.8)
+    ax.plot(np.where(oo, d, np.nan), np.where(oo, zz, np.nan), color=face_col, lw=2.4, solid_capstyle="butt", label="face patch")
+    hid_idx = np.where(hid)[0]
+    if len(hid_idx):
+        t0 = hid_idx[0] - 1                                          # last visible point before the hidden ground
+        slope_ = (zz[t0] + 0.2 - eye) / max(d[t0] - d[j], 1e-6)
+        x_end = d[-1]
+        ax.plot([d[j], x_end], [eye, eye + slope_ * (x_end - d[j])], color=prior_col, lw=0.7, ls=(0, (2, 1.2)))
+    ax.plot(d[j], eye, marker="v", ms=4.2, color=prior_col, mec=INK, mew=0.4, zorder=5)
+    ax.annotate("rover, eye 1 m", xy=(d[j], eye), xytext=(d[j] + 25, eye + 0.22 * (zz.max() - base)), fontsize=5.2, color=INK,
+                arrowprops=dict(arrowstyle="-", color=INK, lw=0.5))
+    ax.set_xlabel("distance along the slip model route (m)", fontsize=5.6, labelpad=1)
+    ax.set_ylabel("height (m)", fontsize=5.6); ax.yaxis.set_label_coords(-0.115, 0.5)
+    ax.tick_params(labelsize=5.2, length=2, pad=1)
+    ax.set_xlim(d[0], d[-1]); ax.set_ylim(base, zz.max() + 0.25 * (zz.max() - base))
+    for s_ in ("top", "right"):
+        ax.spines[s_].set_visible(False)
+    ax.legend(loc="lower left", fontsize=5.0, frameon=False, handlelength=1.4, borderaxespad=0.3, labelspacing=0.2)
+    ax.set_title("(d) line of sight before a face", fontsize=6.4)
+    ax.set_box_aspect((r1 - r0) / (c1 - c0) * 0.98)
+    fig.savefig(os.path.join(FIG, "fig_teaser.pdf"), metadata={"CreationDate": None}, bbox_inches="tight", pad_inches=0.02)
+    fig.savefig(os.path.join(FIG, "fig_teaser.png"), dpi=220, bbox_inches="tight", pad_inches=0.02, facecolor="white"); plt.close(fig)
+
+
 S27 = os.path.join(ROOT, "results", "benchmark", "stage27")
 S28 = os.path.join(ROOT, "results", "benchmark", "stage28")
 SWEEP_STYLE = {"SLOPE": ("#8A7A82", "v", "Slope"), "DET": ("#E58AAE", "^", "Synthetic detector"),
@@ -186,6 +298,7 @@ def main():
     os.makedirs(FIG, exist_ok=True)
     if os.path.exists(os.path.join(ROOT, "data", "cache", "stage27", "layers_L-ANY.npz")):
         fig_map()
+        fig_teaser()
     if os.path.exists(os.path.join(S27, "C_macro.csv")):
         fig_resolution()
     if os.path.exists(os.path.join(S28, "A_sweep.csv")):
