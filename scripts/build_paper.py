@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAPER = os.path.join(ROOT, "paper")
 SRC = os.path.join(PAPER, "src")
 BEN = os.path.join(ROOT, "results", "benchmark")
-S27, S28, S29 = os.path.join(BEN, "stage27"), os.path.join(BEN, "stage28"), os.path.join(BEN, "stage29")
+S27, S28, S29, S30 = os.path.join(BEN, "stage27"), os.path.join(BEN, "stage28"), os.path.join(BEN, "stage29"), os.path.join(BEN, "stage30")
 SITE_LABEL = {"Dumont": "Dumont Dunes, CA", "WhiteSands": "White Sands, NM", "Kelso": "Kelso Dunes, CA",
               "GreatSandDunes": "Great Sand Dunes, CO", "Algodones": "Algodones Dunes, CA", "LittleSahara": "Little Sahara, UT"}
 SITES = list(SITE_LABEL)
@@ -370,14 +370,47 @@ def table_closed_loop():
         if r is None or r.get(k, "") == "":
             return NA
         return f"{rnd(100 * float(r[k])):.0f}" if k in ("success", "stuck") else f"{rnd(float(r[k])):.0f}"
-    L = [r"\begin{table}[t]", r"\caption{Closed loop with onboard sensing (radius $R$), 20 pairs per site, posterior vehicle, sensing every face within the radius: success (\%; goal reached, no face contact) and replans per pair (Rp), E1 endpoints unless marked E2. Main runs $R=20$\,m; I30 also with $R=10$ and 30\,m.}",
-         r"\label{tab:closedloop}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.4pt}", r"\begin{tabular}{@{}lccccccc@{}}", r"\toprule",
+    L = [r"\begin{table}[H]", r"\caption{Registered closed loop with an idealised sensor (radius $R$), 20 pairs per site, posterior vehicle, sensing every face within the radius: success (\%; goal reached, no face contact) and replans per pair (Rp), E1 endpoints unless marked E2. Main runs $R=20$\,m; I30 also with $R=10$ and 30\,m.}",
+         r"\label{tab:closedloop_ideal}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.4pt}", r"\begin{tabular}{@{}lccccccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10, $R$ 20} & \multicolumn{2}{c}{I30, $R$ 20} & \multicolumn{3}{c}{I30, S} \\",
          r"Prior layer & S & Rp & S & Rp & E2 & $R$ 10 & $R$ 30 \\", r"\midrule"]
     for lay, lab in CL_LAYERS:
         L.append(f"{lab} & {g('E1', 'I10', lay, 20.0, 'success')} & {g('E1', 'I10', lay, 20.0, 'replans')} & "
                  f"{g('E1', 'I30', lay, 20.0, 'success')} & {g('E1', 'I30', lay, 20.0, 'replans')} & "
                  f"{g('E2', 'I30', lay, 20.0, 'success')} & {g('E1', 'I30', lay, 10.0, 'success')} & {g('E1', 'I30', lay, 30.0, 'success')} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
+LOS_LAYERS = [("none", "Slip model only"), ("DET", "Detector"), ("BICUBIC-cal", "Interpolation"), ("GBM", "Boosting$^{*}$"),
+              ("DEM+S2", "Boosting + Sentinel-2$^{*}$"), ("SR-cal", "Super resolution$^{*}$"), ("CNN-long", "Network, 6000 steps$^{*}$"),
+              ("FACEMAP", "Face map (oracle)")]
+
+
+def table_closed_loop_los():
+    p = os.path.join(S30, "a_closed_loop_line_of_sight.csv")
+    if not os.path.exists(p):
+        return "% line of sight closed loop not run yet"
+    A = read(p)
+    E = read(os.path.join(S28, "E_closed_loop.csv"))
+
+    def g(inp, e, lay, pd):
+        r = next((r for r in A if r["input"] == inp and r["endpoints"] == e and r["layer"] == lay and float(r["p_detect"]) == pd), None)
+        if r is None:
+            return NA
+        c = f"{rnd(100 * float(r['success'])):.0f}"
+        return c + ("$^{\\dagger}$" if r["diff_lo"] not in ("", None) and float(r["diff_lo"]) > 0 else "")
+
+    def ideal(lay):
+        r = next((r for r in E if r["profile"] == "published-posterior" and r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] == lay and float(r["radius_m"]) == 20.0), None)
+        return f"{rnd(100 * float(r['success'])):.0f}" if r else NA
+    L = [r"\begin{table}[t]", r"\caption{Closed loop with onboard sensing within 20\,m, 20 pairs per site, posterior vehicle, weight $w=5$: success (\%; goal reached without touching a face). Line of sight: a 5\,m cell is sensed only when visible from an eye 1\,m above the ground; $p_d=0.8$: each face cell is detectable with probability 0.8. Last column: the registered idealised sensor that sees every face within the radius. $^{\dagger}$Two stage bootstrap interval of the gain over the slip model prior entirely above zero. $\cdot$ not run. $^{*}$Trained leave one site out. Line of sight runs are post hoc.}",
+         r"\label{tab:closedloop}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
+         r" & \multicolumn{4}{c}{Line of sight} & Ideal \\", r"\cmidrule(lr){2-5}\cmidrule(l){6-6}",
+         r" & \multicolumn{3}{c}{I30} & I10 & I30 \\", r"\cmidrule(lr){2-4}\cmidrule(lr){5-5}\cmidrule(l){6-6}",
+         r"Prior layer & E1 & E2 & E1, $p_d$ 0.8 & E1 & E1 \\", r"\midrule"]
+    for lay, lab in LOS_LAYERS:
+        L.append(f"{lab} & {g('I30', 'E1', lay, 1.0)} & {g('I30', 'E2', lay, 1.0)} & {g('I30', 'E1', lay, 0.8)} & {g('I10', 'E1', lay, 1.0)} & {ideal(lay)} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
 
@@ -480,7 +513,7 @@ def table_persite():
 # render and build
 # ---------------------------------------------------------------------------------------------------------------------
 TABLES = {"sites": table_sites, "methods": lambda: open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip(),
-          "detection": table_detection, "planning": table_planning, "closedloop": table_closed_loop, "log": table_log, "persite": table_persite,
+          "detection": table_detection, "planning": table_planning, "closedloop": table_closed_loop, "closedloop_los": table_closed_loop_los, "log": table_log, "persite": table_persite,
           "glossary": table_glossary, "spread": table_spread}
 
 
