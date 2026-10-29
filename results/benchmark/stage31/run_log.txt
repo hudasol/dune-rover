@@ -52,3 +52,9 @@ a WhiteSands eye1.5 GBM: 39 s
 a WhiteSands eye1.5 FACEMAP: 28 s
 a WhiteSands noise0.05 none: 50 s
 a WhiteSands noise0.05 BICUBIC-cal: 46 s
+a WhiteSands noise0.05 GBM: 42 s
+a WhiteSands noise0.05 FACEMAP: 30 s
+a WhiteSands noise0.15 none: 47 s
+a WhiteSands noise0.15 BICUBIC-cal: 48 s
+a WhiteSands noise0.15 GBM: 40 s
+a WhiteSands noise0.15 FACEMAP: 32 s
