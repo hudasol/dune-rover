@@ -66,11 +66,6 @@ N.~Vandapel, R.~R. Donamukkala, and M.~Hebert, ``Unmanned ground vehicle
   navigation using aerial ladar data,'' \emph{The International Journal of
   Robotics Research}, vol.~25, no.~1, pp. 31--51, 2006.
 
-\bibitem{sofman2006}
-B.~Sofman, E.~Lin, J.~A. Bagnell, J.~Cole, N.~Vandapel, and A.~Stentz,
-  ``Improving robot navigation through self-supervised online learning,''
-  \emph{Journal of Field Robotics}, vol.~23, no. 11-12, pp. 1059--1075, 2006.
-
 \bibitem{delmerico2017active}
 J.~Delmerico, E.~Mueggler, J.~Nitsch, and D.~Scaramuzza, ``Active autonomous
   aerial exploration for ground robot path planning,'' \emph{IEEE Robotics and
@@ -80,7 +75,7 @@ J.~Delmerico, E.~Mueggler, J.~Nitsch, and D.~Scaramuzza, ``Active autonomous
 J.-M. Fortin, O.~Gamache, W.~Fecteau, E.~Daum, W.~Larriv{\'e}e-Hardy,
   F.~Pomerleau, and P.~Gigu{\`e}re, ``{UAV}-assisted self-supervised terrain
   awareness for off-road navigation,'' in \emph{Proc. IEEE International
-  Conference on Robotics and Automation (ICRA)}, 2025.
+  Conference on Robotics and Automation (ICRA)}, 2025, pp. 1--7.
 
 \bibitem{ono2016traversability}
 M.~Ono, B.~Rothrock, E.~Almeida, A.~Ansar, R.~Otero, A.~Huertas, and
@@ -88,22 +83,10 @@ M.~Ono, B.~Rothrock, E.~Almeida, A.~Ansar, R.~Otero, A.~Huertas, and
   landing site selection,'' in \emph{Proc. IEEE Aerospace Conference}, 2016,
   pp. 1--12.
 
-\bibitem{hedrick2021terrain}
-G.~Hedrick and Y.~Gu, ``Terrain-aware traverse planning for a {Mars} sample
-  return rover,'' \emph{Advanced Robotics}, vol.~35, no. 21--22, pp.
-  1286--1301, 2021.
-
 \bibitem{papadakis2013}
 P.~Papadakis, ``Terrain traversability analysis methods for unmanned ground
   vehicles: A survey,'' \emph{Engineering Applications of Artificial
   Intelligence}, vol.~26, no.~4, pp. 1373--1385, 2013.
-
-\bibitem{borges2022}
-P.~V.~K. Borges, T.~Peynot, S.~Liang, B.~Arain, M.~Wildie, M.~G. Minareci,
-  S.~Lichman, G.~Samvedi, I.~Sa, N.~Hudson, M.~Milford, P.~Moghadam, and
-  P.~Corke, ``A survey on terrain traversability analysis for autonomous ground
-  vehicles: Methods, sensors, and challenges,'' \emph{Field Robotics}, vol.~2,
-  pp. 1567--1627, 2022.
 
 \bibitem{goldberg2002}
 S.~B. Goldberg, M.~W. Maimone, and L.~Matthies, ``Stereo vision and rover
@@ -139,17 +122,6 @@ S.~Thrun, M.~Montemerlo, H.~Dahlkamp, D.~Stavens, A.~Aron, J.~Diebel, P.~Fong,
 H.~Inotsume, T.~Kubota, and D.~Wettergreen, ``Robust path planning for slope
   traversing under uncertainty in slip prediction,'' \emph{IEEE Robotics and
   Automation Letters}, vol.~5, no.~2, pp. 3390--3397, 2020.
-
-\bibitem{endo2023riskaware}
-M.~Endo, T.~Taniai, R.~Yonetani, and G.~Ishigami, ``Risk-aware path planning
-  via probabilistic fusion of traversability prediction for planetary rovers on
-  heterogeneous terrains,'' in \emph{Proc. IEEE International Conference on
-  Robotics and Automation (ICRA)}, 2023, pp. 11\,852--11\,858.
-
-\bibitem{ono2015}
-M.~Ono, T.~J. Fuchs, A.~Steffy, M.~Maimone, and J.~Yen, ``Risk-aware planetary
-  rover operation: Autonomous terrain classification and path planning,'' in
-  \emph{Proc. IEEE Aerospace Conference}, Big Sky, MT, USA, 2015, pp. 1--10.
 
 \bibitem{hugenholtz2012remote}
 C.~H. Hugenholtz, N.~Levin, T.~E. Barchyn, and M.~C. Baddock, ``Remote sensing
@@ -218,9 +190,9 @@ M.~Drusch, U.~Del~Bello, S.~Carlier, O.~Colin, V.~Fernandez, F.~Gascon,
 \bibitem{naip}
 \BIBentryALTinterwordspacing
 {U.S. Department of Agriculture, Farm Service Agency}, ``National agriculture
-  imagery program ({NAIP}),'' Dataset, through the Microsoft Planetary
+  imagery program ({NAIP}),'' Dataset, read through the Microsoft Planetary
   Computer, 2026, accessed October 2026. [Online]. Available:
-  \url{https://naip-usdaonline.hub.arcgis.com/}
+  \url{https://planetarycomputer.microsoft.com/dataset/naip}
 \BIBentrySTDinterwordspacing
 
 \bibitem{riley1999}
@@ -273,6 +245,12 @@ D.~P. Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' in
   [Online]. Available: \url{https://arxiv.org/abs/1412.6980}
 \BIBentrySTDinterwordspacing
 
+\bibitem{ronneberger2015unet}
+O.~Ronneberger, P.~Fischer, and T.~Brox, ``{U-Net}: Convolutional networks for
+  biomedical image segmentation,'' in \emph{Medical Image Computing and
+  Computer-Assisted Intervention ({MICCAI})}, ser. Lecture Notes in Computer
+  Science, vol. 9351, 2015, pp. 234--241.
+
 \bibitem{roberts2017}
 D.~R. Roberts, V.~Bahn, S.~Ciuti, M.~S. Boyce, J.~Elith, G.~Guillera-Arroita,
   S.~Hauenstein, J.~J. Lahoz-Monfort, B.~Schr{\"o}der, W.~Thuiller, D.~I.
@@ -293,15 +271,11 @@ Z.~Janosi and B.~Hanamoto, ``The analytical determination of drawbar pull as a
   1em plus 0.5em minus 0.4em\relax Turin, Italy: Edizioni Minerva Tecnica,
   1961.
 
-\bibitem{wong2008}
-J.~Y. Wong, \emph{Theory of Ground Vehicles}, 4th~ed.\hskip 1em plus 0.5em
-  minus 0.4em\relax Wiley, 2008.
-
 \bibitem{inotsume2016thesis}
 \BIBentryALTinterwordspacing
 H.~Inotsume, ``Analysis of angle of attack for efficient slope ascent by
   rovers,'' Master's thesis, Robotics Institute, Carnegie Mellon University,
-  2016, {CMU-RI-TR-15-22}. [Online]. Available:
+  Aug. 2016, {Tech. Rep. CMU-RI-TR-15-22}. [Online]. Available:
   \url{https://publications.ri.cmu.edu/storage/publications/pub_files/2016/8/MSThesis_Hiroaki.pdf}
 \BIBentrySTDinterwordspacing
 
@@ -316,12 +290,5 @@ R.~Li, B.~Wu, K.~Di, A.~Angelova, R.~E. Arvidson, I.-C. Lee, M.~Maimone, L.~H.
 H.~R. K{\"u}nsch, ``The jackknife and the bootstrap for general stationary
   observations,'' \emph{The Annals of Statistics}, vol.~17, no.~3, pp.
   1217--1241, 1989.
-
-\bibitem{holm1979}
-\BIBentryALTinterwordspacing
-S.~Holm, ``A simple sequentially rejective multiple test procedure,''
-  \emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp. 65--70, 1979.
-  [Online]. Available: \url{https://www.jstor.org/stable/4615733}
-\BIBentrySTDinterwordspacing
 
 \end{thebibliography}
