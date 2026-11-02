@@ -239,7 +239,7 @@ def fig_resolution():
     ax.set_xscale("log"); ax.set_xticks([2, 5, 10, 30, 60]); ax.set_xticklabels(["2", "5", "10", "30", "60"]); ax.xaxis.set_minor_formatter(NullFormatter())
     ax.set_xlabel("grid spacing (m)"); ax.set_ylabel("mean AUC (face map label)")
     ax.set_ylim(0.5, 1.0); ax.grid(color="#EFE3E8", lw=0.5); ax.set_axisbelow(True)
-    ax.text(0.03, 0.96, "(a)", transform=ax.transAxes, fontsize=7, ha="left", va="top")
+    ax.text(0.5, 0.42, "(a)", transform=ax.transAxes, fontsize=7, ha="center", va="center")
     ax = axs[1]
     bins = ["0 to 0.5", "0.5 to 1", "1 to 2", "2 to 4", "4 to 8", "8 to inf"]
     centres = [0.35, 0.7, 1.4, 2.8, 5.6, 11.3]
