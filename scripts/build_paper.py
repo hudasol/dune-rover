@@ -42,16 +42,23 @@ def rnd(x, nd=0):
     return float(Decimal(repr(float(x))).quantize(q, rounding=ROUND_HALF_UP))
 
 
+def rnd100(x, nd=0):
+    """100 times x, rounded half away from zero on the decimal value of x (so 0.285 gives 28.5 and then 29)."""
+    from decimal import Decimal, ROUND_HALF_UP
+    q = Decimal(1).scaleb(-nd)
+    return float((Decimal(repr(float(x))) * 100).quantize(q, rounding=ROUND_HALF_UP))
+
+
 def f2(x):
     return f"{rnd(x, 2):.2f}"
 
 
 def pc(x, nd=0):
-    return f"{rnd(100 * float(x), nd):.{nd}f}\\,\\%"
+    return f"{rnd100(float(x), nd):.{nd}f}\\,\\%"
 
 
 def pts(x):
-    v = rnd(100 * float(x), 0)
+    v = rnd100(float(x), 0)
     return (f"+{v:.0f}" if v > 0 else f"$-${-v:.0f}") if v != 0 else "0"
 
 
@@ -156,7 +163,7 @@ def values():
             pf = "post" if r["profile"] == "published-posterior" else "assu"
             k = key("ho", pf, r["endpoints"], r["input"], r["layer"])
             V[k] = pc(r["mission_success"]); V[k + "_d"] = pts(r["difference"]); V[k + "_lo"] = pts(r["diff_lo"]); V[k + "_hi"] = pts(r["diff_hi"])
-            V[k + "_dabs"] = f"{rnd(100 * abs(float(r['difference']))):.0f}"
+            V[k + "_dabs"] = f"{rnd100(abs(float(r['difference']))):.0f}"
             V[k + "_pos"] = r["positive_sites"]; V[k + "_p"] = f"{float(r['p_sign_flip']):.3f}".rstrip("0").rstrip(".")
             V[k + "_routed"] = pc(r["routed"])
             if r.get("m_on_face_per_km", "") != "":
@@ -365,8 +372,8 @@ def values31(V):
                     V[key("vc", e, inp, "maxcomp", "vd")] = pts(max(float(r["vehicle_diff"]) for r in rr))
                     V[key("vc", e, inp, "maxcomp", "md")] = pts(max(float(r["mission_diff"]) for r in rr))
                     V[key("vc", e, inp, "maxcomp", "v")] = pc(max(float(r["vehicle_success"]) for r in rr))
-                    V[key("vc", e, inp, "maxcomp", "md1")] = f"{rnd(100 * max(float(r['mission_diff']) for r in rr), 1):.1f}"
-                    V[key("vc", e, inp, "maxcomp", "vd1")] = f"{rnd(100 * max(float(r['vehicle_diff']) for r in rr), 1):.1f}"
+                    V[key("vc", e, inp, "maxcomp", "md1")] = f"{rnd100(max(float(r['mission_diff']) for r in rr), 1):.1f}"
+                    V[key("vc", e, inp, "maxcomp", "vd1")] = f"{rnd100(max(float(r['vehicle_diff']) for r in rr), 1):.1f}"
                     V[key("vc", e, inp, "maxcomp", "mdlay")] = max(rr, key=lambda r: float(r["mission_diff"]))["layer"]
         ci_ex = [r for r in C if r["layer"] in comp and r["mission_site_lo"] != "" and float(r["mission_site_lo"]) > 0]
         V["vc_I30_E1_mci_exclude"] = WORDS[sum(r["input"] == "I30" and r["endpoints"] == "E1" for r in ci_ex)]
@@ -394,14 +401,22 @@ def values31(V):
         for r in read(p):
             k = key("prp", r["input"], r["layer"])
             V[k] = pc(r["mission_success"]); V[k + "_v"] = pc(r["vehicle_success"])
+    p = os.path.join(S31, "c_vehicle_all_cells.csv")
+    if os.path.exists(p):           # largest 30 m gain of a computable layer, registered grid or weights up to 1000
+        comp = ("SLOPE-cal", "BICUBIC-cal", "DET", "GBM", "CNN", "DEM+S2")
+        g = [float(r["mission_diff"]) for r in read(p) if r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] in comp]
+        base = next(float(r["mission_success"]) for r in read(p) if r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] == "none")
+        g += [float(r["weight_only_up_to_1000"]) - base for r in read(os.path.join(S30, "d_extended_weight_grid.csv"))
+              if r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] in comp]
+        V["i30_maxgain_any1"] = f"{rnd100(max(g), 1):.1f}"
     if "vc_E1_G30_maxcomp_md1" in V and os.path.exists(os.path.join(S31, "e_products_planning.csv")):
         P = {(r["input"], r["layer"]): float(r["mission_success"]) for r in read(os.path.join(S31, "e_products_planning.csv"))}
         g30 = {(r["input"], r["layer"]): float(r["mission_success"]) for r in read(os.path.join(S30, "c_glo30_shift_planning.csv"))}
         cands = [float(V["vc_E1_G30_maxcomp_md1"]) / 100, P[("A30", "BICUBIC-cal")] - P[("A30", "none")], P[("F30", "BICUBIC-cal")] - P[("F30", "none")],
                  g30[("G30", "BICUBIC-cal")] - g30[("G30", "none")]]
-        V["real30_max_md1"] = f"{rnd(100 * max(cands), 1):.1f}"
+        V["real30_max_md1"] = f"{rnd100(max(cands), 1):.1f}"
         for pn in ("A30", "F30"):
-            V[key("prp", pn, "d1")] = f"{rnd(100 * (P[(pn, 'BICUBIC-cal')] - P[(pn, 'none')]), 1):.1f}"
+            V[key("prp", pn, "d1")] = f"{rnd100((P[(pn, 'BICUBIC-cal')] - P[(pn, 'none')]), 1):.1f}"
     p = os.path.join(S31, "f_unet_detection.csv")
     if os.path.exists(p):
         for r in read(p):
@@ -474,7 +489,7 @@ def table_sites():
         m = meta[s]
         y0, y1 = m["acquisition_start"][:4], m["acquisition_end"][:4]
         L.append(f"{SITE_LABEL[s]} & {float(m['centre_lat']):.2f}, {float(m['centre_lon']):.2f} & {float(m['area_km2']):.1f} & {float(m['relief_m']):.0f}\\,m & "
-                 f"{y0 if y0 == y1 else y0 + ' to ' + y1[2:]} & {pm[s]['patches']} & {rnd(100 * prev(s, 'I10')):.0f}\\,\\% & {rnd(100 * prev(s, 'I30')):.0f}\\,\\% \\\\")
+                 f"{y0 if y0 == y1 else y0 + ' to ' + y1[2:]} & {pm[s]['patches']} & {rnd100(prev(s, 'I10')):.0f}\\,\\% & {rnd100(prev(s, 'I30')):.0f}\\,\\% \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
 
@@ -494,7 +509,7 @@ def table_detection():
         mean.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     best = {c: f2(max(np.mean(v) for (i, m), v in mean.items() if i == c)) for c, _ in DET_COLS if any(i == c for i, _ in mean)}
     g30i = {r["method"]: f2(r["auc"]) for f in ("A_macro.csv", "F_macro.csv") for r in read(os.path.join(S27, f)) if r["input"] == "G30" and r["label"] == "L-ANY" and r["method"] in ("CNN", "SR")}
-    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, made by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the networks and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"); A30: AW3D30 and F30: FABDEM, interpolated to the 30\,m lidar grid. Ruggedness and roughness: supplement. $^{*}$Trained on the lidar of the other five sites. $^{\ddagger}$Post hoc. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
+    L = [r"\begin{table}[t]", r"\caption{Detection of the face map label of Eq.~(\ref{eq:label}): mean AUC over the six sites. I: lidar block means; I10$\rightarrow$30: the largest of the nine 10\,m scores in each 30\,m cell; R10: USGS 1/3 arc second DEM, made by USGS from the same lidar at all six sites; N30: NASADEM; G30: GLO-30; R10, N30 and G30 on their own grids, where the networks and super resolution were not run (on GLO-30 interpolated to the 30\,m lidar grid they reach " + g30i["CNN"] + " and " + g30i["SR"] + r"); A30: AW3D30 and F30: FABDEM, interpolated to the 30\,m lidar grid. Ruggedness and roughness (I30 " + f2(np.mean(mean[("I30", "TRI")])) + " and " + f2(np.mean(mean[("I30", "ROUGH")])) + r"): supplement Table~S5. $^{*}$Trained on the lidar of the other five sites. $^{\ddagger}$Post hoc. Best per column in bold (ties at two decimals all bold); $\cdot$ not run.}",
          r"\label{tab:detection}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.8pt}", r"\begin{tabular}{@{}l" + "c" * len(DET_COLS) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in DET_COLS) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
@@ -532,7 +547,7 @@ def table_planning(degraded=False):
         r = C.get((e, i, lay))
         if r is None:
             return NA
-        return f"{rnd(100 * float(r['mission_success'])):.0f}/{rnd(100 * float(r['vehicle_success'])):.0f}"
+        return f"{rnd100(float(r['mission_success'])):.0f}/{rnd100(float(r['vehicle_success'])):.0f}"
     L = [r"\begin{table}[t]", r"\caption{Mission success / vehicle success (\%; vehicle success post hoc) at the operating point chosen on the other five sites, 100 pairs per site, posterior vehicle. E1: endpoints chosen with the truth; E2: from the coarse map only. Site level intervals: supplement S6. $^{*}$Trained leave one site out.}",
          r"\label{tab:planning}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & G30 \\", r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(l){6-6}", r"Layer & E1 & E2 & E1 & E2 & E1 \\", r"\midrule"]
@@ -551,7 +566,7 @@ def table_degraded():
         cells = []
         for e, i in PLAN_COLS[:4]:
             r = next((r for r in C if r["endpoints"] == e and r["input"] == i and r["map"] == mp and r["policy"] == "risk_weighted"), None)
-            cells.append(f"{rnd(100 * float(r['mission_success'])):.0f}" if r else NA)
+            cells.append(f"{rnd100(float(r['mission_success'])):.0f}" if r else NA)
         L.append(f"{lab} & " + " & ".join(cells) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
@@ -594,7 +609,7 @@ def table_labels():
         cells = []
         for i in ("I10", "I30"):
             r = C.get(("E1", i, lay))
-            cells += [f"{rnd(100 * float(r[c])):.0f}" if r else NA for c, _ in labs]
+            cells += [f"{rnd100(float(r[c])):.0f}" if r else NA for c, _ in labs]
         L.append(f"{lab} & " + " & ".join(cells) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
@@ -616,7 +631,7 @@ def table_tertiles():
         for i in ("I10", "I30"):
             for t in (1, 2, 3):
                 r = get("E1", i, lay, t)
-                cells.append(f"{rnd(100 * float(r['mission_success'])):.0f}/{rnd(100 * float(r['vehicle_success'])):.0f}" if r else NA)
+                cells.append(f"{rnd100(float(r['mission_success'])):.0f}/{rnd100(float(r['vehicle_success'])):.0f}" if r else NA)
         L.append(f"{lab} & " + " & ".join(cells) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
@@ -633,11 +648,11 @@ def table_cl_variants():
 
     def g(v, lay):
         r = next((r for r in A if r["variant"] == v and r["layer"] == lay), None)
-        return f"{rnd(100 * float(r['success'])):.0f}" if r and r["success"] != "" else NA
+        return f"{rnd100(float(r['success'])):.0f}" if r and r["success"] != "" else NA
 
     def hw(i, lay):
         r = next((r for r in H if r["input"] == i and r["layer"] == lay), None)
-        return f"{rnd(100 * float(r['success'])):.0f}" if r else NA
+        return f"{rnd100(float(r['success'])):.0f}" if r else NA
     L = [r"\begin{table}[H]", r"\caption{Line of sight closed loop on I30 (E1 endpoints, 20 pairs per site, $R=20$\,m) under sensor variants (post hoc): success (\%). Eye: height of the sensor above the ground. Noise: standard deviation of the noise added to every lidar post before the rover's face patches are computed. $p_d$ 0.8: each face cell is detected with probability 0.8, drawn once per pair (pair) or at every view (view). All at $w=5$; last columns: weight chosen on the other five sites from $\{1,5,20,100\}$, on I30 and on I10.}",
          r"\label{tab:clvariants}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}l" + "c" * (len(cols) + 2) + r"@{}}", r"\toprule",
          "Prior layer & " + " & ".join(h for _, h in cols) + r" & Held out $w$ & I10, held out $w$ \\", r"\midrule"]
@@ -681,12 +696,15 @@ def table_products():
          r"\label{tab:products}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccccc@{}}", r"\toprule",
          r" & \multicolumn{4}{c}{AUC} & \multicolumn{2}{c}{Success} \\", r"\cmidrule(lr){2-5}\cmidrule(l){6-7}",
          r"Product & Slope & Interp. & Detector & Boosting & Slip only & Interp. \\", r"\midrule"]
+    g25 = [float(r["auc"]) for r in read(os.path.join(S27, "A_metrics.csv")) if r["input"] == "G30" and r["method"] == "GBM"]
+    if g25:
+        D[("G30", "GBM")] = {"auc": float(np.mean(g25))}
     for inp, lab in (("G30", "G30"), ("A30", "A30"), ("F30", "F30")):
         aucs = [f2(D[(inp, m)]["auc"]) if (inp, m) in D else NA for m in ("SLOPE", "BICUBIC", "DET", "GBM")]
         if inp == "G30":
-            pl = [f"{rnd(100 * float(G[(inp, l)]['mission_success'])):.0f}/$\\cdot$" if (inp, l) in G else NA for l in ("none", "BICUBIC-cal")]
+            pl = [f"{rnd100(float(G[(inp, l)]['mission_success'])):.0f}/$\\cdot$" if (inp, l) in G else NA for l in ("none", "BICUBIC-cal")]
         else:
-            pl = [f"{rnd(100 * float(P[(inp, l)]['mission_success'])):.0f}/{rnd(100 * float(P[(inp, l)]['vehicle_success'])):.0f}" if (inp, l) in P else NA for l in ("none", "BICUBIC-cal")]
+            pl = [f"{rnd100(float(P[(inp, l)]['mission_success'])):.0f}/{rnd100(float(P[(inp, l)]['vehicle_success'])):.0f}" if (inp, l) in P else NA for l in ("none", "BICUBIC-cal")]
         L.append(f"{lab} & " + " & ".join(aucs + pl) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     return "\n".join(L)
@@ -701,7 +719,7 @@ def table_sensitivity():
             r = next((r for r in N if r["profile"] == prof and r["endpoints"] == e and r["input"] == i), None)
         else:
             r = next((r for r in H if r["profile"] == prof and r["endpoints"] == e and r["input"] == i and r["layer"] == lay and r["policies"] == "conservative+risk_weighted"), None)
-        return f"{rnd(100 * float(r['mission_success'])):.0f}" if r else NA
+        return f"{rnd100(float(r['mission_success'])):.0f}" if r else NA
     L = [r"\begin{table}[H]", r"\caption{Mission success (\%) with the posterior vehicle (P) and the sensitivity vehicle with narrower assumed ranges (A), E1 endpoints, operating point chosen on the other five sites.}",
          r"\label{tab:sensitivity}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} & \multicolumn{2}{c}{G30} \\", r"Layer & P & A & P & A & P & A \\", r"\midrule"]
@@ -740,7 +758,7 @@ def table_closed_loop():
         r = next((r for r in E if r["profile"] == "published-posterior" and r["endpoints"] == e and r["input"] == i and r["layer"] == lay and float(r["radius_m"]) == R), None)
         if r is None or r.get(k, "") == "":
             return NA
-        return f"{rnd(100 * float(r[k])):.0f}" if k in ("success", "stuck") else f"{rnd(float(r[k])):.0f}"
+        return f"{rnd100(float(r[k])):.0f}" if k in ("success", "stuck") else f"{rnd(float(r[k])):.0f}"
     L = [r"\begin{table}[H]", r"\caption{Registered closed loop with an idealised sensor (radius $R$), 20 pairs per site, posterior vehicle, sensing every face within the radius: success S (\%; goal reached, no face contact) and replans per pair Rp. Main runs $R=20$\,m; I30 also with E2 endpoints and with $R=10$ and 30\,m.}",
          r"\label{tab:closedloop_ideal}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.4pt}", r"\begin{tabular}{@{}lccccccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10, E1, $R$ 20} & \multicolumn{2}{c}{I30, E1, $R$ 20} & I30, E2 & \multicolumn{2}{c}{I30, E1} \\",
@@ -770,11 +788,11 @@ def table_closed_loop_los():
         r = next((r for r in A if r["input"] == inp and r["endpoints"] == e and r["layer"] == lay and float(r["p_detect"]) == pd), None)
         if r is None:
             return NA
-        return f"{rnd(100 * float(r['success'])):.0f}"
+        return f"{rnd100(float(r['success'])):.0f}"
 
     def ideal(lay):
         r = next((r for r in E if r["profile"] == "published-posterior" and r["endpoints"] == "E1" and r["input"] == "I30" and r["layer"] == lay and float(r["radius_m"]) == 20.0), None)
-        return f"{rnd(100 * float(r['success'])):.0f}" if r else NA
+        return f"{rnd100(float(r['success'])):.0f}" if r else NA
     L = [r"\begin{table}[t]", r"\caption{Exploratory closed loop, sensing within 20\,m (post hoc except the last column), 20 pairs per site, $w=5$: success (\%; goal reached, no face touched). Line of sight: eye 1\,m above the ground; $p_d=0.8$: each face cell detectable with probability 0.8. Ideal: the registered sensor that sees every face. Intervals and sensor variants: supplement S6. $^{*}$Trained leave one site out.}",
          r"\label{tab:closedloop}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{tabular}{@{}lccccc@{}}", r"\toprule",
          r" & \multicolumn{4}{c}{Line of sight} & Ideal \\", r"\cmidrule(lr){2-5}\cmidrule(l){6-6}",
