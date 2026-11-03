@@ -190,7 +190,7 @@ Little Sahara & 0.529 [0.50, 0.56] & 0.695 [0.67, 0.72] & 0.716 [0.69, 0.74] & 0
 \end{table}
 
 \begin{table}[H]
-\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table~II of the paper.}
+\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table~III of the paper.}
 \label{tab:spread}
 \centering\scriptsize
 \begin{tabular}{@{}lcccccccc@{}}
@@ -268,7 +268,7 @@ Little Sahara & UT\_StatewideCenSouth\_2020\_A20 & 2020-09-20 to 2021-06-26 & 20
 
 \section*{S6. Degraded face maps and post hoc checks}
 \begin{table}[H]
-\caption{Registered degraded face maps (stage 28), weight policy at a fixed $w=5$: mission success (\%), 100 pairs per site, posterior vehicle. The first row is the exact face map at the same weight; Table~III of the paper gives the face map at the weight chosen on the other five sites.}
+\caption{Registered degraded face maps (stage 28), weight policy at a fixed $w=5$: mission success (\%), 100 pairs per site, posterior vehicle. The first row is the exact face map at the same weight; Table~IV of the paper gives the face map at the weight chosen on the other five sites.}
 \label{tab:planning_s}
 \centering\small
 \begin{tabular}{@{}lcccc@{}}
@@ -289,7 +289,7 @@ Face map from 5\,m survey & 17 & 9 & 8 & 4 \\
 These checks were decided after the main results were known and are post hoc (stages 29 to 31 of the log). Tables~\ref{tab:sitelevel} to~\ref{tab:sensitivity} give the site level intervals of the planning table, the routes scored against other face rules, success by pair distance, the site level intervals of the line of sight closed loop, the closed loop under sensor variants, the real 30\,m products and the sensitivity vehicle; Table~\ref{tab:closedloop_ideal} gives the registered closed loop with the idealised sensor.
 
 \begin{table}[H]
-\caption{Site level inference for Table~III of the paper: gain over the slip model alone in points, mean of the six per site differences, with a 95\,\% $t$ interval (five degrees of freedom; it can extend beyond the possible range). M: mission success; V: vehicle success.}
+\caption{Site level inference for Table~IV of the paper: gain over the slip model alone in points, mean of the six per site differences, with a 95\,\% $t$ interval (five degrees of freedom; it can extend beyond the possible range). M: mission success; V: vehicle success.}
 \label{tab:sitelevel}
 \centering\scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -309,7 +309,7 @@ Face map (oracle) & +68 (+36, +99) & +16 (+1, +32) & +74 (+38, +110) & +11 (0, +
 \end{table}
 
 \begin{table}[H]
-\caption{Mission success (\%) of the routes of Table~III of the paper (E1 endpoints) scored against other face rules: patches of at least 300 posts (P300), patches at least 60\,m long (L60), hysteresis patches (H) and patches merged across gaps of one post (M). The operating points stay those chosen for the registered rule.}
+\caption{Mission success (\%) of the routes of Table~IV of the paper (E1 endpoints) scored against other face rules: patches of at least 300 posts (P300), patches at least 60\,m long (L60), hysteresis patches (H) and patches merged across gaps of one post (M). The operating points stay those chosen for the registered rule.}
 \label{tab:labels}
 \centering\scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -347,7 +347,7 @@ Face map (oracle) & 92/37 & 90/25 & 72/14 & 89/24 & 86/16 & 70/12 \\
 \end{table}
 
 \begin{table}[H]
-\caption{Line of sight closed loop of Table~IV of the paper: gain over the slip model prior in points, mean of the six per site differences with a 95\,\% $t$ interval (five degrees of freedom).}
+\caption{Line of sight closed loop of Table~V of the paper: gain over the slip model prior in points, mean of the six per site differences with a 95\,\% $t$ interval (five degrees of freedom).}
 \label{tab:lossite}
 \centering\scriptsize
 \begin{tabular}{@{}lcccc@{}}
@@ -421,7 +421,7 @@ Face map (oracle) & 84 & 86 & 81 & 81 & 80 & 81 \\
 
 \textit{Larger faces by post count.} Scored only on face patches of at least 300 posts, the slip model alone succeeds on 30\,\% of the 30\,m routes and interpolation on 43\,\%; on 10\,m maps the values are 39\,\% and 93\,\%. Without Dumont, whose window holds rocky hills, the 30\,m values are 31\,\% and 47\,\%.
 
-\textit{Other face rules.} A hysteresis rule (posts of 25\,degrees or more, groups of at least 10 posts holding one post of 30\,degrees or more) gives 7\,931 patches against 14\,638 with the registered rule, and a rule that closes gaps of one post before grouping gives 11\,783.
+\textit{Other face rules.} A hysteresis rule (posts of 25\,degrees or more, groups of at least 10 posts holding one post of 30\,degrees or more) gives 7\,931 patches against 14\,638 with the registered rule, and a rule that closes gaps of one post before grouping gives 11\,783. With the hysteresis rule 50\,\% of the patches are shorter than one 30\,m cell, holding 3\,\% of the face posts. Interpolation on I30 scores an AUC of 0.82 and 0.82 against these two rules, 0.88 against faces of at least 60\,m only, and 0.82 with a 30\,degree threshold.
 
 \textit{Exposure.} Metres on face patches per km of route on I30 (E1): slip model alone 32.9, interpolation 11.4, boosting with Sentinel-2 8.3 and face map oracle 2.1; on I10 slip model alone 12.6, interpolation 1.0 and face map oracle 0.3.
 

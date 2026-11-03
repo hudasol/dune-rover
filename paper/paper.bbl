@@ -134,6 +134,12 @@ J.~Daynac, P.~Bessin, S.~Pochat, R.~Mourgues, and S.~Shumack, ``A new workflow
   learning and skeletonization from {DEM}-derived data,'' \emph{Geomorphology},
   vol. 463, p. 109369, 2024.
 
+\bibitem{chen2016demsr}
+Z.~Chen, X.~Wang, Z.~Xu, and W.~Hou, ``Convolutional neural network based {DEM}
+  super resolution,'' in \emph{The International Archives of the
+  Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol.
+  XLI-B3, 2016, pp. 247--250.
+
 \bibitem{guth2021ranking}
 P.~L. Guth and T.~M. Geoffroy, ``{LiDAR} point cloud and {ICESat-2} evaluation
   of 1 second global digital elevation models: {Copernicus} wins,''
@@ -150,12 +156,6 @@ M.~Martone, B.~Br{\"a}utigam, P.~Rizzoli, N.~Yague-Martinez, and G.~Krieger,
 M.~Wang, H.~Li, Y.~Liu, and H.~Li, ``Multi-source {DEM} vertical accuracy
   evaluation of {Taklimakan} desert hinterland based on {ICESat-2 ATL08} and
   {UAV} data,'' \emph{Remote Sensing}, vol.~17, no.~11, p. 1807, 2025.
-
-\bibitem{chen2016demsr}
-Z.~Chen, X.~Wang, Z.~Xu, and W.~Hou, ``Convolutional neural network based {DEM}
-  super resolution,'' in \emph{The International Archives of the
-  Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol.
-  XLI-B3, 2016, pp. 247--250.
 
 \bibitem{sugarbaker2014}
 L.~J. Sugarbaker, E.~W. Constance, H.~K. Heidemann, A.~L. Jason, V.~Lukas,
