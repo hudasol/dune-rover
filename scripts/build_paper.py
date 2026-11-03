@@ -168,12 +168,15 @@ def values():
             V[k + "_routed"] = pc(r["routed"])
             if r.get("m_on_face_per_km", "") != "":
                 V[k + "_mkm"] = f"{float(r['m_on_face_per_km']):.0f}"
+            if r.get("length_ratio", "") != "":
+                V[k + "_lr"] = f2(r["length_ratio"])
         for r in read(os.path.join(S28, "A_naive.csv")):
             pf = "post" if r["profile"] == "published-posterior" else "assu"
             k = key("nv", pf, r["endpoints"], r["input"])
             V[k] = pc(r["mission_success"]); V[k + "_unsafe"] = pc(r["unsafe_of_routed"]); V[k + "_unsafefp"] = pc(r["unsafe_fp_of_routed"])
             V[k + "_unsafe1"] = pc(r["unsafe_of_routed"], 1); V[k + "_unsafefp1"] = pc(r["unsafe_fp_of_routed"], 1)
             V[k + "_mkm"] = f"{float(r['m_on_face_per_km']):.0f}"
+            V[k + "_lr"] = f2(r["length_ratio"])
             V[k + "_desc"] = pc(r["unsafe_descent_only"]) if r.get("unsafe_descent_only", "") != "" else NA
         ref = read(os.path.join(S28, "B_refusals.csv"))
         for r in ref:
@@ -559,7 +562,7 @@ def table_planning(degraded=False):
 
 def table_degraded():
     C = read(os.path.join(S28, "C_degraded.csv")) if os.path.exists(os.path.join(S28, "C_degraded.csv")) else []
-    L = [r"\begin{table}[H]", r"\caption{Registered degraded face maps (stage 28), weight policy at a fixed $w=5$: mission success (\%), 100 pairs per site, posterior vehicle. The first row is the exact face map at the same weight; Table~III of the paper gives the face map at the weight chosen on the other five sites.}",
+    L = [r"\begin{table}[H]", r"\caption{Registered degraded face maps (stage 28), weight policy at a fixed $w=5$: mission success (\%), 100 pairs per site, posterior vehicle. The first row is the exact face map at the same weight; Table~IV of the paper gives the face map at the weight chosen on the other five sites.}",
          r"\label{tab:planning_s}", r"\centering\small", r"\begin{tabular}{@{}lcccc@{}}", r"\toprule",
          r" & \multicolumn{2}{c}{I10} & \multicolumn{2}{c}{I30} \\", r"Face map & E1 & E2 & E1 & E2 \\", r"\midrule"]
     for mp, lab in DEGRADED:
@@ -584,7 +587,7 @@ def table_site_level():
         return "% site level table not run yet"
     C = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)}
     cols = [("E1", "I10", "mission"), ("E1", "I10", "vehicle"), ("E1", "I30", "mission"), ("E1", "I30", "vehicle"), ("E2", "I30", "mission"), ("E1", "G30", "mission")]
-    L = [r"\begin{table}[H]", r"\caption{Site level inference for Table~III of the paper: gain over the slip model alone in points, mean of the six per site differences, with a 95\,\% $t$ interval (five degrees of freedom; it can extend beyond the possible range). M: mission success; V: vehicle success.}",
+    L = [r"\begin{table}[H]", r"\caption{Site level inference for Table~IV of the paper: gain over the slip model alone in points, mean of the six per site differences, with a 95\,\% $t$ interval (five degrees of freedom; it can extend beyond the possible range). M: mission success; V: vehicle success.}",
          r"\label{tab:sitelevel}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(f"{i} {e} {m[0].upper()}" for e, i, m in cols) + r" \\", r"\midrule"]
     for lay, lab in PLAN_LAYERS:
@@ -601,7 +604,7 @@ def table_labels():
         return "% label table not run yet"
     C = {(r["endpoints"], r["input"], r["layer"]): r for r in read(p)}
     labs = [("mission_success", "Registered"), ("success_P300", "P300"), ("success_L60", "L60"), ("success_H", "H"), ("success_M", "M")]
-    L = [r"\begin{table}[H]", r"\caption{Mission success (\%) of the routes of Table~III of the paper (E1 endpoints) scored against other face rules: patches of at least 300 posts (P300), patches at least 60\,m long (L60), hysteresis patches (H) and patches merged across gaps of one post (M). The operating points stay those chosen for the registered rule.}",
+    L = [r"\begin{table}[H]", r"\caption{Mission success (\%) of the routes of Table~IV of the paper (E1 endpoints) scored against other face rules: patches of at least 300 posts (P300), patches at least 60\,m long (L60), hysteresis patches (H) and patches merged across gaps of one post (M). The operating points stay those chosen for the registered rule.}",
          r"\label{tab:labels}", r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}l" + "c" * (2 * len(labs)) + r"@{}}", r"\toprule",
          r" & \multicolumn{" + str(len(labs)) + r"}{c}{I10} & \multicolumn{" + str(len(labs)) + r"}{c}{I30} \\",
          "Layer & " + " & ".join(h for _ in range(2) for _, h in labs) + r" \\", r"\midrule"]
@@ -674,7 +677,7 @@ def table_los_site_level():
     def g(i, e, pd, lay):
         r = next((r for r in R if r["input"] == i and r["endpoints"] == e and r["p_detect"] == pd and r["layer"] == lay), None)
         return f"{pts(r['diff'])} ({pts(r['site_lo'])}, {pts(r['site_hi'])})" if r and r["site_lo"] != "" else NA
-    L = [r"\begin{table}[H]", r"\caption{Line of sight closed loop of Table~IV of the paper: gain over the slip model prior in points, mean of the six per site differences with a 95\,\% $t$ interval (five degrees of freedom).}",
+    L = [r"\begin{table}[H]", r"\caption{Line of sight closed loop of Table~V of the paper: gain over the slip model prior in points, mean of the six per site differences with a 95\,\% $t$ interval (five degrees of freedom).}",
          r"\label{tab:lossite}", r"\centering\scriptsize", r"\begin{tabular}{@{}lcccc@{}}", r"\toprule", "Prior layer & " + " & ".join(c[3] for c in cols) + r" \\", r"\midrule"]
     for lay, lab in LOS_LAYERS:
         if lay == "none":
@@ -864,6 +867,25 @@ GLOSSARY = [("Slip face", "the lee face of a dune near the angle of repose; in t
             ("Blind review", "a critical review of the paper by a reader who had not seen the work being produced, used to decide the post hoc checks")]
 
 
+NOTATION = [("I10, I30", "lidar block means at 10 and 30\\,m (idealised inputs)"),
+            ("R10, N30, G30", "USGS 1/3 arc second DEM, NASADEM, Copernicus GLO-30"),
+            ("A30, F30", "AW3D30, FABDEM"),
+            ("E1, E2", "endpoints chosen with the truth, or from the coarse map only"),
+            ("Slip model only", "the planner without a hazard layer"),
+            ("Gate, weight", "planner policies (Section~\\ref{sec:planner})"),
+            ("Face map (oracle)", "the lidar label used as a hazard layer"),
+            ("Mission success", "a route that touches no face patch"),
+            ("Vehicle success", "mission success with every 5\\,m step climbable")]
+
+
+def table_notation():
+    L = [r"\begin{table}[t]", r"\caption{Notation (full glossary: supplement Table~S3).}", r"\label{tab:notation}",
+         r"\centering\scriptsize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}lp{0.66\columnwidth}@{}}", r"\toprule"]
+    L += [f"{a} & {b} \\\\" for a, b in NOTATION]
+    L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(L)
+
+
 def table_glossary():
     L = [r"\begin{table}[H]", r"\caption{Names used in the paper and in the result files.}", r"\label{tab:glossary}", r"\centering\small",
          r"\begin{tabular}{@{}lp{0.68\linewidth}@{}}", r"\toprule", r"Name & Meaning \\", r"\midrule"]
@@ -878,7 +900,7 @@ def table_spread():
     for r in D:
         vals.setdefault((r["input"], r["method"]), []).append(float(r["auc"]))
     cols = [c for c in DET_COLS if any(i == c[0] for i, _ in vals)]
-    L = [r"\begin{table}[H]", r"\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table~II of the paper.}",
+    L = [r"\begin{table}[H]", r"\caption{Spread of the AUC across the six sites (lowest to highest) for each layer and input of Table~III of the paper.}",
          r"\label{tab:spread}", r"\centering\scriptsize", r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}", r"\toprule",
          "Layer & " + " & ".join(h for _, h in cols) + r" \\", r"\midrule"]
     for m, lab in DET_ROWS:
@@ -923,7 +945,7 @@ def table_persite():
 # ---------------------------------------------------------------------------------------------------------------------
 TABLES = {"sites": table_sites, "methods": lambda: open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip(),
           "detection": table_detection, "planning": table_planning, "planning_degraded": table_degraded, "closedloop": table_closed_loop, "closedloop_los": table_closed_loop_los, "log": table_log, "persite": table_persite,
-          "glossary": table_glossary, "sitelevel": table_site_level, "labels": table_labels, "tertiles": table_tertiles,
+          "glossary": table_glossary, "notation": table_notation, "sitelevel": table_site_level, "labels": table_labels, "tertiles": table_tertiles,
           "clvariants": table_cl_variants, "lossite": table_los_site_level, "products": table_products, "sensitivity": table_sensitivity, "dates": table_dates, "methods_supp": lambda: re.sub(r"~?\\cite\{[^}]*\}", "", open(os.path.join(SRC, "table_methods.tex"), encoding="utf-8").read().strip()).replace("\\begin{table}[t]", "\\begin{table}[H]").replace("tab:methods", "tab:methods_s"), "spread": table_spread}
 
 
